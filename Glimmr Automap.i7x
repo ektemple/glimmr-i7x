@@ -1,13 +1,13 @@
 Version 1/100206 of Glimmr Automap (for Glulx only) by Erik Temple begins here.
 
-[Bug: It seems as though the zoom and query buttons can stop working--ran into this running the example in the prerelease build of Gargoyle.]
+[Bug: It seems as though the zoom and query buttons can stop working--ran into this running the example in the prerelease OS X build of Gargoyle.]
 [Documentation and perhaps code: For terps that don't support graphics, provide a global variable to use to specify the depth of the map in the status line.]
 [Documentation: If used, Glimmr Text-Painting Elements and Glimmr Bitmap Font must be included before Glimmr Automap and the Glimmr Automap Tileset.]
 [Documentation: Explain why we're using a new automap graphlinking rules, rather than use the graphlink processing rules. (It's because we want to be able to use rooms as graphlink targets as well.)]
 
 Include version 3 of Automap by Mark Tilford.
-Include Glimmr Canvas-Based Drawing by Erik Temple.
 Include Glimmr Drawing Commands by Erik Temple.
+Include Glimmr Canvas-Based Drawing by Erik Temple.
 Include Basic Hyperlinks by Emily Short.
 Include Glimmr Graphic Hyperlinks by Erik Temple.
 Include Glimmr Bitmap Font by Erik Temple.
