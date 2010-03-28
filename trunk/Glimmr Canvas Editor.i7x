@@ -1,1 +1,0 @@
-/Users/arikohnstad/Library/Inform/Extensions/Erik Temple/Glimmr Canvas Editor.i7x

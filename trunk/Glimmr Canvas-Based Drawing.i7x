@@ -1,1 +1,0 @@
-/Users/arikohnstad/Library/Inform/Extensions/Erik Temple/Glimmr Canvas-Based Drawing.i7x

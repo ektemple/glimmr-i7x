@@ -1,1 +1,0 @@
-/Users/arikohnstad/Library/Inform/Extensions/Erik Temple/Glimmr Drawing Commands.i7x

@@ -1,1 +1,0 @@
-/Users/arikohnstad/Library/Inform/Extensions/Erik Temple/Glimmr Image Font.i7x
