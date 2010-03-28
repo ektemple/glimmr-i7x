@@ -1,0 +1,1 @@
+/Users/arikohnstad/Library/Inform/Extensions/Erik Temple/Glimmr Graphic Hyperlinks.i7x
