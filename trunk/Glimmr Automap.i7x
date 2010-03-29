@@ -1,6 +1,5 @@
 Version 1/100206 of Glimmr Automap (for Glulx only) by Erik Temple begins here.
 
-[Bug: It seems as though the zoom and query buttons can stop working--ran into this running the example in the prerelease OS X build of Gargoyle.]
 [Documentation and perhaps code: For terps that don't support graphics, provide a global variable to use to specify the depth of the map in the status line.]
 [Documentation: If used, Glimmr Text-Painting Elements and Glimmr Bitmap Font must be included before Glimmr Automap and the Glimmr Automap Tileset.]
 [Documentation: Explain why we're using a new automap graphlinking rules, rather than use the graphlink processing rules. (It's because we want to be able to use rooms as graphlink targets as well.)]
@@ -327,7 +326,7 @@ First automap graphlink rule for the UI-query (this is the query button manageme
 		deactivate the UI-query-explanation;
 	otherwise:
 		change the image-ID of UI-query to the depressed state;
-		if using the query explanation option and the display-count of UI-query-explanation < maximum display-count of UI-query-explanation:
+		if using the query explanation option and (display-count of UI-query-explanation < maximum display-count of UI-query-explanation) or maximum display-count of UI-query-explanation is 999:
 			activate the UI-query-explanation;
 			increase the display-count of UI-query-explanation by 1;
 	follow the refresh windows rule.
