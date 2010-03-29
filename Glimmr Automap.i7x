@@ -10,7 +10,6 @@ Include Glimmr Drawing Commands by Erik Temple.
 Include Glimmr Canvas-Based Drawing by Erik Temple.
 Include Basic Hyperlinks by Emily Short.
 Include Glimmr Graphic Hyperlinks by Erik Temple.
-Include Glimmr Bitmap Font by Erik Temple.
 
 
 Chapter - Use options
@@ -317,12 +316,12 @@ Chapter - The automap graphlink rulebook
 The automap graphlink rules are an object-based rulebook.
 The automap graphlink rules have outcomes exit (success - the default) and continue (no outcome).
 
-The current map label is a g-element variable. [Only used if we are also using Glimmr Text-Painting Elements.]
+The current map label is a g-element variable.
 
 
 Section - Clicking a button
 
-First automap graphlink rule for the UI-query:
+First automap graphlink rule for the UI-query (this is the query button management rule):
 	if the image-ID of the UI-query is the depressed state of UI-query:
 		change the image-ID of UI-query to the resting state;
 		deactivate the UI-query-explanation;
@@ -333,7 +332,7 @@ First automap graphlink rule for the UI-query:
 			increase the display-count of UI-query-explanation by 1;
 	follow the refresh windows rule.
 
-Automap graphlink rule for a UI-button (called the pressee) when the image-ID of the pressee is not the inactive state of the pressee:
+Automap graphlink rule for a UI-button (called the pressee) when the image-ID of the pressee is not the inactive state of the pressee (this is the activate non-modal UI button rule):
 	now the image-ID of the current graphlink is the depressed state of the current graphlink;
 	display (image-ID of pressee) in the current window at (origin of pressee);
 	[set a graphlink in the current window identified as pressee from (entry 1 of the origin of pressee) by (entry 2 of the origin of the pressee) to (entry 1 of the origin of pressee plus the image-width of the image-ID of pressee) by (entry 2 of the origin of pressee plus the image-height of the image-ID of pressee) as the linked action of the pressee;]
@@ -341,9 +340,9 @@ Automap graphlink rule for a UI-button (called the pressee) when the image-ID of
 	silently try the linked action of the current graphlink.
 
 
-Section - Querying a room (for use with Glimmr Text-Painting Elements by Erik Temple)
+Section - Querying a room
 
-Automap graphlink rule for a room (called the target) when not using the no query functionality option:
+Automap graphlink rule for a room (called the target) when not using the no query functionality option (this is the display queried room name rule):
 	if UI-query is display-active and the image-ID of UI-query is not the depressed state of UI-query:[if we're using the query button, we only want the action to proceed when the button is in its depressed state. Otherwise, we drop through to the author's rule.]
 		continue;
 	change the text-string of the current map label to the printed name of the target;
