@@ -348,44 +348,9 @@ After reading a command  (this is the silent-replacement command-prompt rule):
 
 
 
-[Part 7a - Debugging Commands (for use with Permanent Debugging by Erik Temple)
+Part 7a - Debugging Commands (not for release)
 
-Section 7.1a - Debugging Graphlinks Table
-
-Debugging graphlinks is an action out of world.	Understand "graphlinks" or "graphlinks table" as debugging graphlinks. 
-
-Check debugging graphlinks:
-	say "[line break][bold type]Table of Graphlink Glulx Replacement Commands[roman type] (presented in reverse order)[line break]There are [number of filled rows in the Table of Graphlink Glulx Replacement Commands] entries in the table.";
-	repeat through the Table of Graphlink Glulx Replacement Commands in reverse order:
-		say "[linkid entry] ([g-win entry]): ([p-left entry],[p-top entry]) - ([p-right entry],[p-bottom entry]): [replacement entry][line break]";
-	say "[line break]Last window to be clicked: [current graphlink window][line break]".
-
-
-Section 7.2a - Report Mouse Coordinates
-
-Showing clicked coordinates is an action out of world. Understand "coordinates" as showing clicked coordinates. Coordinate-trace is a truth state that varies. Coordinate-trace is false.
-
-Check showing clicked coordinates:
-	If coordinate-trace is false:
-		now coordinate-trace is true;
-	otherwise:
-		now coordinate-trace is false;
-	say "Coordinate reporting now [if coordinate-trace is true]on[otherwise]off[end if].[line break]".
-
-A clicking graphlink rule (this is the report coordinates rule):
-	if coordinate-trace is true:
-		[let graph-x be current graphlink x as a fixed point number;
-		let graph-y be current graphlink y as a fixed point number;]
-		say "Window coordinates of mouse input ([current graphlink window]): ([current graphlink x],[current graphlink y])[line break]".
-
-[say "Screen coordinates of mouse input ([current graphlink window]): ([current graphlink x],[current graphlink y])[line break]Approximate background grid coordinates: ([(graph-x real minus window x-offset) real divided by the window-scaling factor as an integer],[(graph-y real minus window y-offset) real divided by the window-scaling factor as an integer])[line break]";]
-
-The report coordinates rule is listed before the default command replacement by graphlinks rule in the clicking graphlink rules.]
-
-
-Part 7b - Debugging Commands (for use without Permanent Debugging by Erik Temple)
-
-Section 7.1b - Debugging Graphlinks Table (not for release)
+Chapter 7.1a - Debugging Graphlinks Table
 
 Debugging graphlinks is an action out of world.	Understand "graphlinks" or "graphlinks table" as debugging graphlinks. 
 
@@ -396,11 +361,9 @@ Check debugging graphlinks:
 	say "[line break]Last window to be clicked: [current graphlink window][line break]".
 
 
-Section 7.2b - Report Mouse Coordinates (not for release)
+Chapter 7.2a - Report mouse coordinates action
 
-Showing clicked coordinates is an action out of world. Understand "coordinates" as showing clicked coordinates.
-
-Coordinate-trace is a truth state that varies. Coordinate-trace is false.
+Showing clicked coordinates is an action out of world. Understand "coordinates" as showing clicked coordinates. Coordinate-trace is a truth state that varies. Coordinate-trace is false.
 
 Check showing clicked coordinates:
 	If coordinate-trace is false:
@@ -409,11 +372,23 @@ Check showing clicked coordinates:
 		now coordinate-trace is false;
 	say "Coordinate reporting now [if coordinate-trace is true]on[otherwise]off[end if].[line break]".
 
-A clicking graphlink rule (this is the report coordinates rule):
-	if coordinate-trace is true:
-		say "[line break]Window coordinates of mouse input ([current graphlink window]): ([current graphlink x],[current graphlink y])[line break]";
+The report coordinates rule is listed before the default command replacement by graphlinks rule in the clicking graphlink rules.
 
-The report coordinates rule is listed first in the clicking graphlink rules.
+
+Section 7.2a - Report only window coordinates (for use without Glimmr Canvas-Based Drawing by Erik Temple)
+
+A clicking graphlink rule when coordinate-trace is true (this is the report coordinates rule):
+	say "[line break]Window coordinates of mouse input ([current graphlink window]): ([current graphlink x],[current graphlink y])[line break]";
+	continue the action.
+
+
+Section 7.3a - Report window and canvas coordinates (for use with Glimmr Canvas-Based Drawing by Erik Temple)
+
+A clicking graphlink rule when coordinate-trace is true (this is the report coordinates rule):
+	let graph-x be current graphlink x as a fixed point number;
+	let graph-y be current graphlink y as a fixed point number;
+	say "[line break]Window coordinates of mouse input ([current graphlink window]): ([current graphlink x],[current graphlink y])[line break]Approximate canvas coordinates: ([(graph-x real minus the x-offset of the current graphlink window) real divided by the scaling factor of the current graphlink window as an integer],[(graph-y real minus the y-offset of the current graphlink window) real divided by the scaling factor of the current graphlink window as an integer])[line break]";
+	continue the action.
 
 
 Glimmr Graphic Hyperlinks ends here.

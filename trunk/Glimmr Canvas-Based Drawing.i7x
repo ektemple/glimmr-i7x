@@ -3,7 +3,8 @@ Version 1/091205 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple 
 
 Part 0 - PreliminariesSection - Inclusions
 
-Include version 9 of Flexible Windows v9 by Jon Ingold.Include Glimmr Drawing Commands by Erik Temple.
+Include version 9 of Flexible Windows v9 by Jon Ingold.
+Include version 3 of Fixed Point Maths by Michael Callaghan.Include Glimmr Drawing Commands by Erik Temple.
 Section - Use optionsUse asymmetrical scaling translates as (- Constant ASYM_SCALING; -).
 
 Use MAX_STATIC_DATA of 1000000.Section - New kinds of valueA g-activity is a kind of value. The g-activities are g-active and g-inactive.
@@ -402,13 +403,21 @@ We can also display the same canvas in two or more windows at the same time, usi
 
 Section : Elements as objects in the world model
 
-Since elements are objects, like any other entity of Inform's "thing" kind, we can use their location in space to manage display. If we want an image (or images) to display only when the player is in a certain room, we could put the element object in that room and indicate that objects should only be depicted when that object is in scope (in most cases, this will be when the player is also in the room.) See the "Located Elements" example.
+Since elements are objects, like any other entity of Inform's "thing" kind, we can use their location in space to manage display. If we want an image (or images) to display only when the player is in a certain room, we could put the element object in that room and indicate that objects should only be depicted when that object is in scope (in most cases, this will be when the player is also in the room). For example:
+
+	First window-drawing rule for a graphics g-window (called the present window):
+		repeat with item running through g-elements assigned to the present window:
+			if the item can be seen by the player:
+				activate item;
+			otherwise:
+				deactivate item;
+		continue the action.
 
 We could also potentially use other aspects of g-elements--particularly their relationships with one another--as means of organizing their display. I leave users to think about whether this kind of thing might have advantages for them. 
 
 If for some reason we actually want players to be able to see, pick up, and refer to elements as if they were objects in the game world, we can replace the section of the code that conceals them from the player, like this:
 
-	Section - Revealing elements (in place of Section - Concealing elements in Glimmr Canvas-Based Drawing by Erik Temple)And, as we have left the body of the section blank, the privately-named and scenery properties are not set for g-elements. We can now treat g-elements like any other kind of object, and the player will be able to see and interact with them. Note that g-elements will generally be created "off-stage" and we actively place them in specific rooms, just like any other object.
+	Section - Revealing elements (in place of Section - Concealing elements in Glimmr Canvas-Based Drawing by Erik Temple)And, as we have left the body of the section blank, the privately-named and scenery properties are not set for g-elements. We can now treat g-elements like any other kind of object, and the player will be able to see and interact with them. Note that g-elements will generally be created "off-stage" unless we actively place them in specific rooms, just like any other object.
 
 
 Section : I don't want the window to scale
@@ -419,20 +428,6 @@ Example: *** Basic Floorplan - A toolset including images for use in constructin
 
 	*: "Basic Floorplan"
 
-
-
-Example: ** Located Elements - Since elements can be placed within our geography, we might want to make use of that fact to manage the display of objects. This example uses the location of elements to manage their display status. If an element is in scope (tested using the Inform phrase "can be seen by the player", though g-elements will not be visible to the player unless we explicitly work to make them so), it will be marked for display. If it is not in scope, the element will not be displayed. In this example, we do this in the first window-drawing rule, so that elements are always checked immediately prior to being drawn.
-
-	First window-drawing rule for a graphics g-window (called the present window):
-		repeat with item running through g-elements assigned to the present window:
-			if the item can be seen by the player:
-				activate item;
-			otherwise:
-				deactivate item;
-		continue the action.
-
-	Every turn:
-		refresh windows.
 
 
 Example: ** Two Canvases, One Window - Switching between canvases to change the contents of our graphics window at a stroke.
