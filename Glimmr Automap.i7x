@@ -318,6 +318,11 @@ The automap graphlink rules have outcomes exit (success - the default) and conti
 The current map label is a g-element variable.
 
 
+Section - Reorder report coordinates rule (not for release)
+
+The report coordinates rule is listed first in the automap graphlink rules.
+
+
 Section - Clicking a button
 
 First automap graphlink rule for the UI-query (this is the query button management rule):
