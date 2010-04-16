@@ -1,11 +1,7 @@
 Version 1/100226 of Glimmr Canvas Editor (for Glulx only) by Erik Temple begins here.
 
-[The commands to make and remove the background image--mostly the former--need to empty the selection set. Otherwise, we have errors...]
 [Look at removing periods and other illegal characters from the filenames given to new elements.]
-[Make the Move command move multiple objects. **Change the text that indicates that you can't.** Will need to choose the first item in the list, move it to the new coordinates, note the delta, and then repeat through the others, moving them by the same delta.]
-[Add "del" abbreviation for delete.]
 [If bug with external files is not fixed in next I7 build, may need to restructure file output so that it is always preceded by a game save.]
-[Documentation: Your interpreter may stick asterisks at seemingly random places in the output source code. You will need to search and replace these to remove them.]
 
 Part - Extensions
 
@@ -2973,7 +2969,7 @@ Move-tab clicking is an action applying to nothing. Understand "mode move" or "m
 
 Carry out move-tab clicking:
 	actuate the move_tab;
-	say "The editor is now in MOVE mode. Click in the main editor window to move the origin of an element (generally its upper left corner) to that point. Only one element can be moved at a time. To move multiple elements at once, either use the nudge controls, or type MOVE HORIZONTALLY <DISTANCE IN PIXELS> or MOVE VERTICALLY <DISTANCE IN PIXELS> (negative numbers move left or up, positive down or right)[if element-selection set is empty].[paragraph break]You may use the image library or drawing controls to create an element now, or click on an existing element now to move it[otherwise if the number of entries of element-selection set is greater than 1]. [end if].";
+	say "The editor is now in MOVE mode. Click in the main editor window to move the origin of an element (generally its upper left corner) to that point. You may select multiple elements to move them as a unit. Elements can also be moved by using the nudge controls, or by typing MOVE HORIZONTALLY <DISTANCE IN PIXELS> or MOVE VERTICALLY <DISTANCE IN PIXELS> (negative numbers move left or up, positive down or right)[if element-selection set is empty].[paragraph break]You may use the image library or drawing controls to create an element now, or click on an existing element now to move it[otherwise if the number of entries of element-selection set is greater than 1]. [end if].";
 	now glulx replacement command is "";
 	consider the window-drawing rules for the control-window;
 	
@@ -3181,6 +3177,7 @@ Carry out deleting elements:
 	refresh windows.
 	
 To fake-delete (S - a g-element):
+	remove S from the element-selection set, if present;
 	change S to deleted;
 	deactivate S;
 	
