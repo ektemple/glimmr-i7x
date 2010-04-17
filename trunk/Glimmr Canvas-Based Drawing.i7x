@@ -204,27 +204,37 @@ Section 3.1b - Ignore animation (for use without Real-Time Delays by Erik Temple
 
 ---- DOCUMENTATION ----
 
-[[Use oversize scaling]]
-[[Use asymmetrical scaling]]
-[[Use asymmetrical scaling translates as (- Constant ASYM_SCALING; -).]]
-[[Begin with a section on basic concepts: Canvas and elements. In this, we will cover the image, primitive, and bitmap types of g-element allowed by this extension, and mentioning that others can be created. Later, a more detailed discussion of each type of element can be done. In the introductory section, we should also go over the basic sequence of the window-drawing rule.]]
-[[The immediately quit rule is the Standard Rule that quits the game immediately.]][[The window-framing phrase that centers the viewport on a given point: to center on an element, specify "origin of the element" if it's center-aligned, or the "center-point" of the element if it's left-aligned. ]]
-[[Intermediate Usage: Swapping canvases. How to create your own g-element.]]
-[[Need a detailed section on element properties.]]
+[Begin with a section on basic concepts: Canvas and elements. In this, we will cover the image, primitive, and bitmap types of g-element allowed by this extension, and mentioning that others can be created. Later, a more detailed discussion of each type of element can be done. In the introductory section, we should also go over the basic sequence of the window-drawing rule.]
+[The immediately quit rule is the Standard Rule that quits the game immediately.]
+[The window-framing phrase that centers the viewport on a given point: to center on an element, specify "origin of the element" if it's center-aligned, or the "center-point" of the element if it's left-aligned. ]
+[Need a detailed section on element properties; use the specifications also to show the different types of element.]
+[Mention that element coordinates can be negative, or greater than the dimensions of the canvas.]
 
 Chapter : Concepts
 
+Glimmr Canvas-Based Drawing (GBCD) takes an object-oriented approach to drawing in graphics windows. The central concept is the "canvas" (called the "g-canvas" to avoid namespace conflicts). A canvas is similar to the HTML5 <canvas> element: it is a defined area within which graphic elements of various sorts can be displayed. The canvas is basically nothing more than a coordinate system, a blank page which is given certain dimensions. To display a canvas, we assign it to a graphics window (created using the Flexible Windows extension). When the window is opened, the composition we have defined will be displayed, and the canvas--along with all of the graphic elements displayed in it--will automatically be scaled to fit in the window.
 
+The graphic elements displayed in the canvas are called "g-elements" (again, to avoid namespace clashes with your code or with other extensions). These are declared as individual objects. GCBD provides four basic types of element:
+
+	sprite - displays an image from a file (a "figure" in Inform's terminology).
+	primitive - a simple shape such as a filled rectangle, an outlined box, or an arbitrary line.
+	bitmap - a complex element declared by specifying a grid of on/off or colored "bits"; similar to programming an LED sign.
+	rendered string - a complex element in which either image files or bitmaps are used to render arbitrary text strings.
+
+ The element types are discussed in more detail below. Authors can also create their own g-element types if desired; some examples are given in this documentation.
+
+Elements are assigned to a canvas, and they can also be set either active or inactive; inactive elements will not be displayed. They can also be scaled relative to the canvas and given z-values (called "display-layer") to control the way in which objects overlap each other. If we include the Glimmr Graphic Hyperlinks extension, elements can also be made to respond in various ways to mouse input from the player.
 
 
 Chapter : Basic Usage
 
-Glimmr Canvas-Based Drawing is designed to be easy to use. There are three steps to using it.
+Glimmr Canvas-Based Drawing is designed to be easy to use, but also both powerful and flexible. There are four basic steps to using it.
 
 	1) Define a graphics window;
 	2) Define a canvas to use with that window;
 	3) Create elements and assign them to the canvas.
 	4) Activate elements for display.
+
 	
 Section : Define a graphics window
 
@@ -232,7 +242,7 @@ Windows are managed by the Flexible Windows extension, and we can make use of an
 
 	The graphics-window is a graphics g-window spawned by the main-window.
 	
-You may find it useful to use the Glimmr Simple Graphics Window extension, which will do most of the configuration of the graphics window for you, including assigning a canvas (see the following section).
+You may find it useful to use the Glimmr Simple Graphics Window extension, which will do most of the configuration of the graphics window for you, including assigning a canvas (see the following section). See the Flexible Windows extension for more on creating windows.
 	
 We also need to be sure that we open the window at some point, using the "open up the <g-window>" phrase, and that we have provided an indication of when the window should be redrawn. For most cases, doing the latter in an every turn rule will suffice:
 
@@ -326,6 +336,43 @@ There are many appropriate ways to manage the display of elements. The examples 
 And those are the basic steps in using Glimmr Canvas-Based Drawing. The remainder of this documentation explores intermediate and advanced usage of the extension. There is also a catalog of the types of elements provided by the extension and the properties associated with them toward the end. Finally, the examples also illustrate a number of techniques that are likely to be of interest.
 
 
+Chapter : Kinds of element
+
+Section : Sprites
+
+Section : Primitives
+
+Section : Bitmaps
+
+Section : Rendered strings 
+
+
+Chapter : Settings and options
+
+Section - Asymmetrical scaling
+
+Up to this point, we have talked about element scaling factors as if they were unitary; that is, as if both the x and y axes are always scaled by the same amount. And this is true, unless we set the asymmetrical scaling use option:
+
+	Use asymmetrical scaling
+
+Now we can scale elements—most usefully, sprites—asymmetrically, meaning we can stretch or squeeze it along one axis more than along the other. This will often be less than pleasing aesthetically, but in some cases it can be quite useful.
+
+Note that when this option is set, we can no longer use the "scaling factor" property for elements. Instead, we must now specify the "x-scaling factor" and the "y-scaling factor" separately. We must do this for all elements:
+
+	The gas mask is a sprite. The x-scaling factor is 0.9800. The y-scaling factor is 0.5000.
+
+Note that by default, both scaling factors are set to 1.0000, so we really only to set the scaling factors if we wish to change this default.
+
+
+Section - Oversize scaling
+
+By default, Glimmr Canvas-Based Drawing will only scale a canvas up to its original size, so that 1 unit in the canvas coordinate system equates to 1 pixel on the screen (i.e., a window scaling factor of 1.0000). This ensures high-quality display, especially of sprite images. However, if we do want the canvas to be scaled beyond its original size, we can set the "oversize scaling" property of the window to true:
+
+		The graphics-window is a graphics g-window spawned by the main-window. Oversize scaling is true.
+
+This option can, of course, be changed during play if we want to temporarily upscale our canvas for some special effect.
+
+
 Chapter : Graphic hyperlinks and elements
 
 
@@ -333,7 +380,16 @@ Chapter : Graphic hyperlinks and elements
 
 Chapter : Intermediate and advanced techniques
 
-[[Symmetrical and asymmetrical scaling]]
+
+
+Section : Using canvases to manage display
+
+At first glance, the canvas may almost look unnecessary: elements will be displayed in a graphics window, so why not assign the element directly to the window? Why do we need the canvas to mediate?
+
+There are really two answers. First, canvases provide an easy way to change the display content of a graphics window at a stroke. We can, for example, set up two canvases with different elements. We first show Canvas A in our graphics window, and then, when we want to change the content of the window, we simply change the associated canvas of the window to Canvas B. The next time the window refreshes, it will display our second composition.  Canvases can thus be used as discrete "pages" to be shown in a graphics window. See the "Two Canvases, One Window" example.
+
+We can also display the same canvas in two or more windows at the same time, using different display parameters. So, if we have a detailed map that would benefit from being seen both in close-up and at long-range, we could show the map at one scale in one window, and at another in the other. See the "One Canvas, Two Windows" example.
+
 
 Section - Framing the canvas
 
@@ -392,18 +448,9 @@ We can also use the element display rules to specialize behavior for one element
 The "continue" is important, because by default the element display rulebook will terminate once a rule completes. The continue directive allows Inform to look for subsequent rules in the rulebook. (We can also use "continue the action," Inform's standard phrasing, but the element display rules provide "continue" as a shortened form; "exit" similarly serves as a shortened form of "rule succeeds.")
 
 
-Section : Using canvases to manage display
-
-At first glance, the canvas may almost look unnecessary: elements will be displayed in a graphics window, so why not assign the element directly to the window? Why do we need the canvas to mediate?
-
-There are really two answers. First, canvases provide an easy way to change the display content of a graphics window at a stroke. We can, for example, set up two canvases with different elements. We first show Canvas A in our graphics window, and then, when we want to change the content of the window, we simply change the associated canvas of the window to Canvas B. The next time the window refreshes, it will display our second composition.  Canvases can thus be used as discrete "pages" to be shown in a graphics window. See the "Two Canvases, One Window" example.
-
-We can also display the same canvas in two or more windows at the same time, using different display parameters. So, if we have a detailed map that would benefit from being seen both in close-up and at long-range, we could show the map at one scale in one window, and at another in the other. See the "One Canvas, Two Windows" example.
-
-
 Section : Elements as objects in the world model
 
-Since elements are objects, like any other entity of Inform's "thing" kind, we can use their location in space to manage display. If we want an image (or images) to display only when the player is in a certain room, we could put the element object in that room and indicate that objects should only be depicted when that object is in scope (in most cases, this will be when the player is also in the room). For example:
+Since elements are objects, like any other entity of Inform's "thing" kind, we can use their location in space to manage display. If we want an image (or images) to display only when the player is in a certain room, we could put the element object in that room and indicate that elements should only be depicted when the element object is in scope (in most cases, this will be when the player is also in the room). For example, this rule would run before the default canvas-based drawing rule and activate the appropriate elements for display:
 
 	First window-drawing rule for a graphics g-window (called the present window):
 		repeat with item running through g-elements assigned to the present window:
@@ -417,7 +464,7 @@ We could also potentially use other aspects of g-elements--particularly their re
 
 If for some reason we actually want players to be able to see, pick up, and refer to elements as if they were objects in the game world, we can replace the section of the code that conceals them from the player, like this:
 
-	Section - Revealing elements (in place of Section - Concealing elements in Glimmr Canvas-Based Drawing by Erik Temple)And, as we have left the body of the section blank, the privately-named and scenery properties are not set for g-elements. We can now treat g-elements like any other kind of object, and the player will be able to see and interact with them. Note that g-elements will generally be created "off-stage" unless we actively place them in specific rooms, just like any other object.
+	Section - Revealing elements (in place of Section - Concealing elements in Glimmr Canvas-Based Drawing by Erik Temple)With the body of this section left blank, the privately-named and scenery properties are not set for g-elements, and we can now treat g-elements like any other kind of object: the player will be now able to see and interact with them. Note that g-elements, just like other objects, will be created "off-stage" unless we actively place them in specific rooms
 
 
 Section : I don't want the window to scale
