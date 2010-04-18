@@ -18,7 +18,7 @@ A g-element is scenery.
 
 
 Section - Null element
-[Inform requires that there always be at least one g-element in the world. We provide this object, which is not associated with any canvas and is display-inactive, and can also serve as a null element if we need it.]
+[Inform requires that there always be at least one g-element in the world. We therefore provide this object, which is not associated with any canvas and is display-inactive, and so will never be shown; it can also serve as a null element if we need it.]
 
 g-null-element is a g-element. The display status is g-inactive.Section - Element properties related to the canvasA g-element has a g-canvas called the associated canvas.[We can say that a given element "is displayed on" a canvas, or that a canvas "displays" an element.]Displayedness relates a g-element (called A) to a g-canvas (called B) when B is the associated canvas of A. The verb to be displayed on implies the displayedness relation.The verb to display (he displays, they display, he displayed) implies the reversed displayedness relation. [The origin, layer, alignment, and scaling factors are specified by the author and represent the positioning of the element in relation to the canvas.]A g-element has a list of numbers called the origin. The origin of a g-element is usually {0, 0}.A g-element has a number called the display-layer. The display-layer of a g-element is usually 1.A g-element has a real number called the scaling factor. The scaling factor of a g-element is usually 1.0000. The scaling factor property translates into I6 as "scaling_factor".[These are used only if asymmetrical scaling is enabled.]A g-element has a real number called the x-scaling factor. The x-scaling factor of a g-element is usually 1.0000. The x-scaling factor property translates into I6 as "x_factor". A g-element has a real number called the y-scaling factor. The y-scaling factor of a g-element is usually 1.0000. The y-scaling factor property translates into I6 as "y_factor".A g-element can be left-aligned, center-aligned, or right-aligned (this is its alignment property). A g-element is usually left-aligned.Section - Element properties related to the window[The win-x and win-y refer to the window coordinate system; that is, they represent the scaled coordinates of the element. These values are supplied by the extension and will be overwritten if the author attempts to set them directly.]A g-element has a number called the win-x. The win-x is usually 0. A g-element has a number called the win-y. The win-y is usually 0.Section - Element properties related to mouse inputA g-element has a g-activity called the graphlink status. The graphlink status of a g-element is usually g-inactive.Definition: A g-element (called the item) is graphlinked if the graphlink status of the item is g-active.Definition: A g-element (called the item) is ungraphlinked if the graphlink status of the item is g-inactive.A g-element has some text called the linked replacement-command. The linked replacement-command is usually "".To attach/add/activate graphlink to/for/of (element - a g-element):	now the graphlink status of the element is g-active.To remove/deactivate graphlink of/from/for (element - a g-element):	now the graphlink status of the element is g-inactive.Part - Extensions to g-windows
 
@@ -34,7 +34,7 @@ The specification of a sprite is "A sprite, per general computing terminology, i
 
 Chapter 1 - The primitive base classA primitive is a kind of g-element. 
 
-The specification of a primitive is "A primitive element is a simple shape that is generally intended to be used in concert with other shapes and images to build up a composition; for example, rectangles and lines. The meaning of a graphics primitive is somewhat stretched here, since the only primitive actually provided by Glulx is a simple rectangle, whereas all of the other 'primitives' provided by Glimmr Canvas-Based Drawing are in fact built up out of rectangles. The most intensive of these, the line primitive, can be made up of many, many rectangles and may be quite slow to draw. Primitives have an origin, as do all g-elements, and they also have a second coordinate pair, the endpoint. For most primitives, the origin describes the upper left corner, while the endpoint describes the lower right corner. The line primitive, however, is freer--the two points have any relationship. It is also necessary to specify the color of a primitive, using the 'tint' property. This is a glulx color value (see the Glulx Text Effects extension). Some primitives (the stroked rectangle) also have a 'background tint' property that controls a second color value."[The endpoint of a primitive are provided in the canvas' coordinate system.]A primitive has a list of numbers called the endpoint. The endpoint of a primitive is {0, 0}.A primitive has a glulx color value called the tint. The tint of a primitive is g-white.[The end-x and end-y are scaled values, presented in the coordinate system of the window rather than of the canvas. They are recalculated every time the window is redrawn and under most circumstances should not be specified by the author.]A primitive has a number called the end-x. The end-x of a primitive is 0. A primitive has a number called the end-y. The end-y of a primitive is 0.Section 1.1 - Scaling rule for primitives[The line-weight of the lines used in primitives are scaled according to the scaling factor (or, if we are using asymmetrical scaling, the x scaling factor). If we need to prevent line-weight from changing with the window scaling, we need to place a rule applying to the appropriate primitive or class before the primitive scaling rule. This rule should change the scaling factor to the inverse of the scaling factor; i.e. if the scaling factor were 0.2500, our rule would set the scaling factor to 4.0000, thereby canceling the effect of the window-scaling on the line line-weight.]An element scaling rule for a primitive (called the subject) (this is the primitive scaling rule):	let x-temp be entry 1 of the endpoint of the subject scaled by the scaling factor of the current window;	let y-temp be entry 2 of the endpoint of the subject scaled by the scaling factor of the current window;	now the end-x of the subject is x-temp real plus the x-offset of the current window as an integer;	now the end-y of the subject is y-temp real plus the y-offset of the current window as an integer;
+The specification of a primitive is "A primitive element is a simple shape that is generally intended to be used in concert with other shapes and images to build up a composition; for example, rectangles and lines. The meaning of a graphics primitive is somewhat stretched here, since the only primitive actually provided by Glulx is a simple rectangle, whereas all of the other 'primitives' provided by Glimmr Canvas-Based Drawing are in fact built up out of rectangles. The most intensive of these, the line primitive, can be made up of many, many rectangles and may be quite slow to draw. Primitives have an origin, as do all g-elements, and they also have a second coordinate pair, the endpoint. For most primitives, the origin describes the upper left corner, while the endpoint describes the lower right corner. The line primitive, however, is freer--the two points can have any relationship. It is also necessary to specify the color of a primitive, using the 'tint' property. This is a glulx color value (see the Glulx Text Effects extension). Some primitives (the stroked rectangle) also have a 'background tint' property that controls a second color value."[The endpoint of a primitive are provided in the canvas' coordinate system.]A primitive has a list of numbers called the endpoint. The endpoint of a primitive is {0, 0}.A primitive has a glulx color value called the tint. The tint of a primitive is g-white.[The end-x and end-y are scaled values, presented in the coordinate system of the window rather than of the canvas. They are recalculated every time the window is redrawn and under most circumstances should not be specified by the author.]A primitive has a number called the end-x. The end-x of a primitive is 0. A primitive has a number called the end-y. The end-y of a primitive is 0.Section 1.1 - Scaling rule for primitives[The line-weight of the lines used in primitives are scaled according to the scaling factor (or, if we are using asymmetrical scaling, the x scaling factor). If we need to prevent line-weight from changing with the window scaling, we need to place a rule applying to the appropriate primitive or class before the primitive scaling rule. This rule should change the scaling factor to the inverse of the scaling factor; i.e. if the scaling factor were 0.2500, our rule would set the scaling factor to 4.0000, thereby canceling the effect of the window-scaling on the line line-weight.]An element scaling rule for a primitive (called the subject) (this is the primitive scaling rule):	let x-temp be entry 1 of the endpoint of the subject scaled by the scaling factor of the current window;	let y-temp be entry 2 of the endpoint of the subject scaled by the scaling factor of the current window;	now the end-x of the subject is x-temp real plus the x-offset of the current window as an integer;	now the end-y of the subject is y-temp real plus the y-offset of the current window as an integer;
 	if the subject provides the property line-weight:		let weight-temp be the line-weight of the subject as a fixed point number;		unless using the asymmetrical scaling option:			change the stroke of the subject to the weight-temp real times the scaling factor of the current window real times the scaling factor of the subject as an integer;		otherwise:			change the stroke of the subject to the weight-temp real times the scaling factor of the current window real times the x-scaling factor of the subject as an integer;		if the stroke of the subject < 1, change the stroke of the subject to 1;	if the subject is center-aligned:		let dx be (end-x of the subject - win-x) / 2;		let dy be (end-y of the subject - win-y) / 2;		change the win-x to win-x - dx;		change the win-y to win-y - dy;		change the end-x to end-x - dx;		change the end-y to end-y - dy;	if the subject is right-aligned:		let dx be (end-x of the subject - win-x);		let dy be (end-y of the subject - win-y);		change the win-x to win-x - dx;		change the win-y to win-y - dy;		change the end-x to end-x - dx;		change the end-y to end-y - dy;	continue.Section 1.2 - Centering algorithm for primitives[This could be done much more concisely using the win-x/win-y and end-x/end-y properties, but these are not set until the scaling rulebook is followed, which doesn't grant as much flexiblity. This phrase may be used anytime after the determining offsets activity.]To decide what list of numbers is the center-point of (item - a primitive):
 	say "primitive.";	let x be entry 1 of the origin of item;	let y be entry 2 of the origin of item;	unless using the asymmetrical scaling option:		let xx be entry 1 of the endpoint of the item real times the scaling factor of the item as an integer;		let yy be entry 2 of the endpoint of the item real times the scaling factor of the item as an integer;	otherwise:		let xx be entry 1 of the endpoint of the item real times the x-scaling factor of the item as an integer;		let yy be entry 2 of the endpoint of the item real times the y-scaling factor of the item as an integer;	let x be (xx - x) / 2 + x;	let y be (yy - y) / 2 + y;	let coord be {0, 0};	now entry 1 of coord is x;	now entry 2 of coord is y;	decide on coord.Section 1.2 - Rectangle PrimitiveA rectangle primitive is a kind of primitive.
 
@@ -85,23 +85,23 @@ The specification of bitmap is "A bitmap element draws a rectangular image compo
 
 The ones represent bits that are turned on, while the zeros represent bits that are off. The author must additionally specify the 'bitmap-width' of the bitmap, which represents the number of bits that make a up a single horizontal line of the bitmap; this number tells Glimmr how to interpret the bitmap-array (if a bitmap-width is not provided, the bitmap will be interpreted as single line of bits). 
 
-When image files such as PNGs or JPEGs are scaled, pixels can be interpolated so that the image file can be presented at virtually any scaling factor. However, the pixels of a bitmap element are set directly, and so the individual pixel is the primary unit of measurement. Thus, a bitmap displayed with a bit-size of 2 will be twice as wide and twice as high as the same bitmap displayed with a bit-size of 1. Glimmr will attempt to scale bitmaps to the canvas, but they cannot be scaled with the accuracy that sprites and primitives can be. 
+When image files such as PNGs or JPEGs are scaled, pixels can be interpolated so that the image file can be presented at virtually any scaling factor. However, the pixels of a bitmap element are set directly, and so the individual pixel is the primary unit of measurement. Thus, a bitmap displayed with a bit-size of 2 will be twice as wide and twice as high as the same bitmap displayed with a bit-size of 1. Glimmr will attempt to scale bitmaps to the canvas, but they cannot be scaled with the accuracy that sprites can be. 
 
-There are two types of bitmaps: bichrome and polychrome bitmaps. In a bichrome bitmap, a maximum of two colors are allowed--all bits are either on or off. In a polychrome bitmap, the author can specify a full RGB color for each pixel. In both types, bits are rendered as a defined color (the 'tint') and background color ('background tint')."A bitmap has a number called the bitmap-width. The bitmap-width of a bitmap is 1.A bitmap has a list of numbers called the bitmap-array. The bitmap-array of a bitmap is {0}.A bitmap has a glulx color value called the tint. The tint of a bitmap is g-black.A bitmap has a glulx color value called the background tint. The background tint of a bitmap is g-placenullcol.A bitmap has a number called the bit-size. The bit-size of a bitmap is 1.A bitmap has a number called the vertical ratio. The vertical ratio of a bitmap is 1.[The dot-size and the bitmap-height are set automatically by the extension. Authors need not use them.]A bitmap has a number called the dot-size. The dot-size of a bitmap is 1.A bitmap has a number called the bitmap-height. The bitmap-height of a bitmap is 1.Section 2.1 - Scaling rule for bitmapsAn element scaling rule for a bitmap (called the image-map) (this is the bitmap scaling rule):	let the bitsize-temp be the bit-size of the image-map as a fixed point number;	unless using the asymmetrical scaling option:		change the dot-size of the image-map to the bitsize-temp real times the scaling factor of the current window real times the scaling factor of the image-map as an integer;	otherwise:		change the dot-size of the image-map to the bitsize-temp real times the scaling factor of the current window real times the x-scaling factor of the image-map as an integer;	if the dot-size of the image-map < 1, now the dot-size of the image-map is 1;	change the bitmap-height of the image-map to the number of entries of the bitmap-array of the image-map divided by the bitmap-width of the image-map;	if the image-map is center-aligned:		change the win-x of the image-map to win-x - (bitmap-width * dot-size) / 2;		change the win-y of the image-map to win-y - (bitmap-height * dot-size) / 2;	if the image-map is right-aligned:		change the win-x of the image-map to win-x - (bitmap-width * dot-size);		change the win-y of the image-map to win-y - (bitmap-height * dot-size);	[*if the remainder after dividing the number of entries of the bitmap-array of the image-map by the bitmap-width of the image-map is greater than 0:*]		[*say "[>console][CBD] ***Error: Bitmap array of [image-map] is improperly defined. Output is unlikely to be as expected.[/]";*]	continue.Section 2.2 - Centering algorithm for bitmapsTo decide what list of numbers is the center-point of (item - a bitmap):
-	let x be entry 1 of the origin of item;	let y be entry 2 of the origin of item;	let dot-scale be (bit-size of the item * bitmap-width of the item) as a fixed point number;	unless using the asymmetrical scaling option:		let dx be the dot-scale real times the scaling factor of the item as an integer;		let dy be the dot-scale real times the scaling factor of the item as an integer;	otherwise:		let dx be the dot-scale real times the x-scaling factor of the item as an integer;		let dy be the dot-scale real times the y-scaling factor of the item as an integer;	let x be x + (dx / 2);	let y be y + (dy / 2);	let coord be {0, 0};	now entry 1 of coord is x;	now entry 2 of coord is y;	decide on coord.	Section 2.2 - Bichrome bitmap
+There are two types of bitmaps: monochrome and polychrome bitmaps. In a monochrome bitmap, a maximum of two colors are allowed--all bits are either on or off. In a polychrome bitmap, the author can specify a full RGB color for each pixel. In both types, bits are rendered as a defined color (the 'tint') and background color ('background tint')."A bitmap has a number called the bitmap-width. The bitmap-width of a bitmap is 1.A bitmap has a list of numbers called the bitmap-array. The bitmap-array of a bitmap is {0}.A bitmap has a glulx color value called the tint. The tint of a bitmap is g-black.A bitmap has a glulx color value called the background tint. The background tint of a bitmap is g-placenullcol.A bitmap has a number called the bit-size. The bit-size of a bitmap is 1.A bitmap has a number called the vertical ratio. The vertical ratio of a bitmap is 1.[The dot-size and the bitmap-height are set automatically by the extension. Authors need not use them.]A bitmap has a number called the dot-size. The dot-size of a bitmap is 1.A bitmap has a number called the bitmap-height. The bitmap-height of a bitmap is 1.Section 2.1 - Scaling rule for bitmapsAn element scaling rule for a bitmap (called the image-map) (this is the bitmap scaling rule):	let the bitsize-temp be the bit-size of the image-map as a fixed point number;	unless using the asymmetrical scaling option:		change the dot-size of the image-map to the bitsize-temp real times the scaling factor of the current window real times the scaling factor of the image-map as an integer;	otherwise:		change the dot-size of the image-map to the bitsize-temp real times the scaling factor of the current window real times the x-scaling factor of the image-map as an integer;	if the dot-size of the image-map < 1, now the dot-size of the image-map is 1;	change the bitmap-height of the image-map to the number of entries of the bitmap-array of the image-map divided by the bitmap-width of the image-map;	if the image-map is center-aligned:		change the win-x of the image-map to win-x - (bitmap-width * dot-size) / 2;		change the win-y of the image-map to win-y - (bitmap-height * dot-size) / 2;	if the image-map is right-aligned:		change the win-x of the image-map to win-x - (bitmap-width * dot-size);		change the win-y of the image-map to win-y - (bitmap-height * dot-size);	[*if the remainder after dividing the number of entries of the bitmap-array of the image-map by the bitmap-width of the image-map is greater than 0:*]		[*say "[>console][CBD] ***Error: Bitmap array of [image-map] is improperly defined. Output is unlikely to be as expected.[/]";*]	continue.Section 2.2 - Centering algorithm for bitmapsTo decide what list of numbers is the center-point of (item - a bitmap):
+	let x be entry 1 of the origin of item;	let y be entry 2 of the origin of item;	let dot-scale be (bit-size of the item * bitmap-width of the item) as a fixed point number;	unless using the asymmetrical scaling option:		let dx be the dot-scale real times the scaling factor of the item as an integer;		let dy be the dot-scale real times the scaling factor of the item as an integer;	otherwise:		let dx be the dot-scale real times the x-scaling factor of the item as an integer;		let dy be the dot-scale real times the y-scaling factor of the item as an integer;	let x be x + (dx / 2);	let y be y + (dy / 2);	let coord be {0, 0};	now entry 1 of coord is x;	now entry 2 of coord is y;	decide on coord.	Section 2.2 - Monochrome bitmap
 
-A bichrome bitmap is a kind of bitmap.
+A monochrome bitmap is a kind of bitmap.
 
-The specification of bichrome bitmap is "A bichrome bitmap has two possible colors. Where the bitmap-array provides a 1, the value of the 'tint' property (a glulx color value) will be used. Where a 0 is provided, the 'background tint' color (also a glulx color value) will be presented. If the background tint is specified as g-PlaceNullCol, the null value defined by Flexible Windows, there will be no background color."An element display rule for a bichrome bitmap (called the image-map):
+The specification of monochrome bitmap is "A monochrome bitmap has two possible colors. Where the bitmap-array provides a 1, the value of the 'tint' property (a glulx color value) will be used. Where a 0 is provided, the 'background tint' color (also a glulx color value) will be presented. If the background tint is specified as g-PlaceNullCol, the null value defined by Flexible Windows, there will be no background color."An element display rule for a monochrome bitmap (called the image-map):
 	if the background tint of the image-map is g-placenullcol:
-		draw a bichrome bitmap (color tint of the image-map) in (current window) at (win-x of the image-map) by (win-y of the image-map) using (bitmap-width) wide data from (bitmap-array) with dot size (dot-size) pixels;
+		draw a monochrome bitmap (color tint of the image-map) in (current window) at (win-x of the image-map) by (win-y of the image-map) using (bitmap-width) wide data from (bitmap-array) with dot size (dot-size) pixels;
 	otherwise:
-		draw a bichrome bitmap (color tint of the image-map) in (current window) at (win-x of the image-map) by (win-y of the image-map) using (bitmap-width) wide data from (bitmap-array) with dot size (dot-size) pixels and background (color background tint of the image-map);	if the image-map is graphlinked:		set a graphlink in the current window identified as image-map from win-x by win-y to win-x + (bitmap-height * dot-size) by win-y + (bitmap-height * dot-size) as the linked replacement-command of the image-map;
-	[*say "[>console][CBD]Drawing bichrome bitmap [i][image-map][/i], foreground color [color foreground-color], in [i][current window][/i] with upper left ([win-x of image-map], [win-y]) and lower right ([column], [row plus dot-size])[unless background-color is g-placenullcol]; background color [color background-color][end if][if image-map is graphlinked]. [line break][CBD]Graphlink corresponding to [i][image-map][/i] set from ([win-x of image-map], [win-y of image-map]) to ([column], [row plus dot-size]): [quotation mark][linked replacement-command of image-map][quotation mark][end if].[/]";*]Section 2.3 - Polychrome bitmap
+		draw a monochrome bitmap (color tint of the image-map) in (current window) at (win-x of the image-map) by (win-y of the image-map) using (bitmap-width) wide data from (bitmap-array) with dot size (dot-size) pixels and background (color background tint of the image-map);	if the image-map is graphlinked:		set a graphlink in the current window identified as image-map from win-x by win-y to win-x + (bitmap-height * dot-size) by win-y + (bitmap-height * dot-size) as the linked replacement-command of the image-map;
+	[*say "[>console][CBD]Drawing monochrome bitmap [i][image-map][/i], foreground color [color foreground-color], in [i][current window][/i] with upper left ([win-x of image-map], [win-y]) and lower right ([column], [row plus dot-size])[unless background-color is g-placenullcol]; background color [color background-color][end if][if image-map is graphlinked]. [line break][CBD]Graphlink corresponding to [i][image-map][/i] set from ([win-x of image-map], [win-y of image-map]) to ([column], [row plus dot-size]): [quotation mark][linked replacement-command of image-map][quotation mark][end if].[/]";*]Section 2.3 - Polychrome bitmap
 
-[In a polychrome bitmap, we can set decimal versions of any hex RGB-color we like in our bitmap array. As with the bichrome bitmap, we can also set two special values, a basic foreground color, written as 1 in the bitmap array, and a background color, written as 2, which will utilize the color and background-color property of our bitmap object. Otherwise, we must define colors using decimal versions of hex RGB definitions.]A polychrome bitmap is a kind of bitmap.
+[In a polychrome bitmap, we can set decimal versions of any hex RGB-color we like in our bitmap array. As with the monochrome bitmap, we can also set two special values, a basic foreground color, written as 1 in the bitmap array, and a background color, written as 2, which will utilize the color and background-color property of our bitmap object. Otherwise, we must define colors using decimal versions of hex RGB definitions.]A polychrome bitmap is a kind of bitmap.
 
-The specification of polychrome bitmap is "A polychrome bitmap, like a bichrome bitmap, has two pre-specified colors; however, we can also specify any color using a decimal version of the hexadecimal RGB specification (see Glulx Text Effects for more info). Where a polychrome's bitmap-array provides a 1, the value of the 'tint' property (a glulx color value) will be used. Where a 2 is provided, the 'background tint' color (also a glulx color value) will be presented. If the background tint is specified as g-PlaceNullCol, the null value defined by Flexible Windows, there will be no background color."An element display rule for a polychrome bitmap (called the image-map):
+The specification of polychrome bitmap is "A polychrome bitmap, like a monochrome bitmap, has two pre-specified colors; however, we can also specify any color using a decimal version of the hexadecimal RGB specification (see Glulx Text Effects for more info). Where a polychrome's bitmap-array provides a 1, the value of the 'tint' property (a glulx color value) will be used. Where a 2 is provided, the 'background tint' color (also a glulx color value) will be presented. If the background tint is specified as g-PlaceNullCol, the null value defined by Flexible Windows, there will be no background color."An element display rule for a polychrome bitmap (called the image-map):
 	if the background tint of the image-map is g-placenullcol:
 		draw a polychrome bitmap (color tint of the image-map) in (current window) at (win-x of the image-map) by (win-y of the image-map) using (bitmap-width) wide data from (bitmap-array) with dot size (dot-size) pixels;
 	otherwise:		draw a polychrome bitmap (color tint of the image-map) in (current window) at (win-x of the image-map) by (win-y of the image-map) using (bitmap-width) wide data from (bitmap-array) with dot size (dot-size) pixels and background (color background tint of the image-map);	if the image-map is graphlinked:		set a graphlink in the current window identified as image-map from win-x by win-y to win-x + (bitmap-height * dot-size) by win-y + (bitmap-height * dot-size) as the linked replacement-command of the image-map;
@@ -112,23 +112,23 @@ Chapter 1 - Rendered strings
 
 Section 1.2 - Rendered string base classA rendered string is a kind of g-element.
 
-The specification of rendered string is "A rendered string is a graphic element that renders an indexed text string--the 'text string' property--graphically. A rendered string must have an 'associated font' specified in order to function. Rendered strings can left-aligned (the default), center-aligned, or right-aligned; the alignment refers to whether the origin will be the upper left, the upper center point, or the upper right of the rendered text. A cursor position can be specified (the 'cursor' property); this is a number that represents the position after which the cursor will be placed. If a real number is provided for the 'text-animation delay' property, there will be a delay of this many seconds after each character is printed (e.g., 0.1250 represents one-eight of a second."
+The specification of rendered string is "A rendered string is a graphic element that renders an indexed text string--the 'text string' property--graphically. A rendered string must have an 'associated font' specified in order to function. Rendered strings can be left-aligned (the default), center-aligned, or right-aligned; the alignment refers to whether the origin will be the upper left, the upper center point, or the upper right of the rendered text. A cursor position can be specified (the 'cursor' property); this is a number that represents the position after which the cursor will be placed. If a number is provided for the 'text-animation delay' property, there will be a delay of that many milliseconds after each character is drawn (e.g. a text-animation delay of 100 represents approximately 1/10 of a second delay after each character in the string is painted)."
 A rendered string has a font called the associated font.
 
 [The text-animation delay allows us to draw each character as it is read, with a specified delay between them.]
 
-A rendered string has a real number called the text-animation delay. The text-animation delay is usually 0.0000.[A rendered string can also have a cursor, which allows us to use rendered strings with input. The cursor is initially set to -99; this or any other negative number will suppress display of the cursor. A cursor value of 0 or higher will place the cursor after that character in the string. In other words, a cursor value of 2 places the cursor after the second character in the string. A cursor value greater than the number of characters in the string will never be shown.]A rendered string has a number called the cursor. The cursor is usually -99.[A rendered string has a number called the vertical ratio. The vertical ratio is usually 1.][Center and right alignment in rendered strings function differently from other g-elements; the vertical positioning does not change. This mimics the behavior of alignment in word processors, as is more appropriate for text.]A rendered string is usually left-aligned.[A rendered string is rendered either by providing a text string or a list of numbers, which represents a list of the characters of the string. The latter is faster, but more work for the author.]A rendered string has an indexed text called the text-string. The text-string of a rendered string is "".A rendered string has a list of numbers called the parsed-string. The parsed-string of a rendered string is {0}.A rendered string has a glulx color value called the tint. The tint of a rendered string is g-black.A rendered string has a glulx color value called the background tint. The background tint of a rendered string is g-placenullcol.Section 1.2a - Private naming of rendered strings[Replace this section if you need the player to be able to refer to rendered strings.]A rendered string is privately-named.Section 1.3 - Calculate the length of a rendered stringTo decide what number is the length of (stream - a rendered string):	let len be 0;	repeat with N running from 1 to the number of characters in the text-string of the stream:		let V be the character code of position N of the text-string of the stream;		if there is a char of V in the font table of the associated font of the stream:			choose row with a char of V in the font table of the associated font of the stream;		otherwise:			choose row with a char of 32 in the font table of the associated font of the stream;		increase len by the advance entry;	decide on len.
+A rendered string has a number called the text-animation delay. The text-animation delay is usually 0.[A rendered string can also have a cursor, which allows us to use rendered strings with input. The cursor is initially set to -99; this or any other negative number will suppress display of the cursor. A cursor value of 0 or higher will place the cursor after that character in the string. In other words, a cursor value of 2 places the cursor after the second character in the string. A cursor value greater than the number of characters in the string will never be shown.]A rendered string has a number called the cursor. The cursor is usually -99.[A rendered string has a number called the vertical ratio. The vertical ratio is usually 1.][Center and right alignment in rendered strings function differently from other g-elements; the vertical positioning does not change. This mimics the behavior of alignment in word processors, as is more appropriate for text.]A rendered string is usually left-aligned.[A rendered string is rendered either by providing a text string or a list of numbers, which represents a list of the characters of the string. The latter is faster, but more work for the author.]A rendered string has an indexed text called the text-string. The text-string of a rendered string is "".A rendered string has a list of numbers called the parsed-string. The parsed-string of a rendered string is {0}.A rendered string has a glulx color value called the tint. The tint of a rendered string is g-black.A rendered string has a glulx color value called the background tint. The background tint of a rendered string is g-placenullcol.Section 1.2a - Private naming of rendered strings[Replace this section if you need the player to be able to refer to rendered strings.]A rendered string is privately-named.Section 1.3 - Calculate the length of a rendered stringTo decide what number is the length of (stream - a rendered string):	let len be 0;	repeat with N running from 1 to the number of characters in the text-string of the stream:		let V be the character code of position N of the text-string of the stream;		if there is a char of V in the font table of the associated font of the stream:			choose row with a char of V in the font table of the associated font of the stream;		otherwise:			choose row with a char of 32 in the font table of the associated font of the stream;		increase len by the advance entry;	decide on len.
 
 Section 1.6 - Bitmap-rendered string classA bitmap-rendered string is a kind of rendered string.
 
-The specification of bitmap-rendered string is "A bitmap-rendered string is a rendered string in which each glyph is drawn as a bitmap; that is, with individual pixels or 'bits' drawn directly to the screen by Glimmr. It does not require any external image files, only that a valid bitmap font (such as that provided by the Glimmr Bitmap Font extension) be specified as the 'associated font'. As with bitmaps, we can set the 'bit-size' property to set the size of each bit, and the 'tint' and 'background tint' properties to define the colors. When a background tint is provided, a single rectangle is drawn encomapassing the entire text area of the rendered string."A bitmap-rendered string has a number called the bit-size. The bit-size of a bitmap-rendered string is 1.[The dot-size and the bitmap-height are set automatically by the extension. Authors need not use them.]A bitmap-rendered string has a number called the dot-size. The dot-size of a bitmap-rendered string is 1.A bitmap-rendered string has a number called the bitmap-height. The bitmap-height of a bitmap-rendered string is 1.
+The specification of bitmap-rendered string is "A bitmap-rendered string is a rendered string in which each glyph is drawn as a bitmap; that is, with individual pixels or 'bits' drawn directly to the screen by Glimmr. It does not require any external image files, only that a valid bitmap font (such as that provided by the Glimmr Bitmap Font extension) be specified as the 'associated font'. As with bitmaps, we can set the 'bit-size' property to set the size of each bit, and the 'tint' and 'background tint' properties to define the colors. When a background tint is provided, a single rectangle is drawn encompassing the entire text area of the rendered string."A bitmap-rendered string has a number called the bit-size. The bit-size of a bitmap-rendered string is 1.[The dot-size and the bitmap-height are set automatically by the extension. Authors need not use them.]A bitmap-rendered string has a number called the dot-size. The dot-size of a bitmap-rendered string is 1.A bitmap-rendered string has a number called the bitmap-height. The bitmap-height of a bitmap-rendered string is 1.
 
 
 Section 1.6 - Prefer the null typeface (for use without Glimmr Bitmap Font by Erik Temple)
 [Here we make the dummy font, defined in Glimmr Drawing Commands, the preferred font for image-rendered strings, but only if the Glimmr Bitmap Font extension is not included. Authors may replace this section to prevent this preference being set when they include a font other than the one mentioned in the name of the section.]
 
 The associated font of a bitmap-rendered string is Null-bitmap-typeface.Section 1.7 - Centering algorithm for bitmap-rendered stringsTo decide what list of numbers is the center-point of (item - a bitmap-rendered string):	let x be entry 1 of the origin of item;	let y be entry 2 of the origin of item;	let dot-width be (bit-size of the item * length of the item) as a fixed point number;	unless using the asymmetrical scaling option:		let dx be the dot-width real times the scaling factor of the item as an integer;		let dy be the font-height of the associated font of the item real times the scaling factor of the item as an integer;	otherwise:		let dx be the dot-width real times the x-scaling factor of the item as an integer;		let dy be the font-height of the associated font of the item real times the x-scaling factor of the item as an integer;	let x be x + (dx / 2);	let y be y + (dy / 2);	let coord be {0, 0};	now entry 1 of coord is x;	now entry 2 of coord is y;	decide on coord.	Section 1.8 - Scaling rule for bitmap-rendered stringsAn element scaling rule for a bitmap-rendered string (called the stream) (this is the bitmap-rendered string scaling rule):	let the bitsize-temp be the bit-size of the stream as a fixed point number;	unless using the asymmetrical scaling option:		change the dot-size of the stream to the bitsize-temp real times the scaling factor of the current window real times the scaling factor of the stream as an integer;	otherwise:		change the dot-size of the stream to the bitsize-temp real times the scaling factor of the current window real times the x-scaling factor of the stream as an integer;	if the dot-size of the stream < 1, now the dot-size of the stream is 1;	continue.Section 1.9 - Bitmap-rendered string drawing ruleAn element display rule for a bitmap-rendered string (called the stream):	if the text-string of the stream is "" and the cursor of the stream is not 0:		[*say "[>console][BE]Rendered bitmap string [i][stream][/i] specifies no text and has not been rendered. To display only a cursor, change the cursor property of the bitmap-rendered string to 0.[/]";*]		exit;	let foreground-color be the tint of the stream;	let background-color be the background tint of the stream;	let len be the length of the stream;	if the stream is right-aligned:		change the win-x of the stream to the win-x of the stream - (len * dot-size);	if the stream is center-aligned:		change  the win-x of the stream to the win-x of the stream - (len * dot-size) / 2;	let row be the win-y of the stream;	let column be the win-x of the stream;	let column-index be column;	unless background-color is g-placenullcol or the text-string of the stream is "":		draw a rectangle (color background-color) in (current window) at (column - dot-size of the stream) by (row - dot-size) with size (dot-size * len) + dot-size by (dot-size * font-height of the associated font of the stream) + dot-size;	if the cursor of the stream is 0:		draw a rectangle (color foreground-color) in (current window) at (column) by (row - dot-size) with size dot-size by (dot-size * font-height of the associated font of the stream);	if the text-string of the stream is "":		[*say "[>console][BE]Rendered bitmap string [i][stream][/i] specifies no text. Displaying cursor at position 0.[/]";*]		exit;	repeat with N running from 1 to the number of characters in the text-string of the stream:		let V be the character code of position N of the text-string of the stream;		if there is a char of V in the font table of the associated font of the stream:			choose row with a char of V in the font table of the associated font of the stream;		otherwise:			choose row with a char of 32 in the font table of the associated font of the stream;		let scan be 0;		let bitmap-size be width entry * height entry;		repeat with pointer running from (index entry + 1) to the (index entry + bitmap-size):			increase scan by 1;			if scan > width entry:				increase row by dot-size of the stream;				change column to column-index;				let scan be 1;			if entry pointer of the glyph map of the associated font of the stream is 1:				draw a rectangle (color foreground-color) in (current window) at (column) by row + (yoffset entry * dot-size) with size dot-size of the stream by dot-size;			increase column by the dot-size of the stream;		if the cursor of the stream is N:			draw a rectangle (color foreground-color) in (current window) at (column) by (win-y of the stream - dot-size) with size dot-size by (dot-size * font-height of the associated font of the stream);
-		if the text-animation delay of the stream is greater than 0.0000 and glulx timekeeping is supported:
+		if the text-animation delay of the stream is greater than 0 and glulx timekeeping is supported:
 			follow the text-painting animation rules for the stream;		increase column-index by (advance entry * dot-size of the stream);		change column to column-index;		let row be the win-y of the stream;	[*say "[>console][BE]Displaying rendered bitmap string [i][stream][/i], foreground color [color foreground-color], in [i][current window][/i] with upper left ([win-x of stream], [win-y]) and lower right ([column], [row + (font-height of the associated font of the stream * dot-size)])[unless background-color is g-placenullcol]; background color [color background-color][end if][if stream is graphlinked]. [line break][BE]Graphlink corresponding to [i][stream][/i] set from ([win-x of stream], [win-y of stream]) to ([column], [row + (font-height of the associated font of the stream * dot-size)]): [quotation mark][linked replacement-command of stream][quotation mark][end if].[/]";*]	if the stream is graphlinked:		set a graphlink in the current window identified as the stream from (win-x - dot-size) by (win-y - dot-size) to column by row + (font-height of the associated font of the stream * dot-size) as the linked replacement-command of the stream;Chapter 2 - Image-rendered string classAn image-rendered string is a kind of rendered string.
 
 The specification of image-rendered string is "An image-rendered string is a rendered string in which each glyph is drawn using a separate external PNG file; these are assigned and managed via a separate font object, which must be supplied as the 'associated font' of the rendered string. Like sprites, the rendered string can be provided its own 'scaling factor' property to adjust the size of its glyphs relative to the canvas. If the 'background tint' property is supplied (a glulx color value), a rectangle of that color will be drawn behind the rendered string."[The scaling factor is automatically calculated by the extension; authors need not utilize it.]An image-rendered string has a real number called the calculated scaling factor.Section 2.1 - Centering algorithm for image-rendered stringsTo decide what list of numbers is the center-point of (item - a image-rendered string):	let x be entry 1 of the origin of item;	let y be entry 2 of the origin of item;	let string-width be length of the item plus (2 * background-margin of the associated font of the item) as a fixed point number;	let string-height be font-height of the associated font of the item plus (2 * background-margin of the associated font of the item) as a fixed point number;	unless using the asymmetrical scaling option:		let dx be the string-width real times the scaling factor of the item as an integer;		let dy be the string-height real times the scaling factor of the item as an integer;	otherwise:		let dx be the string-width real times the x-scaling factor of the item as an integer;		let dy be the string-height real times the x-scaling factor of the item as an integer;	let x be x + (dx / 2);	let y be y + (dy / 2);	let coord be {0, 0};	now entry 1 of coord is x;	now entry 2 of coord is y;	decide on coord.	
@@ -176,7 +176,7 @@ The associated font of an image-rendered string is Null-image-typeface.Sectio
 		drscimage (chosen glyph) in (current window) at (column) by (row + yoffset) with dimensions (xx) by (yy);
 		if the cursor of the stream is N:
 			draw a rectangle (color foreground-color) in (current window) at (column + xx) by (win-y of the stream) with size cursor-weight by vertical-size;
-		if the text-animation delay of the stream is greater than 0.0000 and glulx timekeeping is supported:
+		if the text-animation delay of the stream is greater than 0 and glulx timekeeping is supported:
 			follow the text-painting animation rules for the stream;
 		increase column by the advance entry real times the calculated scaling factor of the stream as an integer;
 	[*say "[>console][BE]Displaying rendered image string [i][stream][/i], foreground color [color foreground-color], in [i][current window][/i] with upper left ([win-x of stream], [win-y]) and lower right ([column + margin], [row + vertical-size + margin])[unless background-color is g-placenullcol]; background color [color background-color][end if][if stream is graphlinked]. [line break][BE]Graphlink corresponding to [i][stream][/i] set from ([win-x of stream], [win-y of stream]) to ([column + margin], [row + vertical-size + margin]): [quotation mark][linked replacement-command of stream][quotation mark][end if].[/]";*]
@@ -188,29 +188,77 @@ Chapter 3 - Animation
 
 The text-painting animation rules are an object-based rulebook. The text-painting animation rules have outcomes exit (success - the default) and continue.
 
+The anim-delay is a truth state variable. The anim-delay variable translates into I6 as "anim_delay".
 
-Section 3.1a - Animated text painting (for use with Real-Time Delays by Erik Temple)
+Include (-
+
+Global anim_delay = 0;
+
+-) before "Glulx.i6t".
+
+
+Section - Basic animation phrases
+
+[This is a modified version of the timed delay code from the Real-Time Delays extension. The namespace is different, however, and that extension is compatible with this one. Of course, simultaneous real-time events invoked using the two extension is a bad idea and almost certain to fail.
+
+Note: If you invoke any of these phrases directly from your code, you should test to see "if glulx timekeeping is supported" to prevent error messages on interpreters that don't support real-time.]
+
+To pace animation at/-- (T - a number) millisecond/milliseconds/ms:
+	now anim-delay is true;
+	start a T millisecond anim-timer;
+	wait for the anim-timer flag.
+
+A glulx timed activity rule (this is the redirect from timer rule):
+	now the anim-delay is false;
+	stop the timer.
+	
+To start a/-- (T - a number) millisecond anim-timer:
+	(- glk_request_timer_events({T});  -)
+	
+To stop the/-- timer:
+	(- glk_request_timer_events(0); -)
+	
+To wait for the anim-timer flag:
+	(- EscAnimDelay(); -)
+
+Include (-
+
+[ EscAnimDelay key ix;
+	glk_request_char_event(gg_mainwin);
+	while (anim_delay) {
+		glk_select(gg_event); 
+		ix = HandleGlkEvent(gg_event, 1, gg_arguments); 
+		if (ix >= 0 && gg_event-->0 == 2) { 
+			key = gg_event-->2;
+			if (key == $fffffff8) {
+				anim_delay = 0;
+			}
+		} 
+	}
+	glk_cancel_char_event(gg_mainwin);  
+];
+
+-)
+
+
+Section - Animated text painting rules
 
 Last text-painting animation rule for a rendered string (called the stream) (this is the default text-painting animation rule):
-	wait (text-animation delay of the stream) seconds before continuing.
-
-
-Section 3.1b - Ignore animation (for use without Real-Time Delays by Erik Temple)
-
-[If we do not have the Real-Time Delays extension installed, the default animation rule simply prints a warning. We should use the text-painting animation rulebook as a hook for our own routine.]
-Last text-painting animation rule for a rendered string (called the stream) (this is the default text-painting animation rule):
-	say "[one of]***Warning: Animated display has been specified for the rendered string [stream], but the Real Time Delays extension is not included, so no animation can be displayed. Please either include the Real-Time Delays extension, or write your own rule to control text animation.[or][stopping]".Part 9 - WorkaroundsSection 9.1 - Workaround for handling empty windows[Currently, if a figure-name variable is not explicitly defined, Inform substitutes the cover art (resource ID #1). Practically, this means that it is impossible to test for an undefined figure-name, and thus it is also impossible to call an image-drawing rule without its drawing something, whether we want it to or not. This workaround allows us to explicitly define a figure-name as referring to no-figure. We should explicitly say that the currently shown picture is no-picture if we do not wish to have a image. Replace this section in your source text if it becomes unnecessary or redundant through changes to Inform.]To decide which figure-name is no-picture: (- 0 -). To decide which object is nothing: (- nothing -).Glimmr Canvas-Based Drawing ends here.
+	pace animation at (text-animation delay of the stream) milliseconds.Part 9 - WorkaroundsSection 9.1 - Workaround for handling empty windows[Currently, if a figure-name variable is not explicitly defined, Inform substitutes the cover art (resource ID #1). Practically, this means that it is impossible to test for an undefined figure-name, and thus it is also impossible to call an image-drawing rule without its drawing something, whether we want it to or not. This workaround allows us to explicitly define a figure-name as referring to no-figure. We should explicitly say that the currently shown picture is no-picture if we do not wish to have a image. Replace this section in your source text if it becomes unnecessary or redundant through changes to Inform.]To decide which figure-name is no-picture: (- 0 -). To decide which object is nothing: (- nothing -).Glimmr Canvas-Based Drawing ends here.
 
 
 ---- DOCUMENTATION ----
 
-[Begin with a section on basic concepts: Canvas and elements. In this, we will cover the image, primitive, and bitmap types of g-element allowed by this extension, and mentioning that others can be created. Later, a more detailed discussion of each type of element can be done. In the introductory section, we should also go over the basic sequence of the window-drawing rule.]
 [The immediately quit rule is the Standard Rule that quits the game immediately.]
 [The window-framing phrase that centers the viewport on a given point: to center on an element, specify "origin of the element" if it's center-aligned, or the "center-point" of the element if it's left-aligned. ]
-[Need a detailed section on element properties; use the specifications also to show the different types of element.]
+[Need a detailed section on element properties]
+[Fix the troubleshooting section (borrowed from Graphical Window Sprites).]
+[Fix the section on producing images (borrowed from Graphical Window Sprites).]
+[Fix the section of Graphic Hyperlinks (borrowed from Graphical Window Sprites).]
 [Mention that element coordinates can be negative, or greater than the dimensions of the canvas.]
 
-Chapter : Concepts
+
+Chapter: Concepts
 
 Glimmr Canvas-Based Drawing (GBCD) takes an object-oriented approach to drawing in graphics windows. The central concept is the "canvas" (called the "g-canvas" to avoid namespace conflicts). A canvas is similar to the HTML5 <canvas> element: it is a defined area within which graphic elements of various sorts can be displayed. The canvas is basically nothing more than a coordinate system, a blank page which is given certain dimensions. To display a canvas, we assign it to a graphics window (created using the Flexible Windows extension). When the window is opened, the composition we have defined will be displayed, and the canvas--along with all of the graphic elements displayed in it--will automatically be scaled to fit in the window.
 
@@ -226,7 +274,7 @@ The graphic elements displayed in the canvas are called "g-elements" (again, to 
 Elements are assigned to a canvas, and they can also be set either active or inactive; inactive elements will not be displayed. They can also be scaled relative to the canvas and given z-values (called "display-layer") to control the way in which objects overlap each other. If we include the Glimmr Graphic Hyperlinks extension, elements can also be made to respond in various ways to mouse input from the player.
 
 
-Chapter : Basic Usage
+Chapter: Basic Usage
 
 Glimmr Canvas-Based Drawing is designed to be easy to use, but also both powerful and flexible. There are four basic steps to using it.
 
@@ -236,7 +284,7 @@ Glimmr Canvas-Based Drawing is designed to be easy to use, but also both powerfu
 	4) Activate elements for display.
 
 	
-Section : Define a graphics window
+Section: Define a graphics window
 
 Windows are managed by the Flexible Windows extension, and we can make use of any of the features available in that extension. It is important that the window be defined using the "graphics g-window" kind (or a descendant of this kind):
 
@@ -249,7 +297,7 @@ We also need to be sure that we open the window at some point, using the "open u
 	Every turn: follow the refresh windows rule.
 
 
-Section : Define the canvas
+Section: Define the canvas
 
 Defining the canvas is also quite easy. Basically, we simply declare the canvas object and associate it with a g-window:
 
@@ -266,7 +314,7 @@ Or we can supply a background image for the canvas. The background image will be
 Again, the background image will only define the canvas dimensions for us if we have not specified dimensions, or if we have specified either the width or the height at 0. If, on the other hand, we have specified dimensions in advance, the background image will be resized to fit the previously defined dimensions. It will even be stretched to fit if need be.
 
 
-Section : Create elements and assign them to the canvas
+Section: Create elements and assign them to the canvas
 
 Finally, we need to create some elements (called g-elements in Inform to avoid namespace issues) and assign these to our canvas.
 
@@ -308,7 +356,7 @@ In general, however, the best way to organize elements--especially when we have 
 ...and now we can proceed to declare all of the room elements in a single table, and they will automatically be assigned to the appropriate canvas and display-layer.
 
 
-Section : Activate elements for display
+Section: Activate elements for display
 
 Each time a graphics window is redrawn, Glimmr iterates through the elements that are associated with that window's current canvas. If the element is marked for display, the element is drawn to the screen according to the parameters we have specified. If it is not marked for display, it is ignored. We set the display status to either g-active (marked for display) or g-inactive to initialize it.
 
@@ -333,25 +381,98 @@ Now, none of our rooms will show up when the map window is first opened. If we a
 
 There are many appropriate ways to manage the display of elements. The examples below will provide more ideas.
 
-And those are the basic steps in using Glimmr Canvas-Based Drawing. The remainder of this documentation explores intermediate and advanced usage of the extension. There is also a catalog of the types of elements provided by the extension and the properties associated with them toward the end. Finally, the examples also illustrate a number of techniques that are likely to be of interest.
+And those are the basic steps in using Glimmr Canvas-Based Drawing. The remainder of this documentation explores the element types and other options in more detail, and also explores intermediate and advanced usage of the extension. Finally, the examples illustrate basic usage as well as a number of techniques that are likely to be of interest.
 
 
-Chapter : Kinds of element
+Chapter: Kinds of element
 
-Section : Sprites
+Section: Sprites
 
-Section : Primitives
+In common computer-graphics usage, a sprite is an independent image that comprises part of a larger scene, most commonly a two-dimensional image such as the moving characters in a video game. This definition also holds true for GCBD. (Experienced graphics folk should note that there is no "sprite sheet," however; each entity comes from a separate image file.) Sprites are likely to be the most common element used in GCBD games, being the most flexible elements and, at small to moderate sizes, also the fastest to draw.
 
-Section : Bitmaps
+The image files used with sprites can be in PNG or JPEG format. (PNG is recommended, since you can use alpha channels to create transparency, allowing for irregular shapes.) To use an image file as a sprite element, we must first declare the external image file (can be in PNG or JPEG format) as a figure in Inform:
 
-Section : Rendered strings 
+	Figure of Scroll is the file "Scroll_background.png".
+
+The figure must then be assigned to the sprite by setting the 'image-ID' property of the sprite object to the figure-name, e.g. "The image-ID of the scroll is Figure of Scroll". If you have more than a handful of sprites, it can be much faster to declare them using tables; see Chapter 15 of the Inform manual.
+
+Like other g-elements, sprites have a coordinate pair, the "origin" property, that determines where in the canvas coordinate system the upper-left corner of the sprite will be displayed. Sprites can be scaled if desired, using the "scaling factor" property. This scaling factor is calculated before the canvas is scaled to fit the window; in other words, the scaling factor property of the sprite scales it in relation to the rest of the canvas. If the asymmetrical scaling use option is set, it will be necessary to set both the "x-scaling factor" and the "y-scaling factor" of the sprite; these can, of course, be set to different values to allow the sprite to be "stretched" to an aspect ratio other than the original aspect ratio.
 
 
-Chapter : Settings and options
+Section: Primitives
 
-Section - Asymmetrical scaling
+A primitive element is a simple shape that is generally intended to be used in concert with other shapes and images to build up a composition; for example, rectangles and lines. The meaning of a graphics primitive is somewhat stretched here, since the only primitive actually provided by Glulx is a simple rectangle, whereas all of the other "primitives" provided by Glimmr Canvas-Based Drawing are in fact built up out of rectangles. The most intensive of these, the line primitive, can be made up of many, many rectangles and may be quite slow to draw. The primitives included with GBCD are:
 
-Up to this point, we have talked about element scaling factors as if they were unitary; that is, as if both the x and y axes are always scaled by the same amount. And this is true, unless we set the asymmetrical scaling use option:
+	Rectangle primitive - A simple rectangle of color.
+
+	Box primitive - An "empty" rectangle defined by a surrounding line of variable thickness.
+
+	Stroked rectangle primitive - A rectangle of color surrounded by a line of another color. Basically, a rectangle primitive with a box primitive drawn around it. (Not really a "primitive", then, but the algorithm used draws this faster than using the two primitives, so it makes sense to provide it.)
+
+	Line primitive - A straight line drawn between any two points. Horizontal and vertical lines will be the fastest to draw. Diagonal lines, especially long lines or lines approaching a 45 degree angle, can be much slower.
+
+	Point primitive - A rectangle whose size is defined by its line-weight.
+
+Primitives have an origin, as do all g-elements, and they also have a second coordinate pair, the "endpoint". For most primitives, the origin describes the upper left corner, while the endpoint describes the lower right corner. The line primitive, however, is freer--the two points can in fact have any relationship. Because the size of primitive elements is defined by two points on the canvas, they cannot be scaled at the element level in the same way as sprite elements can (they will, of course, scale along with the canvas).
+
+Four primitives--the box, line, and stroked rectangle primitives--have a "line-weight" property that defines the thickness of the lines that make them up. This is the only property of primitives that responds to scaling. The response is coarse, however, because line-weight is measured in pixels. Fractional pixel measurements are not possible, and are rounded to the nearest integer. For example, if you define a line-weight of 2 pixels, the line will appear as two pixels wide when the canvas is scaled down to 75% of full size, but will appear as 1 pixel when scaled to 74% or less.
+
+The color of a primitive is specified using the "tint" property. This is a glulx color value (see the Glulx Text Effects extension). Some primitives (the stroked rectangle) also have a "background tint" property that supplies a second color value, in this case the color of the "stroke" that surrounds the central fill of the rectangle.
+
+
+Section: Bitmaps
+
+A bitmap element draws a rectangular image composed of individual "bits" that are specified by the author in the form of a list (the "bitmap-array") that defines the status of each bit. For example, a cross might be specified like so: 
+
+{ 0, 0, 1, 0, 0,
+  0, 0, 1, 0, 0,
+  1, 1, 1, 1, 1,
+  0, 0, 1, 0, 0,
+  0, 0, 1, 0, 0  }. 
+
+The ones represent bits that are turned on, while the zeros represent bits that are off. The author must additionally specify the "bitmap-width" of the bitmap, which represents the number of bits that make a up a single horizontal line of the bitmap; this number tells Glimmr how to interpret the bitmap-array (if a bitmap-width is not provided, the bitmap will be interpreted as single line of bits). 
+
+When image files such as PNGs or JPEGs are scaled, pixels can be interpolated so that the image file can be presented at virtually any scaling factor. However, the pixels of a bitmap element are set directly, and so the individual pixel is the primary unit of measurement (a bitmap displayed with a bit-size of 2 will be twice as wide and twice as high as the same bitmap displayed with a bit-size of 1). Fractional pixel measurements are not possible, and the bit-size is rounded to the nearest integer. So, if you define a bit-size of 2 pixels, the bit will be 2 pixels from 75% to 100% of full size, but will appear as 1 pixel when scaled to 74% or less. This affects the overall size of the displayed bitmap.  
+
+The "on" bit of a bitmap is rendered using the color provided by the "tint" property (defaults to black). The "off" bit can be implemented in one of two ways. If the "background tint" property is specified, the "off" bit will be rendered using the background color. If the "background tint" property is not set, the "off" bit will do nothing (anything drawn beneath the bitmap will show through the off bits). Both the tint and background tint properties are specified using the glulx color value kind of value (see the Glulx Text Effects extension).
+
+There are two types of bitmaps: 
+
+	Monochrome bitmap - Each bit is either on or off. The "on" bit is specified using 1, the "off" bit using 0.
+
+	Polychrome bitmap - In addition to the on and off bits, any RGB color may be provided in the bitmap-array. RGB colors must be specified using a decimal version of the hexadecimal representation of the color (see Glulx Text Effects for more information). In a polychrome bitmap, the "on" bit is specified using 1, but the "off" bit is specified using 2 (rather than 0 as with a monochrome bitmap).
+
+Polychrome bitmaps are not as human-readable as monochrome ones (white, for example, will be listed in the bitmap-array as 16777215), but they are a bit more flexible. 
+
+
+Section: Rendered strings 
+
+A rendered string is a graphic element that renders an indexed text string graphically. The string is read character by character from the element's "text string" property, and each character is drawn to the screen using either an image file or a bitmap. Note that rendered strings are not accessible to screen readers.
+
+Rendered strings need to have a font specified in their "associated font" property in order to function. A font in this sense is a special kind of object; its major task is to link letterforms (images or bitmaps), via a lookup table, with the characters they are meant to represent. Two fonts are available with Glimmr (Glimmr Image Font and Glimmr Bitmap Font), and authors are of course free to create their own fonts (see the documentation for the Glimmr font extensions for more). 
+
+Rendered strings can be left-aligned (the default), center-aligned, or right-aligned; the alignment determines whether the origin coordinate will represent the upper left, the upper center point, or the upper right of the rendered text. 
+
+The display of a rendered string can be crudely animated (as if printed by a teletype machine) by specifying the "text-animation delay" property. This is a number property representing the number of milliseconds of delay after each character is drawn to the screen. This is not a continuous loop, which would be likely to irritate players, but a word of warning: each time the canvas is redrawn, the animation will restart. If you want the teletype effect to occur only once, you will need to reset the text-animation delay to 0 manually after drawing the string. (Note that interpreters based on Windows Glk have poor temporal resolution, perhaps 20-90 milliseconds. These include Windows Glulxe and Windows Git. The Gargoyle and Zoom interpreters both implement a much better timer and should give better results.)
+
+Rendered strings can also manage the display of a cursor, which is drawn as a simple vertical line whose color is determined by the "tint" property of the rendered string (see below). This functionality is not likely to be useful except when paired with something like the Glimmr Canvas Text Input Fields extension, which handles mouse and keyboard input to allow for input to be accepted and understood via a graphics window. To display a cursor, provide a number 0 or greater via a rendered string's "cursor" property. This represents the position after which the cursor will be placed; e.g. with a cursor value of 0, the cursor will appear immediately before the first character in the string. To suppress display of the cursor (the default), provide a negative number for the cursor property.
+
+As has been alluded to, there are two types of rendered string:
+
+	Bitmap-rendered string - Each glyph is drawn as a bitmap; that is, with individual pixels or 'bits' drawn directly to the screen by Glimmr.
+
+	Image-rendered string - Each glyph is drawn using a separate, external image file, preferably in PNG format.
+
+A bitmap-rendered string  does not require any external image files, only that a valid bitmap font (such as that provided by the Glimmr Bitmap Font extension) be specified as the "associated font". As with bitmaps, we can set the "bit-size" property to set the size of each bit, and the "tint" and "background tint" properties to define the colors. When a background tint is provided, a single rectangle is drawn encompassing the entire text area of the rendered string.
+
+Like sprites, on the other hand, a rendered string can be provided its own "scaling factor" property to adjust the size of its glyphs relative to the canvas, and it scales with an accuracy similar to that of sprite elements. If the "background tint" property is supplied (as always, a glulx color value), a rectangle of that color will be drawn behind the rendered string. The "tint" property of an image-rendered string controls only the color of the cursor; the color of the letterforms is set in the image files.
+
+
+Chapter: Settings and options for scaling
+
+Section: Asymmetrical scaling
+
+Up to this point, we have talked about element scaling factors as if they were unitary; that is, as if both the x and y axes are always scaled by the same amount. And this is in fact true, unless we set the asymmetrical scaling use option:
 
 	Use asymmetrical scaling
 
@@ -361,10 +482,10 @@ Note that when this option is set, we can no longer use the "scaling factor" pro
 
 	The gas mask is a sprite. The x-scaling factor is 0.9800. The y-scaling factor is 0.5000.
 
-Note that by default, both scaling factors are set to 1.0000, so we really only to set the scaling factors if we wish to change this default.
+Note that by default, both scaling factors are set to 1.0000, so we really only need to set the scaling factors if we wish to change this default.
 
 
-Section - Oversize scaling
+Section: Oversize scaling
 
 By default, Glimmr Canvas-Based Drawing will only scale a canvas up to its original size, so that 1 unit in the canvas coordinate system equates to 1 pixel on the screen (i.e., a window scaling factor of 1.0000). This ensures high-quality display, especially of sprite images. However, if we do want the canvas to be scaled beyond its original size, we can set the "oversize scaling" property of the window to true:
 
@@ -373,16 +494,61 @@ By default, Glimmr Canvas-Based Drawing will only scale a canvas up to its origi
 This option can, of course, be changed during play if we want to temporarily upscale our canvas for some special effect.
 
 
-Chapter : Graphic hyperlinks and elements
+Chapter: Elements and mouse input
+
+When the Glimmr Graphic Hyperlinks extension is included, graphic elements can be hyperlinked to issue a command or try a stored action when the player clicks on the element onscreen. Glimmr will perform all of the required bookkeeping automatically; we need only define the behavior we want. In most cases, this is as simple as indicating what command should be entered at the command line when a given element is clicked.
+
+Before a window can receive mouse input, it must be made capable of doing so. We can do this by setting the g-graphlinked property for the window:
+
+	The graphics-window is a graphics g-window. It is g-graphlinked.
+
+Alternatively, we can simply declare the window to be of the kind "graphlink g-window," which will set this property automatically. Note that while the property can be changed during play, this is not recommended--the window must be closed and reopened for the change to take effect.
+
+Elements must also be set to receive graphlinks. We can do this when the element is declared by setting its "graphlink status" property to active:
+
+	Mario is a sprite. The graphlink status is g-active.
+
+To change the graphlink status during the course of the game, we can use these phrases:
+
+	Activate graphlink for Mario.
+	Deactivate graphlink for Mario.
+
+Our element is now accepting mouse input, but we haven't yet told it to do anything in response. The easiest way to program a response is simply to provide the text of the command in the "linked replacement-command" property (see Glimmr Graphic Hyperlinks for other approaches). This indexed text is simply the command we wish to fire when the sprite is clicked. Here's a complete definition for a hyperlinked element:
+
+	Mario is a sprite. The image-ID is Figure of Mario. The origin is {58, 45}. The display-layer is 4. The graphlink status is g-active. The linked replacement-command is "JUMP".
+
+And now, as long as the Mario sprite appears in the window, clicking on it with our mouse will result in the command "JUMP" being entered at the command prompt. Note that the entire area of the element--including transparent zones--is hotlinked in this way. Line primitives are ...
+
+Also note that a sprite is only available to be clicked on when it is actually displayed on the screen (i.e., it is display-active and has already been drawn to the window). A linked replacement-command of "" will be perceived by the player as having had no effect, and this is the default command for graphlink-active sprites. We can make a hyperlinked sprite once again unresponsive to clicks by changing it to "graphlink-inactive".
+
+We can also make replacement commands fire silently; that is, the command will not be printed to the input prompt and will not appear in the transcript. This functionality relies on a hack that changes the command prompt, for which reason we need to define a use option before we can employ such "silent" commands:
+
+	Use silent replacement-commands
+
+Silent commands can be used alongside regular replacement commands. We simply indicate a command's silence by prefacing the command with "$-":
+
+	The linked replacement-command is "$-ZOOM IN"
+
+We can then define actions as usual:
+
+	Zooming in is an action out of world. Understand "zoom in" as zooming in.
+
+Note that the name of the action does not include the "$-"; the prefix is solely a marker for use in defining the linked replacement-command as silent.
+
+Silent commands should really be used only for actions that will not output any text whatsoever; as such, they are mainly intended for out-of-world actions that will affect only the graphical window, such as zooming in and out, switching to another view, bringing up a pop-up, or something similar. If we do wish to print text as a result of a silent command, we need to be aware that we may need to output a line break or paragraph break to produce the desired output.
+
+A graphlink-active sprite that overlaps another in the display layering system will supercede the lower sprite. That is, if Mario partially overlaps a hyperlinked mushroom, clicking within the boundaries of the rectangle that defines Mario will cause Mario's, rather than the mushroom's, linked replacement-command to be invoked.
+
+The background cannot be hyperlinked. We can, however, imitate a clickable background by including a fully transparent sprite image of the same dimensions as the background and placing it on the lowest display-layer (usually display-layer 1).
+
+A final note: if we will need to have more than 25 hyperlinked sprites active at a single moment, we need to extend the number of blank rows in the Table of Graphlink Glulx Replacement Commands. Graphic Window Sprites manages this table automatically, and we should not attempt to set entries in it directly--the table is rebuilt each time the sprite drawing rules are updated, so direct edits will be disregarded in any case.
 
 
 
-
-Chapter : Intermediate and advanced techniques
-
+Chapter: Intermediate and advanced techniques
 
 
-Section : Using canvases to manage display
+Section: Using canvases to manage display
 
 At first glance, the canvas may almost look unnecessary: elements will be displayed in a graphics window, so why not assign the element directly to the window? Why do we need the canvas to mediate?
 
@@ -391,7 +557,7 @@ There are really two answers. First, canvases provide an easy way to change the 
 We can also display the same canvas in two or more windows at the same time, using different display parameters. So, if we have a detailed map that would benefit from being seen both in close-up and at long-range, we could show the map at one scale in one window, and at another in the other. See the "One Canvas, Two Windows" example.
 
 
-Section - Framing the canvas
+Section: Framing the canvas
 
 In normal usage, if the canvas is too large to fit in its associated graphics window, it will be scaled down to fit. Whether the canvas needs to be scaled or not, it will also be centered in the window, with offsets on two to four sides (two sides if the canvas has been scaled to fit, four if it is smaller than the window.)
 
@@ -406,13 +572,13 @@ A ratio of 1.0000 will present the canvas without scaling it, so that one pixel 
 Second, a graphics window has an origin coordinate, similar to that of elements. Normally, the origin is {0, 0}, which means that the upper left corner of the canvas will be displayed in the upper left corner of the window. (In practice, this placement is usually modified by an offset that centers the canvas within the window, so that the canvas is actually displayed at the origin of the window plus the x and y, or top and left, offsets.) If we change the origin of the window, then the canvas will be framed differently. Setting the window's origin to {100, 100}, for example, will place the upper left corner of the window at canvas coordinates {100, 100} (not accounting for the offsets, which will be added here.)
 
 
-Section : Centering elements
+Section: Centering elements
 
 The concept of the "origin".
 
-Section : Aligning elements
+Section: Aligning elements
 
-Section : Creating new kinds of elements
+Section: Creating new kinds of elements
 
 The types of element defined in Glimmr Canvas-Based Drawing are, in most cases, pretty simple. They draw just one entity. But elements need not be so simple. The bitmap and rendered string elements, for example, actually draw many rectangles or images to the screen each time the element is called upon. 
 
@@ -437,7 +603,7 @@ There is no limit on how many entities we can draw in a single element display r
 We can also set multiple hyperlinks in the same element display rule. If, for example, our g-element is L-shaped, we can set two rectangular hyperlink zones (graphic hyperlink zones are always rectangular) at right angles to one another. 
 
 
-Section : Customizing element display
+Section: Customizing element display
 
 We can also use the element display rules to specialize behavior for one element, or for a class of elements, by prefacing or replacing the standard element display rule with another. For example, if we want to create a debugging command to print the name and origin coordinates of each g-element to the main window as it is drawn to our graphics window, we could do something like this:
 
@@ -448,7 +614,7 @@ We can also use the element display rules to specialize behavior for one element
 The "continue" is important, because by default the element display rulebook will terminate once a rule completes. The continue directive allows Inform to look for subsequent rules in the rulebook. (We can also use "continue the action," Inform's standard phrasing, but the element display rules provide "continue" as a shortened form; "exit" similarly serves as a shortened form of "rule succeeds.")
 
 
-Section : Elements as objects in the world model
+Section: Elements as objects in the world model
 
 Since elements are objects, like any other entity of Inform's "thing" kind, we can use their location in space to manage display. If we want an image (or images) to display only when the player is in a certain room, we could put the element object in that room and indicate that elements should only be depicted when the element object is in scope (in most cases, this will be when the player is also in the room). For example, this rule would run before the default canvas-based drawing rule and activate the appropriate elements for display:
 
@@ -467,7 +633,43 @@ If for some reason we actually want players to be able to see, pick up, and refe
 	Section - Revealing elements (in place of Section - Concealing elements in Glimmr Canvas-Based Drawing by Erik Temple)With the body of this section left blank, the privately-named and scenery properties are not set for g-elements, and we can now treat g-elements like any other kind of object: the player will be now able to see and interact with them. Note that g-elements, just like other objects, will be created "off-stage" unless we actively place them in specific rooms
 
 
-Section : I don't want the window to scale
+Section: I don't want the window to scale
+
+
+Chapter: Troubleshooting
+
+Runtime error "cannot divide by zero" (or similar):
+
+	The background has probably not been defined. Be sure you define the background such that it will have been defined before any of the sprite drawing rules fires. 
+
+Inform doesn't recognize the "sprite-identity" property, or a table in which it is used:
+
+	Inform requires a figure to be defined in the source before it can be referred to. Be sure that your figures are defined in the source *above* the text in which you are attempting to define sprite-identities.
+
+The command prompt is not printing properly:
+
+	The system that allows "silent" commands to be issued when the player clicks on a sprite is possibly at fault, since it lightly hacks the printing of the command prompt. If you've customized your command prompt somewhere after the when play begins activity, you may find that you need to also change buffered command-prompt value:
+
+		change the buffered command-prompt to "CUSTOM PROMPT>"; 
+
+	Failing this, check the rules in the section on Silent Replacement Commands above to see where things are going wrong.
+
+Performance issues:
+
+	Be sure that your images are not too large. Images should be sized no larger than you want them to appear onscreen. If performance issues persist, you may want to try preloading sprites (see appropriate section above), and/or using the (hacky) timer-based drawing documented below.
+
+
+Chapter: Producing Images for Use with Graphical Window Sprites
+
+Full instructions for producing images are well beyond the scope of this documentation, but a few notes and links will be useful. For almost all purposes, you will want to produce your images in PNG (Portable Networks Graphics) format. PNG graphics (file extension .png) can contain an "alpha channel" that defines transparent areas of the image, allowing for shapes that are not rectangular. They can be produced with Photoshop, of course, but also with many other programs, including the free, cross-platform GIMP software (http://www.gimp.org). Here are some sites that might be of use to you if you are unfamiliar with PNG graphics (Inform tends to mangle URL spacing, so you may need to edit them by hand): 
+
+	http://en.wikipedia.org/wiki/Portable_Network_Graphics
+	http://www.libpng.org/pub/png/pngintro.html
+	http://www.axialis.com/tutorials/tutorial-misc001.html (Photoshop tutorial)
+	http://www.fabiovisentin.com/tutorial/GIMP_transparent_image/gimp_how_to_make_transparent_image.asp (GIMP tutorial)
+
+When sprites are intended to fit together tightly on screen, as for example image tiles, we will have more flexibility if we design the tiles so that they overlap one another. In other words, where they will abut one another, we should include an extra margin of 1-3 pixels in each image. This will ensure that, if the sprites are scaled, the inaccuracies inherent in scaling do not create visible seams between sprites.
+
 
 
 Example: *** Basic Floorplan - A toolset including images for use in constructing basic floorplans for indoor maps, as well as illustrating most of the basic options available. Also illustrates the use of user-specified source text and tags to create automatic mapping capabilities.
@@ -515,7 +717,7 @@ We then assign x,y coordinates to each room. These coordinates will determine wh
 
 We offer the player the choice to display the current location on the map using either a placemarker (a pointer), or a rectangle that reflects the area of the larger map that is displayed in the closeup-window; the former is implemented as a sprite/image, while the latter is a box primitive. As with other maps, we update the status of these primarily in the carry out looking rules, since the looking rules are always consulted when the player moves between rooms. The currently chosen option is put into a global variable called the placemarker, which we will use to determine how the properties of the element should be updated.
 
-	The associated canvas of a g-element is the graphics-canvas.
+	*: The associated canvas of a g-element is the graphics-canvas.
 
 	Pointer is a sprite. The image-ID is Figure of Placemark.
 
@@ -547,7 +749,7 @@ The calculation for the map inset element, which is the box primitive that outli
 
 Note the use of "continue the action" at the end of each rule. Most of the rules and activities in Canvas-Based Drawing end automatically in success, so we need to provide explicit continuation in order to use the rest of the rulebook. In this case, the drawing the active elements activity needs to go on to actually draw the elements, not just calculate placement.
 
-	Element display rule for the placemarker when the current window is the closeup-window (this is the closeup-window placemarker rule):
+	*: Element display rule for the placemarker when the current window is the closeup-window (this is the closeup-window placemarker rule):
 		do nothing.
 	
 	For drawing the active elements when the placemarker is the pointer (this is the pointer placement rule):
@@ -573,8 +775,6 @@ Note the use of "continue the action" at the end of each rule. Most of the rules
 	When play begins:
 		open up graphics-window;
 		open up the closeup-window.
-
-The following rules are needed to deal with resizing the game window when we are using the map inset element. Normally, windows are redrawn immediately after a window is resized; with Glimmr Canvas-Based Drawing, this generally means that canvas and elements are rescaled before being redrawn, and this results in a seamless user experience. However, because the dimensions of our map inset box are determined using the size of the closeup window, and because the code to resize it only fires when the player moves to a new room, or when he types "toggle", we will have an issue after resizing the game window: The map inset box will not be updates, and will reflect the size of the closeup window as it was before the game window was resized.
 
 
 
