@@ -26,7 +26,7 @@ To decide whether glulx graphic-window hyperlinks are supported:
 
 Part 2 - Basic Input
 	
-A g-window can be g-graphlinked or g-ungraphlinked. A g-window is usually g-ungraphlinked.
+A g-window can be g-graphlinked. A g-window is usually not g-graphlinked.
 
 A graphlink g-window is a kind of graphics g-window. A graphlink g-window is g-graphlinked.
 

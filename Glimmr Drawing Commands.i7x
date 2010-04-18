@@ -32,39 +32,39 @@ Part - Drawing bitmaps
 [Bitmaps are drawn by coloring individual pixels (or pixels in groups), and are specified by the user using an I7 list. Since they are drawn by setting pixels, they cannot be scaled as PNG or JPEG images can.]
 
 
-Chapter 1 - Bichrome bitmaps
+Chapter 1 - monochrome bitmaps
 
 
-Section 1.1 - Bichrome bitmap with background color
+Section 1.1 - monochrome bitmap with background color
 
-To draw/display a/-- bichrome bitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
+To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
 	let row be Y1;	let column be X1;
 	let the bit-height be the number of entries of BIT_MAP divided by WDT;	draw a rectangle (BKGD) in (WIN) at (column) by (row) with size (WDT * WGT) by (bit-height * WGT);	let scan be 0;	repeat with index running through BIT_MAP:		increase scan by 1;		if scan > WDT:			increase row by WGT;			change column to X1;			let scan be 1;		if index > 0:			draw a rectangle (HUE) in (WIN) at (column) by (row) with size (WGT) by (WGT);		increase column by WGT.
 
-To draw/display a/-- bichrome bitmap (HUE - a number) in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
+To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
 	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;
-	display a bichrome bitmap (HUE) in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (BKGD).
+	display a monochrome bitmap (HUE) in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (BKGD).
 
 
-Section 1.2 - Bichrome bitmap without background color
+Section 1.2 - monochrome bitmap without background color
 
-To draw/display a/-- bichrome bitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
+To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
 	let row be Y1;	let column be X1;
 	let scan be 0;	repeat with index running through BIT_MAP:		increase scan by 1;		if scan > WDT:			increase row by WGT;			change column to X1;			let scan be 1;		if index > 0:			draw a rectangle (HUE) in (WIN) at (column) by (row) with size (WGT) by (WGT);		increase column by WGT.
 
-To draw/display a/-- bichrome bitmap (HUE - a number) in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
+To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
 	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;
-	display a bichrome bitmap (HUE) in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
+	display a monochrome bitmap (HUE) in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
 
 
 Section 1.3 - Short forms
 
-To bichrome/bi bitmap/bmp (BIT_MAP - a list of numbers) at (COORD1 - a list of numbers) width (WDT - a number) dot/-- size (WGT - a number) pixel/pixels/px/--, backgrounded:
+To monochrome/bi bitmap/bmp (BIT_MAP - a list of numbers) at (COORD1 - a list of numbers) width (WDT - a number) dot/-- size (WGT - a number) pixel/pixels/px/--, backgrounded:
 	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;
 	if backgrounded:
-		display a bichrome bitmap (current foreground-color) in (current graphics window) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (current background-color);
+		display a monochrome bitmap (current foreground-color) in (current graphics window) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (current background-color);
 	otherwise:
-		display a bichrome bitmap (current foreground-color) in (current graphics window) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
+		display a monochrome bitmap (current foreground-color) in (current graphics window) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
 
 
 Chapter 2 - Polychrome bitmaps
@@ -598,7 +598,7 @@ To set a graphlink in (g - a g-window) identified as (newlinkid - an object) fro
 [Documentation: Warn that the current font must be the correct type, or the game may crash with no message--that is, image or bitmap font.]
 [Documentation: Include syntax that illustrates that bitmaps can be declared inline:
 
-bichrome bitmap {	0, 0, 0, 0, 1,
+monochrome bitmap {	0, 0, 0, 0, 1,
 				0, 0, 0, 1, 0,
 				0, 0, 1, 0, 0,
 				0, 1, 0, 0, 0,
@@ -610,7 +610,7 @@ Section - Extending bitmap fonts
 
 It is possible to extend a bitmap font if it is missing characters we need. This is a two-step process. 
 
-First, we need to add our new glyphs to the font's glyph map. This is done similarly to the drawing of a bichrome bitmap as discussed above, by specifying each bit of the font using an I7-style list, with 1's for on-bits and 0's for off-bits. However, we immediately preface the bitmap with the character code for the glyph. As with all other I7 lists, this code and each bit much be followed by a comma. The "starting the virtual machine" activity is probably the best place to add glyphs. Here is a glyph for a happy face, which we will place at character code 1:
+First, we need to add our new glyphs to the font's glyph map. This is done similarly to the drawing of a monochrome bitmap as discussed above, by specifying each bit of the font using an I7-style list, with 1's for on-bits and 0's for off-bits. However, we immediately preface the bitmap with the character code for the glyph. As with all other I7 lists, this code and each bit much be followed by a comma. The "starting the virtual machine" activity is probably the best place to add glyphs. Here is a glyph for a happy face, which we will place at character code 1:
 
 	After starting the virtual machine:
 		Add { 1, [This is the character code]
