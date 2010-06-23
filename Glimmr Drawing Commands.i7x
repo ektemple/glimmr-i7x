@@ -1,30 +1,423 @@
-Version 1/091028 of Glimmr Drawing Commands (for Glulx only) by Erik Temple begins here.
+Version 1/100602 of Glimmr Drawing Commands (for Glulx only) by Erik Temple begins here.
 
-[Look hard at whether to keep the bipartite scheme for drawing; i.e., the base command plus a secondary command that writes to the console.][Make sure that by/x is available for both coordinates and dimensions of all commands.]
+[Look hard at whether to keep the bipartite scheme for drawing; i.e., the base command plus a secondary command that writes to the console.]
+[Make sure that by/x is available for both coordinates and dimensions of all commands.]
+[Need to add back in the tile-size specifications for image-maps, after the new version is available that allows it.]
 
 "Provides commands for drawing images, shape primitives (such as rectangles, boxes, and lines), user-specified bitmaps, and for text-painting using 'fonts' with glyphs composed of either bitmaps or image files."
 
 
 Part - Inclusions
 
-Include version 9 of Flexible Windows v9 by Jon Ingold.
-Include version 3 of Fixed Point Maths by Michael Callaghan.[Part - Console settings[This is a macro that allows the extension to identify itself in the Glimmr console window with fewer keystrokes on my part.]To say DC:	say "[bracket]Glimmr DC[close bracket]: ".]Part - Global variables[The global variables support a very brief form of drawing command; they are not used for the standard length commands.]The current graphics window is a graphics g-window that varies.The current foreground-color is a number that varies. The current foreground-color is 0.The current background-color is a number that varies. The current background-color is 0.
+Include version 9 of Flexible Windows by Jon Ingold.
+Include version 3 of Fixed Point Maths by Michael Callaghan.
+
+
+Part - Use options
+
+Use MAX_ARRAYS of 3000.
+
+
+Part - Console settings
+[This is a macro that allows the extension to identify itself in the Glimmr console window with fewer keystrokes on my part.]
+
+To say DC:
+	say "[bracket]Glimmr DC[close bracket]: ".
+
+
+Part - Global variables
+[The global variables support a very brief form of drawing command; they are not used for the standard length commands.]
+
+The current graphics window is a graphics g-window that varies.
+The current foreground-color is a number that varies. The current foreground-color is 0.
+The current background-color is a number that varies. The current background-color is 0.
 
 
 Part - Primitives
 
 
 Chapter - Rectangles
-Section - Dimensioned rectangle[The dimensioned rectangle reflects Glulx Inform's I6-level rectangle command, which provides dimensions for the rectangle rather than start and endpoints. It is intended to be used internally by other commands, and as such does not itself generate console messages.]To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) at (x1 - a number) by/x (y1 - a number) with size/dimensions (width - a number) by/x (height - a number):	(- DrawDimRect({hue}, {win}, {x1}, {y1}, {width}, {height}); -)To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) at (coord1 - a list of numbers) with size/dimensions (width - a number) by/x (height - a number):	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;	draw a rectangle (hue) in (win) at (x1) by (y1) with size (width) by (height);To rect/rectangle (coord1 - a list of numbers) size (width - a number) by/x (height - a number):	if the current graphics window is not a graphics g-window:		rule fails;	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;	draw a rectangle (current foreground-color) in current graphics window at x1 by y1 with size width by height;Include (-[ DrawDimRect hue win x1 y1 width height ;	if (win.ref_number) {		glk_window_fill_rect(win.ref_number, hue, x1, y1, width, height);	}];-).Section - RectangleTo rectdraw (hue - a number) in (win - a g-window) from (x1 - a number) by (y1 - a number) to (x2 - a number) by (y2 - a number):	(- DrawRect({hue}, {win}, {x1}, {y1}, {x2}, {y2}); -)To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number):	rectdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2);	[*say "[>console][DC]Drawing a rectangle of color [hue] in [i][win][/i] with upper left ([x1], [y1]) and lower right ([x2], [y2]).[/]".*]To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) from (coord1 - a list of numbers) to (coord2 - a list of numbers):	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;	let x2 be entry 1 of coord2;	let y2 be entry 2 of coord2;	rectdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2).To rect/rectangle (coord1 - a list of numbers) to (coord2 - a list of numbers):	if the current graphics window is not a graphics g-window:		[*say "[>console][DC]*** Error: Short-form rectangle-drawing directive ignored. The current graphics window global was not specified.[/]";*]		rule fails;	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;	let x2 be entry 1 of coord2;	let y2 be entry 2 of coord2;	rectdraw (current foreground-color) in (current graphics window) from (x1) by (y1) to (x2) by (y2).Include (-[ DrawRect hue win x1 y1 x2 y2 ;	if (win.ref_number) {		glk_window_fill_rect(win.ref_number, hue, x1, y1, x2 - x1, y2 - y1 );	}];-).
 
 
-Chapter - Outlined rectanglesSection - BoxTo boxdraw (hue - a number) in (win - a g-window) from (x1 - a number) by (y1 - a number) to (x2 - a number) by (y2 - a number) with (wgt - a number), outlined or inset:	(- DrawBox({hue}, {wgt}, {win}, {x1}, {y1}, {x2}, {y2}, {phrase options}); -)To draw/display a/-- box (hue - a number) in (win - a g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke, outlined or inset:	if outlined:		boxdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt), outlined;			otherwise if inset:		boxdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt), inset;	otherwise:		boxdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt);	[*say "[>console][DC]Drawing a box of color [hue] in [i][win][/i] with upper left ([x1], [y1]) and lower right ([x2], [y2]), line-weight [wgt] px[if outlined]; line is drawn outside the bounds of the box[otherwise if inset]; line is drawn inside the bounds of the box[end if].[/]".*]To draw/display a/-- box (hue - a number) in (win - a g-window) from (coord1 - a list of numbers) to (coord2 - a list of numbers) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke, outlined or inset:	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;	let x2 be entry 1 of coord2;	let y2 be entry 2 of coord2;	if outlined:		boxdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt), outlined;	otherwise if inset:		boxdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt), inset;	otherwise:		boxdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt);		To box (coord1 - a list of numbers) to (coord2 - a list of numbers) at (wgt - a number) px/pixels/pixel, outlined or inset: 	if the current graphics window is not a graphics g-window:		[*say "[>console][DC]*** Error: Short-form box-drawing directive ignored. The current graphics window global was not specified.[/]";*]		rule fails;	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;	let x2 be entry 1 of coord2;	let y2 be entry 2 of coord2;	if outlined:		boxdraw (current foreground-color) in (current graphics window) from (x1) by (y1) to (x2) by (y2) with (wgt), outlined;	otherwise if inset:		boxdraw (current foreground-color) in (current graphics window) from (x1) by (y1) to (x2) by (y2) with (wgt), inset;	otherwise:		boxdraw (current foreground-color) in (current graphics window) from (x1) by (y1) to (x2) by (y2) with (wgt).Include (-[ DrawBox hue wgt win x1 y1 x2 y2 outline_opt ;! Draws four rectangles that outline the coordinates given as input on the I7 level.	if (win.ref_number) {		if (outline_opt & 2) {			glk_window_fill_rect(win.ref_number, hue, x1, y1, x2 - x1, wgt);			glk_window_fill_rect(win.ref_number, hue, x2 - wgt, y1, wgt, y2 - y1);			glk_window_fill_rect(win.ref_number, hue, x1, y2 - wgt, x2 - x1, wgt);			glk_window_fill_rect(win.ref_number, hue, x1, y1, wgt, y2 - y1);		}		if (outline_opt & 1) {			glk_window_fill_rect(win.ref_number, hue, x1 - wgt, y1 - wgt, wgt + x2 - x1, wgt);			glk_window_fill_rect(win.ref_number, hue, x2, y1 - wgt, wgt, wgt + y2 - y1);			glk_window_fill_rect(win.ref_number, hue, x1 - wgt, y2, wgt + wgt + x2 - x1, wgt);			glk_window_fill_rect(win.ref_number, hue, x1 - wgt, y1 - wgt, wgt, wgt + y2 - y1);		}		if (~~outline_opt) {			glk_window_fill_rect(win.ref_number, hue, x1 - (wgt / 2), y1 - (wgt / 2), x2 - x1, wgt);			glk_window_fill_rect(win.ref_number, hue, x2 - (wgt / 2), y1 - (wgt / 2), wgt, (y2 - y1) + wgt);			glk_window_fill_rect(win.ref_number, hue, x1 - (wgt / 2), y2 - (wgt / 2), x2 - x1, wgt);			glk_window_fill_rect(win.ref_number, hue, x1 - (wgt / 2), y1 - (wgt / 2), wgt, y2 - y1);		}	}];-).Section - Stroked RectangleTo strectdraw (hue - a number) in (win - a g-window) from (x1 - a number) by (y1 - a number) to (x2 - a number) by (y2 - a number) with (wgt - a number) stroke of (color - a number):	(- DrawStrokedRect({hue}, {wgt}, {win}, {x1}, {y1}, {x2}, {y2}, {color}); -)To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke (color - a number):	strectdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt) stroke of (color);	[*say "[>console][DC]Drawing a stroked rectangle of color [hue] in [i][win][/i] with upper left ([x1], [y1]) and lower right ([x2], [y2]); stroke of line-weight [wgt] pixels (color [color]) drawn inside the bounds of the box.[/]";*]To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) from (coord1 - a list of numbers) to (coord2 - a list of numbers) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke (color - a number):	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;	let x2 be entry 1 of coord2;	let y2 be entry 2 of coord2;	strectdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt) stroke of (color).To rect/rectangle (coord1 - a list of numbers) to (coord2 - a list of numbers) at (wgt - a number) px/pixels/pixel:	if the current graphics window is not a graphics g-window:		[*say "[>console][DC]*** Error: Short-form rectangle-drawing directive ignored. The current graphics window global was not specified.[/]";*]		rule fails;	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;	let x2 be entry 1 of coord2;	let y2 be entry 2 of coord2;	strectdraw (current foreground-color) in (current graphics window) from (x1) by (y1) to (x2) by (y2) with (wgt) stroke of (current background-color).Include (-[ DrawStrokedRect hue wgt win x1 y1 x2 y2 color;	if (win.ref_number) {		glk_window_fill_rect(win.ref_number, color, x1, y1, x2 - x1, y2 - y1 );		glk_window_fill_rect(win.ref_number, hue, x1 + wgt, y1 + wgt, (x2 - x1) - (wgt * 2), (y2 - y1) - (wgt * 2) );	}];-).
+Section - Dimensioned rectangle
+[The dimensioned rectangle reflects Glulx Inform's I6-level rectangle command, which provides dimensions for the rectangle rather than start and endpoints. It is intended to be used internally by other commands, and as such does not itself generate console messages.]
+
+To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) at (x1 - a number) by/x (y1 - a number) with size/dimensions (width - a number) by/x (height - a number):
+	(- DrawDimRect({hue}, {win}, {x1}, {y1}, {width}, {height}); -)
+
+To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) at (coord1 - a list of numbers) with size/dimensions (width - a number) by/x (height - a number):
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
+	draw a rectangle (hue) in (win) at (x1) by (y1) with size (width) by (height);
+
+To rect/rectangle (coord1 - a list of numbers) size (width - a number) by/x (height - a number):
+	if the current graphics window is not a graphics g-window:
+		rule fails;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
+	draw a rectangle (current foreground-color) in current graphics window at x1 by y1 with size width by height;
 
 
-Chapter - LinesSection - Basic line[The code for drawing a line between any two points was ported from the GREX module of the GWindows system by L. Ross Raszewski (http://gwindows.trenchcoatsoft.com). The code is there indicated to having been based on code by Paul Heckbert.]To linedraw (hue - a number) in (win - a graphics g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number) with (wgt - a number):	let dd be x2 - x1;	if dd >= 0:		let ax be 2 times dd;		let sx be 1;	otherwise:		let ax be -2 times dd;		let sx be -1;	let dd be y2 - y1;	if dd >= 0:		let ay be 2 times dd;		let sy be 1;	otherwise:		let ay be -2 times dd;		let sy be -1;	let x be x1;	let y be y1;	if ax > ay:		let x1 be 1;		let d be ay - (ax / 2);		while x is not x2:			if d >= 0:				let y be y + sy;				let d be d - ax;			let x be x plus sx;			let d be d plus ay;			if x is x2 or y is not y1:				if sx > 0:					draw rectangle (hue) in win at (x - x1) by y1 with size x1 by wgt;				otherwise:					draw a rectangle (hue) in win at x by y1 with size x1 by wgt;				let y1 be y;				let x1 be 1;			otherwise:				increase x1 by 1;	otherwise:		let y1 be 1;		let d be ax - (ay / 2);		while y is not y2:			if d >= 0:				let x be x + sx;				let d be d - ay;			let y be y + sy;			let d be d + ax;			if x is not x1 or y is y2:				if sy > 0:					draw rectangle (hue) in win at x1 by (y - y1) with size wgt by y1;				otherwise:					draw a rectangle (hue) in win at x1 by y with size wgt by y1;				let y1 be 1;				let x1 be x;			otherwise:				increase y1 by 1;To draw a/-- line (hue - a number) in (win - a graphics g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:	[*say "[>console][DC]Drawing a line of color [hue] in [i][win][/i] from ([x1], [y1]) to ([x2], [y2]), line-weight [wgt] pixels.[/]";*]	linedraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt).		To draw a/-- line (hue - a number) in (win - a graphics g-window) from (coord1 - a list of numbers) to (coord2 - a list of numbers) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;	let x2 be entry 1 of coord2;	let y2 be entry 2 of coord2;	Draw a line (hue) in win from x1 by y1 to x2 by y2 with wgt pixel line-weight.To line (coord1 - a list of numbers) to (coord2 - a list of numbers) at (wgt - a number) px/pixel/pixels:	if the current graphics window is not a graphics g-window:		[*say "[>console][DC]*** Error: Short-form line-drawing directive ignored. The current graphics window global was not specified.[/]";*]		rule fails;	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;	let x2 be entry 1 of coord2;	let y2 be entry 2 of coord2;	Draw a line (current foreground-color) in current graphics window from x1 by y1 to x2 by y2 with wgt pixel line-weight.	Section - Line using angle + distanceTo draw a line (hue - a number) in (win - a graphics g-window) from (x1 - a number) by (y1 - a number) measuring/of (distance - a number) pixel/pixels/-- long/-- at (angle - a number) deg/degree/degrees/-- angle/-- with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:	let xx be (sine of angle) * distance as an integer;	let yy be (cosine of angle) * distance as an integer;	let x2 be x1 + xx;		let y2 be y1 - yy;	Draw a line (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt) pixel line-weight.	To draw a line (hue - a number) in (win - a graphics g-window) from (coord1 - a list of numbers) measuring (distance - a number) pixels/pixel/-- long/-- at (angle - a number) deg/degree/degrees/-- angle/-- with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;	Draw a line (hue) in (win) from (x1) by (y1) measuring (distance) pixels at (angle) with (wgt) pixel line-weight.To line (coord1 - a list of numbers) dist/distance (distance - a number) px/pixels/pixel (angle - a number) deg/degree/degrees/angle (wgt - a number) px/pixels/pixel wgt/wt/weight/--:	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;	Draw a line (current foreground-color) in (current graphics window) from (x1) by (y1) measuring (distance) pixels at (angle) with (wgt) pixel line-weight.To decide what number is (rad - a real number) rad/radians:	decide on rad in degrees as an integer.
+Include (-
+
+[ DrawDimRect hue win x1 y1 width height ;
+	if (win.ref_number) {
+		glk_window_fill_rect(win.ref_number, hue, x1, y1, width, height);
+	}
+];
+
+-).
 
 
-Chapter - ImagesSection - ImageTo drimage (ID - a figure-name) in (win - a g-window) at (x1 - a number) by (y1 - a number):	(- DrawImage({ID}, {win}, {x1}, {y1}); -)To display/draw the/-- image/-- (ID - a figure-name) in (win - a g-window) at (x1 - a number) by/x (y1 - a number):	[*say "[>console][DC]Drawing image [ID] in [i][win][/i] at ([x1], [y1]).[/]";*]	drimage (ID) in (win) at (x1) by (y1).To display/draw the/an/-- image/-- (ID - a figure-name) in (win - a g-window) at (coord1 - a list of numbers):	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;	drimage (ID) in (win) at (x1) by (y1).To image (ID - a figure-name) at (coord1 - a list of numbers):	if the current graphics window is not a graphics g-window:		rule fails;	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;	drimage (ID) in (current graphics window) at (x1) by (y1).Include (-[DrawImage ID win x y ;	if (win.ref_number) {		glk_image_draw(win.ref_number, ID, x, y);	}];  -).Section - Image with specified sizeTo drscimage (ID - a figure-name) in (win - a g-window) at (x1 - a number) by/x (y1 - a number) with size/dimensions (width - a number) by/x (height - a number):	(- DrawImageScaled({ID}, {win}, {x1}, {y1}, {width}, {height}); -)	To display/draw the/an/-- image/-- (ID - a figure-name) in (win - a g-window) at (x1 - a number) by/x (y1 - a number) with size/dimensions (width - a number) by/x (height - a number):	[*say "[>console][DC]Drawing image [ID] in [i][win][/i] at ([x1], [y1]), scaled to dimensions [width] x [height].[/]";*]	drscimage (ID) in (win) at (x1) by (y1) with dimensions (width) by (height).To display/draw the/an/-- image/-- (ID - a figure-name) in (win - a g-window) at (coord1 - a list of numbers) with size/dimensions (width - a number) by/x (height - a number):	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;	drscimage (ID) in (win) at (x1) by (y1) with dimensions (width) by (height).To image (ID - a figure-name) at (coord1 - a list of numbers) size (width - a number) by/x (height - a number):	if the current graphics window is not a graphics g-window:		rule fails;	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;	drscimage (ID) in (current graphics window) at (x1) by (y1) with dimensions (width) by (height).Include (-[DrawImageScaled ID win x y image_x image_y ;	if (win.ref_number) {		glk_image_draw_scaled(win.ref_number, ID, x, y, image_x, image_y);	}];  -).
+Section - Rectangle
+
+To rectdraw (hue - a number) in (win - a g-window) from (x1 - a number) by (y1 - a number) to (x2 - a number) by (y2 - a number):
+	(- DrawRect({hue}, {win}, {x1}, {y1}, {x2}, {y2}); -)
+
+To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number):
+	rectdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2);
+	only if utilizing Glimmr debugging;
+	if basic drawing command debugging is true:
+		say "[>console][DC]Drawing a rectangle of color [hue] in [i][win][/i] with upper left ([x1], [y1]) and lower right ([x2], [y2]).[<]";
+	end only if.
+
+To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) from (coord1 - a list of numbers) to (coord2 - a list of numbers):
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
+	let x2 be entry 1 of coord2;
+	let y2 be entry 2 of coord2;
+	rectdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2).
+
+To rect/rectangle (coord1 - a list of numbers) to (coord2 - a list of numbers):
+	if the current graphics window is not a graphics g-window:
+		say "[>console][DC]*** Error: Short-form rectangle-drawing directive ignored. The current graphics window global was not specified.[<]";
+		rule fails;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
+	let x2 be entry 1 of coord2;
+	let y2 be entry 2 of coord2;
+	rectdraw (current foreground-color) in (current graphics window) from (x1) by (y1) to (x2) by (y2).
+
+Include (-
+
+[ DrawRect hue win x1 y1 x2 y2 ;
+	if (win.ref_number) {
+		glk_window_fill_rect(win.ref_number, hue, x1, y1, x2 - x1, y2 - y1 );
+	}
+];
+
+-).
+
+
+Chapter - Outlined rectangles
+
+
+Section - Box
+
+To boxdraw (hue - a number) in (win - a g-window) from (x1 - a number) by (y1 - a number) to (x2 - a number) by (y2 - a number) with (wgt - a number), outlined or inset:
+	(- DrawBox({hue}, {wgt}, {win}, {x1}, {y1}, {x2}, {y2}, {phrase options}); -)
+
+To draw/display a/-- box (hue - a number) in (win - a g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke, outlined or inset:
+	if outlined:
+		boxdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt), outlined;		
+	otherwise if inset:
+		boxdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt), inset;
+	otherwise:
+		boxdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt);
+	only if utilizing Glimmr debugging;
+	if basic drawing command debugging is true:
+		say "[>console][DC]Drawing a box of color [hue] in [i][win][/i] with upper left ([x1], [y1]) and lower right ([x2], [y2]), line-weight [wgt] px[if outlined]; line is drawn outside the bounds of the box[otherwise if inset]; line is drawn inside the bounds of the box[end if].[<]";
+	end only if;
+
+To draw/display a/-- box (hue - a number) in (win - a g-window) from (coord1 - a list of numbers) to (coord2 - a list of numbers) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke, outlined or inset:
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
+	let x2 be entry 1 of coord2;
+	let y2 be entry 2 of coord2;
+	if outlined:
+		boxdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt), outlined;
+	otherwise if inset:
+		boxdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt), inset;
+	otherwise:
+		boxdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt);
+		
+To box (coord1 - a list of numbers) to (coord2 - a list of numbers) at (wgt - a number) px/pixels/pixel, outlined or inset: 
+	if the current graphics window is not a graphics g-window:
+		only if utilizing Glimmr debugging;
+		if basic drawing command debugging is true:
+			say "[>console][DC]*** Error: Short-form box-drawing directive ignored. The current graphics window global was not specified.[<]";
+		end only if;
+		rule fails;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
+	let x2 be entry 1 of coord2;
+	let y2 be entry 2 of coord2;
+	if outlined:
+		boxdraw (current foreground-color) in (current graphics window) from (x1) by (y1) to (x2) by (y2) with (wgt), outlined;
+	otherwise if inset:
+		boxdraw (current foreground-color) in (current graphics window) from (x1) by (y1) to (x2) by (y2) with (wgt), inset;
+	otherwise:
+		boxdraw (current foreground-color) in (current graphics window) from (x1) by (y1) to (x2) by (y2) with (wgt).
+
+
+Include (-
+
+[ DrawBox hue wgt win x1 y1 x2 y2 outline_opt ;
+! Draws four rectangles that outline the coordinates given as input on the I7 level.
+	if (win.ref_number) {
+		if (outline_opt & 2) {
+			glk_window_fill_rect(win.ref_number, hue, x1, y1, x2 - x1, wgt);
+			glk_window_fill_rect(win.ref_number, hue, x2 - wgt, y1, wgt, y2 - y1);
+			glk_window_fill_rect(win.ref_number, hue, x1, y2 - wgt, x2 - x1, wgt);
+			glk_window_fill_rect(win.ref_number, hue, x1, y1, wgt, y2 - y1);
+		}
+		if (outline_opt & 1) {
+			glk_window_fill_rect(win.ref_number, hue, x1 - wgt, y1 - wgt, wgt + x2 - x1, wgt);
+			glk_window_fill_rect(win.ref_number, hue, x2, y1 - wgt, wgt, wgt + y2 - y1);
+			glk_window_fill_rect(win.ref_number, hue, x1 - wgt, y2, wgt + wgt + x2 - x1, wgt);
+			glk_window_fill_rect(win.ref_number, hue, x1 - wgt, y1 - wgt, wgt, wgt + y2 - y1);
+		}
+		if (~~outline_opt) {
+			glk_window_fill_rect(win.ref_number, hue, x1 - (wgt / 2), y1 - (wgt / 2), x2 - x1, wgt);
+			glk_window_fill_rect(win.ref_number, hue, x2 - (wgt / 2), y1 - (wgt / 2), wgt, (y2 - y1) + wgt);
+			glk_window_fill_rect(win.ref_number, hue, x1 - (wgt / 2), y2 - (wgt / 2), x2 - x1, wgt);
+			glk_window_fill_rect(win.ref_number, hue, x1 - (wgt / 2), y1 - (wgt / 2), wgt, y2 - y1);
+		}
+	}
+];
+
+-).
+
+
+Section - Stroked Rectangle
+
+To strectdraw (hue - a number) in (win - a g-window) from (x1 - a number) by (y1 - a number) to (x2 - a number) by (y2 - a number) with (wgt - a number) stroke of (color - a number):
+	(- DrawStrokedRect({hue}, {wgt}, {win}, {x1}, {y1}, {x2}, {y2}, {color}); -)
+
+To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke (color - a number):
+	strectdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt) stroke of (color);
+	only if utilizing Glimmr debugging;
+	if basic drawing command debugging is true:
+		say "[>console][DC]Drawing a stroked rectangle of color [hue] in [i][win][/i] with upper left ([x1], [y1]) and lower right ([x2], [y2]); stroke of line-weight [wgt] pixels (color [color]) drawn inside the bounds of the box.[<]";
+	end only if;
+
+To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) from (coord1 - a list of numbers) to (coord2 - a list of numbers) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke (color - a number):
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
+	let x2 be entry 1 of coord2;
+	let y2 be entry 2 of coord2;
+	strectdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt) stroke of (color).
+
+To rect/rectangle (coord1 - a list of numbers) to (coord2 - a list of numbers) at (wgt - a number) px/pixels/pixel:
+	if the current graphics window is not a graphics g-window:
+		only if utilizing Glimmr debugging;
+		if basic drawing command debugging is true:
+			say "[>console][DC]*** Error: Short-form rectangle-drawing directive ignored. The current graphics window global was not specified.[<]";
+		end only if;
+		rule fails;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
+	let x2 be entry 1 of coord2;
+	let y2 be entry 2 of coord2;
+	strectdraw (current foreground-color) in (current graphics window) from (x1) by (y1) to (x2) by (y2) with (wgt) stroke of (current background-color).
+
+Include (-
+
+[ DrawStrokedRect hue wgt win x1 y1 x2 y2 color;
+	if (win.ref_number) {
+		glk_window_fill_rect(win.ref_number, color, x1, y1, x2 - x1, y2 - y1 );
+		glk_window_fill_rect(win.ref_number, hue, x1 + wgt, y1 + wgt, (x2 - x1) - (wgt * 2), (y2 - y1) - (wgt * 2) );
+	}
+];
+
+-).
+
+
+Chapter - Lines
+
+
+Section - Basic line
+[The code for drawing a line between any two points was ported from the GREX module of the GWindows system by L. Ross Raszewski (http://gwindows.trenchcoatsoft.com). The code is there indicated to having been based on code by Paul Heckbert.]
+
+To linedraw (hue - a number) in (win - a graphics g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number) with (wgt - a number):
+	let dd be x2 - x1;
+	if dd >= 0:
+		let ax be 2 times dd;
+		let sx be 1;
+	otherwise:
+		let ax be -2 times dd;
+		let sx be -1;
+	let dd be y2 - y1;
+	if dd >= 0:
+		let ay be 2 times dd;
+		let sy be 1;
+	otherwise:
+		let ay be -2 times dd;
+		let sy be -1;
+	let x be x1;
+	let y be y1;
+	if ax > ay:
+		let x1 be 1;
+		let d be ay - (ax / 2);
+		while x is not x2:
+			if d >= 0:
+				let y be y + sy;
+				let d be d - ax;
+			let x be x plus sx;
+			let d be d plus ay;
+			if x is x2 or y is not y1:
+				if sx > 0:
+					draw rectangle (hue) in win at (x - x1) by y1 with size x1 by wgt;
+				otherwise:
+					draw a rectangle (hue) in win at x by y1 with size x1 by wgt;
+				let y1 be y;
+				let x1 be 1;
+			otherwise:
+				increase x1 by 1;
+	otherwise:
+		let y1 be 1;
+		let d be ax - (ay / 2);
+		while y is not y2:
+			if d >= 0:
+				let x be x + sx;
+				let d be d - ay;
+			let y be y + sy;
+			let d be d + ax;
+			if x is not x1 or y is y2:
+				if sy > 0:
+					draw rectangle (hue) in win at x1 by (y - y1) with size wgt by y1;
+				otherwise:
+					draw a rectangle (hue) in win at x1 by y with size wgt by y1;
+				let y1 be 1;
+				let x1 be x;
+			otherwise:
+				increase y1 by 1;
+
+
+To draw a/-- line (hue - a number) in (win - a graphics g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:
+	only if utilizing Glimmr debugging;
+	if basic drawing command debugging is true:
+		say "[>console][DC]Drawing a line of color [hue] in [i][win][/i] from ([x1], [y1]) to ([x2], [y2]), line-weight [wgt] pixels.[<]";
+	end only if;
+	linedraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt).
+		
+
+To draw a/-- line (hue - a number) in (win - a graphics g-window) from (coord1 - a list of numbers) to (coord2 - a list of numbers) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
+	let x2 be entry 1 of coord2;
+	let y2 be entry 2 of coord2;
+	Draw a line (hue) in win from x1 by y1 to x2 by y2 with wgt pixel line-weight.
+
+To line (coord1 - a list of numbers) to (coord2 - a list of numbers) at (wgt - a number) px/pixel/pixels:
+	if the current graphics window is not a graphics g-window:
+		only if utilizing Glimmr debugging;
+		if basic drawing command debugging is true:
+			say "[>console][DC]*** Error: Short-form line-drawing directive ignored. The current graphics window global was not specified.[<]";
+		end only if;
+		rule fails;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
+	let x2 be entry 1 of coord2;
+	let y2 be entry 2 of coord2;
+	Draw a line (current foreground-color) in current graphics window from x1 by y1 to x2 by y2 with wgt pixel line-weight.
+	
+
+Section - Line using angle + distance
+
+To draw a line (hue - a number) in (win - a graphics g-window) from (x1 - a number) by (y1 - a number) measuring/of (distance - a number) pixel/pixels/-- long/-- at (angle - a number) deg/degree/degrees/-- angle/-- with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:
+	let xx be (sine of angle) * distance as an integer;
+	let yy be (cosine of angle) * distance as an integer;
+	let x2 be x1 + xx;	
+	let y2 be y1 - yy;
+	Draw a line (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt) pixel line-weight.
+	
+To draw a line (hue - a number) in (win - a graphics g-window) from (coord1 - a list of numbers) measuring (distance - a number) pixels/pixel/-- long/-- at (angle - a number) deg/degree/degrees/-- angle/-- with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
+	Draw a line (hue) in (win) from (x1) by (y1) measuring (distance) pixels at (angle) with (wgt) pixel line-weight.
+
+To line (coord1 - a list of numbers) dist/distance (distance - a number) px/pixels/pixel (angle - a number) deg/degree/degrees/angle (wgt - a number) px/pixels/pixel wgt/wt/weight/--:
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
+	Draw a line (current foreground-color) in (current graphics window) from (x1) by (y1) measuring (distance) pixels at (angle) with (wgt) pixel line-weight.
+
+To decide what number is (rad - a real number) rad/radians:
+	decide on rad in degrees as an integer.
+
+
+Chapter - Images
+
+
+Section - Image
+
+To drimage (ID - a figure name) in (win - a g-window) at (x1 - a number) by (y1 - a number):
+	(- DrawImage({ID}, {win}, {x1}, {y1}); -)
+
+To display/draw the/-- image/-- (ID - a figure name) in (win - a g-window) at (x1 - a number) by/x (y1 - a number):
+	only if utilizing Glimmr debugging;
+	if basic drawing command debugging is true:
+		say "[>console][DC]Drawing image [ID] in [i][win][/i] at ([x1], [y1]).[<]";
+	end only if;
+	drimage (ID) in (win) at (x1) by (y1).
+
+To display/draw the/an/-- image/-- (ID - a figure name) in (win - a g-window) at (coord1 - a list of numbers):
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
+	drimage (ID) in (win) at (x1) by (y1).
+
+To image (ID - a figure name) at (coord1 - a list of numbers):
+	if the current graphics window is not a graphics g-window:
+		rule fails;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
+	drimage (ID) in (current graphics window) at (x1) by (y1).
+
+Include (-
+
+[DrawImage ID win x y ;
+	if (win.ref_number) {
+		glk_image_draw(win.ref_number, ResourceIDsOfFigures-->ID, x, y);
+	}
+];  
+
+-).
+
+
+Section - Image with specified size
+
+To drscimage (ID - a figure name) in (win - a g-window) at (x1 - a number) by/x (y1 - a number) with size/dimensions (width - a number) by/x (height - a number):
+	(- DrawImageScaled({ID}, {win}, {x1}, {y1}, {width}, {height}); -)
+	
+To display/draw the/an/-- image/-- (ID - a figure name) in (win - a g-window) at (x1 - a number) by/x (y1 - a number) with size/dimensions (width - a number) by/x (height - a number):
+	only if utilizing Glimmr debugging;
+	if basic drawing command debugging is true:
+		say "[>console][DC]Drawing image [ID] in [i][win][/i] at ([x1], [y1]), scaled to dimensions [width] x [height].[<]";
+	end only if;
+	drscimage (ID) in (win) at (x1) by (y1) with dimensions (width) by (height).
+
+To display/draw the/an/-- image/-- (ID - a figure name) in (win - a g-window) at (coord1 - a list of numbers) with size/dimensions (width - a number) by/x (height - a number):
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
+	drscimage (ID) in (win) at (x1) by (y1) with dimensions (width) by (height).
+
+To image (ID - a figure name) at (coord1 - a list of numbers) size (width - a number) by/x (height - a number):
+	if the current graphics window is not a graphics g-window:
+		rule fails;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
+	drscimage (ID) in (current graphics window) at (x1) by (y1) with dimensions (width) by (height).
+
+
+Include (-
+
+[DrawImageScaled ID win x y image_x image_y ;
+	if (win.ref_number) {
+		glk_image_draw_scaled(win.ref_number, ResourceIDsOfFigures-->ID, x, y, image_x, image_y);
+	}
+];  
+
+-).
 
 
 Part - Drawing bitmaps
@@ -32,47 +425,72 @@ Part - Drawing bitmaps
 [Bitmaps are drawn by coloring individual pixels (or pixels in groups), and are specified by the user using an I7 list. Since they are drawn by setting pixels, they cannot be scaled as PNG or JPEG images can.]
 
 
-Chapter 1 - monochrome bitmaps
+Chapter - Monochrome bitmaps
 
 
-Section 1.1 - monochrome bitmap with background color
+Section - Monochrome bitmap with background color
 
 To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
-	let row be Y1;	let column be X1;
-	let the bit-height be the number of entries of BIT_MAP divided by WDT;	draw a rectangle (BKGD) in (WIN) at (column) by (row) with size (WDT * WGT) by (bit-height * WGT);	let scan be 0;	repeat with index running through BIT_MAP:		increase scan by 1;		if scan > WDT:			increase row by WGT;			change column to X1;			let scan be 1;		if index > 0:			draw a rectangle (HUE) in (WIN) at (column) by (row) with size (WGT) by (WGT);		increase column by WGT.
+	let row be Y1;
+	let column be X1;
+	let the bit-height be the number of entries of BIT_MAP divided by WDT;
+	draw a rectangle (BKGD) in (WIN) at (column) by (row) with size (WDT * WGT) by (bit-height * WGT);
+	let scan be 0;
+	repeat with index running through BIT_MAP:
+		increase scan by 1;
+		if scan > WDT:
+			increase row by WGT;
+			change column to X1;
+			let scan be 1;
+		if index > 0:
+			draw a rectangle (HUE) in (WIN) at (column) by (row) with size (WGT) by (WGT);
+		increase column by WGT.
 
 To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
-	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
 	display a monochrome bitmap (HUE) in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (BKGD).
 
 
-Section 1.2 - monochrome bitmap without background color
+Section - Monochrome bitmap without background color
 
 To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
-	let row be Y1;	let column be X1;
-	let scan be 0;	repeat with index running through BIT_MAP:		increase scan by 1;		if scan > WDT:			increase row by WGT;			change column to X1;			let scan be 1;		if index > 0:			draw a rectangle (HUE) in (WIN) at (column) by (row) with size (WGT) by (WGT);		increase column by WGT.
+	let row be Y1;
+	let column be X1;
+	let scan be 0;
+	repeat with index running through BIT_MAP:
+		increase scan by 1;
+		if scan > WDT:
+			increase row by WGT;
+			change column to X1;
+			let scan be 1;
+		if index > 0:
+			draw a rectangle (HUE) in (WIN) at (column) by (row) with size (WGT) by (WGT);
+		increase column by WGT.
 
 To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
-	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
 	display a monochrome bitmap (HUE) in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
 
 
-Section 1.3 - Short forms
+Section - Short forms
 
 To monochrome/bi bitmap/bmp (BIT_MAP - a list of numbers) at (COORD1 - a list of numbers) width (WDT - a number) dot/-- size (WGT - a number) pixel/pixels/px/--, backgrounded:
-	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
 	if backgrounded:
 		display a monochrome bitmap (current foreground-color) in (current graphics window) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (current background-color);
 	otherwise:
 		display a monochrome bitmap (current foreground-color) in (current graphics window) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
 
 
-Chapter 2 - Polychrome bitmaps
+Chapter - Polychrome bitmaps
 
 [In a polychrome bitmap, we can set a decimal version of any hex RGB-color we like in our bitmap array. To save typing (decimalized hex numbers are long), we can also set one of two special values. The first, a basic foreground color, is written as 1 in the bitmap array, utilizes the color we set in our drawing phrase. The other special value, written as 2 in the bitmap array, is a null value--it draws nothing to the screen. If we have specified a background color, we will see that background color wherever 2 is present in our bitmap array.]
 
 
-Section 2.1 - Polychrome bitmap with background color
+Section - Polychrome bitmap with background color
 
 To draw/display a/-- polychrome bitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
 	let row be Y1;
@@ -98,7 +516,7 @@ To draw/display a/-- polychrome bitmap (HUE - a number) in (WIN - a g-window) at
 	display a polychrome bitmap (HUE) in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (BKGD).
 
 
-Section 2.2 - Polychrome bitmap without background color
+Section - Polychrome bitmap without background color
 
 To draw/display a/-- polychrome bitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
 	let row be Y1;
@@ -122,7 +540,7 @@ To draw/display a/-- polychrome bitmap (HUE - a number) in (WIN - a g-window) at
 	display a polychrome bitmap (HUE) in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
 
 
-Section 2.3 - Short forms
+Section - Short forms
 
 To polychrome/poly bitmap/bmp (BIT_MAP - a list of numbers) at (COORD1 - a list of numbers) width (WDT - a number) dot/-- size (WGT - a number) pixel/pixels/px/--, backgrounded:
 	let x1 be entry 1 of coord1;
@@ -133,19 +551,63 @@ To polychrome/poly bitmap/bmp (BIT_MAP - a list of numbers) at (COORD1 - a list 
 		display a polychrome bitmap (current foreground-color) in (current graphics window) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
 
 
-Chapter 1 - Fonts
+Chapter - Fonts
 
 
-Section 1.1 - The font base classA font is a kind of thing. A font has a table-name called the font table.A font has a number called the font-height. The font-height is usually 1.A font has some text called the colophon. The colophon is usually "".Section 1.1a - Private naming of fonts[Replace this section if you need the player to be able to refer to fonts.]A font is privately-named.
+Section - The font base class
+
+A font is a kind of thing. 
+A font has a table name called the font table.
+A font has a number called the font-height. The font-height is usually 1.
+A font has some text called the colophon. The colophon is usually "".
 
 
-Section 1.4 - Bitmap fontsA bitmap font is a kind of font.A bitmap font has a list of numbers called the glyph map. The glyph map is usually {0}.Section 1.5 - Dummy bitmap typeface[Inform requires that there be at least one font in the world. Here we include a dummy font object, which can also be used as a null-object should we need it.]Null-bitmap-typeface is a bitmap font. The font table of a bitmap font is usually the Table of Null Bitmap Font Parameters.Table of Null Bitmap Font Parametersglyph	char	index	width	height	yoffset	advanceindexed text	number	number	number	number	number	numberwith 1 blank row
+Section - Private naming of fonts
+[Replace this section if you need the player to be able to refer to fonts.]
+
+A font is privately-named.
 
 
-Section 2.2 - Image-based fontsAn image-based font is a kind of font.An image-based font has a number called the cursor-width. The cursor-width is usually 1.[The background-margin defines how far outside the bounds of the characters the background color should be drawn. This will be scaled by both the window and "sprite" scaling factors.]An image-based font has a number called the background-margin. The background-margin is usually 1.Section 2.3 - Null image typeface[Inform requires that there be at least one font in the world. Here we include a dummy font object, which can also be used as a null-object should we need it.]Null-image-typeface is an image-based font.The font table of an image-based font is usually the Table of Null Image Font Parameters.Table of Null Image Font Parametersglyph	char	glyph-ref	yoffset	advanceindexed text	number	figure-name	number	numberwith 1 blank row
+Section - Bitmap fonts
+
+A bitmap font is a kind of font.
+A bitmap font has a list of numbers called the glyph map. The glyph map is usually {0}.
 
 
-Section 2.4 - Crediting fonts
+Section - Dummy bitmap typeface
+[Inform requires that there be at least one font in the world. Here we include a dummy font object, which can also be used as a null-object should we need it.]
+
+Null-bitmap-typeface is a bitmap font. 
+The font table of a bitmap font is usually the Table of Null Bitmap Font Parameters.
+
+Table of Null Bitmap Font Parameters
+glyph	char	index	width	height	yoffset	advance
+indexed text	number	number	number	number	number	number
+with 1 blank row
+
+
+Section - Image-based fonts
+
+An image-based font is a kind of font.
+An image-based font has a number called the cursor-width. The cursor-width is usually 1.
+
+[The background-margin defines how far outside the bounds of the characters the background color should be drawn. This will be scaled by both the window and "sprite" scaling factors.]
+An image-based font has a number called the background-margin. The background-margin is usually 1.
+
+
+Section - Null image typeface
+[Inform requires that there be at least one font in the world. Here we include a dummy font object, which can also be used as a null-object should we need it.]
+
+Null-image-typeface is an image-based font.
+The font table of an image-based font is usually the Table of Null Image Font Parameters.
+
+Table of Null Image Font Parameters
+glyph	char	glyph-ref	yoffset	advance
+indexed text	number	figure name	number	number
+with 1 blank row
+
+
+Section - Crediting fonts
 
 Report requesting the story file version (this is the announce colophon rule):
 	repeat with typeface running through the list of fonts:
@@ -153,10 +615,10 @@ Report requesting the story file version (this is the announce colophon rule):
 			say "[one of]Typefaces used in graphics windows:[line break][or][stopping][colophon of the typeface][line break]"
 
 
-Chapter 1 - Text-painting with bitmap fonts
+Chapter - Text-painting with bitmap fonts
 
 
-Section 1.1 - Bitmap strings with a background color
+Section - Bitmap strings with a background color
 
 To paint/display a/-- bitmap text (hue - a number) of (str - indexed text) in (win - a g-window) at (X1 - a number) by/x (Y1 - a number) using font/-- (typf - a font) with dot/-- size (wgt - a number) pixel/pixels/px/-- and background (bkgd - a number), center-aligned or right-aligned:
 	unless STR is "":
@@ -191,7 +653,8 @@ To paint/display a/-- bitmap text (hue - a number) of (str - indexed text) in (w
 			change current g-row to Y1;
 
 To paint/display a/-- bitmap text (hue - a number) of (str - indexed text) in (win - a g-window) at (coord1 - a list of numbers) using font/-- (typf - a font) with dot/-- size (wgt - a number) pixel/pixels/px/-- and background (bkgd - a number), center-aligned or right-aligned:
-	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
 	if center-aligned:
 		paint bitmap text (HUE) of (STR) in (WIN) at (X1) by (Y1) using (TYPF) with size (WGT) and background (BKGD), center-aligned;
 		rule succeeds;
@@ -201,7 +664,7 @@ To paint/display a/-- bitmap text (hue - a number) of (str - indexed text) in (w
 	paint bitmap text (HUE) of (STR) in (WIN) at (X1) by (Y1) using (TYPF) with size (WGT) and background (BKGD).
 
 
-Section 1.2 - Bitmap strings without a background color
+Section - Bitmap strings without a background color
 
 To paint/display a/-- bitmap text (hue - a number) of (str - indexed text) in (win - a g-window) at (X1 - a number) by/x (Y1 - a number) using font/-- (typf - a font) with/-- dot/-- size (wgt - a number) pixel/pixels/px/--, center-aligned or right-aligned:
 	unless STR is "":
@@ -235,7 +698,8 @@ To paint/display a/-- bitmap text (hue - a number) of (str - indexed text) in (w
 			change current g-row to Y1;
 
 To paint/display a/-- bitmap text (hue - a number) of (str - indexed text) in (win - a g-window) at (coord1 - a list of numbers) using font/-- (typf - a font) with dot/-- size (wgt - a number) pixel/pixels/px/--, center-aligned or right-aligned:
-	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
 	if center-aligned:
 		paint bitmap text (HUE) of (STR) in (WIN) at (X1) by (Y1) using (TYPF) with size (WGT), center-aligned;
 		rule succeeds;
@@ -245,10 +709,13 @@ To paint/display a/-- bitmap text (hue - a number) of (str - indexed text) in (w
 	paint bitmap text (HUE) of (STR) in (WIN) at (X1) by (Y1) using (TYPF) with size (WGT).
 
 
-Section 1.3 - Brief forms
+Section - Brief forms
 
 To bitmap/bmp text/txt (STR - indexed text) at (COORD1 - a list of numbers) size (WGT - a number) pixel/pixels/px/-- backgrounded/background/bkgd, center-aligned or right-aligned:
-	if the current graphics window is not a graphics g-window:		rule fails;	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;
+	if the current graphics window is not a graphics g-window:
+		rule fails;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
 	if center-aligned:
 		paint a bitmap text (current foreground-color) of (STR) in (current graphics window) at (X1) by (Y1) using (current font) with dot size (WGT) and background (current background-color), center-aligned;
 		rule succeeds;
@@ -259,7 +726,10 @@ To bitmap/bmp text/txt (STR - indexed text) at (COORD1 - a list of numbers) size
 		paint a bitmap text (current foreground-color) of (STR) in (current graphics window) at (X1) by (Y1) using (current font) with dot size (WGT) and background (current background-color).
 
 To bitmap/bmp text/txt (STR - indexed text) at (COORD1 - a list of numbers) size (WGT - a number) pixel/pixels/px/--, center-aligned or right-aligned:
-	if the current graphics window is not a graphics g-window:		rule fails;	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;
+	if the current graphics window is not a graphics g-window:
+		rule fails;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
 	if center-aligned:
 		paint a bitmap text (current foreground-color) of (STR) in (current graphics window) at (X1) by (Y1) using (current font) with dot size (WGT), center-aligned;
 		rule succeeds;
@@ -270,10 +740,10 @@ To bitmap/bmp text/txt (STR - indexed text) at (COORD1 - a list of numbers) size
 		paint a bitmap text (current foreground-color) of (STR) in (current graphics window) at (X1) by (Y1) using (current font) with dot size (WGT).
 		
 
-Chapter 2 - Text-painting with image-based fonts
+Chapter - Text-painting with image-based fonts
 
 
-Section 2.1 - Text-painting with a background color
+Section - Text-painting with a background color
 
 To paint/display an/-- image-based text of/-- (STR - indexed text) in (win - a g-window) at (X1 - a number) by/x (Y1 - a number) using font/-- (TYPF - a font) scaled at (SCF - a real number) with background (BKGD - a number) and margin of/-- (MARGIN - a number) pixel/pixels/px/--, center-aligned or right-aligned:
 	unless STR is "":
@@ -303,7 +773,8 @@ To paint/display an/-- image-based text of/-- (STR - indexed text) in (win - a g
 			increase current g-column by the advance entry real times SCF as an integer;
 
 To paint/display an/-- image-based text (hue - a number) of (str - indexed text) in (win - a g-window) at (coord1 - a list of numbers) using font/-- (typf - a font) scaled at (SCF - a real number) with background (BKGD - a number) and margin of/-- (MARGIN - a number) pixel/pixels/px/--, center-aligned or right-aligned:
-	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
 	if center-aligned:
 		paint image-based text of (STR) in (WIN) at (X1) by (Y1) using (TYPF) scaled at (SCF) with background (BKGD) and margin (MARGIN), center-aligned;
 		rule succeeds;
@@ -313,7 +784,7 @@ To paint/display an/-- image-based text (hue - a number) of (str - indexed text)
 	paint image-based text of (STR) in (WIN) at (X1) by (Y1) using (TYPF) scaled at (SCF) with background (BKGD) and margin (MARGIN).
 
 
-Section 2.2 - Text-painting without a background color
+Section - Text-painting without a background color
 
 To paint/display an/-- image-based text of/-- (STR - indexed text) in (win - a g-window) at (X1 - a number) by/x (Y1 - a number) using font/-- (TYPF - a font) scaled at (SCF - a real number), center-aligned or right-aligned:
 	unless STR is "":
@@ -342,7 +813,8 @@ To paint/display an/-- image-based text of/-- (STR - indexed text) in (win - a g
 			increase current g-column by the advance entry real times SCF as an integer;
 
 To paint/display an/-- image-based text (hue - a number) of (str - indexed text) in (win - a g-window) at (coord1 - a list of numbers) using font/-- (typf - a font) scaled at (SCF - a real number), center-aligned or right-aligned:
-	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
 	if center-aligned:
 		paint image-based text of (STR) in (WIN) at (X1) by (Y1) using (TYPF) scaled at (SCF), center-aligned;
 		rule succeeds;
@@ -352,10 +824,13 @@ To paint/display an/-- image-based text (hue - a number) of (str - indexed text)
 	paint image-based text of (STR) in (WIN) at (X1) by (Y1) using (TYPF) scaled at (SCF).
 
 
-Section 2.3 - Brief forms
+Section - Brief forms
 
 To image/img text/txt (STR - indexed text) at (COORD1 - a list of numbers) scaled/scale (SCF - a real number) margin (MARGIN - a number) pixels/pixel/px, center-aligned or right-aligned:
-	if the current graphics window is not a graphics g-window:		rule fails;	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;
+	if the current graphics window is not a graphics g-window:
+		rule fails;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
 	if center-aligned:
 		paint an image-based text of (STR) in (current graphics window) at (X1) by (Y1) using (current font) scaled at (SCF) with background (current background-color) and margin (MARGIN) px, center-aligned;
 		rule succeeds;
@@ -366,7 +841,10 @@ To image/img text/txt (STR - indexed text) at (COORD1 - a list of numbers) scale
 		paint an image-based text of (STR) in (current graphics window) at (X1) by (Y1) using (current font) scaled at (SCF) with background (current background-color) and margin (MARGIN) px.
 
 To image/img text/txt (STR - indexed text) at (COORD1 - a list of numbers) scaled/scale (SCF - a real number), center-aligned or right-aligned:
-	if the current graphics window is not a graphics g-window:		rule fails;	let x1 be entry 1 of coord1;	let y1 be entry 2 of coord1;
+	if the current graphics window is not a graphics g-window:
+		rule fails;
+	let x1 be entry 1 of coord1;
+	let y1 be entry 2 of coord1;
 	if center-aligned:
 		paint an image-based text of (STR) in (current graphics window) at (X1) by (Y1) using (current font) scaled at (SCF), center-aligned;
 		rule succeeds;
@@ -377,10 +855,169 @@ To image/img text/txt (STR - indexed text) at (COORD1 - a list of numbers) scale
 		paint an image-based text of (STR) in (current graphics window) at (X1) by (Y1) using (current font) scaled at (SCF).
 
 
-Chapter 3 - Resources
+Part - Image-maps
+
+Chapter - Definition of the tileset kind
+
+[Optionally, the translation-table can have a column called "linked command" that defines a replacement command to be used when that tile is clicked with the mouse.]
+
+A tileset is a kind of thing.
+
+The specification of a tileset is "A tileset is an object that specifies the tiles to be used in an image map. It should refer to a 'translation-table' that assigns numbers ('char' column) to figure names ('tile' column). If we want to assign graphic hyperlinks to individual tiles of the image-map, we can also specify a 'linked command' column, which contains the text of a replacement command to be associated with the hyperlinked image (used by Glimmr Canvas-Based Drawing).
+
+A tileset must also set, via its 'tile-width' and 'tile-height' properties, integer dimensions for each tile or cell of the image-maps to be associated with the tileset. (These can be overridden as necessary in drawing commands or using image-map element properties in Canvas-Based Drawing.) "
+
+A tileset has a number called the tile-width. The tile-width is usually 0.
+A tileset has a number called the tile-height. The tile-height is usually 0.
+
+A tileset has a table name called the translation-table.
+
+[These should only be present in the Glimmr Automap tilesets. Make a new subkind.
+
+A tileset has a list of real numbers called the zoom-level set. The zoom-level set of a tileset is usually {}.
+
+A tileset has a number called the initial zoom level. The initial zoom level of a tileset is usually 1.]
 
 
-Section 3.1 - Global variables
+Section - Null tileset
+
+[We provide a minimal tileset to use as a null placeholder.]
+
+The null tileset is a tileset. The translation-table is Table of Null Tilesetting.
+
+Table of Null Tilesetting
+Char	Tile
+number	figure name
+1	Figure of Null
+
+
+Chapter - Image-map with figure array
+
+Section - Long forms
+
+To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--:
+	let row be Y1;
+	let column be X1;
+	let total-height be the number of entries of IMG_MAP / WDT;
+	let scan be 0;
+	repeat with index running from 1 to the number of entries in IMG_MAP:
+		increase scan by 1;
+		if scan > WDT:
+			increase row by H;
+			change column to X1;
+			let scan be 1;
+		unless entry index of IMG_MAP is Figure of Null:
+			drscimage (entry index of IMG_MAP) in (WIN) at (column) by (row) with dimensions (W) by (H);
+		increase column by W;
+	only if utilizing Glimmr debugging;
+	if basic drawing command debugging is true:
+		say "[>console][DC]Image-map drawn at screen coordinates ([X1], [Y1]) of [WIN] using the list of figure names provided, interpreted as a grid [WDT] tiles wide and [total-height] tiles high. Tile size used: [W] by [H] pixels.[<]";
+	end only if;
+
+To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/-- and background (BKGD - a number):
+	let total-height be the number of entries of IMG_MAP / WDT;
+	rectdraw (BKGD) in (WIN) from (X1) by (Y1) to (WDT * W) by (total-height * H);
+	display an image-map in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) with tile-size (W) by (H).
+	
+To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--:
+	let X1 be entry 1 of coord1;
+	let Y1 be entry 2 of coord1;
+	display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) with tile-size (W) by (H).
+
+To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/-- and background (BKGD - a number):
+	let X1 be entry 1 of coord1;
+	let Y1 be entry 2 of coord1;
+	let total-height be the number of entries of IMG_MAP / WDT;
+	rectdraw (BKGD) in (WIN) from (X1) by (Y1) to (WDT * W) by (total-height * H);
+	display an image-map in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) with tile-size (W) by (H).
+		
+
+Section - Brief form		
+
+To image-map (IMG_MAP - a list of figure names) at (COORD1 - a list of numbers) width/w (WDT - a number) tile-size/size (DIM - a number) pixel/pixels/px/--, backgrounded:
+	if the current graphics window is a graphics g-window:
+		let x1 be entry 1 of coord1;
+		let y1 be entry 2 of coord1;
+		if backgrounded:
+			display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) with tile-size (DIM) by (DIM) and background (current background-color);
+		otherwise:
+			display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) with tile-size (DIM) by (DIM) px;
+	otherwise:
+		say "*** Error: Short-form image-map drawing directive ignored. The current graphics window global was not specified."
+
+
+Chapter - Image-map with tileset array
+
+[Tilesets define their own tile sizes in the tile-width and tile-height properties of the tileset object. The long form commands ignore these properties and require the user to set the tile dimensions manually. The short form, however, respects the tile dimensions provided by the tileset object.]
+
+[FOR NOW, I've stripped the tile-size specification for both long and short form tileset types. The bug in 6E36 that disallows many substitutions in phrases is not allowing this. 5/8/2010.]
+
+Section - Long forms
+
+To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with (TSET - a tileset)[ with tile-size (W - a number) by/x (H - a number) --/pixel/pixels/px]:
+	let row be Y1;
+	let column be X1;
+	let total-height be the number of entries of IMG_MAP / WDT;
+	let scan be 0;
+	[Delete this if adding width and height back into the phrase preamble]
+	let W be the tile-width of TSET;
+	let H be the tile-height of TSET;
+	[end delete]
+	repeat with index running through IMG_MAP:
+		increase scan by 1;
+		if scan > WDT:
+			increase row by H;
+			change column to X1;
+			let scan be 1;
+		if index > 0:
+			if there is a char of index in the translation-table of TSET:
+				choose row with a char of index in the translation-table of TSET;
+				let the current tile be tile entry;
+				drscimage (current tile) in (WIN) at (column) by (row) with dimensions (W) by (H);
+		increase column by W;
+	only if utilizing Glimmr debugging;
+	if basic drawing command debugging is true:
+		say "[>console][DC]Image-map drawn at screen coordinates ([X1], [Y1]) of [WIN] using the list of numbers provided, interpreted as a grid [WDT] tiles wide and [total-height] tiles high. Tile size used: [W] by [H] pixels.[<]";
+	end only if;
+
+To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with (TSET - a tileset)[ with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--] and background (BKGD - a number):
+	let total-height be the number of entries of IMG_MAP / WDT;
+	let W be the tile-width of TSET;
+	let H be the tile-height of TSET;
+	rectdraw (BKGD) in (WIN) from (X1) by (Y1) to (WDT * W) by (total-height * H);
+	display an image-map in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered with (TSET)[ with tile-width (W) by tile-height (H)].
+	
+To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with (TSET - a tileset)[ with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--]:
+	let X1 be entry 1 of coord1;
+	let Y1 be entry 2 of coord1;
+	display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered using (TSET)[ with tile-width (DIM) by tile-height (DIM)].
+
+To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/-- and background (BKGD - a number):
+	let X1 be entry 1 of coord1;
+	let Y1 be entry 2 of coord1;
+	let total-height be the number of entries of IMG_MAP / WDT;
+	rectdraw (BKGD) in (WIN) from (X1) by (Y1) to (WDT * W) by (total-height * H);
+	display an image-map in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered using (TSET)[ with tile-width (W) by tile-height (H)].
+		
+
+Section - Short form		
+
+To image-map (IMG_MAP - a list of numbers) at (COORD1 - a list of numbers) width/w (WDT - a number) tileset (TSET - a tileset) tile-size/size (DIM - a number) pixel/pixels/px/--, backgrounded:
+	if the current graphics window is a graphics g-window:
+		let x1 be entry 1 of coord1;
+		let y1 be entry 2 of coord1;
+		if backgrounded:
+			display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered using (TSET)[ with tile-size (DIM) by (DIM)] and background (current background-color);
+		otherwise:
+			display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered using (TSET)[ with tile-size (DIM) by (DIM)];
+	otherwise:
+		say "*** Error: Short-form image-map drawing directive ignored. The current graphics window global was not specified."
+
+
+Chapter - Resources
+
+
+Section - Global variables
 
 [This first set of global variables supports a very brief form of drawing command; these are not used for the standard length commands.]
 
@@ -393,9 +1030,18 @@ The current g-row is a number variable. Current g-row is 0.
 The current g-column is a number variable. Current g-column is 0.
 
 
-Section 3.2 - Calculating the rendered length of a string
+Section - Calculating the rendered length of a string
 
-To decide what number is the length of (STR - indexed text) set in (TYPF - a font):	let len be 0;	repeat with N running from 1 to the number of characters in STR:		let V be the character code of position N of STR;		if there is a char of V in the font table of TYPF:			choose row with a char of V in the font table of TYPF;		otherwise:			choose row with a char of 32 in the font table of TYPF;		increase len by the advance entry;	decide on len.
+To decide what number is the length of (STR - indexed text) set in (TYPF - a font):
+	let len be 0;
+	repeat with N running from 1 to the number of characters in STR:
+		let V be the character code of position N of STR;
+		if there is a char of V in the font table of TYPF:
+			choose row with a char of V in the font table of TYPF;
+		otherwise:
+			choose row with a char of 32 in the font table of TYPF;
+		increase len by the advance entry;
+	decide on len.
 
 
 Part - Routines for color specification
@@ -468,9 +1114,25 @@ Part - Other functions
 
 Chapter - Determination of image size
 
-To decide what number is the image-width of (img - a figure-name):	(- FindImageWidth({img}) -)	To decide what number is the image-height of (img - a figure-name):	(- FindImageHeight({img}) -)
+To decide what number is the image-width of (img - a figure name):
+	(- FindImageWidth({img}) -)
+	
+To decide what number is the image-height of (img - a figure name):
+	(- FindImageHeight({img}) -)
 
-Include (-[ FindImageWidth  img result img_width;	result = glk_image_get_info(img, gg_arguments, gg_arguments+WORDSIZE);             		img_width  = gg_arguments-->0;	return img_width;];[ FindImageHeight  img result img_height;	result = glk_image_get_info(img, gg_arguments, gg_arguments+WORDSIZE);             		img_height  = gg_arguments-->1;	return img_height;];
+Include (-
+
+[ FindImageWidth  img result img_width;
+	result = glk_image_get_info(ResourceIDsOfFigures-->img, gg_arguments, gg_arguments+WORDSIZE);
+             		img_width  = gg_arguments-->0;
+	return img_width;
+];
+
+[ FindImageHeight  img result img_height;
+	result = glk_image_get_info(ResourceIDsOfFigures-->img, gg_arguments, gg_arguments+WORDSIZE);
+             		img_height  = gg_arguments-->1;
+	return img_height;
+];
 
 -)
 
@@ -579,10 +1241,11 @@ To write font table to disk for (typeface - a bitmap font):
 
 To say direct-character placement tab:
 	(- glk_put_char_uni(9); -)
-		
 
 
-Chapter - Graphlink management (for use without Glimmr Graphic Hyperlinks by Erik Temple)To set a graphlink in (g - a g-window) identified as (newlinkid - an object) from (gleft - a number) by (gtop - a number) to (gright - a number) by (gbottom - a number) as (linkaction - some text), ignoring redundant links:
+Chapter - Graphlink management (for use without Glimmr Graphic Hyperlinks by Erik Temple)
+
+To set a graphlink in (g - a g-window) identified as (newlinkid - an object) from (gleft - a number) by (gtop - a number) to (gright - a number) by (gbottom - a number) as (linkaction - some text), ignoring redundant links:
 	do nothing.
 
 To set a graphlink in (g - a g-window) identified as (newlinkid - an object) from (gleft - a number) by (gtop - a number) to (gright - a number) by (gbottom - a number) as (linkref - a number), ignoring redundant links:
@@ -590,10 +1253,84 @@ To set a graphlink in (g - a g-window) identified as (newlinkid - an object) fro
 
 To set a graphlink in (g - a g-window) identified as (newlinkid - an object) from (gleft - a number) by (gtop - a number) to (gright - a number) by (gbottom - a number) as (linkref - a stored action), ignoring redundant links:
 	do nothing.
-Glimmr Drawing Commands ends here.
+
+
+Part - Debugging
+
+Use Glimmr debugging translates as (- Constant Glimmr_DEBUG; -).
+
+To only if utilizing Glimmr debugging:
+	(- #ifdef Glimmr_DEBUG; -)
+	
+To end only if:
+	(- #endif; -)
+
+
+Chapter - Drawing debugging
+
+Basic drawing command debugging is a truth state variable.
+
+
+Section - Turn on basic command debugging (for use without Canvas-Based Drawing by Erik Temple)
+
+Basic drawing command debugging is true.
+
+
+Chapter - Abbreviations
+[These are phpBB-inspired macros for some fairly keystroke-intensive I7 text substitutions.]
+
+To say b:
+	say "[bold type]";
+
+To say /b:
+	say "[roman type]";
+
+To say i:
+	say "[italic type]";
+
+To say /i:
+	say "[roman type]";
+
+
+Chapter - Debugging commands
+
+To suspend actions tracing:
+	(- trace_actions = 0; -)
+
+To activate actions tracing:
+	(- trace_actions = 1; -)
+
+To suspend rules tracing:
+	(- debug_rules = 1; -)
+
+To activate intensive rules tracing:
+	(- debug_rules = 2; -)
+
+To activate rules tracing:
+	(- debug_rules = 1; -)
+
+To decide whether rules tracing is active:
+	(- debug_rules -)
+
+To decide whether intensive rules tracing is active:
+	(- debug_rules == 2 -)
+
+
+Chapter - Dummy text substitutions (for use without Glimmr Debugging Console by Erik Temple)
+
+To say >console:
+	do nothing.
+ 
+To say <:
+	do nothing.
+
+
+Glimmr Drawing Commands ends here.
 
 
 ---- DOCUMENTATION ----
+
+Glimmr Drawing Commands is 
 
 [Documentation: Warn that the current font must be the correct type, or the game may crash with no message--that is, image or bitmap font.]
 [Documentation: Include syntax that illustrates that bitmaps can be declared inline:
@@ -681,4 +1418,4 @@ Section - Creating a new font
 ...using the "set blank indices" phrase (see above) with the verification option will allow us to check the integrity of the index, height, and width columns in the font table, as well as the structure of the glyph map.
 
 
-
+

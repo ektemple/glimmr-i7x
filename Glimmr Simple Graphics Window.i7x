@@ -17,7 +17,7 @@ The associated canvas of a graphics g-window is the graphics-canvas.
 The associated canvas of a g-element is the graphics-canvas.
 
 After starting the virtual machine:
-	if the background image of graphics-canvas is no-picture:
+	if the background image of graphics-canvas is Figure of Null:
 		if the canvas-width of graphics-canvas is 0 or the canvas-height of graphics-canvas is 0:			change the canvas-width of graphics-canvas to 600;
 			change the canvas-height of graphics-canvas to 300;
 

@@ -1,10 +1,9 @@
 Version 1/091028 of Glimmr Debugging Console (for Glulx only) by Erik Temple begins here.
 
-[Allow the g-console output to be rerouted, including to the main window.]
+[Allow the g-console output to be rerouted, including to the main window. Need to add two globals--one for the main window, one for the debugging output.]
 
 Use authorial modesty.
 
-Use Glimmr console translates as (- Constant Glimmr_CONSOLE; -).
 
 Section - Window definition
 
@@ -26,17 +25,17 @@ The back-colour of the console-window is g-lavender.]
 
 Section - Open console
 
-To initiate Glimmr/Glimmr console:
+To initiate Glimmr console:
 	unless console-window is g-present:
 		open up the console-window;
 		if console-window is g-present:
 			move focus to console-window;
-			say "[bracket]Glimmr Console[close bracket]: Console initiated by source code directive.[unless using the Glimmr console option][bracket]Glimmr Console[close bracket]: Automated logging is disabled. To enable, activate the Glimmr console use option.[end if]";	
+			say "[bracket]Glimmr Console[close bracket]: Console initiated by source code directive.[unless the Glimmr debugging option is active][bracket]Glimmr Console[close bracket]: Automated logging is disabled. To enable, activate the Glimmr debugging use option.[end if]";	
 			return to main screen;
 		otherwise:
 			say "*** An unknown error prevented the Glimmr console window from opening.";
 
-To cease logging to Glina/Glimmr console:
+To cease logging to Glimmr console:
 	unless console-window is g-unpresent:
 		shut down the console-window;
 		unless console-window is g-unpresent:
@@ -57,7 +56,7 @@ Carry out opening the g-console:
 	open up the console-window;
 	if console-window is g-present:
 		move focus to console-window;
-		say "[bracket]Glimmr Console[close bracket]: Console initiated by command-line input.[unless using the Glimmr console option][bracket]Glimmr Console[close bracket]: Automated logging is disabled. To enable, activate the Glimmr console use option.[end if]";	
+		say "[bracket]Glimmr Console[close bracket]: Console initiated by command-line input.[unless the Glimmr debugging option is active][bracket]Glimmr Console[close bracket]: Automated logging is disabled. To enable, activate the Glimmr debugging use option.[end if]";	
 		return to main screen;
 	otherwise:
 		say "*** An unknown error prevented the Glimmr console window from opening.";
@@ -82,34 +81,29 @@ Carry out closing the g-console:
 
 Section - Commands for logging messages
 
-[We preface console log messages with ">console" (the > is used to be sure that "console" doesn't conflict with any object named console. The say statement should end with [/], which transfers the focus back to the main window from the console.]
+[We preface console log messages with ">console" (the > is used to be sure that "console" doesn't conflict with any object named console. The [>console] *must* be balanced with [<] at the end, which transfers the focus back to the main window from the console.]
 
 To say >console:
-	(- #ifdef Glimmr_CONSOLE; if ( console_window has g_present) { glk_set_window( console_window.ref_number); -)
+	(- if ( console_window has g_present) { glk_set_window( console_window.ref_number); -)
  
-To say /:
-	(-  glk_set_window( gg_mainwin ); } #endif; RunParagraphOn(); -)
+To say <:
+	(-  glk_set_window( gg_mainwin ); } RunParagraphOn(); -)
+
+To only if utilizing Glimmr debugging:
+	(- #ifdef Glimmr_DEBUG; -)
+	
+To end only if:
+	(- #endif; -)
 
 
-Section - Abbreviations
-[These are HTML-inspired macros for some fairly keystroke-intensive I7 text substitutions.]
+Section - Make it possible to refer to graphic elements in commands (for use with Glimmr Canvas-Based Drawing by Erik Temple)
 
-To say b:
-	say "[bold type]";
-
-To say /b:
-	say "[roman type]";
-
-To say i:
-	say "[italic type]";
-
-To say /i:
-	say "[roman type]";
+A g-element is publically-named.
 
 
 Section - Drawing rule
 
-[This is not necessary, but does make clear that the console is written to outside of Flexible Windows' window-drawing rulebook.]
+[This is not strictly necessary, but does make clear that the console is written to outside of Flexible Windows' window-drawing rulebook.]
 
 Window-drawing rule for the console-window:
 	do nothing.

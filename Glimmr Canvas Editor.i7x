@@ -24,9 +24,10 @@ Include Glimmr Bitmap Font by Erik Temple.
 Include Glimmr Image Font by Erik Temple.
 
 To decide what text is the extension-name of (typeface - a font):
-	if the typeface is:
-		-- Glimmr Lucidex: decide on "Glimmr Image Font by Erik Temple";
-		-- Glimmr C&C: decide on "Glimmr Bitmap Font by Erik Temple";
+	if the typeface is Glimmr Lucidex:
+		decide on "Glimmr Image Font by Erik Temple";
+	if the typeface is Glimmr C&C:
+		decide on "Glimmr Bitmap Font by Erik Temple";
 	decide on "".
 	
 The associated font of a bitmap-rendered string is Glimmr C&C.
@@ -81,12 +82,12 @@ Before undoing an action when the turn count is the first editor turn:
 
 Part - Hacking game restore so that we can offer our own customized restore message
 
-The report restoring the game rules are a rulebook.
+The output from restoring rules are a rulebook.
 
-The last report restoring the game rule (this is the default restoring the game rule):
+The last output from restoring rule (this is the default restoring the game rule):
 	rule fails.
 	
-Report restoring the game:
+Output from restoring:
 	say "[bracket]Saved file successfully restored.[close bracket][paragraph break]";
 	print the editor startup text;
 	rule succeeds.
@@ -129,7 +130,7 @@ Include (-
 		GGRecoverObjects();
 		glk_stream_close(gg_savestr, 0); ! stream_close
 		gg_savestr = 0;
-		if ( FollowRulebook( (+ report restoring the game rules +) ) && RulebookFailed())
+		if ( FollowRulebook( (+ output from restoring rules +) ) && RulebookFailed())
 		{
 			return GL__M(##Restore, 2);
 		}
@@ -708,7 +709,7 @@ This is the editor startup rule:
 		if the number of rows in the font table of item is 1, next;
 		increase the built-in resources index by the number of rows in the font table of item;
 	initialize dynamic sprites;
-	[now the background image of the working canvas is no-picture;]
+	[now the background image of the working canvas is Figure of Null;]
 	if portrait orientation is true:
 		set windows to portrait orientation;
 	update binary UI elements;
@@ -742,7 +743,7 @@ To set windows to portrait orientation:
 	now the measurement of the help-window is 15.
 	
 To print the/-- editor startup text:
-	say "Source code will be output targeting the glulx window called [italic type][targeted window][roman type]. The canvas measures [canvas-width of the working canvas] by [canvas-height of the working canvas] pixels[if the background image of the working canvas is no-picture]. If desired, you may select an image from the image library to serve as the background of the composition; simply select the image in the editor and press the Image Background button in the Settings tab[otherwise]. The image [italic type][background image of the working canvas][roman type] defines the background grid[end if]. To change the background color of the window type CHANGE CANVAS BACKGROUND COLOR TO <glulx color value>.";
+	say "Source code will be output targeting the glulx window called [italic type][targeted window][roman type]. The canvas measures [canvas-width of the working canvas] by [canvas-height of the working canvas] pixels[if the background image of the working canvas is Figure of Null]. If desired, you may select an image from the image library to serve as the background of the composition; simply select the image in the editor and press the Image Background button in the Settings tab[otherwise]. The image [italic type][background image of the working canvas][roman type] defines the background grid[end if]. To change the background color of the window type CHANGE CANVAS BACKGROUND COLOR TO <glulx color value>.";
 		
 To say introductory commands:
 	say "To make changes to your responses to the introductory settings, you may use the following commands:[paragraph break]RENAME WINDOW <desired name>[line break]RESIZE CANVAS TO <width in pixels> BY <height in pixels>[line break]".
@@ -2367,7 +2368,6 @@ To create a new rendered string from (X - a rendered string) in (win - a g-windo
 	change the origin of the new element to first point;
 	unlink the text-string of the new element;
 	change the text-string of the new element to text input;
-	unlink the parsed-string of the new element;
 	if the currently drawn element is a bitmap-rendered string:
 		change the bit-size of the new element to the current line-weight;
 	change the tint of the new element to the current element color;
@@ -3308,7 +3308,6 @@ To create a duplicate rendered string from (X - a rendered string) in (win - a g
 	unlink the replacement-command of the new element;
 	unlink the origin of the new element;
 	unlink the text-string of the new element;
-	unlink the parsed-string of the new element;
 	change element-selection set to {};
 	add the new element at entry 1 in the element-selection set;
 	say "Rendered string copied as: [element-name of new element].";
@@ -3908,13 +3907,13 @@ Chapter - Removing the background image
 Removing the background image is an action applying to nothing. Understand "delete background" or "remove background" or "delete background image" or "remove background image" or "delete canvas background image" or "remove canvas background image" or "delete canvas background" or "remove canvas background" as removing the background image.
 
 Check removing the background image:
-	if the background image of the working canvas is no-picture:
+	if the background image of the working canvas is Figure of Null:
 		say "There is currently no background picture defined. To assign one, select a sprite and type ASSIGN TO BACKGROUND.";
 		rule fails.
 		
 Carry out removing the background image:
 	[change the working window to grid-backgrounded;]
-	now the background image of the working canvas is no-picture;
+	now the background image of the working canvas is Figure of Null;
 	consider the window-drawing rules for the working window;
 	say "The background image has been removed."	
 
@@ -4300,7 +4299,8 @@ To center (A - a g-element) on (B - a g-element):
 	if A is center-aligned:
 		let x be entry 1 of the origin of B + (B-width / 2);
 	if A is right-aligned:
-		let x be BR - (B-width / 2) + (length of A / 2);
+		do nothing;
+		[let x be BR - (B-width / 2) + (length of A / 2);]
 	let y be (B-height minus A-height) divided by 2;
 	let y be y plus entry 2 of the origin of B;
 	change entry 1 of the origin of A to x;
@@ -4605,7 +4605,7 @@ To write the/-- preamble:
 	otherwise:
 		append "Starting Room is a room" to the file of Output;
 	append ".[close bracket][paragraph break]" to the file of Output;
-	append "Chapter - Figure Definitions[paragraph break][bracket]Paste the list of figure definitions here (e.g., Figure of Error is the file [quotation mark]Error.png[quotation mark])[close bracket][paragraph break]Chapter - Graphics window[paragraph break]The [targeted window] is a graphics g-window spawned by the main-window. The position of the [targeted window] is [position of the working window]. The measurement of the [targeted window] is 50. The back-colour of the [targeted window] is [back-colour of working window].[paragraph break]The [targeted window] canvas is a g-canvas. [if the background image of the working canvas is no-picture]The canvas-width is [canvas-width of the working canvas]. The canvas-height is [canvas-height of the working canvas]. [otherwise]The background image of the [targeted window] canvas is [background image of the working canvas]. [end if]The associated canvas of the [targeted window] is [targeted window] canvas. [paragraph break]When play begins:[line break][tab]open up [the targeted window]. " to the file of Output;
+	append "Chapter - Figure Definitions[paragraph break][bracket]Paste the list of figure definitions here (e.g., Figure of Error is the file [quotation mark]Error.png[quotation mark])[close bracket][paragraph break]Chapter - Graphics window[paragraph break]The [targeted window] is a graphics g-window spawned by the main-window. The position of the [targeted window] is [position of the working window]. The measurement of the [targeted window] is 50. The back-colour of the [targeted window] is [back-colour of working window].[paragraph break]The [targeted window] canvas is a g-canvas. [if the background image of the working canvas is Figure of Null]The canvas-width is [canvas-width of the working canvas]. The canvas-height is [canvas-height of the working canvas]. [otherwise]The background image of the [targeted window] canvas is [background image of the working canvas]. [end if]The associated canvas of the [targeted window] is [targeted window] canvas. [paragraph break]When play begins:[line break][tab]open up [the targeted window]. " to the file of Output;
 	if we have customized colors:
 		append "[paragraph break]Chapter - Custom colors[paragraph break][bracket]You may have used glulx color values not supplied in Glulx Text Effects or Flexible Windows. As a convenience, these color values are provided in the table below. However, please note that if you are using an extension, such as HTML colors for Glulx Text Effects, that provides these colors, you may need to delete the table below to get your game to compile.[close bracket][paragraph break]Table of Common Color Values (continued)[line break]glulx color value[tab]assigned number[line break]" to the file of Output;
 		repeat with current-hue running through the drawing colors:
