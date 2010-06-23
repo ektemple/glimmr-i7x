@@ -1,5 +1,6 @@
 Version 1/100206 of Glimmr Automap (for Glulx only) by Erik Temple begins here.
 
+[Convert the procedural renderer into a subkind of image map?]
 [Documentation and perhaps code: For terps that don't support graphics, provide a global variable to use to specify the depth of the map in the status line.]
 [Documentation: If used, Glimmr Text-Painting Elements and Glimmr Bitmap Font must be included before Glimmr Automap and the Glimmr Automap Tileset.]
 [Documentation: Explain why we're using a new automap graphlinking rules, rather than use the graphlink processing rules. (It's because we want to be able to use rooms as graphlink targets as well.)]
@@ -16,6 +17,8 @@ Chapter - Use options
 Use no query functionality translates as (- Constant NO_QUERY; -).
 Use query explanation translates as (- Constant Q_EXPLAIN; -).
 Use no post-processing translates as (- Constant N_POST_PROCESS; -).
+
+Use MAX_ARRAYS of 3000.
 
 Use automap hyperlinks.
 Use automap static allocation. [Prevents Spatterlight from crashing when the window is resized.]
@@ -204,14 +207,12 @@ An element display rule for the map-renderer when the location is unmappable (th
 	exit.
 
 An element display rule for the map-renderer (this is the map-renderer display rule):
-	[say "Drawing.";]
 	let tilesetting be the associated tileset of map-renderer;
 	let scan be 0;
 	let row be the win-y of the map-renderer;
 	let column be the win-x of the map-renderer;
 	let xx be the tile-width of the tilesetting * scaling factor of the current window as an integer;
 	let yy be the tile-height of the tilesetting * scaling factor of the current window as an integer;
-	[say "Scaling: [xx] by [yy].";]
 	unless the background tint of the map-renderer is g-placenullcol:
 		draw a rectangle (color background tint of the map-renderer) in (the current window) at (column) by (row) with dimensions (map-width of map-renderer * scaling factor of the current window as an integer) by (map-height of map-renderer * scaling factor of the current window as an integer);
 	unless using the no post-processing option:
@@ -226,7 +227,6 @@ An element display rule for the map-renderer (this is the map-renderer display r
 		if there is a char of V in the translation-table of the tilesetting:
 			choose row with a char of V in the translation-table of the tilesetting;
 			let the current tile be tile entry;
-			[say "([column], [row]): [current tile].";]
 			drscimage (current tile) in (current window) at (column) by (row) with dimensions (xx) by (yy);
 			if using the automap hyperlinks option:
 				unless linked room-ID of count is 0:
@@ -423,11 +423,11 @@ Report graphic zoom toggling when glulx graphics is supported:
 
 Section - Opening the map window
 
-Opening the map window is an action out of world applying to nothing. Understand "map" or "open map" or "open map window" as opening the map window when glulx graphics is supported and when the map viewport is g-unpresent.
+Opening the map window is an action out of world applying to nothing. Understand "map" or "open map" or "open map window" as opening the map window when glulx graphics is supported and the map viewport is g-unpresent.
 
-Understand "open map" or "open map window" as a mistake ("The map window is already open.") when glulx graphics is supported and when the map viewport is g-present.
+Understand "open map" or "open map window" as a mistake ("The map window is already open.") when glulx graphics is supported and the map viewport is g-present.
 
-Carry out opening the map window when glulx graphics is supported and when the map viewport is g-unpresent:
+Carry out opening the map window when glulx graphics is supported and the map viewport is g-unpresent:
 	say "Opening map window.";
 	now current zoom is map zoomed in;
 	follow the opening up the map window rules.
@@ -435,15 +435,15 @@ Carry out opening the map window when glulx graphics is supported and when the m
 
 Section - Closing the map window
 
-Understand "map" or "close map" or "close map window" as zooming away when glulx graphics is supported and when the map viewport is g-present.
+Understand "map" or "close map" or "close map window" as zooming away when glulx graphics is supported and the map viewport is g-present.
 
-Carry out zooming away when glulx graphics is supported and when the map viewport is g-present:
+Carry out zooming away when glulx graphics is supported and the map viewport is g-present:
 	say "Closing map window.";
 	now current zoom is map absent;
 	follow the shutting down the map window rules;
 	rule succeeds.
 
-Understand "close map" or "close map window" as a mistake ("The map window is already closed.") when glulx graphics is supported and when the map viewport is g-unpresent.
+Understand "close map" or "close map window" as a mistake ("The map window is already closed.") when glulx graphics is supported and the map viewport is g-unpresent.
 	
 
 Section - Error message for using unsupported Automap commands
@@ -451,7 +451,7 @@ Section - Error message for using unsupported Automap commands
 Understand "map unicode" or "map fancy" or "map font 3" or "map beyond zork" or "map simple/ascii/plain" or "gargoyle bug workaround" or "map auto" or "map [text]" as a mistake ("(You can ZOOM IN, ZOOM OUT, or type MAP to toggle the map window.)") when glulx graphics is supported.
 
 
-Chapter - Debugging (not for release) (for use with Permanent Debugging by Erik Temple)
+Chapter - Debugging (not for release) (for use with Extended Debugging by Erik Temple)
 
 Dumping automap data is an action out of world applying to nothing. Understand "automap dump" or "dump map" or "dump automap" as dumping automap data. Understand "map dump" as dumping automap data when glulx graphics is supported.
 
@@ -564,7 +564,7 @@ An anchor UI-element can be bottom-positioned, central-positioned, or top-positi
 
 Section - The UI frame
 
-[The UI-frame is just a framing element for the buttons that do the actual UI work. However, we use it as a hook on which to hang spacing and other information, and we also use it as a means to calculate the width and height of the UI elements taken together. It could be marked display-inactive and it would still do its duty; in other words, it can be invisible and still work. However, it does not to be represented by a PNG file from which the width and height can be read.] 
+[The UI-frame is just a framing element for the buttons that do the actual UI work. However, we use it as a hook on which to hang spacing and other information, and we also use it as a means to calculate the width and height of the UI elements taken together. It could be marked display-inactive and it would still do its duty; in other words, it can be invisible and still work. However, it can be represented by a PNG file from which the width and height can be read.] 
 
 The UI-frame is an anchor UI-element.
 The image-ID is Figure of UI-frame.

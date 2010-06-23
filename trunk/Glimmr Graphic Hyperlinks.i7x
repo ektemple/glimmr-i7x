@@ -2,12 +2,10 @@ Glimmr Graphic Hyperlinks by Erik Temple begins here.
 
 "An adaptation of Jeff Sheets' Graphic Links extension to the Flexible Windows framework. Adds the ability to define hyperlinked areas in multiple windows, as well as the ability to conceal commands triggered by mouse input from the player (intended for use in graphical user interfaces)."
 
-"based on Graphic Links by Jeff Sheets"
+["based on Graphic Links by Jeff Sheets"]
 
 
 [Look at getting rid of the requirement that each entry have only one link in the table; this would also mean getting rid of the "ignoring duplicates" option for adding a link to the table, so that the ignoring duplicates option is the only option.]
-[Get rid of the silent commands option?]
-[Use Dynamic Tables, at least optionally.]
 [Fix debugging commands--are they correct?]
 [It would be good if the coordinate reporting command reported the canvas coordinates. That section is commented out.]
 [Documentation and revision of extensions: Has now been expanded from g-elements to objects--be sure to fill things in.]
@@ -16,7 +14,7 @@ Glimmr Graphic Hyperlinks by Erik Temple begins here.
 [Documentation: New kind: hyperlinked graphics window, which would automatically trigger the g-graphlinked property.]
 [Documentation: Silent replacement commands are deprecated; use stored actions or references instead.]
 
-Include version 9 of Flexible Windows v9 by Jon Ingold.
+Include version 9 of Flexible Windows by Jon Ingold.
 
 Part 1 - Glulx Gestalts
 
@@ -314,8 +312,7 @@ an object	a g-window	a number	a number	a number	a number	some text	number	stored
 with 120 blank rows
 
 
-Part 6 - Silent Replacement-Commands
-
+[Part 6 - Silent Replacement-Commands
 [This section revises (and replaces) the print text to the input prompt rule from Glulx Entry Points so that it checks for the $- prefix that indicates a silent command; i.e., one that we don't want to appear in the transcript. On locating it, the new rule deletes the prefix while rerouting around the code that writes the command to the input prompt.]
 
 
@@ -345,7 +342,7 @@ After reading a command  (this is the silent-replacement command-prompt rule):
 		change the buffered command-prompt to the command prompt;
 		change the command prompt to "";
 	now silent-replacement is false.
-
+]
 
 
 Part 7a - Debugging Commands (not for release)
