@@ -28,9 +28,29 @@ To say DC:
 Part - Global variables
 [The global variables support a very brief form of drawing command; they are not used for the standard length commands.]
 
-The current graphics window is a graphics g-window that varies.
+The current graphics window is a g-window that varies.
 The current foreground-color is a number that varies. The current foreground-color is 0.
 The current background-color is a number that varies. The current background-color is 0.
+
+
+Chapter - The null figure
+
+[Inform users are not allowed to set a figure value of "nothing"--if we leave a figure unspecified, the cover art (or the built-in generic cover art) will print instead. Here, we set up a fake figure to stand in for "nothing".]
+
+Figure of Null is the file of cover art. [The file of cover art is used for the declaration because Inform will ensure that an image is provided. In practice, we simply don't print the image if its resource ID corresponds to Figure of Null]
+
+[[The following code allows us to use 0 as the actual resource number, compatible with the way early drafts of CBD and of the predecessor Graphical Window Sprites handled this.]
+
+Rule for starting the virtual machine:
+	hack the null-figure into place.
+
+To hack the null-figure into place:
+	(- ResourceIDsOfFigures-->((+ figure of Null +)) = 0;  -)
+
+To decide which figure name is no-picture:
+	decide on Figure of Null.
+
+To decide which object is nothing: (- nothing -).]
 
 
 Part - Primitives
@@ -51,7 +71,7 @@ To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) at (c
 	draw a rectangle (hue) in (win) at (x1) by (y1) with size (width) by (height);
 
 To rect/rectangle (coord1 - a list of numbers) size (width - a number) by/x (height - a number):
-	if the current graphics window is not a graphics g-window:
+	if the type of the current graphics window is not g-graphics:
 		rule fails;
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
@@ -89,8 +109,8 @@ To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) from 
 	rectdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2).
 
 To rect/rectangle (coord1 - a list of numbers) to (coord2 - a list of numbers):
-	if the current graphics window is not a graphics g-window:
-		say "[>console][DC]*** Error: Short-form rectangle-drawing directive ignored. The current graphics window global was not specified.[<]";
+	if the type of the current graphics window is not g-graphics:
+		say "[>console][DC]*** Error: Short-form rectangle-drawing directive ignored. The current graphics window global was not correctly specified.[<]";
 		rule fails;
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
@@ -142,10 +162,10 @@ To draw/display a/-- box (hue - a number) in (win - a g-window) from (coord1 - a
 		boxdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt);
 		
 To box (coord1 - a list of numbers) to (coord2 - a list of numbers) at (wgt - a number) px/pixels/pixel, outlined or inset: 
-	if the current graphics window is not a graphics g-window:
+	if the type of the current graphics window is not g-graphics:
 		only if utilizing Glimmr debugging;
 		if basic drawing command debugging is true:
-			say "[>console][DC]*** Error: Short-form box-drawing directive ignored. The current graphics window global was not specified.[<]";
+			say "[>console][DC]*** Error: Short-form box-drawing directive ignored. The current graphics window global was not correctly specified.[<]";
 		end only if;
 		rule fails;
 	let x1 be entry 1 of coord1;
@@ -209,10 +229,10 @@ To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) from 
 	strectdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt) stroke of (color).
 
 To rect/rectangle (coord1 - a list of numbers) to (coord2 - a list of numbers) at (wgt - a number) px/pixels/pixel:
-	if the current graphics window is not a graphics g-window:
+	if the type of the current graphics window is not g-graphics:
 		only if utilizing Glimmr debugging;
 		if basic drawing command debugging is true:
-			say "[>console][DC]*** Error: Short-form rectangle-drawing directive ignored. The current graphics window global was not specified.[<]";
+			say "[>console][DC]*** Error: Short-form rectangle-drawing directive ignored. The current graphics window global was not correctly specified.[<]";
 		end only if;
 		rule fails;
 	let x1 be entry 1 of coord1;
@@ -239,7 +259,7 @@ Chapter - Lines
 Section - Basic line
 [The code for drawing a line between any two points was ported from the GREX module of the GWindows system by L. Ross Raszewski (http://gwindows.trenchcoatsoft.com). The code is there indicated to having been based on code by Paul Heckbert.]
 
-To linedraw (hue - a number) in (win - a graphics g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number) with (wgt - a number):
+To linedraw (hue - a number) in (win - a g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number) with (wgt - a number):
 	let dd be x2 - x1;
 	if dd >= 0:
 		let ax be 2 times dd;
@@ -294,7 +314,7 @@ To linedraw (hue - a number) in (win - a graphics g-window) from (x1 - a number)
 				increase y1 by 1;
 
 
-To draw a/-- line (hue - a number) in (win - a graphics g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:
+To draw a/-- line (hue - a number) in (win - a g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:
 	only if utilizing Glimmr debugging;
 	if basic drawing command debugging is true:
 		say "[>console][DC]Drawing a line of color [hue] in [i][win][/i] from ([x1], [y1]) to ([x2], [y2]), line-weight [wgt] pixels.[<]";
@@ -302,7 +322,7 @@ To draw a/-- line (hue - a number) in (win - a graphics g-window) from (x1 - a n
 	linedraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt).
 		
 
-To draw a/-- line (hue - a number) in (win - a graphics g-window) from (coord1 - a list of numbers) to (coord2 - a list of numbers) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:
+To draw a/-- line (hue - a number) in (win - a g-window) from (coord1 - a list of numbers) to (coord2 - a list of numbers) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
 	let x2 be entry 1 of coord2;
@@ -310,10 +330,10 @@ To draw a/-- line (hue - a number) in (win - a graphics g-window) from (coord1 -
 	Draw a line (hue) in win from x1 by y1 to x2 by y2 with wgt pixel line-weight.
 
 To line (coord1 - a list of numbers) to (coord2 - a list of numbers) at (wgt - a number) px/pixel/pixels:
-	if the current graphics window is not a graphics g-window:
+	if the type of the current graphics window is not g-graphics:
 		only if utilizing Glimmr debugging;
 		if basic drawing command debugging is true:
-			say "[>console][DC]*** Error: Short-form line-drawing directive ignored. The current graphics window global was not specified.[<]";
+			say "[>console][DC]*** Error: Short-form line-drawing directive ignored. The current graphics window global was not correctly specified.[<]";
 		end only if;
 		rule fails;
 	let x1 be entry 1 of coord1;
@@ -325,14 +345,14 @@ To line (coord1 - a list of numbers) to (coord2 - a list of numbers) at (wgt - a
 
 Section - Line using angle + distance
 
-To draw a line (hue - a number) in (win - a graphics g-window) from (x1 - a number) by (y1 - a number) measuring/of (distance - a number) pixel/pixels/-- long/-- at (angle - a number) deg/degree/degrees/-- angle/-- with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:
+To draw a line (hue - a number) in (win - a g-window) from (x1 - a number) by (y1 - a number) measuring/of (distance - a number) pixel/pixels/-- long/-- at (angle - a number) deg/degree/degrees/-- angle/-- with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:
 	let xx be (sine of angle) * distance as an integer;
 	let yy be (cosine of angle) * distance as an integer;
 	let x2 be x1 + xx;	
 	let y2 be y1 - yy;
 	Draw a line (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt) pixel line-weight.
 	
-To draw a line (hue - a number) in (win - a graphics g-window) from (coord1 - a list of numbers) measuring (distance - a number) pixels/pixel/-- long/-- at (angle - a number) deg/degree/degrees/-- angle/-- with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:
+To draw a line (hue - a number) in (win - a g-window) from (coord1 - a list of numbers) measuring (distance - a number) pixels/pixel/-- long/-- at (angle - a number) deg/degree/degrees/-- angle/-- with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
 	Draw a line (hue) in (win) from (x1) by (y1) measuring (distance) pixels at (angle) with (wgt) pixel line-weight.
@@ -367,7 +387,7 @@ To display/draw the/an/-- image/-- (ID - a figure name) in (win - a g-window) at
 	drimage (ID) in (win) at (x1) by (y1).
 
 To image (ID - a figure name) at (coord1 - a list of numbers):
-	if the current graphics window is not a graphics g-window:
+	if the type of the current graphics window is not g-graphics:
 		rule fails;
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
@@ -402,7 +422,7 @@ To display/draw the/an/-- image/-- (ID - a figure name) in (win - a g-window) at
 	drscimage (ID) in (win) at (x1) by (y1) with dimensions (width) by (height).
 
 To image (ID - a figure name) at (coord1 - a list of numbers) size (width - a number) by/x (height - a number):
-	if the current graphics window is not a graphics g-window:
+	if the type of the current graphics window is not g-graphics:
 		rule fails;
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
@@ -712,7 +732,7 @@ To paint/display a/-- bitmap text (hue - a number) of (str - indexed text) in (w
 Section - Brief forms
 
 To bitmap/bmp text/txt (STR - indexed text) at (COORD1 - a list of numbers) size (WGT - a number) pixel/pixels/px/-- backgrounded/background/bkgd, center-aligned or right-aligned:
-	if the current graphics window is not a graphics g-window:
+	if the type of the current graphics window is not g-graphics:
 		rule fails;
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
@@ -726,7 +746,7 @@ To bitmap/bmp text/txt (STR - indexed text) at (COORD1 - a list of numbers) size
 		paint a bitmap text (current foreground-color) of (STR) in (current graphics window) at (X1) by (Y1) using (current font) with dot size (WGT) and background (current background-color).
 
 To bitmap/bmp text/txt (STR - indexed text) at (COORD1 - a list of numbers) size (WGT - a number) pixel/pixels/px/--, center-aligned or right-aligned:
-	if the current graphics window is not a graphics g-window:
+	if the type of the current graphics window is not g-graphics:
 		rule fails;
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
@@ -827,7 +847,7 @@ To paint/display an/-- image-based text (hue - a number) of (str - indexed text)
 Section - Brief forms
 
 To image/img text/txt (STR - indexed text) at (COORD1 - a list of numbers) scaled/scale (SCF - a real number) margin (MARGIN - a number) pixels/pixel/px, center-aligned or right-aligned:
-	if the current graphics window is not a graphics g-window:
+	if the type of the current graphics window is not g-graphics:
 		rule fails;
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
@@ -841,7 +861,7 @@ To image/img text/txt (STR - indexed text) at (COORD1 - a list of numbers) scale
 		paint an image-based text of (STR) in (current graphics window) at (X1) by (Y1) using (current font) scaled at (SCF) with background (current background-color) and margin (MARGIN) px.
 
 To image/img text/txt (STR - indexed text) at (COORD1 - a list of numbers) scaled/scale (SCF - a real number), center-aligned or right-aligned:
-	if the current graphics window is not a graphics g-window:
+	if the type of the current graphics window is not g-graphics:
 		rule fails;
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
@@ -872,7 +892,7 @@ A tileset has a number called the tile-height. The tile-height is usually 0.
 
 A tileset has a table name called the translation-table.
 
-[These should only be present in the Glimmr Automap tilesets. Make a new subkind.
+[These should only be present in the Glimmr Automap tilesets. Make a new subkind there.
 
 A tileset has a list of real numbers called the zoom-level set. The zoom-level set of a tileset is usually {}.
 
@@ -935,7 +955,7 @@ To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of num
 Section - Brief form		
 
 To image-map (IMG_MAP - a list of figure names) at (COORD1 - a list of numbers) width/w (WDT - a number) tile-size/size (DIM - a number) pixel/pixels/px/--, backgrounded:
-	if the current graphics window is a graphics g-window:
+	if the type of the current graphics window is g-graphics:
 		let x1 be entry 1 of coord1;
 		let y1 be entry 2 of coord1;
 		if backgrounded:
@@ -943,26 +963,20 @@ To image-map (IMG_MAP - a list of figure names) at (COORD1 - a list of numbers) 
 		otherwise:
 			display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) with tile-size (DIM) by (DIM) px;
 	otherwise:
-		say "*** Error: Short-form image-map drawing directive ignored. The current graphics window global was not specified."
+		say "*** Error: Short-form image-map drawing directive ignored. The current graphics window global was not correctly specified."
 
 
 Chapter - Image-map with tileset array
 
 [Tilesets define their own tile sizes in the tile-width and tile-height properties of the tileset object. The long form commands ignore these properties and require the user to set the tile dimensions manually. The short form, however, respects the tile dimensions provided by the tileset object.]
 
-[FOR NOW, I've stripped the tile-size specification for both long and short form tileset types. The bug in 6E36 that disallows many substitutions in phrases is not allowing this. 5/8/2010.]
-
 Section - Long forms
 
-To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with (TSET - a tileset)[ with tile-size (W - a number) by/x (H - a number) --/pixel/pixels/px]:
+To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) --/pixel/pixels/px:
 	let row be Y1;
 	let column be X1;
 	let total-height be the number of entries of IMG_MAP / WDT;
 	let scan be 0;
-	[Delete this if adding width and height back into the phrase preamble]
-	let W be the tile-width of TSET;
-	let H be the tile-height of TSET;
-	[end delete]
 	repeat with index running through IMG_MAP:
 		increase scan by 1;
 		if scan > WDT:
@@ -980,38 +994,38 @@ To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y
 		say "[>console][DC]Image-map drawn at screen coordinates ([X1], [Y1]) of [WIN] using the list of numbers provided, interpreted as a grid [WDT] tiles wide and [total-height] tiles high. Tile size used: [W] by [H] pixels.[<]";
 	end only if;
 
-To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with (TSET - a tileset)[ with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--] and background (BKGD - a number):
+To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/-- and background (BKGD - a number):
 	let total-height be the number of entries of IMG_MAP / WDT;
 	let W be the tile-width of TSET;
 	let H be the tile-height of TSET;
 	rectdraw (BKGD) in (WIN) from (X1) by (Y1) to (WDT * W) by (total-height * H);
-	display an image-map in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered with (TSET)[ with tile-width (W) by tile-height (H)].
+	display an image-map in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered with (TSET) with tile-size (W) by (H).
 	
-To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with (TSET - a tileset)[ with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--]:
+To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--:
 	let X1 be entry 1 of coord1;
 	let Y1 be entry 2 of coord1;
-	display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered using (TSET)[ with tile-width (DIM) by tile-height (DIM)].
+	display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered using (TSET) with tile-size (W) by (H).
 
 To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/-- and background (BKGD - a number):
 	let X1 be entry 1 of coord1;
 	let Y1 be entry 2 of coord1;
 	let total-height be the number of entries of IMG_MAP / WDT;
 	rectdraw (BKGD) in (WIN) from (X1) by (Y1) to (WDT * W) by (total-height * H);
-	display an image-map in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered using (TSET)[ with tile-width (W) by tile-height (H)].
+	display an image-map in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered using (TSET) with tile-size (W) by (H).
 		
 
 Section - Short form		
 
 To image-map (IMG_MAP - a list of numbers) at (COORD1 - a list of numbers) width/w (WDT - a number) tileset (TSET - a tileset) tile-size/size (DIM - a number) pixel/pixels/px/--, backgrounded:
-	if the current graphics window is a graphics g-window:
+	if the type of the current graphics window is g-graphics:
 		let x1 be entry 1 of coord1;
 		let y1 be entry 2 of coord1;
 		if backgrounded:
-			display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered using (TSET)[ with tile-size (DIM) by (DIM)] and background (current background-color);
+			display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered using (TSET) with tile-size (DIM) by (DIM) and background (current background-color);
 		otherwise:
-			display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered using (TSET)[ with tile-size (DIM) by (DIM)];
+			display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered using (TSET) with tile-size (DIM) by (DIM);
 	otherwise:
-		say "*** Error: Short-form image-map drawing directive ignored. The current graphics window global was not specified."
+		say "*** Error: Short-form image-map drawing directive ignored. The current graphics window global was not correctly specified."
 
 
 Chapter - Resources
@@ -1074,7 +1088,7 @@ To decide which number is r%/R% --/= (R - a number) g%/G% --/= (G - a number) b%
 	decide on 0;
 
 
-Section - RGB specified as a fixed point percentage (for use with Fixed Point Maths by Michael Callaghan)
+Section - RGB specified as a fixed point percentage
 
 To decide which number is r%/R% --/= (R - a real number) g%/G% --/= (G - a real number) b%/B% --/= (B - a real number):
 	unless R is real less than 0 or R is real greater than 100.0000 or G is real less than 0 or G is real greater than 100.0000 or B is real less than 0 or B is real greater than 100.0000:
@@ -1330,7 +1344,117 @@ Glimmr Drawing Commands ends here.
 
 ---- DOCUMENTATION ----
 
-Glimmr Drawing Commands is 
+Glimmr Drawing Commands (GDC) is the most basic of the Glimmr extensions, and is required by all others. It exposes the three basic Glulx drawing commands at the I7 level, enabling authors to write their own drawing rules without using any I6 code. Glimmr Drawing Commands also adds a number of "derived" commands--commands that use the basic commands to do new things. These include everything from drawing a line to connect any two points on the screen, to "painting" text to the screen, to drawing a grid of images.
+
+Glimmr Drawing Commands requires Jon Ingold's Flexible Windows as well as Michael Callaghan's Fixed Point Maths. For those familiar with I6, the three infglk functions that GDC implements are glk_image_draw, glk_image_draw_scaled, and glk_window_fill_rect. It does not implement the glk_window_erase_rect command, since this is easily imitated by drawing a rectangle in the background color of the window (Flexible Windows's "back-colour" property).
+
+A note on what GDC will *not* do: It does not:
+
+	1) Provide any window-drawing rule structure. Users will need to write their own window-drawing rules from scratch.
+
+	2) Scale drawing instructions down (or up) to fit in the window.
+
+	3) Ensure that drawing instructions are properly ordered so as to "rebuild" the window whenever needed. (Because a Glulx window can be resized at any time by the player, the window-drawing rules for that window need to be structured so that all drawing commands needed to rebuild the state of the window are called together, and in the right order.)
+
+For these reasons, GDC should be considered a low-level extension, mostly to be used by experts. Users wanting a robust solution that *does* handle all of the above points should use Glimmr Canvas-Based Drawing.
+
+
+Chapter: Including Glimmr Drawing Commands in a project
+
+Inform remains fairly unsophisticated in its mechanisms for organizing included extensions. When we are dealing with a complex system of modular extensions such as Glimmr, it is very easy to trip it up. The result is usually a list of unhelpful errors. For this reason, each Glimmr extension includes a section--such as this one--about how to include it, particularly in relation to other extensions.
+
+When including Glimmr Drawing Commands, it is not necessary to include Flexible Windows or Fixed Point Maths. GDC will do that.
+
+We also do not need to include Glimmr Drawing Commands when we are using Glimmr Canvas-Based Drawing; we can simply include the latter extension and GDC will be included too.
+
+
+Chapter: Preliminary notes about commands
+
+The drawing commands in GDC have relatively flexible syntax. Only one variation of the syntax for each command will be mentioned in this documentation, but users can check the Phrasebook section of the Index after compiling to see the variability that is allowed. (Another option is to open the extension itself and look at the phrase definitions.)
+
+
+Section: Coordinates
+
+Drawings are located using coordinates measured from the upper left corner of the window. In other words, the x axis (horizontal) increases as we move right, while the y axis (vertical) increases as we move down. In most cases, coordinates can be specified in one of two ways.
+
+We can use "by" or "x" to separate the two coordinates (these are freely interchangeable, as the example suggests):
+
+	draw a line (color g-White) in the graphics-window from 100 by 100 to 200 x 200 with 2 pixel line-weight
+
+More conveniently, we can use braces to define each coordinate pair:
+
+	draw a line (color g-White) in the graphics-window from {100, 100} to {200, 200} with 2 pixel line-weight
+
+Whichever method we use, the x-coordinate is listed first in each pair, followed by the y-coordinate.
+
+
+Section: Colors
+
+Colors in GDC are specified as numbers. However, we actually have a lot of freedom in how we actually specify those numbers. The (computationally) fastest way to specify a color is as an unadorned decimal representation of the hex color code that would be used in I6 glulx. This is inconvenient, since we have to convert a hex code to decimal (using a hex calculator or online conversion utility), and very often we will have first had to convert an RGB color to hex.
+
+	16777215 (decimal) = $FFFFFF (hex) = white = RGB (255, 255, 255)
+
+GDC in fact allows us to provide color values in all of these forms, and more. (It does this by running an in-line calculation on our input to arrive at that decimal code.) Here are the color specifications we can use:
+
+	Hexadecimal:
+	$FFFFFF
+	#FFFFFF
+
+	Color name (must be previously defined; see below):
+	color g-White
+
+	RGB:
+	R 255 G 255 B 255
+	r 255 g 255 b 255
+	r = 255 g = 255 b = 255
+	
+	RGB percentages (rather coarse):
+	R% 100 G% 100 B% 100
+	r% 100 g% 100 b% 100
+	r% = 100 g% = 100 b% = 100
+
+	RGB percentages using fixed point numbers (4 decimal places REQUIRED):
+	R% 100.0000 G% 100.0000 B% 100.0000
+	r% 100.0000 g% 100.0000 b% 100.0000
+	r% = 100.0000 g% = 100.0000 b% = 100.0000
+
+Any of these expressions can be surrounded by parentheses to make them more readable. Here are some examples of actual use:
+
+	draw a line (color g-Lavender) in the graphics-window from {100, 100} to {200, 200} with 2 pixel line-weight.
+	change the current foreground-color to $FF0000.
+	draw a rectangle (r = 20 g = 40 b = 150) in the graphics-window from 120 by 30 to 180 by 40.
+	display a monochrome bitmap (r% = 100 g% = 50 b% = 20) in the graphics-window at {10, 25} using 12 bit wide data from Player Avatar with dot size 2 px and background (r% = 0 g% = 0 b% = 0).
+
+Color names are of the "glulx color value" kind of value. To use color names, we must first define them by extending the Table of Common Color Values provided in the (built-in) Glulx Text Effects extension, like so:
+
+	Table of Common Color Values (continued)
+	glulx color value	assigned number
+	g-MyNewColor	4467887
+
+A list of 140 color names is provided by the extension HTML Color Names for Glulx Text Effects.
+
+(The fixed point RGB percentages are made possible by Michael Callaghan's Fixed Point Maths extension (see that extension for details). Fixed point numbers must be specified to 4 decimal places or unexpected results may emerge.)
+
+
+Section: Short-form commands
+
+All commands have a short form that minimizes repetition when we are issuing multiple instructions. These short forms require that we set at least one, and possibly more, global variables before using them. The global variables implicated in short-form drawing are:
+
+	current graphics window (a g-window)
+	current foreground-color (a number)
+	current background-color (a number)
+
+To use short form commands, we first set one or more of these variables, and then use as many short forms as we like. This bit of code draws two overlapping white rectangles with a horizontal red line in the center (approximating a traffic sign):
+
+	change the current graphics window to the graphics-window;
+	change the current foreground-color to (R 255 G 255 B 255);
+	rect {10, 10} to {20, 23};
+	rect {8, 12} to {22, 21};
+	change the current foreground-color to (R 255 G 0 B 0);
+	line {11, 15} to {19, 15} at 3 px.
+
+(Note that in most cases, it is actually better to draw a horizontal or vertical line using a rectangle, since the line command is mostly intended for diagonal lines. However, if you need the weight or aspect of a line to change during the game, using the line command will be easier.)
+
 
 [Documentation: Warn that the current font must be the correct type, or the game may crash with no message--that is, image or bitmap font.]
 [Documentation: Include syntax that illustrates that bitmaps can be declared inline:
@@ -1343,7 +1467,7 @@ monochrome bitmap {	0, 0, 0, 0, 1,
 
 ]
 
-Section - Extending bitmap fonts
+Section: Extending bitmap fonts
 
 It is possible to extend a bitmap font if it is missing characters we need. This is a two-step process. 
 
@@ -1410,12 +1534,14 @@ Finally, "set blank indices" can also output the entire table to an external tex
 
 	set blank indices for Glimmr C&C, verifying glyph map and writing table to disk.
 
-If you run your game in the Inform IDE, the external file should be saved to your project folder. Note that there is a bug in Inform build 5Z71 that will cause rows that have had new indices applied by "set blank indices" to appear at the top of the table rather than at the bottom. You are free to move these to the bottom before making use of the table.
+If you run your game in the Inform IDE, the external file should be saved to your project folder.
 
 
-Section - Creating a new font
+Section: Creating a new font
 
 ...using the "set blank indices" phrase (see above) with the verification option will allow us to check the integrity of the index, height, and width columns in the font table, as well as the structure of the glyph map.
 
 
+Section: Debugging
 
+A note for expert users: Each command also has a special phrasing that does not produce a 

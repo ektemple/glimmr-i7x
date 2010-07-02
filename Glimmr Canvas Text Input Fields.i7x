@@ -1,5 +1,6 @@
 Version 1/091106 of Glimmr Canvas Text Input Fields (for Glulx only) by Erik Temple begins here.
 
+[Consider changing the "input field" to a property: A g-element can be an input field.... Element display rule for an input field g-element.]
 [Change the passive or in-focus to "selected" and "deselected" or something?]
 [If the keypress-to-string rules becomes an activity, we can test whether it's ongoing or not...]
 

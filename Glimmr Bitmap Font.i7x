@@ -2,11 +2,16 @@ Version 1/091101 of Glimmr Bitmap Font (for Glulx only) by Erik Temple begins he
 
 "A bitmap (pixel) font for use with the Glimmr system of extensions."
 
+Section - The font object
+
 Glimmr C&C is a bitmap font. The associated font of a bitmap-rendered string is Glimmr C&C.
 
 The font-height of Glimmr C&C is 12.
 The font table of Glimmr C&C is the Table of Glimmr C&C Parameters.
 The colophon of Glimmr C&C is "Glimmr C&C is a pixel font based on C&C Red Alert by N3tRunn3r."
+
+
+Section - The font table
 
 Table of Glimmr C&C Parameters
 glyph	char	index	width	height	yoffset	advance
@@ -107,6 +112,8 @@ glyph	char	index	width	height	yoffset	advance
 "~"	126	2667	7	3	4	7
 "±"	177	2689	5	6	2	6
 
+
+Section - The glyph map
 
 The glyph map of Glimmr C&C is {
 33,
@@ -793,7 +800,7 @@ The glyph map of Glimmr C&C is {
 0, 0, 0 }.
 
 
-Section - Associate bitmap-rendered strings with font by default (for use with Glimmr Canvas-Based Drawing by Erik Temple)
+Section - Default font associations (for use with Glimmr Canvas-Based Drawing by Erik Temple)
 [Replace this section if you are using your own font alongside this font and wish to make your font the default choice for bitmap-rendered strings.]
 
 Use authorial modesty.
