@@ -1,6 +1,12 @@
 Version 1/091101 of Glimmr Bitmap Font (for Glulx only) by Erik Temple begins here.
 
-"A bitmap (pixel) font for use with the Glimmr system of extensions."
+"A bitmap font for use with the Glimmr system of extensions."
+
+
+Section - Use options
+
+Use authorial modesty.
+
 
 Section - The font object
 
@@ -800,12 +806,9 @@ The glyph map of Glimmr C&C is {
 0, 0, 0 }.
 
 
-Section - Default font associations (for use with Glimmr Canvas-Based Drawing by Erik Temple)
-[Replace this section if you are using your own font alongside this font and wish to make your font the default choice for bitmap-rendered strings.]
+Section - Associate bitmap-rendered strings with font by default (for use with Glimmr Canvas-Based Drawing by Erik Temple)
 
-Use authorial modesty.
-
-The associated font of a bitmap-rendered string is Glimmr C&C.
+The associated font of a bitmap-rendered string is usually Glimmr C&C.
 
 
 
@@ -814,6 +817,8 @@ Glimmr Bitmap Font ends here.
 
 ---- DOCUMENTATION ----
 
-This font will automatically be set as the default font for bitmap-rendered strings when it is included, so it will not be necessary to specify the associated font for a bitmap-rendered string unless you are intending to use a different font. 
+This font will automatically be set as the preferred default font for bitmap-rendered strings when it is included, so it will not be necessary to specify the associated font for a bitmap-rendered string unless you are intending to use a different font as your default. In that case, simply declare that font:
+
+	The associated font of a bitmap-rendered string is My Cool Font.
 
 
