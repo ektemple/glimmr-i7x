@@ -1,6 +1,11 @@
 Version 1/100206 of Glimmr Automap (for Glulx only) by Erik Temple begins here.
 
 [Convert the procedural renderer into a subkind of image map?]
+[These two properties should only be present in Automap tilesets. Make a new subkind for them.
+
+A tileset has a list of real numbers called the zoom-level set. The zoom-level set of a tileset is usually {}.
+
+A tileset has a number called the initial zoom level. The initial zoom level of a tileset is usually 1.]
 [Documentation and perhaps code: For terps that don't support graphics, provide a global variable to use to specify the depth of the map in the status line.]
 [Documentation: If used, Glimmr Text-Painting Elements and Glimmr Bitmap Font must be included before Glimmr Automap and the Glimmr Automap Tileset.]
 [Documentation: Explain why we're using a new automap graphlinking rules, rather than use the graphlink processing rules. (It's because we want to be able to use rooms as graphlink targets as well.)]
@@ -214,7 +219,7 @@ An element display rule for the map-renderer (this is the map-renderer display r
 	let xx be the tile-width of the tilesetting * scaling factor of the current window as an integer;
 	let yy be the tile-height of the tilesetting * scaling factor of the current window as an integer;
 	unless the background tint of the map-renderer is g-placenullcol:
-		draw a rectangle (color background tint of the map-renderer) in (the current window) at (column) by (row) with dimensions (map-width of map-renderer * scaling factor of the current window as an integer) by (map-height of map-renderer * scaling factor of the current window as an integer);
+		dimrectdraw (color background tint of the map-renderer) in (the current window) at (column) by (row) with dimensions (map-width of map-renderer * scaling factor of the current window as an integer) by (map-height of map-renderer * scaling factor of the current window as an integer);
 	unless using the no post-processing option:
 		follow the automap post-processing rules;
 	repeat with count running from 1 to (map height * map width):
@@ -714,7 +719,7 @@ The Table of Directional Correspondences includes only directional links from th
 		let yy be the tile-height of the tilesetting * scaling factor of the current window as an integer;
 		[say "Scaling: [xx] by [yy].";]
 		unless the background tint of the map-renderer is g-placenullcol:
-			draw a rectangle (color background tint of the map-renderer) in (the current window) at (column) by (row) with dimensions (map-width of map-renderer * scaling factor of the current window as an integer) by (map-height of map-renderer * scaling factor of the current window as an integer);
+			dimrectdraw (color background tint of the map-renderer) in (the current window) at (column) by (row) with dimensions (map-width of map-renderer * scaling factor of the current window as an integer) by (map-height of map-renderer * scaling factor of the current window as an integer);
 		unless using the no post-processing option:
 			follow the automap post-processing rules;
 		repeat with count running from 1 to (map height * map width):

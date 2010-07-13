@@ -1,18 +1,15 @@
-Version 1/100226 of Glimmr Canvas Editor (for Glulx only) by Erik Temple begins here.
-
-[Look at removing periods and other illegal characters from the filenames given to new elements.]
-[If bug with external files is not fixed in next I7 build, may need to restructure file output so that it is always preceded by a game save.]
+Version 1/100708 of Glimmr Canvas Editor (for Glulx only) by Erik Temple begins here.
 
 Part - Extensions
 
-Include Flexible Windows V9 by Jon Ingold.
+Include version 9 of Flexible Windows by Jon Ingold.
 Include Glimmr Canvas-Based Drawing by Erik Temple.
 Include Glimmr Graphic Hyperlinks by Erik Temple.
-Include Dynamic Objects by Jesse McGrew.
+Include version 5/100706 of Dynamic Objects by Jesse McGrew.
 Include Basic Screen Effects by Emily Short.
 Include Undo Output Control by Erik Temple.
-Include Glulx Status Window Control V9 by Erik Temple.
-Include version 3 of Questions by Michael Callaghan.
+Include Glulx Status Window Control by Erik Temple.
+Include version 4 of Questions by Michael Callaghan.
 Include Basic Hyperlinks by Emily Short.
 
 
@@ -30,8 +27,8 @@ To decide what text is the extension-name of (typeface - a font):
 		decide on "Glimmr Bitmap Font by Erik Temple";
 	decide on "".
 	
-The associated font of a bitmap-rendered string is Glimmr C&C.
-The associated font of an image-rendered string is Glimmr Lucidex.
+The associated font of a bitmap-rendered string is usually Glimmr C&C.
+The associated font of an image-rendered string is usually Glimmr Lucidex.
 
 
 Part - Initializations
@@ -153,7 +150,7 @@ A real number question rule (this is the hack real number question parsing rule)
 
 The hack real number question parsing rule is listed first in the real number question rules. The invalid real number reply rule is listed first in the real number question rules.
 
-The current cancelation message is text that varies. The current cancelation message is "[bracket]Operation canceled.[close bracket]".
+The current cancelation message is text that varies. The current cancelation message is usually "[bracket]Operation canceled.[close bracket]".
 
 
 Section - New number question processing routine (in place of Section 4 - Processing number questions in Questions by Michael Callaghan)
@@ -191,7 +188,6 @@ After reading a command when yes/no question mode is true:
 		
 
 Section - New text question routine (in place of Section 4 - Processing text questions in Questions by Michael Callaghan)
-
 [Here we also remove the regular expression matching that deletes "say" from the response. Authors may well want to graphlink an element with the word SAY in the replacement command, so we can't have this silently removed.]
 
 After reading a command when text question mode is true:
@@ -245,43 +241,17 @@ Part - Settings and Preferences
 
 Punctuation removal is false. [A setting provided by the Questions extension.]
 
-The lower scaling-limit is a real number that varies.
-The upper scaling-limit is a real number that varies.
+The lower scaling-limit is a real number that varies. The lower scaling-limit is usually 0.1000.
+The upper scaling-limit is a real number that varies. The upper scaling-limit is usually 5.0000.
 
-Image highlighting is a truth state that varies. Image highlighting is true.
-Canvas-outlining is a truth state that varies. Canvas-outlining is true.
+Image highlighting is a truth state that varies. Image highlighting is usually true.
+Canvas-outlining is a truth state that varies. Canvas-outlining is usually true.
 
-Highlight-color is a glulx color value that varies. Highlight-color is g-placenullcol.
-Canvas outline-color is a glulx color value that varies. Canvas outline-color is g-placenullcol.
+Highlight-color is a glulx color value that varies. Highlight-color is usually g-Pear.
+Canvas outline-color is a glulx color value that varies. Canvas outline-color is usually g-White.
 
-The table-option is a truth state that varies. The table-option is true.
-The targeted window is indexed text that varies.
-
-When play begins:
-	if the canvas-width of the working canvas is 0:
-		change the canvas-width of the working canvas to 795;
-	if the canvas-height of the working canvas is 0:
-		change the canvas-height of the working canvas to 460;
-	if the lower scaling-limit is 0.0000:
-		change the lower scaling-limit to 0.1000;
-	if the upper scaling-limit is 0.0000:
-		change the upper scaling-limit to 2.0000;
-	if the default scaling factor is 0.0000:
-		change the default scaling factor to 1.0000;
-	if tag type is "":
-		change tag type to "text";
-	if tag alias is "":
-		change tag alias to "tag";
-	if the nudge factor is 0:
-		change the nudge factor to 1;
-	if the highlight-color is g-placenullcol:
-		change the highlight-color to g-pear;
-	if the canvas outline-color is g-placenullcol:
-		change the canvas outline-color to g-white;
-	if the back-colour of the working window is g-placenullcol:
-		change the back-colour of the working window to g-black;
-	if targeted window is "":
-		change targeted window to "graphics-window";
+The table-option is a truth state that varies. The table-option is usually true.
+The targeted window is indexed text that varies. The targeted window is usually "graphics-window".
 		
 
 Chapter - Changing colors
@@ -355,8 +325,8 @@ Section - Change Highlight Image
 1) Change the image files Highlight.png and Highlight_alternate.png as desired.
 2) Change the standard highlight color and alternate highlight color text variables here to reflect the highlights used.]
 
-Standard highlight color is text that varies. Standard highlight color is "blue".
-Alternate highlight color is text that varies. Alternate highlight color is "red".
+Standard highlight color is text that varies. Standard highlight color is usually "blue".
+Alternate highlight color is text that varies. Alternate highlight color is usually "red".
 
 Toggling image highlight color is an action applying to nothing. Understand "toggle image highlight color" as toggling image highlight color.
 
@@ -435,26 +405,11 @@ Understand "out" or "outside" as a mistake ("[No directions message]").
 
 Section - Remove rules that generate standard behavior
 
-A procedural rule (this is the eliminate looking rule):
-	ignore the carry out looking rules.
-	
-A procedural rule (this is the eliminate the does the player mean rule):
-	ignore the does the player mean rules.
+First carry out looking rule:
+	rule succeeds.
 
-[A procedural rule (this is the eliminate room description heading rule):
-	Ignore the room description heading rule.
-	
-A procedural rule (this is the eliminate room description text rule):
-	Ignore the room description body text rule.
-	
-A procedural rule (this is the eliminate offer items to writing a paragraph about rule):
-	ignore the offer items to writing a paragraph about rule.
-	
-A procedural rule (this is the eliminate use initial appearance rule):
-	ignore the use initial appearance in room descriptions rule.
-	
-A procedural rule (this is the eliminate describe what's on scenery supporters rule):
-	ignore the describe what's on scenery supporters in room descriptions rule.]
+First does the player mean rule:
+	rule succeeds.
 		
 
 Part - Initial Questionnaire
@@ -600,7 +555,12 @@ The graphics-window spawns the drawing-window.
 The main-window spawns the control-window.
 The main-window spawns the help-window.
 
-The working window is a g-window that varies. The working window is the graphics-window. The working canvas is a g-canvas that varies. The working canvas is the graphics-canvas. [The working window identifies the window into which new sprite elements created from the library should be copied.]
+The working window is a g-window that varies. The working window is usually the graphics-window. The working canvas is a g-canvas that varies. The working canvas is usually the graphics-canvas. [The working window identifies the window into which new sprite elements created from the library should be copied. Originally, it was planned to allow multiple windows/canvases to be worked on at the same time. However, this was decided to be unnecessary and probably confusing. Should anyone want to modify the extension to allow for this, however, the working window variable has been used where possible t/o the extension, easing the pain of a conversion.]
+
+The canvas-width of the graphics-canvas is usually 795.
+The canvas-height of the graphics-canvas is usually 460.
+
+The zoom-icon-size is a number variable. The zoom-icon-size is usually 16.
 
 A window-drawing rule for the library-window (this is the library-window drawing rule):
 	if the library-window is g-present:
@@ -636,6 +596,7 @@ A window-drawing rule for the graphics-window (this is the graphics-window drawi
 	if the graphics-window is g-present:
 		carry out the scaling activity with the graphics-window;
 		carry out the offset calculation activity with the graphics-window;
+		carry out the window-framing adjustment activity with the graphics-window;
 		clear the graphics-window;
 		carry out the drawing the canvas background activity with the graphics-window;
 		if canvas-outlining is true:
@@ -646,8 +607,15 @@ A window-drawing rule for the graphics-window (this is the graphics-window drawi
 			append layer numbers;
 		if drawing mode is true:
 			unless first point is {-999, -999}:
-				draw a rectangle (color highlight-color) in (working window) from (current graphlink x - 1) by (current graphlink y - 1) to (current graphlink x + 1) by (current graphlink y + 1).
-		
+				draw a rectangle (color highlight-color) in (working window) from (current graphlink x - 1) by (current graphlink y - 1) to (current graphlink x + 1) by (current graphlink y + 1);
+
+For window-framing adjustment of the graphics-window when we are zoomed in (this is the zoomed window centering rule):[This rule recenters the framing of the editor window when we are zoomed in.]
+	if zoom-center is {-1, -1}:
+		center the framing of the working window on its canvas;
+	otherwise:
+		center the framing of the working window on the zoom-center;
+	continue the action.
+
 A window-drawing rule for the layers-window (this is the layers-window drawing rule):
 	if the layers-window is g-present:
 		clear the layers-window;
@@ -658,6 +626,14 @@ A window-drawing rule for the layers-window (this is the layers-window drawing r
 
 A window-drawing rule for the control-window (this is the control-window drawing rule):
 	if the control-window is g-present:
+		if zoom is available:
+			now the display status of the zoom_button is g-active;
+			if we are zoomed out:
+				now the inactive-state of the zoom_button is Figure of Zoom Out Inactive;
+			if we are zoomed in:
+				now the inactive-state of the zoom_button is Figure of Zoom In;
+		otherwise:
+			deactivate zoom_button;
 		carry out the scaling activity with the control-window;
 		carry out the offset calculation activity with the control-window;
 		clear the control-window;
@@ -679,8 +655,6 @@ A window-drawing rule for the drawing-window (this is the drawing-window drawing
 			deactivate close drawing window button;
 		change the tint of the foreground_color_indicator to the current element color;
 		change the tint of the background_color_indicator to the current element background color;
-		[draw a rectangle (color current element color) in drawing-window from (310) by (4) to (326) by (20) with 1 pixel line-weight (color g-black);
-		draw a rectangle (color current element background color) in drawing-window from (354) by (4) to (370) by (20) with 1 pixel line-weight (color g-black);]
 		let v-offset be 24 - current line-weight;
 		if v-offset < 3, let v-offset be 1;
 		let v-offset be v-offset / 2;
@@ -696,7 +670,28 @@ Element display rule for the foreground_color_indicator when the current element
 Element display rule for the background_color_indicator when the current element background color is g-placenullcol:
 	let x be entry 1 of origin of background_color_indicator;
 	let y be entry 2 of origin of background_color_indicator;
-	display Figure of Null Color-Chip in drawing-window at x by y;
+	display Figure of Null Color-Chip in drawing-window at x by y.
+
+
+Section - Determining zoomedness of the editor window
+
+To decide whether we are zoomed in:
+	if the arbitrary scaling factor of the working window > 0.0000:
+		decide yes;
+	otherwise:
+		decide no.
+		
+To decide whether we are zoomed out:
+	if the arbitrary scaling factor of the working window is 0.0000 and the scaling factor of the working window is greater than 1.0000 or the scaling factor of the working window is less than 1.0000:
+		decide yes;
+	otherwise:
+		decide no.
+		
+To decide whether zoom is available:
+	if the arbitrary scaling factor of the working window is 0.0000 and the scaling factor of the working window is 1.0000:
+		decide no;
+	otherwise:
+		decide yes.
 			
 			
 Part - Editor Startup
@@ -732,7 +727,7 @@ This is the editor startup rule:
 		-- select_tab: try select-tab clicking;
 		-- move_tab: try move-tab clicking;
 		-- scale_tab: try scale-tab clicking;
-	reject the player's command;
+	reject the player's command.
 	
 To set windows to portrait orientation:
 	now the measurement of the library-window is 18;
@@ -762,194 +757,6 @@ To update binary UI elements:
 	update outline_bkgd_check using canvas-outlining;
 	update highlight_radio using image highlighting;
 	update tabular_source_radio using table-option;
-	
-	
-[Part - The Help Apparatus
-
-Chapter - The Help Window
-
-The standard help message is a text variable. The standard help message is "This is the help window. It provides helpful information about what you are currently doing. You may type CLOSE HELP to close it. You may also type HELP at any time to see a list of commands in the main window."
-
-Every turn when the help-window is g-present:
-	Follow the window-drawing rules for the help-window.
-		
-A window-drawing rule for the help-window (this is the help-window drawing rule):
-	if the help-window is g-present:
-		move focus to the help-window, clearing the window;
-		if there is an act of the action-name part of the current action in the Table of Help Text:
-			choose row with an act of the action-name part of the current action in the Table of Help Text;
-			say "[bold type][syntax entry][roman type][line break][italic type][long entry].[roman type][if there is an extended entry][paragraph break][extended entry][end if]";
-			if there is a related commands entry:
-				say "[paragraph break][bold type]Related Commands[roman type]";
-				let L be a list of action-names;
-				let L be the related commands entry;
-				repeat with item running through L:
-					if there is an act of item in the Table of Help Text:
-						choose row with an act of item in the Table of Help Text;
-						if glulx hyperlinks are supported:
-							say "[line break][set link index entry][syntax entry][end link]";
-						otherwise:
-							say "[line break][index entry]. [syntax entry]";
-				unless glulx hyperlinks are supported:
-					say "[paragraph break][italic type]Type [roman type]HELP <number>[italic type] to get information about a specific command, where the number is the number printed to the left of the command in the list above.[roman type]";
-		otherwise if the action-name part of the current action is the toggling the help window action:
-			say "[standard help message]";
-		say "[run paragraph on]";[The "run paragraph on" is needed to prevent spurious line breaks in the main window.]
-		return to main screen.
-		
-To say ref (A - an action-name):
-	if there is an act of A in the Table of Help Text:
-		choose row with an act of A in the Table of Help Text;
-		say "[set link index entry][syntax entry][end link]";
-	otherwise:
-		say "".
-		
-To start looking for hyperlinks in (win - a g-window):
-	(- SetHelpLink ({win}); -)
-
-Include (-
-	
-[ SetHelpLink win;
-            if (glk_gestalt(gestalt_Hyperlinks, 0)) glk_request_hyperlink_event( win.ref_number);
-];
-
--)	
-
-Section - Toggling the help window
-
-Toggling the help window is an action applying to nothing. Understand "open help window" or "open help" or "close help window" or "close help" or "help window" as toggling the help window.
-
-Understand "open help" or "open help window" as a mistake ("The help window is already open.") when the help-window is g-present.
-
-Understand "close help" or "close help window" as a mistake ("The help window is already closed.") when the help-window is g-unpresent.
-
-Carry out toggling the help window:
-	if help-window is g-present:
-		shut down the help-window;
-		say "Help window closed.";
-	otherwise:
-		use small type in subsequently opened windows;
-		open up the help-window;
-		start looking for hyperlinks in the help-window;
-		say "Help window open."
-		
-
-Chapter - Help text hyperlink rules
-[Text hyperlinks are used only to support the help system. We need to modify the clicking hyperlink rules to generate a new command programmatically from the Table of Help Text.]
-
-The default command replacement by hyperlinks rule is not listed in any rulebook.
-
-First clicking hyperlink rule (this is the help system hyperlinks rule):
-	if there is an index of current link number in the Table of Help Text:
-		say "[line break]";
-		try requesting specific help for the current link number;
-		say "[line break][command prompt][run paragraph on]";
-		now glulx replacement command is "";
-		start looking for hyperlinks in the help-window;
-		rule succeeds.
-
-
-Chapter - The help commands
-
-Section - The basic help command
-
-Requesting help is an action applying to nothing. Understand "help" as requesting help.
-
-
-Section - Help command listing
-
-Requesting the list of commands is an action applying to nothing. Understand "help commands" as requesting the list of commands.
-
-Carry out requesting the list of commands:
-	say "Help is available for the following commands:[paragraph break]";
-	let current category be category in row 1 of the Table of Help Text;
-	say "[bold type][current category][roman type]"; 
-	repeat through the Table of Help Text:
-		if category entry is not the current category:
-			now current category is category entry;
-			say "[paragraph break][bold type][current category][roman type]";
-		if glulx hyperlinks are supported:
-			say "[line break][set link index entry][syntax entry][end link]: [italic type][short entry][roman type]";
-		otherwise:
-			say "[line break][index entry]. [syntax entry]: [italic type][short entry][roman type]";
-	unless glulx hyperlinks are supported:
-		say "[paragraph break][italic type]Type [roman type]HELP <number>[italic type] to get information about a specific command, where the number is the number printed to the left of the command in the list above.[roman type]";
-	say "[line break]";
-	
-
-Section - The categorized help command
-
-Requesting categorized help is an action applying to one value. Understand "help [a help-text category]" as requesting categorized help.
-
-Understand "help [text]" as a mistake ("That help category was not understood. The available categories are: [the list of help-text categories][paragraph break]You may type HELP <a category>, or HELP COMMANDS for a listing of all commands.").
-
-[To say (L - a list of help-text categories) in paragraphs:
-	repeat with item running through L;
-		say "[item][line break]";]
-
-Carry out requesting categorized help:
-	say "These are the [help-text category understood]:[line break]";
-	repeat through the Table of Help Text:
-		if the category entry is the help-text category understood:
-			if glulx hyperlinks are supported:
-				say "[line break][set link index entry][syntax entry][end link]: [italic type][short entry][roman type]";
-			otherwise:
-				say "[line break][index entry]. [syntax entry]: [italic type][short entry][roman type]";
-	unless glulx hyperlinks are supported:
-		say "[paragraph break][italic type]Type [roman type]HELP <number>[italic type] to get information about a specific command, where the number is the number printed to the left of the command in the list above.[roman type]";
-	say "[line break]";
-	
-
-Section - The specific help command
-
-Requesting specific help for is an action applying to one number. Understand "help [a number]" as requesting specific help for.
-
-Check requesting specific help for:
-	unless there is an index of the number understood in the Table of Help Text:
-		say "There is no help available for that index number. You may type HELP or HELP COMMANDS for a list of commands and their help index numbers.";
-		rule fails.
-		
-Carry out requesting specific help for:
-	if there is an index of the number understood in the Table of Help Text:
-		choose row with an index of the number understood in the Table of Help Text;
-		say "[bold type][syntax entry][roman type][line break][italic type][long entry].[roman type][if there is an extended entry][paragraph break][extended entry][end if]";
-		if there is a related commands entry:
-			say "[paragraph break][bold type]Related Commands[roman type]";
-			let L be a list of action-names;
-			let L be the related commands entry;
-			repeat with item running through L:
-				if there is an act of item in the Table of Help Text:
-					choose row with an act of item in the Table of Help Text;
-					if glulx hyperlinks are supported:
-						say "[line break][set link index entry][syntax entry][end link]";
-					otherwise:
-						say "[line break][index entry]. [syntax entry]";
-			unless glulx hyperlinks are supported:
-				say "[paragraph break][italic type]Type [roman type]HELP <number>[italic type] to get information about a specific command, where the number is the number printed to the left of the command in the list above.[roman type]";
-
-
-Chapter - The Table of Help Text
-
-Help-text category is a kind of value. The help-text categories are Interface Commands and Drawing Commands.
-
-
-Table of Help Text
-index	act	syntax	category	short	long	extended	related commands
-1	the changing the color of action	"CHANGE <HIGHLIGHT, OUTLINE, CANVAS BACKGROUND> COLOR TO <color name>"	Interface Commands	"Change interface and canvas background colors"	"Changes the color of the stroke used to highlight elements, the color of the border of the canvas (if visible), or the canvas/window background"	"There are three options that this command affects:[paragraph break]HIGHLIGHT COLOR: The color of the box that surrounds elements during scaling.[line break]OUTLINE COLOR: The color of the box that is (optionally) used to outline the canvas area.[paragraph break]CANVAS BACKGROUND COLOR: The background color of the window containing the canvas.[paragraph break]Changing the canvas background color will result in the color being indicated in the source code using Flexible's Windows back-colour property, e.g. 'The back-colour of the graphics-window is g-Lavender.'[paragraph break]The color name is supplied as a glulx color value, such as g-Black or g-LemonChiffon. Use the [ref listing available colors action] command to see a list of the available colors."	{listing available colors action, toggling image highlight color action, changing the foreground color action, changing the background color action}
-2	the listing available colors action	"LIST COLORS"	Interface Commands	"List all available color names"	"Lists all of the available color names"	"A list of color names (glulx color values) that can be used to set colors of both the interface (such as the highlighting box that surrounds elements during GUI scaling) and of drawn elements, such as drawn rectangles and painted text."	{changing the foreground color action, changing the background color action, changing the color of action}
-3	the selecting highlight type action	"CHANGE HIGHLIGHT TYPE"	Interface Commands	"Change the display style of selected elements"	"Changes the style used to highlight selected elements within the editor window"	"Elements can be highlighted either by an translucent block of color (the default), or by a stroked box surrounding the element. The latter is always used for GUI scaling. After entering the command, you will be asked to select the type to be used from a menu."	{listing available colors action, changing the color of action, toggling image highlight color action, toggling the canvas outline action}
-4	the toggling image highlight color action	"TOGGLE IMAGE HIGHLIGHT COLOR"	Interface Commands	"Change the highlight selection color"	"Change the highlight selection color when images are being used to indicate selected elements"	"Either a translucent image (a block of color) or a colored stroked box can be used to highlight selected elements in the editor window. This command allows us to toggle between the two provided images. The command will have no immediate effect if we are using the stroke highlight option; we will see a difference only when we switch to image highlighting."	{selecting highlight type action, changing the color of action}
-5	the toggling the canvas outline action	"CANVAS OUTLINE"	Interface Commands	"Toggle the canvas outline"	"Toggle the thin rule outlining the canvas area"	"By default, the canvas area is outlined with a thin rule for your reference."	{changing the color of action}
-6	the toggling the drawing window action	"DRAWING TOOLS"	Drawing Commands	"Toggle the drawing window"	"Open or close the drawing window, as appropriate"	"The drawing tools allow you to draw primitive shapes (rectangles, boxes, lines) as well as to text-paint arbitrary strings to your canvas."	{drawing a primitive action, drawing a string action, changing the foreground color action, changing the background color action, changing the line-weight action}
-7	the drawing a primitive action	"DRAW <RECTANGLE, BOX, STROKED RECTANGLE, LINE>"	Drawing Commands	"Draw an element primitive"	"Draw an element primitive"	"You can draw the following primitive shapes:[paragraph break]RECTANGLE: a solid box of color;[line break]BOX: a rectangular area outlined by a colored line;[line break]STROKED RECTANGLE: a solid box of color outlined by a stroke in another color.[line break]LINE: a single line segment[paragraph break]After typing the command, you will be prompted to define the upper left and then the lower right corner of the desired shape (or for lines, the origin and end points). All of these primitive are displayed in the current element color, except the stroked rectangle which uses both the element color setting (for the rectangle's fill) and the element background color (for the stroked outline)."	{drawing a string action, changing the foreground color action, changing the background color action, changing the line-weight action}
-8	the drawing a string action	"DRAW <BITMAP STRING, ELEMENT STRING>"	Drawing Commands	"Paint text to the canvas"	"Paint arbitrary text to the canvas"	"Tools are provided to render arbitrary strings graphically in two ways:[paragraph break]BITMAP STRING: Text is displayed as a bitmap, rendered using Glulx to paint individual pixels;[line break]IMAGE STRING: Text is displayed using one image for each glyph in the font.[paragraph break]After typing the command, you will be prompted to define the origin point of the string element by clicking in the editor window. Strings can be left-aligned, center-aligned, or right-aligned (the default is left-aligned); depending on which of these is selected, the origin point will be either the top left, the top center, or the top right of the painted text as displayed.[paragraph break]The color of a bitmap rendered string can be set using the element color option (see link below); the color of the text in an image rendered string cannot be changed. Both types of fonts can be given a background color using the element background color option (see below)."	{drawing a primitive action, changing the foreground color action, changing the background color action, changing the line-weight action, left-aligning a string action, center-aligning a string action, right-aligning a string action}
-9	the left-aligning a string action	"LEFT-ALIGN STRING"	Drawing Commands	"Set strings to align left"	"Set rendered strings to align left (default)"	"Any rendered strings (painted texts) created after setting this option will be left-aligned. Select a rendered string before invoking the command to make it left-aligned."	{Drawing a string action, center-aligning a string action, right-aligning a string action}
-10	the center-aligning a string action	"CENTER-ALIGN STRING"	Drawing Commands	"Set strings to align center"	"Set rendered strings to align center"	"Any rendered strings (painted texts) created after setting this option will be center-aligned. Select a rendered string before invoking the command to make it center-aligned."	{Drawing a string action, left-aligning a string action, right-aligning a string action}
-11	the right-aligning a string action	"RIGHT-ALIGN STRING"	Drawing Commands	"Set strings to align right"	"Set rendered strings to align right"	"Any rendered strings (painted texts) created after setting this option will be right-aligned. Select a rendered string before invoking the command to make it right-aligned."	{Drawing a string action, left-aligning a string action, center-aligning a string action}
-12	the changing the line-weight action	"LINE WEIGHT <a number>"	Drawing Commands	"Change the line-weight of drawn elements"	"Change the line-weight/dot size of element primitives and painted texts"	"Changes the line-weight of primitive elements and bitmap rendered strings drawn with the [ref toggling the drawing window action]. Changes the setting for new elements and, when invoked on selected elements, changes the value for those elements.[paragraph break]Affects box, stroked rectangle, and line primitives. When invoked on a bitmap rendered string, this command changes the dot size of the painted text; that is, the dimensions of each dot that makes up the bitmap. Thus, a line-weight/dot size of 2 indicates that each bit in the bitmap will occupy 4 pixels (a 2 x 2 grid)."	{drawing a primitive action, drawing a string action, changing the foreground color action, changing the background color action}
-13	the changing the foreground color action	"ELEMENT COLOR <a color name>"	Drawing Commands	"Change the color of drawn elements"	"Change the color of element primitives and bitmap rendered strings"	"Changes the color of elements drawn with the [ref toggling the drawing window action]. Has no effect on image rendered strings (painted text). The color name is supplied as a glulx color value, such as g-Black or g-LemonChiffon. Use the [ref listing available colors action] command to see a list of the available colors."	{listing available colors action, changing the color of action, toggling the drawing window action, changing the background color action}
-14	the changing the background color action	"ELEMENT BACKGROUND COLOR <a color name>"	Drawing Commands	"Change the background color of drawn elements"	"Change the background color of rendered strings and stroked rectangle primitives"	"Changes the background color of elements drawn with the [ref toggling the drawing window action]. The background element color can be specified for both bitmap and image rendered strings, and it also defines the stroke color for stroked rectangle primitives. Has no effect on rectangles, boxes, or lines. The color name is supplied as a glulx color value, such as g-Black or g-LemonChiffon. Use the [ref listing available colors action] command to see a list of the available colors."	{listing available colors action, changing the color of action, toggling the drawing window action, changing the foreground color action}
-]
 		
 
 Part - The Status Line
@@ -1128,6 +935,9 @@ Figure of Color-Picker Right is the file "130_Color-picker_right.png".
 Figure of Null Color-Chip is the file "131_Null_color-chip.png".
 Figure of Tag Active is the file "132_Tag_active.png".Figure of Tag Inactive is the file "133_Tag_inactive.png".Figure of Tag Delete Active is the file "134_TagDelete_active.png".Figure of Tag Delete Inactive is the file "135_TagDelete_inactive.png".
 Figure of Duplicate Active is the file "136_Duplicate_active.png".Figure of Duplicate Inactive is the file "137_Duplicate_inactive.png".
+Figure of Zoom In is the file "138_Zoom_in.png".
+Figure of Zoom Out Active is the file "139_Zoom_out_active.png".
+Figure of Zoom Out Inactive is the file "140_Zoom_out_inactive.png".
 
 Figure of Occluder is the file "Occluder.png".
 Figure of Eyeball Active is the file "Eyeball_active.png".
@@ -1169,12 +979,12 @@ Figure of Layer 21 is the file "Layer 21.png".
 Figure of Layer 22 is the file "Layer 22.png".
 Figure of Layer 23 is the file "Layer 23.png".
 
-The built-in resources index is a number that varies. The built-in resources index is 179. [This number is the resource number of the last of the internal figures, i.e. those in the first list, which we want to exclude from the library window.]
+The built-in resources index is a number that varies. The built-in resources index is usually 181. [This number is the resource number of the last of the internal figures, i.e. those in the first list, which we want to exclude from the library window.]
 
 
 Part - Highlighting
 
-The current highlight image is a figure-name that varies. The current highlight image is Figure of Highlight.
+The current highlight image is a figure name that varies. The current highlight image is usually Figure of Highlight.
 
 To draw element-selection markers:
 	repeat with selected-element running through the element-selection set:
@@ -1199,14 +1009,14 @@ Indicated layers is a number that varies. Indicated layers is 2. [This is the nu
 Layer indicator margin is a number that varies. Layer indicator margin is 5.
 Layer indicator allowance is a number that varies. Layer indicator allowance is 2.
 
-Indicated-icon is a figure-name that varies. Indicated-icon is Figure of Layer Indicated.
-Occupied-icon is a figure-name that varies. Occupied-icon is Figure of Layer Occupied.
-Selected-icon is a figure-name that varies. Selected-icon is Figure of Layer Selected.
-Layer-icon is a figure-name that varies. Layer-icon is Figure of Layer Icon.
-Occupied-terminator is a figure-name that varies. Occupied-terminator is Figure of Layer Terminator Occupied.
-Terminator-icon is a figure-name that varies. Terminator-icon is Figure of Layer Terminator.
-Selected-terminator is a figure-name that varies. Selected-terminator is Figure of Layer Terminator Selected.
-The scan-height is a number that varies. The scan-height is 36. [The layer icons are designed to overlap one another. The scan-height in the number of pixels, counting from the *bottom* of the original image, where that overlap begins. We use the bottom because the layer indicator is built from the bottom up.]
+Indicated-icon is a figure name that varies. Indicated-icon is Figure of Layer Indicated.
+Occupied-icon is a figure name that varies. Occupied-icon is Figure of Layer Occupied.
+Selected-icon is a figure name that varies. Selected-icon is Figure of Layer Selected.
+Layer-icon is a figure name that varies. Layer-icon is Figure of Layer Icon.
+Occupied-terminator is a figure name that varies. Occupied-terminator is Figure of Layer Terminator Occupied.
+Terminator-icon is a figure name that varies. Terminator-icon is Figure of Layer Terminator.
+Selected-terminator is a figure name that varies. Selected-terminator is Figure of Layer Terminator Selected.
+The scan-height is a number that varies. The scan-height is 36. [The layer icons are designed to overlap one another. The scan-height is the number of pixels, counting from the *bottom* of the original image, where that overlap begins. We use the bottom because the layer indicator is built from the bottom up.]
 
 A layer-element is a kind of sprite. The associated canvas is the layers-canvas.
 A layer-element has a number called the layer-index. 
@@ -1246,11 +1056,6 @@ The layer indicator construction rulebook has a real number called the layer ind
 The layer indicator construction rulebook has a number called the layer icon width.
 The layer indicator construction rulebook has a number called the layer icon height.
 The layer indicator construction rulebook has a number called the top margin.
-
-[The first layer indicator construction rule (this is the adjust layers grid rule):
-	if the layers-window is g-present:
-		change grid-x of the layers-window to the width of the layers-window;
-		change grid-y of the layers-window to the height of the layers-window;]
 		
 The first layer indicator construction rule (this is the place reveal icon rule):
 	if the layers-window is g-present:
@@ -1332,11 +1137,9 @@ A layer indicator construction rule (this is the draw layer icons rule):
 	
 Part - Define dynamic sprites
 
-[Because Inform lacks multiple inheritance, we need to create a full system of kinds parallel to those usable with Canvas-Based Drawing. We define most of the properties with the dynamic-sprite, and then apply them later to other classes.]
+[Because Inform lacks multiple inheritance, we need to create a full system of kinds parallel to those usable with Canvas-Based Drawing. We define most of the properties with the dynamic-sprite, and then apply them later to other classes. A parallel effect could probably be achieved with properties (and it likely should have been done that way), but I was never satisfied with methods that didn't use kinds--so we have this unwieldy system...]
 
 A thing can be either real or legerdemained. A thing is usually real.
-
-[A g-element can be dynamic or static. A g-element is usually static.]
 
 Definition: A g-element is in-play:
 	if it is standard, yes;
@@ -1344,8 +1147,6 @@ Definition: A g-element is in-play:
 	no.
 
 A dynamic-sprite is a kind of sprite. The associated canvas of a dynamic-sprite is the library-canvas.
-
-[A dynamic-sprite is dynamic.]
 
 A dynamic-sprite has an indexed text called the element-name. The element-name is usually "". 
 
@@ -1356,11 +1157,11 @@ A dynamic-sprite can be deleted, standard, instanced, or parental. A dynamic-spr
 A dynamic-sprite has some text called the kind-flag. The kind-flag of a dynamic-sprite is "sprite".
 A dynamic-sprite has some indexed text called the of-kind.
 
-A dynamic-sprite has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting, whereby lists cannot be sorted on indexed text properties.]
+A dynamic-sprite has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in 5Z71, whereby lists cannot be sorted on indexed text properties. The bug was fixed in 6Exx, but I didn't have the gumption to change everything back...]
 
 A dynamic-sprite has some indexed text called the replacement-command. The replacement-command is "".
 
-A dynamic-sprite has a figure-name called the image-ID. The image-ID is usually Figure of Error.
+A dynamic-sprite has a figure name called the image-ID. The image-ID is usually Figure of Error.
 
 A dynamic-sprite has some indexed text called the tag.
 
@@ -1375,15 +1176,15 @@ The mother-sprite is a dynamic-sprite. The image-ID is Figure of Error. The elem
 Current-row is a number that varies. Current-row is 0.
 
 To initialize the/-- dynamic sprites:
-	let L be the list of figure-names;
+	let L be the list of figure names;
 	repeat with current-sprite running through L:
 		if the resource number of current-sprite is greater than the built-in resources index:
 			create a new sprite from mother-sprite using current-sprite.
 		
-To decide which number is the resource number of (F - a figure-name):
-	(- {F} -)
+To decide which number is the resource number of (F - a figure name):
+	(- ResourceIDsOfFigures-->{F} -)
 
-To create a new sprite from (S - a g-element) using (F - a figure-name):
+To create a new sprite from (S - a g-element) using (F - a figure name):
 	let the new sprite be a new object cloned from S;
 	change the image-ID of the new sprite to F;
 	change the display status of new sprite to g-active;
@@ -1396,7 +1197,7 @@ To create a new sprite from (S - a g-element) using (F - a figure-name):
 	unlink the tag of the new sprite;
 	change entry 2 of the origin of the new sprite to current-row plus 8;
 	let vertical-offset be the image-height of the image-ID of the new sprite;
-	increment the current-row by the vertical-offset;
+	increase the current-row by the vertical-offset;
 	if using the logged sprite creation option, say "New sprite [element-name of new sprite] created from [image-ID of new sprite].";
 
 To decide which indexed text is (T - indexed text) concatenated with (N - a number):
@@ -1407,18 +1208,7 @@ To decide which indexed text is (T - indexed text) stripped of (R - indexed text
 	decide on "[T]".
 	
 To unlink (P - property) of (O - object):
-	(- UnlinkProp({P}, {O}); -). [unlinking code provided by Jesse McGrew]
-
-Include (-
-
-[ UnlinkProp prop obj  v;
-	v = obj.prop;
-	obj.prop = BlkValueCreate(v-->BLK_HEADER_KOV);
-	BlkValueCopy(obj.prop, v);
-];
-
- -) [unlinking code provided by Jesse McGrew]
-
+	(- DO_UnlinkProp({P}, {O}); -). [see Dynamic Objects for the definition of this routine]
 
 To say objUID of (O - an object):
 	(- print {O}; -)
@@ -1460,9 +1250,6 @@ To decide which g-element is the progenitor of (G - a g-primitive):
 To decide which g-element is the progenitor of (G - a g-string):
 	if there is a g-string of G in the Table of String Types:
 		decide on the mother-element corresponding to a g-string of G in the Table of String Types.
-		
-[The tint of a primitive is g-white.
-The tint of a rendered string is g-white.]
 
 
 Section - Dynamic rectangles
@@ -1473,7 +1260,7 @@ A dynamic-rectangle has an indexed text called the element-name. The element-nam
 A dynamic-rectangle has a number called the instance-counter. The instance-counter is usually 0.
 A dynamic-rectangle can be deleted, standard, instanced, or parental. A dynamic-rectangle is usually parental.
 A dynamic-rectangle has some indexed text called the of-kind. The of-kind is usually "".
-A dynamic-rectangle has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting, whereby lists cannot be sorted on indexed text properties.]
+A dynamic-rectangle has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-rectangle has some indexed text called the replacement-command. The replacement-command is "".
 A dynamic-rectangle has some text called the kind-flag. The kind-flag is "rectangle primitive".
 A dynamic-rectangle has some indexed text called the tag.
@@ -1489,7 +1276,7 @@ A dynamic-box has an indexed text called the element-name. The element-name is u
 A dynamic-box has a number called the instance-counter. The instance-counter is usually 0.
 A dynamic-box can be deleted, standard, instanced, or parental. A dynamic-box is usually parental.
 A dynamic-box has some indexed text called the of-kind. The of-kind is usually "".
-A dynamic-box has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting, whereby lists cannot be sorted on indexed text properties.]
+A dynamic-box has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in build 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-box has some indexed text called the replacement-command. The replacement-command is "".
 A dynamic-box has some text called the kind-flag. The kind-flag is "box primitive".
 A dynamic-box has some indexed text called the tag.
@@ -1505,7 +1292,7 @@ A dynamic-stroked-rectangle has an indexed text called the element-name. The ele
 A dynamic-stroked-rectangle has a number called the instance-counter. The instance-counter is usually 0.
 A dynamic-stroked-rectangle can be deleted, standard, instanced, or parental. A dynamic-stroked-rectangle is usually parental.
 A dynamic-stroked-rectangle has some indexed text called the of-kind. The of-kind is usually "".
-A dynamic-stroked-rectangle has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting, whereby lists cannot be sorted on indexed text properties.]
+A dynamic-stroked-rectangle has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-stroked-rectangle has some indexed text called the replacement-command. The replacement-command is "".
 A dynamic-stroked-rectangle has some text called the kind-flag. The kind-flag is "stroked rectangle primitive".
 A dynamic-stroked-rectangle has some indexed text called the tag.
@@ -1521,7 +1308,7 @@ A dynamic-line has an indexed text called the element-name. The element-name is 
 A dynamic-line has a number called the instance-counter. The instance-counter is usually 0.
 A dynamic-line can be deleted, standard, instanced, or parental. A dynamic-line is usually parental.
 A dynamic-line has some indexed text called the of-kind. The of-kind is usually "".
-A dynamic-line has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting, whereby lists cannot be sorted on indexed text properties.]
+A dynamic-line has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-line has some indexed text called the replacement-command. The replacement-command is "".
 A dynamic-line has some text called the kind-flag. The kind-flag is "line primitive".
 A dynamic-line has some indexed text called the tag.
@@ -1537,7 +1324,7 @@ A dynamic-bitmap-string has an indexed text called the element-name. The element
 A dynamic-bitmap-string has a number called the instance-counter. The instance-counter is usually 0.
 A dynamic-bitmap-string can be deleted, standard, instanced, or parental. A dynamic-bitmap-string is usually parental.
 A dynamic-bitmap-string has some indexed text called the of-kind. The of-kind is usually "".
-A dynamic-bitmap-string has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting, whereby lists cannot be sorted on indexed text properties.]
+A dynamic-bitmap-string has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-bitmap-string has some indexed text called the replacement-command. The replacement-command is "".
 A dynamic-bitmap-string has some text called the kind-flag. The kind-flag is "bitmap-rendered string".
 A dynamic-bitmap-string has some indexed text called the tag.
@@ -1552,7 +1339,7 @@ A dynamic-image-string has an indexed text called the element-name. The element-
 A dynamic-image-string has a number called the instance-counter. The instance-counter is usually 0.
 A dynamic-image-string can be deleted, standard, instanced, or parental. A dynamic-image-string is usually parental.
 A dynamic-image-string has some indexed text called the of-kind. The of-kind is usually "".
-A dynamic-image-string has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting, whereby lists cannot be sorted on indexed text properties.]
+A dynamic-image-string has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-image-string has some indexed text called the replacement-command. The replacement-command is "".
 A dynamic-image-string has some text called the kind-flag. The kind-flag is "image-rendered string".
 A dynamic-image-string has some indexed text called the tag.
@@ -1608,39 +1395,6 @@ Carry out library-paging:
 	follow the window-drawing rules for the library-window;
 	follow the window-drawing rules for the paging-window;
 	rule succeeds;
-
-[
-This is the library-header drawing rule:
-	draw a g-medium-grey box library-bar pixels deep spanning the library-window;
-	let margin be library-bar / 4;
-	let sprite-size be (library-bar minus margin) minus margin;
-	change entry 1 of the origin of page-left_button to margin;
-	change entry 2 of the origin of page-left_button to margin;
-	change entry 2 of the origin of page-right_button to margin;
-	[let margin be margin plus margin plus sprite-size;]
-	[change entry 1 of the origin of page-right_button to margin;]
-	change entry 1 of the origin of page-right_button to (grid-x of library-window minus margin) minus sprite-size;
-	repeat with current-element running through display-active paging-buttons:
-		let win-x be entry 1 of the origin of current-element;
-		let win-y be entry 2 of the origin of current-element;
-		draw sprite current-element in library-window at coordinates win-x and win-y with dimensions sprite-size and sprite-size;
-		if current-element is graphlink-active:
-			set a graphlink in library-window identified as current-element from win-x by win-y to (win-x + sprite-size) by (win-y + sprite-size) as the linked replacement-command of current-element;
-			
-To draw a (color - a glulx color value) box (depth - a number) pixel/pixels deep spanning the/-- (win - a g-window):
-	(- DrawSpanner({color}, {depth}, {win}); -)
-	
-Include (-
-
-[ DrawSpanner color depth win ;
-	if (win.ref_number) {
-		color = ColVal(color);
-		glk_window_fill_rect(win.ref_number, color, 0, 0, win.grid_x, depth);
-	}
-];
-
--)
-]
 
 To page and scale the/-- library-window sprites: 
 	if the library-window is g-present:
@@ -1723,14 +1477,14 @@ To draw the/-- library instances of/in (win - a g-window):
 				if current-element is graphlinked:
 					set a graphlink in win identified as current-element from elem-x by elem-y to (elem-x + dim-x) by (elem-y + dim-y) as the linked replacement-command of current-element;
 					[say "Graphlinked as: [elem-x],[elem-y] - [elem-x + dim-x],[elem-y + dim-y][line break]";]
-					
+
 
 Part - Control Window tabs and buttons
 
 A UI-element is a kind of sprite. The graphlink status is usually g-active. The linked replacement-command is usually "". The associated canvas of a UI-element is the control-canvas. 
 
-A UI-element has a figure-name called the active-state.
-A UI-element has a figure-name called the inactive-state.
+A UI-element has a figure name called the active-state.
+A UI-element has a figure name called the inactive-state.
 
 [This phrase allows us to peg a UI element to a boolean, and is used with checkboxes, dual-selection radio buttons, and modal buttons]
 To update (M - a UI-element) using (boolean - a truth state):
@@ -1779,7 +1533,7 @@ Scale_tab	Figure of Scale Tab	"SCALE MODE"	{411, 558}	Scale_bkgd
 Move_tab	Figure of Move Tab	"MOVE MODE"	{332, 558}	Move_bkgd
 
 
-The display-layer of Move_tab is 4. [The tab that will be activated on initial startup is set here.]
+The display-layer of Move_tab is usually 4. [Sets the tab that will be activated on startup.]
 
 
 Chapter - Buttons
@@ -1788,7 +1542,7 @@ A button is a kind of UI-element. The display status of a button is usually g-in
 
 The button-layer is a number that varies. The button-layer is 4. The display-layer of a button is 4.
 
-Some buttons are defined by the Table of Button-Sprites. [Buttons that occur outside the tabs need to be made display-active from the beginning.]
+Some buttons are defined by the Table of Button-Sprites. [Buttons that occur outside the tabs need to be made display-active from the beginning, while buttons within tabs will be activated/deactivated by their tabs.]
 
 Table of Button-Sprites						
 sprite	image-ID	origin	active-state	inactive-state	linked replacement-command	display status
@@ -1812,6 +1566,7 @@ Graphlink_delete_button	Figure of Graphlink Delete Inactive	{225, 329}	Figure of
 Help_button	Figure of Help Inactive	{199, 563}	Figure of Help Active	Figure of Help Inactive	""	g-active
 Info_button	Figure of Info Inactive	{73, 563}	Figure of Info Active	Figure of Info Inactive	"INFO"	g-active
 Delete_button	Figure of Delete Inactive	{34, 563}	Figure of Delete Active	Figure of Delete Inactive	"DELETE"	g-active
+Zoom_button	Figure of Zoom In	{121, 563}	Figure of Zoom Out Active	Figure of Zoom In	"ZOOM"
 Draw_button	Figure of Draw Inactive	{160, 563}	Figure of Draw Active	Figure of Draw Inactive	"[if drawing-window is g-present]CLOSE DRAWING TOOLS[otherwise]OPEN DRAWING TOOLS"	g-active
 Select_all_button	Figure of Select All Inactive	{39, 143}	Figure of Select All Active	Figure of Select All Inactive	"SELECT ALL"	g-inactive
 Select_kind_button	Figure of Select Kind Inactive	{192, 143}	Figure of Select Kind Active	Figure of Select Kind Inactive	"SELECT SAME KIND"	g-inactive
@@ -1833,9 +1588,6 @@ Reveal_button	Figure of Reveal Instance Inactive	{52, 439}	Figure of Reveal Inst
 Tag_button	Figure of Tag Inactive	{52, 274}	Figure of Tag Active	Figure of Tag Inactive	"TAG"	g-inactive
 Tag_delete_button	Figure of Tag Delete Inactive	{221, 274}	Figure of Tag Delete Active	Figure of Tag Delete Inactive	"DELETE TAG"	g-inactive
 Duplicate_button	Figure of Duplicate Inactive	{275, 461}	Figure of Duplicate Active	Figure of Duplicate Inactive	"DUPLICATE"	g-inactive
-	
-
-[Default_scaler is an image-rendered string. The associated canvas is the control-canvas. The associated font is Glimmr Lucidex. The text-string is "[default scaling factor]". The origin is {276, 468}. The x-scaling factor is 0.4500. The display-layer is 4. The display status is g-inactive.]
 
 
 Chapter - Modal Buttons
@@ -1850,8 +1602,7 @@ layer_reveal_modal	Figure of Eyeball Inactive	{0, 0}	Figure of Eyeball Active	Fi
 
 
 Chapter - Checkboxes
-
-[Check boxes could easily be modeled as modal buttons, but are broken out for clarity, and to ease later code changes.]
+[Check boxes could easily be modeled as modal buttons, but are broken out for clarity, and to ease any later code/image changes.]
 
 A checkbox is a kind of UI-element. The display status of a checkbox is usually g-inactive. The display-layer of a checkbox is 4.
 
@@ -1984,7 +1735,6 @@ A clicking graphlink rule when the current graphlink window is the control-windo
 	
 
 Chapter - Button animation
-
 [This is a customized version of the "default command replacement by graphlinks rule" from Graphic Hyperlinks for Flexible Windows extension. The only real difference is that it provides for an animation when buttons are pressed.]
 
 The currently depressed button is a sprite that varies. The currently depressed button is info_button.
@@ -2033,21 +1783,14 @@ To decide whether we are in a strictly modal situation:
 	if identity reassignment mode is true, decide yes;
 	if center-overlay mode is true, decide yes;
 	if alignment mode is true, decide yes;
+	[if drawing mode is true, decide yes;]
 	decide no;
 	
 After reading a command when we are in a strictly modal situation:
 	unless the player's command matches "page [nudge-direction]":
 	[allows the player to page the library in a modal situation, but any other action that generates a command will cancel the mode.]
 		cancel the current strict mode[, verbosely];
-			
-[Delete, if decide phrase above functions properly as a condition:
-After reading a command when we are in a strictly modal situation:
-	if we are in a strictly modal situation:
-		unless the player's command matches "page [nudge-direction]":
-		[allows the player to page the library in a modal situation, but any other action that generates a command will cancel the mode.]
-			cancel the current strict mode[, verbosely];
-]
-				
+						
 A clicking graphlink rule when we are in a strictly modal situation and the current graphlink window is the working window (this is the strict modal mouse input rule):
 	let the selected-element be entry 1 of the element-selection set;
 	if center-overlay mode is true and the click hit a hot link:
@@ -2135,7 +1878,7 @@ Carry out spawning sprites:
 	rule succeeds;
 
 To create a new sprite from (S - a sprite) in (win - a g-window):
-	increment the instance-counter of S by 1;
+	increase the instance-counter of S by 1;
 	let the new sprite be a new object cloned from S;
 	now the new sprite is standard;
 	change the associated canvas of the new sprite to the associated canvas of win;
@@ -2225,19 +1968,13 @@ Include (-
 
 -)
 
-[Before doing something when drawing mode is true:
-	say "[bracket]Element drawing canceled.[close bracket]";
-	cancel drawing mode;
-	continue the action.]
-
 
 Chapter - Control for element drawing
 	
 A clicking graphlink rule when drawing mode is true and the current graphlink window is the working window (this is the click to draw rule):
 	now glulx replacement command is "";
-	[need to expand the strictly modal situation flag so that it refers to the drawing mode.]
 	if first point is {-999, -999}:
-		change first point to the grid equivalent of the screen coordinates (current graphlink x) by (current graphlink y) of the current graphlink window;
+		change first point to the canvas equivalent of the screen coordinates (current graphlink x) by (current graphlink y) of the current graphlink window;
 		if the currently drawn element is a rendered string:
 			follow the string creation rule;
 			follow the window-drawing rules for the working window;
@@ -2245,7 +1982,7 @@ A clicking graphlink rule when drawing mode is true and the current graphlink wi
 		otherwise:
 			say "Now click in the editor window to set the [if the currently drawn element is a line primitive]end point[otherwise]opposite corner[end if].";
 	otherwise:
-		change second point to the grid equivalent of the screen coordinates (current graphlink x) by (current graphlink y) of the current graphlink window;
+		change second point to the canvas equivalent of the screen coordinates (current graphlink x) by (current graphlink y) of the current graphlink window;
 		unless the currently drawn element is a line primitive:
 			if entry 1 of second point < entry 1 of first point:
 				let x1 be entry 1 of first point;
@@ -2267,6 +2004,9 @@ A clicking graphlink rule when drawing mode is true and the current graphlink wi
 	now glulx replacement command is "";
 	rule succeeds.
 
+To force-restart line input:
+	(- glk_request_line_event(gg_mainwin, buffer+WORDSIZE, INPUT_BUFFER_LEN-WORDSIZE, 0); -)
+
 The cancel drawing mode rule is listed before the click to draw rule in the clicking graphlink rules.
 
 Cancelling drawing rules are a rulebook.
@@ -2276,11 +2016,10 @@ A cancelling drawing rule:
 	now second point is {-999, -999};
 	return to normal input;
 	now drawing mode is false;
+	now glulx replacement command is "";
 	repeat with item running through drawing tools:
 		make inactive the item;
-	follow the window-drawing rules for the drawing-window;
-	follow the window-drawing rules for the working window.
-	
+	refresh windows.	
 
 Chapter - Spawning new element primitives
 	
@@ -2326,7 +2065,6 @@ To create a new primitive from (X - a g-element) in (win - a g-window):
 
 
 Chapter - Spawning new text elements
-[This is incomplete--a number of other properties need to be unlinked, for example.]
 
 This is the string creation rule:
 	return to normal input;
@@ -2334,12 +2072,8 @@ This is the string creation rule:
 	now current prompt is "Enter a string: >";
 	ask a closed question, in text mode;
 
-A text question rule when the current action is drawing a string (this is the string element text input rule):
-	if the current answer is "":
-		say "[bracket]Rendered string drawing canceled.[close bracket]";
-		follow the cancelling drawing rules;
-		exit;
-	replace the text "[quotation mark]" in the current answer with "";
+A text question rule when drawing mode is true (this is the string element text input rule):
+	replace the text "[quotation mark]" in the current answer with "_";
 	create a new rendered string from the currently drawn element in the working window using the current answer;
 	follow the cancelling drawing rules;
 	follow the window-drawing rules for the working window;
@@ -2352,11 +2086,11 @@ To create a new rendered string from (X - a rendered string) in (win - a g-windo
 	change the display status of new element to g-active;
 	unlink the element-name of the new element;
 	change the element-name of the new element to "[text input]" concatenated with the instance-counter of X;
+	replace the regular expression "\p" in the element-name of the new element with "_";
 	replace the text " " in the element-name of the new element with "_";
 	replace the regular expression "\b(\w)(\w*)" in the element-name of the new element with "\u1\l2";
-	[It would be better for these to be set to the default scaling parameter:
-		change the x-scaling factor of the new element to 1.0000;
-	change the y-scaling factor of the new element to 1.0000;]
+	change the x-scaling factor of the new element to the default scaling factor;
+	change the y-scaling factor of the new element to the default scaling factor;
 	unlink the of-kind of the new element;
 	unlink the tag of the new element;
 	unlink the replacement-command of the new element;
@@ -2833,28 +2567,6 @@ Carry out select-tab clicking:
 	say "The editor is now in SELECT mode. Click on a sprite to select it; click on it again to deselect. You may click on the background to deselect all sprites.";
 	now glulx replacement command is "";
 	consider the window-drawing rules for the control-window;
-
-[To decide if selection-mode is active:
-	if select-on_button is display-active:
-		decide yes;
-	otherwise:
-		decide no.]
-		
-[A clicking graphlink rule when the current graphlink window is the library-window and current graphlink y is less than library-bar (this is the clicking in library header rule):
-	follow the default command replacement by graphlinks rule;]
-		
-[A clicking graphlink rule when the current graphlink window is the library-window (this is the clicking in library rule):
-	if current graphlink y is less than library-bar: [we are clicking in the window header]
-		follow the default command replacement by graphlinks rule;
-		rule succeeds;
-	if the click hit a hot link:
-		create a new sprite from the current graphlink in the working window;
-		actuate move-on_button;
-		follow the window-drawing rules for the control-window;
-		update the status line;
-		now glulx replacement command is "";
-		rule succeeds;
-	now glulx replacement command is "";]
 	
 
 Chapter  - Selecting Elements
@@ -2879,7 +2591,7 @@ A clicking graphlink rule when the current graphlink window is the working windo
 
 Section - Multiple-selection commands
 
-Selecting all is an action applying to nothing. Understand "select all" or "all" or "a" as selecting all. [Selects all visible sprites in the graphics-window.]
+Selecting all is an action applying to nothing. Understand "select all" or "all" or "a" as selecting all. [Selects all visible elements in the editor window.]
 
 Carry out selecting all:
 	now element-selection set is {};
@@ -2901,8 +2613,8 @@ Carry out deselecting all:
 	now element-selection set is {};
 	say "Elements deselected.";
 	update the status line;
-	follow the window-drawing rules for the working window;
-	[follow the window-drawing rules for the layers-window;]
+	follow the window-drawing rules for the working window.
+	[follow the window-drawing rules for the layers-window.]
 	
 Selecting by kind is an action applying to nothing. Understand "select same kind" or "same kind" or "select kind" as selecting by kind.
 
@@ -3003,14 +2715,12 @@ Check element-moving:
 		say "[bracket]That command can only be generated by the editor; it cannot be typed. Try MOVE HORIZONTALLY <distance> or MOVE VERTICALLY <distance>.[close bracket][paragraph break]";
 		rule fails;
 	if the element-selection set is empty:
-		rule fails;
-	[if the number of entries in the element-selection set is greater than 1:
-		change the current status message to "Only the last item selected was moved.[line break][run paragraph on]";]
+		rule fails.
 
 Carry out element-moving:
 	let min-x be entry 1 of the origin of entry 1 of the element-selection set;
 	let min-y be entry 2 of the origin of entry 1 of the element-selection set;
-	let the clicked coordinates be the grid equivalent of the screen coordinates (current graphlink x) by (current graphlink y) of the current graphlink window;
+	let the clicked coordinates be the canvas equivalent of the screen coordinates (current graphlink x) by (current graphlink y) of the current graphlink window;
 	repeat with candidate running through the element-selection set:
 		if entry 1 of the origin of the candidate < min-x:
 			let min-x be entry 1 of the origin of candidate;
@@ -3029,24 +2739,6 @@ Carry out element-moving:
 		say "Element [element-name of current-element] moved to [origin of the current-element in brace notation].";
 	consider the window-drawing rules for the working window;
 	update the status line;
-
-
-
-[Carry out element-moving:
-	let current-element be entry 1 of the element-selection set;
-	let the clicked coordinates be the grid equivalent of the screen coordinates (current graphlink x) by (current graphlink y) of the current graphlink window;
-	change entry 1 of the origin of the current-element to entry 1 of the clicked coordinates;
-	change entry 2 of the origin of the current-element to entry 2 of the clicked coordinates;
-	if the current-element is a primitive:
-		let x1 be entry 1 of the origin of the current-element;
-		let y1 be entry 2 of the origin of the current-element;
-		change entry 1 of the endpoint of the current-element to x1 plus (the element-width of the current-element);
-		change entry 2 of the endpoint of the current-element to y1 plus (the element-height of the current-element);
-	[change the origin of current-element to the origin of current-element verified against the background of the working window;]
-	truncate the element-selection set to 1 entries;
-	consider the window-drawing rules for the working window;
-	say "Sprite [element-name of current-element] moved to [origin of the current-element in brace notation].";
-	update the status line;]
 	
 Moving manually is an action applying to one thing and one value. Understand "move sprite [any legerdemained thing] [a number]" or "move [any legerdemained thing] [a number]" or "[any legerdemained thing] [a number]" as moving manually.
 
@@ -3094,10 +2786,8 @@ Chapter - Nudging Sprites
 
 Sprite-nudging is an action applying to one value. Understand "nudge [nudge-direction]" as sprite-nudging.
 
-
-
-The nudge factor is a number that varies.
-The maximum nudge is a number that varies. The maximum nudge is 100.
+The nudge factor is a number that varies. The nudge factor is usually 1.
+The maximum nudge is a number that varies. The maximum nudge is usually 100.
 
 Check sprite-nudging:
 	abide by the select at least one element rule.
@@ -3112,7 +2802,6 @@ Carry out sprite-nudging:
 			-- rightward: change entry 1 of the nudge-coordinates to the nudge factor;
 			-- downward: change entry 2 of the nudge-coordinates to the nudge factor;
 		change the origin of current-element to the origin of current-element offset by the nudge-coordinates;
-		[change the origin of current-element to the origin of current-element verified against the background of the working window;]
 		if the current-element is a primitive:
 			let x1 be entry 1 of the origin of the current-element;
 			let y1 be entry 2 of the origin of the current-element;
@@ -3121,14 +2810,6 @@ Carry out sprite-nudging:
 		say "Sprite [element-name of current-element] moved to [origin of the current-element in brace notation].";
 	consider the window-drawing rules for the working window;
 	rule succeeds;
-		
-[To decide which list of numbers is (L - a list of numbers) verified against the/-- background of (win - a g-window):
-	let panel be the associated canvas of win;
-	if entry 1 of L < 0, change entry 1 of L to 0;
-	if entry 2 of L < 0, change entry 2 of L to 0;
-	if entry 1 of L > canvas-width of panel, change entry 1 of L to canvas-width of panel;
-	if entry 2 of L > canvas-height of panel, change entry 2 of L to canvas-height of panel;
-	decide on L;]
 	
 Changing the nudge-factor is an action applying to one number. Understand "nudge [a number]" or "change nudge to [a number]" or "change nudge amount to [a number]" or "nudge amount [a number]" as changing the nudge-factor.
 
@@ -3170,16 +2851,18 @@ Check deleting elements:
 		
 Carry out deleting elements:
 	repeat with current-element running through the element-selection set:
-		fake-delete the current-element;
+		fake-delete the current-element, iteratively;
 		say "Element [element-name of current-element] deleted.";
 	now the element-selection set is {};
 	update the status line;
 	refresh windows.
 	
-To fake-delete (S - a g-element):
-	remove S from the element-selection set, if present;
+To fake-delete (S - a g-element), iteratively:
+[The iteratively phrase option is intended for use when we are looping through the element-selection set. If that is the case, we don't delete the element from the list, because this will cause problems with the looping.]
+	unless iteratively:
+		remove S from the element-selection set, if present;
 	change S to deleted;
-	deactivate S;
+	deactivate S.
 	
 
 Part - Hiding and showing elements
@@ -3313,7 +2996,7 @@ To create a duplicate rendered string from (X - a rendered string) in (win - a g
 	say "Rendered string copied as: [element-name of new element].";
 
 To create a duplicate sprite from (S - a sprite) in (win - a g-window):
-	increment the instance-counter of S by 1;
+	increase the instance-counter of S by 1;
 	let the new sprite be a new object cloned from S;
 	now the new sprite is standard;
 	unlink the element-name of the new sprite;
@@ -3409,8 +3092,8 @@ A text question rule when the current action is interactively changing the kind 
 
 Part - Tags
 
-The tag type is an indexed text variable. 
-The tag alias is a text variable.
+The tag type is an indexed text variable. The tag type is usually "text".
+The tag alias is a text variable. The tag alias is usually "tag".
 
 The tag-surround is text that varies.
 
@@ -3536,14 +3219,46 @@ Definition: a g-element (called the-element) is g-unlinked:
 
 Element-querying is an action applying to nothing. Understand "info" or "element information" or "element info" or "information" or "i" as element-querying.
 
+Before element-querying:
+	let percentage be indexed text;
+	let percentage be "[scaling factor of the working window real times 100]";
+	replace the regular expression "0+$" in percentage with "";
+	say "The canvas measures [canvas-width of the working canvas] by [canvas-height of the working canvas].[line break]The scaling factor of the editor window is [scaling factor of the working window] ([percentage]%)."
+
 Check element-querying:
 	if the element-selection set is empty:
-		say "Please select at least one element and try again.";
+		say "Select at least one element in the editor and try the command again to get specific information about that element.";
 		rule fails;
+
+To decide which number is the absolute value of (N - a number):
+	if N is less than 0:
+		let N be 0 minus N;
+	decide on N.
 	
 Carry out element-querying:
 	repeat with current-element running through the element-selection set:
-		say "[bold type][element-name of current-element][roman type][line break][kind-flag of current-element][kind descendant arrow][unless of-kind of current-element is null][of-kind of current-element][otherwise](no sub-kind defined)[end if][line break]tag: [if the tag of current-element is null]none[otherwise][tag of current-element][end if][line break]display-layer: [display-layer of current-element][line break]origin: ([entry 1 of origin of current-element],[entry 2 of origin of current-element])[if current-element is not a sprite and current-element is not a rendered string]   endpoint: ([entry 1 of endpoint of current-element],[entry 2 of endpoint of current-element])[end if][line break]scaling: [if the x-scaling factor of current-element is the y-scaling factor of current-element][x-scaling factor of current-element][otherwise][x-scaling factor of current-element] (x) by [y-scaling factor of current-element] (y)[end if][if current-element provides the property line-weight][line break]line-weight: [line-weight of current-element][end if][if current-element is a bitmap-rendered string][line break]bit-size: [bit-size of current-element][end if][if current-element is not a sprite][line break]foreground color: [tint of current-element][end if][if current-element is a stroked rectangle primitive or current-element is a rendered string][line break]background color: [background tint of current-element][end if][line break]replacement command: [if the current-element is g-unlinked]N/A[otherwise][replacement-command of current-element][end if]";
+		if current-element provides the property endpoint:
+			let dim-x be (entry 1 of the endpoint of current-element) - (entry 1 of the origin of current-element);
+			let dim-y be (entry 2 of the endpoint of current-element) - (entry 2 of the origin of current-element);
+		if current-element is a line primitive:
+			let dim-x be the absolute value of dim-x;
+			let dim-y be the absolute value of dim-y;
+		if current-element is a sprite:
+			let dim-x be image-width of the image-ID of the current-element real times the x-scaling factor of the current-element as an integer;
+			let dim-y be image-height of the image-ID of the current-element real times the y-scaling factor of the current-element as an integer;
+		if current-element is a rendered string:
+			let len be the length of the current-element;
+		if current-element is an image-rendered string:
+			let margin be the background-margin of the associated font of the current-element real times the x-scaling factor of the current-element as an integer;
+			let vertical-size be the font-height of the associated font of the current-element real times the x-scaling factor of the current-element as an integer;
+			let len be len real times the x-scaling factor of the current-element as an integer;
+			let dim-x be len + margin + margin;
+			let dim-y be vertical-size + margin + margin;
+		if current-element is a bitmap-rendered string:
+			let dot-size be bit-size of the current-element real times the x-scaling factor of the current-element as an integer;
+			let dim-x be dot-size * len;
+			let dim-y be dot-size * (font-height of the associated font of the current-element);
+		say "[bold type][element-name of current-element][roman type][line break][kind-flag of current-element][kind descendant arrow][unless of-kind of current-element is null][of-kind of current-element][otherwise](no sub-kind defined)[end if][line break]tag: [if the tag of current-element is null]none[otherwise][tag of current-element][end if][line break]display-layer: [display-layer of current-element][line break]origin: ([entry 1 of origin of current-element],[entry 2 of origin of current-element])[if current-element is not a sprite and current-element is not a rendered string]   endpoint: ([entry 1 of endpoint of current-element],[entry 2 of endpoint of current-element])[end if][line break]canvas dimensions: [dim-x] by [dim-y][line break]scaling: [if the x-scaling factor of current-element is the y-scaling factor of current-element][x-scaling factor of current-element][otherwise][x-scaling factor of current-element] (x) by [y-scaling factor of current-element] (y)[end if][if current-element provides the property line-weight][line break]line-weight: [line-weight of current-element][end if][if current-element is a bitmap-rendered string][line break]bit-size: [bit-size of current-element][end if][if current-element is not a sprite][line break]foreground color: [tint of current-element][end if][if current-element is a stroked rectangle primitive or current-element is a rendered string][line break]background color: [background tint of current-element][end if][line break]replacement command: [if the current-element is g-unlinked]N/A[otherwise][replacement-command of current-element][end if]";
 		if the current-element is instanced:
 			follow the element instances listing rule;
 		say paragraph break;
@@ -3560,6 +3275,44 @@ To decide whether Unicode is supported:
 
 To say right-uni-arrow:
 	(- glk_put_char_uni(8594); -)
+
+
+Part - Zooming
+
+Zooming is an action applying to nothing. Understand "zoom" or "zoom in" or "zoom out" as zooming.
+
+The zooming action has some text called the zoom-vector.
+
+The zoom-center is a list of numbers variable. Zoom-center is {0, 0}.
+
+Check zooming:
+	unless zoom is available:
+		say "The canvas fits in the window, so zoom is not available.";
+		stop the action.
+
+Carry out zooming when we are zoomed in:
+	now the arbitrary scaling factor of the working window is 0.0000;
+	now the origin of the working window is {0, 0};
+	now the zoom-vector is "out";
+	rule succeeds.
+
+Carry out zooming when we are zoomed out:
+	now the arbitrary scaling factor of the working window is 1.0000;
+	if the element-selection set is empty:
+		change the zoom-center to {-1, -1};
+	otherwise:
+		change the zoom-center to the center-point of (entry 1 of the element-selection set);
+	now the zoom-vector is "in";
+	rule succeeds.
+
+Report zooming:
+	carry out the scaling activity with the working window;[we do this to get the proper scaling factor]
+	let percentage be indexed text;
+	let percentage be "[scaling factor of the working window real times 100]";
+	replace the regular expression "0+$" in percentage with "";
+	replace the regular expression "\.+$" in percentage with "";
+	say "Zooming [zoom-vector] to [scaling factor of the working window] ([percentage]%).";
+	follow the window-drawing rules for the working window.
 		
 
 Part - Element scaling
@@ -3661,7 +3414,7 @@ Carry out element-scaling:
 	let current-element be entry 1 of the element-selection set;
 	let orig-x be entry 1 of the origin of the current-element;
 	let orig-y be entry 2 of the origin of the current-element;
-	let the clicked coordinates be the grid equivalent of the screen coordinates current graphlink x by current graphlink y of the current graphlink window;
+	let the clicked coordinates be the canvas equivalent of the screen coordinates current graphlink x by current graphlink y of the current graphlink window;
 	let desired-x be entry 1 of the clicked coordinates;
 	let desired-y be entry 2 of the clicked coordinates;
 	[say "Clicked x: [desired-x][line break]Clicked y: [desired-y][line break]";]
@@ -3693,19 +3446,6 @@ Carry out element-scaling:
 		choose row with linkid of current-element in the Table of Graphlink Glulx Replacement Commands;
 		draw a box (color highlight-color) in the working window from (p-left entry) by (p-top entry) to (current graphlink x) by (current graphlink y) with 2 pixel line-weight, outlined;
 	rule succeeds;
-	
-[This rule is an alternative to the one in the coordinates reporting section of the Flexible Windowed Sprites extension, using a coordinate (list) as input rather than two numbers:
-	
-To decide which list of numbers is the grid equivalent of the screen coordinates (L - a list of numbers) of (win - a g-window):
-	let x-fixe be entry 1 of L as a fixed point number;
-	let y-fixe be entry 2 of L as a fixed point number;
-	let x-fixe be (x-fixe real minus x-offset of win) real divided by the scaling factor of win;
-	let y-fixe be (y-fixe real minus y-offset of win) real divided by the scaling factor of win;
-	let x be x-fixe as an integer;
-	let y be y-fixe as an integer;
-	change entry 1 of L to x;
-	change entry 2 of L to y;
-	decide on L;]
 
 
 Chapter - Default scaling factor
@@ -3713,7 +3453,7 @@ Chapter - Default scaling factor
 
 Section - Setting the default scaling factor
 
-The default scaling factor is a real number that varies.
+The default scaling factor is a real number that varies. The default scaling factor is usually 1.0000.
 
 Setting the scaling factor is an action applying to one value. Understand "set default scale at [a real number]" or "set default scale to [a real number]" or "default [real number]" or "default scale [real number]" or "set scale at [real number]" or "set scale to [real number]" or "scaling [real number]" as setting the scaling factor.
 
@@ -4034,7 +3774,7 @@ Carry out concealing layers:
 
 Part - Instanced Elements
 
-An instance is a kind of thing. An instance has a g-element called the instance-pointer. An instance has an indexed text called the instance-ref. An instance has an indexed text called the instance-kind. An instance has a list of numbers called the instance-origin. An instance has a number called the instance-layer. An instance has a real number called the instance x-scale. An instance has a real number called the instance y-scale. An instance has a figure-name called the instance-identity. An instance has an indexed text called the instance-command.
+An instance is a kind of thing. An instance has a g-element called the instance-pointer. An instance has an indexed text called the instance-ref. An instance has an indexed text called the instance-kind. An instance has a list of numbers called the instance-origin. An instance has a number called the instance-layer. An instance has a real number called the instance x-scale. An instance has a real number called the instance y-scale. An instance has a figure name called the instance-identity. An instance has an indexed text called the instance-command.
 
 An instance has a list of numbers called the instance-endpoint. An instance has a number called the instance-line-weight. An instance has a glulx color value called the instance-foreground. An instance has a glulx color value called the instance-background.
 
@@ -4125,8 +3865,6 @@ A text question rule when the current action is indicating an element instance:
 	
 
 Chapter - Show element instances
-
-[Consider allowing name changes via a menu listing]
 
 Listing element instances is an action applying to nothing. Understand "instances" or "list instances" as listing element instances.
 
@@ -4277,7 +4015,7 @@ Carry out centering elements on:
 To center (A - a g-element) on (B - a g-element):
 	[This phrase is called by the element select rule for clicking in the working window]
 	if A is a linkid listed in the Table of Graphlink Glulx Replacement Commands:
-		let L be the grid equivalent of the screen coordinates p-right entry by p-bottom entry of the working window;
+		let L be the canvas equivalent of the screen coordinates p-right entry by p-bottom entry of the working window;
 		let AR be entry 1 of L;
 		let AB be entry 2 of L;
 		let A-width be AR minus entry 1 of the origin of A;
@@ -4286,7 +4024,7 @@ To center (A - a g-element) on (B - a g-element):
 		say "***Error: Selected element not found.";
 		rule fails;
 	if B is a linkid listed in the Table of Graphlink Glulx Replacement Commands:
-		let L be the grid equivalent of the screen coordinates p-right entry by p-bottom entry of the working window;
+		let L be the canvas equivalent of the screen coordinates p-right entry by p-bottom entry of the working window;
 		let BR be entry 1 of L;
 		let BB be entry 2 of L;
 		let B-width be BR minus entry 1 of the origin of B;
@@ -4312,25 +4050,6 @@ To center (A - a g-element) on (B - a g-element):
 		change entry 2 of the endpoint of A to y1 plus (the element-height of A);
 	now center-overlay mode is false;
 	consider the window-drawing rules for the current graphlink window;
-	
-	
-[To center (A - a g-element) on (B - a g-element):
-	say "beginning....";
-	let target-centroid be the center-point of B;
-	say "target-centroid: [target-centroid].";
-	let centroid be the center-point of A;
-	say "centroid: [centroid].";
-	let the centering-offset be the origin of A offset by the centroid;
-	say "offset: [centering-offset].";
-	change the origin of A to the target-centroid offset by the centering-offset;
-	if A is a primitive:
-		let x1 be entry 1 of the origin of A;
-		let y1 be entry 2 of the origin of A;
-		change entry 1 of the endpoint of A to x1 plus (the element-width of A);
-		change entry 2 of the endpoint of A to y1 plus (the element-height of A);
-	now center-overlay mode is false;
-	consider the window-drawing rules for the current graphlink window;]
-
 
 
 Chapter - The align command
@@ -4353,7 +4072,7 @@ Carry out aligning elements:
 To align (A - a g-element) to the (B - a g-element) according to (target side - a border-name):
 	[This phrase is called by the element select rule for clicking in the working window]
 	if A is a linkid listed in the Table of Graphlink Glulx Replacement Commands:
-		let L be the grid equivalent of the screen coordinates p-right entry by p-bottom entry of the working window;
+		let L be the canvas equivalent of the screen coordinates p-right entry by p-bottom entry of the working window;
 		let AR be entry 1 of L;
 		let AB be entry 2 of L;
 		let A-width be AR minus entry 1 of the origin of A;
@@ -4362,7 +4081,7 @@ To align (A - a g-element) to the (B - a g-element) according to (target side - 
 		say "***Error: Selected element not found.";
 		rule fails;
 	if B is a linkid listed in the Table of Graphlink Glulx Replacement Commands:
-		let L be the grid equivalent of the screen coordinates p-right entry by p-bottom entry of the working window;
+		let L be the canvas equivalent of the screen coordinates p-right entry by p-bottom entry of the working window;
 		let BR be entry 1 of L;
 		let BB be entry 2 of L;
 		let B-width be BR minus entry 1 of the origin of B;
@@ -4385,9 +4104,6 @@ To align (A - a g-element) to the (B - a g-element) according to (target side - 
 			let x be x plus entry 1 of the origin of B;
 	otherwise:
 		say "***Error: Target element not found.";
-	[if x < 0 or y < 0:
-		say "The element was not moved, because aligning the element in this way would place it outside the bounds of the screen on either the top or the left, which is illegal.";
-		rule fails;]
 	change entry 1 of the origin of A to x;
 	change entry 2 of the origin of A to y;
 	if A is a primitive:
@@ -4444,7 +4160,7 @@ Chapter - Generating source code
 The file of Output is called "GlimmrSource".
 
 The kind-parsed omnibus is a list of lists of objects that varies.
-The numbered-kinds index is a list of numbers that varies. [This list exists as part of an elaborate workaround for a bug that prevents Inform from sorting lists of objects on indexed text properties.]
+The numbered-kinds index is a list of numbers that varies. [This list exists as part of an elaborate workaround for a bug in 5Z71 that prevented Inform from sorting lists of objects on indexed text properties.]
 
 The kinds-count is a number that varies.
 
@@ -4628,7 +4344,7 @@ To say font extensions:
 
 Section - Sorting and otherwise preparing kinds
 
-To index element-kinds for parsing: [this is a workaround for a bug that prevents us from sorting a list based on an indexed-text property.]
+To index element-kinds for parsing: [this is a workaround for a bug in 5Z71 that prevented us from sorting a list based on an indexed-text property.]
 	let N be a list of indexed text;
 	let L be the list of in-play g-elements;
 	repeat with current-element running through L:
@@ -4841,7 +4557,7 @@ To write listings for instances:
 		unless the instance-kind of item is the of-kind of the selected-element:
 			change the instance-kind of the item to the of-kind of the selected-element;
 	repeat with current-list running through the kind-parsed omnibus:
-		[This routine take the long way around via the kind-parsed omnibus list as another workaround to the bug that prevents lists being sorted on indexed text.]
+		[This routine take the long way around via the kind-parsed omnibus list as another workaround to the bug in 5Z71 that prevented lists being sorted on indexed text.]
 		if entry 2 of current-list is not a sprite:
 			next;
 		unless the current-list contains an instanced element:
@@ -4884,6 +4600,8 @@ Glimmr Canvas Editor ends here.
 
 
 ---- DOCUMENTATION ----
+
+
 
 Example: *** Basic Floorplan - A toolset including images for use in constructing basic floorplans for indoor maps, as well as illustrating most of the basic options available. Also illustrates the use of user-specified source text and tags to create automatic mapping capabilities.
 
