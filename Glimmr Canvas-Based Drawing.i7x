@@ -1,8 +1,7 @@
-Version 1/100701 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple begins here.
+Version 1/100711 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple begins here.
 
-[Partially removed deprecated phrases.]
-[After it's written, copy new debugging documentation from GDC to here.]
 [Add a simple button panel example, using bitmaps.]
+
 
 Part - Preliminaries
 
@@ -154,7 +153,7 @@ To remove/deactivate graphlink of/from/for (element - a g-element):
 
 Part - Extensions to g-windows
 
-The specification of a graphics g-window is "Glimmr Canvas-Based Drawing extends graphics g-windows to enable them to work well with canvases. The associated canvas property links a canvas to the window. An origin can be specified for the window, e.g. {100, 100}, and this will place the upper left corner of the window at that canvas coordinate. (Note, however, that this placement will be changed by the centering calculations unless these are altered.) By default, Glimmr Canvas-Based Drawing will automatically scale a canvas to fit into the window dimensions available. However, if we don't want to relinquish scaling control, we can set the arbitrary scaling factor property to a ratio with four decimal places, such as 1.0000, which would always result in the canvas being displayed at full size, even if this would result in its not being fully pictured."
+The specification of a graphics g-window is "Glimmr Canvas-Based Drawing extends graphics g-windows to enable them to work well with canvases. The associated canvas property links a canvas to the window. An origin can be specified for the window, e.g. {100, 100}, and this will place the upper left corner of the window at that canvas coordinate. (Note, however, that this placement will be changed by the centering calculations unless these are altered.) By default, Glimmr Canvas-Based Drawing will automatically scale a canvas to fit into the window dimensions available. However, if we don't want to relinquish scaling control, we can set the arbitrary scaling factor property to a ratio with four decimal places; for example, setting the arbitrary scaling factor to 1.0000 will always result in the canvas being displayed at full size, even if this would result in its not being fully framed within the window."
 
 A graphics g-window has a list of numbers called the origin. The origin is usually {0, 0}.
 
@@ -541,11 +540,11 @@ An element scaling rule for a sprite (called the current-sprite) (this is the sp
 		let x-temp be the image-width of sprite-ID as a fixed point number;
 		let y-temp be the image-height of sprite-ID as a fixed point number;
 		unless using the asymmetrical scaling option:
-			now sprite-x is x-temp real times the scaling factor of current window real times the scaling factor of the current-sprite as an integer;
-			now sprite-y is y-temp real times the scaling factor of current window real times the scaling factor of the current-sprite as an integer;
+			change sprite-x to x-temp real times the scaling factor of current window real times the scaling factor of the current-sprite as an integer;
+			change sprite-y to y-temp real times the scaling factor of current window real times the scaling factor of the current-sprite as an integer;
 		otherwise:
-			now sprite-x is x-temp real times the scaling factor of current window real times the x-scaling factor of the current-sprite as an integer;
-			now sprite-y is y-temp real times the scaling factor of current window real times the y-scaling factor of the current-sprite as an integer;
+			change sprite-x to x-temp real times the scaling factor of current window real times the x-scaling factor of the current-sprite as an integer;
+			change sprite-y to y-temp real times the scaling factor of current window real times the y-scaling factor of the current-sprite as an integer;
 		if current-sprite is center-aligned:
 			now the win-x of current-sprite is win-x - (sprite-x) / 2;
 			now the win-y of current-sprite is win-y - (sprite-y) / 2;
@@ -629,7 +628,7 @@ An element scaling rule for a primitive (called the subject) (this is the primit
 	if the subject is center-aligned:
 		let dx be (end-x of the subject - win-x) / 2;
 		let dy be (end-y of the subject - win-y) / 2;
-		now the win-x is win-x - dx;
+		change the win-x to win-x - dx;
 		change the win-y to win-y - dy;
 		change the end-x to end-x - dx;
 		change the end-y to end-y - dy;
@@ -866,7 +865,7 @@ An element display rule for a monochrome bitmap (called the grid):
 	if the background tint of the grid is g-PlaceNullCol:
 		draw a monochrome bitmap (color tint of the grid) in (current window) at (win-x of the grid) by (win-y of the grid) using (bitmap-width) wide data from (bitmap-array) with dot size (dot-size) pixels;
 	otherwise:
-		draw a monochrome bitmap (color tint of the grid) in (current window) at (win-x of the grid) by (win-y of the grid) using (bitmap-width) wide data from (bitmap-array) with dot size (dot-size) pixels and background (color background tint of the grid);
+		drmonobitmap (color tint of the grid) in (current window) at (win-x of the grid) by (win-y of the grid) using (bitmap-width) wide data from (bitmap-array) with dot size (dot-size) pixels and background (color background tint of the grid);
 	if the grid is graphlinked:
 		set a graphlink in the current window identified as grid from win-x by win-y to win-x + (bitmap-height * dot-size) by win-y + (bitmap-height * dot-size) as the linked replacement-command of the grid;
 	only if utilizing Glimmr debugging;
@@ -1018,9 +1017,9 @@ An element display rule for a bitmap-rendered string (called the stream):
 	let column be the win-x of the stream;
 	let column-index be column;
 	unless background-color is g-PlaceNullCol or the text-string of the stream is "":
-		draw a rectangle (color background-color) in (current window) at (column - dot-size of the stream) by (row - dot-size) with size (dot-size * len) + dot-size by (dot-size * font-height of the associated font of the stream) + dot-size;
+		dimrectdraw (color background-color) in (current window) at (column - dot-size of the stream) by (row - dot-size) with size (dot-size * len) + dot-size by (dot-size * font-height of the associated font of the stream) + dot-size;
 	if the cursor of the stream is 0:
-		draw a rectangle (color foreground-color) in (current window) at (column) by (row - dot-size) with size dot-size by (dot-size * font-height of the associated font of the stream);
+		dimrectdraw (color foreground-color) in (current window) at (column) by (row - dot-size) with size dot-size by (dot-size * font-height of the associated font of the stream);
 	if the text-string of the stream is "":
 		only if utilizing Glimmr debugging;
 		say "[>console][CBD]Rendered bitmap string [i][stream][/i] specifies no text. Displaying cursor at position 0.[<]";
@@ -1041,10 +1040,10 @@ An element display rule for a bitmap-rendered string (called the stream):
 				change column to column-index;
 				let scan be 1;
 			if entry pointer of the glyph map of the associated font of the stream is 1:
-				draw a rectangle (color foreground-color) in (current window) at (column) by row + (yoffset entry * dot-size) with size dot-size of the stream by dot-size;
+				dimrectdraw (color foreground-color) in (current window) at (column) by row + (yoffset entry * dot-size) with size dot-size of the stream by dot-size;
 			increase column by the dot-size of the stream;
 		if the cursor of the stream is N:
-			draw a rectangle (color foreground-color) in (current window) at (column) by (win-y of the stream - dot-size) with size dot-size by (dot-size * font-height of the associated font of the stream);
+			dimrectdraw (color foreground-color) in (current window) at (column) by (win-y of the stream - dot-size) with size dot-size by (dot-size * font-height of the associated font of the stream);
 		[if the text-animation delay of the stream is greater than 0 and glulx timekeeping is supported:
 			follow the text-painting animation rules for the stream;]
 		increase column-index by (advance entry * dot-size of the stream);
@@ -1127,9 +1126,9 @@ An element display rule for an image-rendered string (called the stream):
 	let margin be background-margin of the associated font of the stream real times the calculated scaling factor as an integer;
 	let vertical-size be font-height of the associated font of the stream real times the calculated scaling factor as an integer;
 	unless background-color is g-PlaceNullCol or the text-string of the stream is "":
-		draw a rectangle (color background-color) in (current window) at (column - margin) by (row - margin) with size (len + margin + margin) by (vertical-size + margin + margin);
+		dimrectdraw (color background-color) in (current window) at (column - margin) by (row - margin) with size (len + margin + margin) by (vertical-size + margin + margin);
 	if the cursor of the stream is 0:
-		draw a rectangle (color foreground-color) in (current window) at (column) by (win-y of the stream) with size cursor-weight by vertical-size;
+		dimrectdraw (color foreground-color) in (current window) at (column) by (win-y of the stream) with size cursor-weight by vertical-size;
 	if the text-string of the stream is "":
 		only if utilizing Glimmr debugging;
 		say "[>console][CBD]Rendered image-based string [i][stream][/i] specifies no text. Displaying cursor at position 0.[<]";
@@ -1149,7 +1148,7 @@ An element display rule for an image-rendered string (called the stream):
 		let yy be yy real times the calculated scaling factor of the stream as an integer;
 		drscimage (chosen glyph) in (current window) at (column) by (row + yoffset) with dimensions (xx) by (yy);
 		if the cursor of the stream is N:
-			draw a rectangle (color foreground-color) in (current window) at (column + xx) by (win-y of the stream) with size cursor-weight by vertical-size;
+			dimrectdraw (color foreground-color) in (current window) at (column + xx) by (win-y of the stream) with size cursor-weight by vertical-size;
 		[if the text-animation delay of the stream is greater than 0 and glulx timekeeping is supported:
 			follow the text-painting animation rules for the stream;]
 		increase column by the advance entry real times the calculated scaling factor of the stream as an integer;
@@ -1682,10 +1681,6 @@ Glimmr Canvas-Based Drawing ends here.
 
 ---- DOCUMENTATION ----
 
-[The immediately quit rule is the Standard Rule that quits the game immediately.]
-[Mention that element coordinates can be negative, or greater than the dimensions of the canvas.]
-
-
 Chapter: Concepts
 
 Glimmr Canvas-Based Drawing (GCBD) takes an object-oriented approach to drawing in graphics windows. The central concept is the "canvas" (called the "g-canvas" to avoid namespace conflicts). A canvas is similar to the HTML5 <canvas> element: it is a defined area within which graphic elements of various sorts can be displayed. The canvas is basically nothing more than a coordinate system, a blank page which is given certain dimensions. To display a canvas, we assign it to a graphics window (created using the Flexible Windows extension). When the window is opened, the composition we have defined will be displayed, and the canvas--along with all of the graphic elements displayed in it--will automatically be scaled to fit in the window.
@@ -1920,7 +1915,7 @@ If we know the total width or total height we want an image-map to fit into, we 
 	fit my image-map to a total width of 120 canvas units;
 	fit my image-map to a total height of 150 canvas units; 
 
-Be sure to invoke these before drawing the image-map for the first time. The extension will attempt to get as close as possible to these measurements, but may not be able to match exactly; for best results, make your final measurement evenly divisible by the number of tiles in the row or column (120 divided by 10 cells = 12 units each). Use Glimmr debugging to see the final dimension selected.
+Be sure to invoke these before drawing the image-map for the first time. The extension will attempt to get as close as possible to these measurements, but may not be able to match exactly; for best results, make your final measurement evenly divisible by the number of tiles in the row or column (120 divided by 10 cells = 12 units each). Use Glimmr debugging (see below) to see the final dimension selected.
 
 Like other graphic elements, image-maps can be "hyperlinked" to respond to mouse input. However, unlike other elements, there are two ways in which they can be so linked. The entire rectangular area of the image-map can be given a single link as with other elements, by assigning the "linked replacement-command" property and changing the "graphlink status" to g-active.
 
@@ -1989,7 +1984,7 @@ Now any image-map tile that has an individual hyperlink (see above) will be outl
 
 	The graphlink preview color is g-Blue.
 
-We can "dump" the data in an image-map to the screen by typing "image-map <the name of the image-map to dump>" in-game. This will print the tile-array or figure-array of the image-map to the main window, or if Glimmr Debugging Console is installed, to the debugging window. Important note: if you do not include Glimmr Debugging Console, you will need to declare your image-maps to be "publically-named". Otherwise, they will be declared as privately-named and thus unable to be referred to in commands. Example:
+We can "dump" the data in an image-map to the screen by typing "image-map <the name of the image-map to dump>" in-game. When the "Glimmr debugging" use option is active, this will print the tile-array or figure-array of the image-map to the main window (or, if Glimmr Debugging Console is installed, to the debugging window). Important note: if you do not include Glimmr Debugging Console, you will need to declare your image-maps to be "publically-named". Otherwise, they will be declared as privately-named and thus unable to be referred to in commands. Example:
 
 	My image-map is a tileset image-map. The origin is {10, 10}. The tile-array is {1, 2, 1, 2}.
 
@@ -2216,11 +2211,62 @@ With the body of this section left blank, the privately-named and scenery proper
 
 Chapter: Debugging
 
-Glimmr Canvas-Based Drawing does not include any special debugging commands. However, like all Glimmr extensions, it includes a debugging log. To use the log, enable this use option:
+Like all Glimmr extensions, Glimmr Canvas-Based Drawing can utilize the Glimmr debugging log. To use the log, enable this use option:
 
 	Use Glimmr debugging.
 
-Now Glimmr functions will announce themselves, as well as the particular extension that generated them (e.g., Glimmr Canvas-Based Drawing, Glimmr Drawing Commands, etc.) as they fire. Under normal usage, Glimmr generates a lot of debugging information, and can quite thoroughly gum up a game's output. The Glimmr Debugging Console extension can be included to segregate Glimmr logging output into its own window.
+Now Glimmr functions will announce themselves, as well as the particular extension that generated them (e.g., Glimmr Canvas-Based Drawing, Glimmr Drawing Commands, etc.) in the main window as they fire. Be warned that, under normal usage, Glimmr generates a lot of debugging information, and can quite thoroughly gum up a game's output. There are a few things we can do to mitigate this:
+
+	1) The Glimmr Debugging Console extension can be included to segregate Glimmr logging output into its own window.
+
+	2) We can set up our own alternate text-buffer window and direct log output there by setting the "console output window" variable, e.g.:
+
+		The console output window is my-text-window [a text-buffer g-window].
+
+	3) We can also send console log output to the transcript, while not printing it anywhere else. To do this, we include this code in our story file:
+
+		To say >console:
+			say echo stream of main-window.
+	
+		To say <:
+			say stream of main-window;
+			say run paragraph on.
+
+	This will only work when a transcript is actually being written. To ensure that we do not forget to initiate one, we can include this:
+
+		When play begins:
+			try switching the story transcript on.
+
+
+Section: Console log comments
+
+When we are sending the debugging info somewhere other than the main window, it can be useful to add notes to the console log to help us interpret it later. We can do this by typing "> " and any text we want to add to the log at the command prompt, e.g.:
+
+	> Going west from the Kitchen
+
+
+Section: Additional phrases for triggering debugging from source text
+
+It can often be useful to control debugging commands from source text, rather than from the command line. For example, we may want to debug the startup sequence, which occurs before the command prompt appears, and thus before we can enter any debugging commands. Glimmr provides the following phrases for controlling the ACTIONS, RULES, RULES ALL, and GLKLIST commands:
+
+	ACTIONS
+		activate actions tracing
+		suspend actions tracing
+
+	RULES
+		activate rules tracing
+		suspend rules tracing
+		if rules tracing is active
+	
+	RULES ALL
+		activate intensive rules tracing
+		suspend rules tracing
+		if intensive rules tracing is active
+	
+	GLKLIST
+		show glk list [the GLKLIST command]
+
+The Extended Debugging extension provides further phrases, as well as other useful features. (Note: Extended Debugging is not part of Glimmr, but works well with it.) See the template layer (Appendix B of Writing with Inform: http://inform7.com/sources/src/i6template/Woven/index.html ) for more on these debugging commands.
 
 
 Chapter: Troubleshooting
