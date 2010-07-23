@@ -1,5 +1,7 @@
 Version 1/100711 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple begins here.
 
+"A framework for drawing graphics of various types--from sprite images to painted text--to a Glulx graphics window. Takes an object-oriented approach, with graphic elements represented as individual objects."
+
 [Add a simple button panel example, using bitmaps.]
 
 
@@ -95,6 +97,13 @@ Chapter - Concealing elements
 
 A g-element is privately-named.
 A g-element is scenery.
+
+
+Chapter - Make elements accessible to commands when debugging
+
+After starting the virtual machine when the Glimmr debugging option is active:
+	repeat with item running through g-elements:
+		now item is publically-named.
 
 
 Chapter - Null element
@@ -202,9 +211,9 @@ Part - Default canvas-based drawing rule
 
 A window-drawing rule for a graphics g-window (called the window) (this is the default canvas-based drawing rule):
 	if the window is g-present:
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "[>console][paragraph break][CBD]Following the default canvas-based drawing rule for the window [i][window][/i].[<]";
-		end only if;
+		#end if;
 		carry out the scaling activity with the window;
 		carry out the offset calculation activity with the window;
 		carry out the window-framing adjustment activity with the window;
@@ -222,32 +231,32 @@ Chapter - Calculating the scaling factors
 Scaling something is an activity. 
 
 Last for scaling a graphics g-window (called the window) (this is the default window-scaling rule):
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][CBD]Window [i][window][/i] is [width of the window] by [height of the window] pixels.[<]";
-	end only if;
+	#end if;
 	let panel be the associated canvas of the window;
 	if panel is nothing:
 		say "*** Scaling error: No canvas defined for [italic type][window][roman type].";
 		rule fails;
 	if the canvas-width of panel is 0 or the canvas-height of panel is 0:
 		if the background image of panel is Figure of Null:
-			only if utilizing Glimmr debugging;
+			#if utilizing Glimmr debugging;
 			say "[>console][CBD]*** Scaling error: Dimensions of canvas [i][panel][/i] not specified. Either define the canvas using a background image, or assign numerical dimensions.[<]";
-			end only if;
+			#end if;
 			rule fails;
 		[doubling up of variables necessary due to an apparent bug in Inform]
 		let canvas-x be the image-width of the background image of panel;
 		let canvas-y be the image-height of the background image of panel;
 		now the canvas-width of panel is canvas-x;
 		now the canvas-height of panel is canvas-y;
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "[>console][CBD]Canvas [i][panel][/i] is [canvas-width of panel] by [canvas-height of panel] pixels.[<]";
-		end only if;
+		#end if;
 	if the arbitrary scaling factor of the window is real greater than 0.0000:
 		now the scaling factor of the window is the arbitrary scaling factor of the window;
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "[>console][CBD]Scaling factor of [i][window][/i] set to [scaling factor of the window] based on arbitrary scaling factor.[<]";
-		end only if;
+		#end if;
 	otherwise:
 		let x-win be the width of the window as a fixed point number;
 		let y-win be the height of the window as a fixed point number;
@@ -255,25 +264,25 @@ Last for scaling a graphics g-window (called the window) (this is the default wi
 		now the y-scaling factor of the window is y-win real divided by the canvas-height of panel;
 		if the x-scaling factor of the window is real greater than the y-scaling factor of the window:
 			now the scaling factor of the window is the y-scaling factor of the window;
-			only if utilizing Glimmr debugging;
+			#if utilizing Glimmr debugging;
 			say "[>console][CBD][i][window][/i] scaling factor set to the vertical scaling factor: [y-scaling factor of the window].[<]";
-			end only if;
+			#end if;
 		otherwise:
 			now the scaling factor of the window is the x-scaling factor of the window;
-			only if utilizing Glimmr debugging;
+			#if utilizing Glimmr debugging;
 			say "[>console][CBD][i][window][/i] scaling factor set to the horizontal scaling factor: [i][x-scaling factor of the window][/i].[<]";
-			end only if;
+			#end if;
 		if the scaling factor of the window is greater than 1.0000:
 			unless the oversize scaling of the window is true:
 				now the scaling factor of the window is 1.0000;
-				only if utilizing Glimmr debugging;
+				#if utilizing Glimmr debugging;
 				say "[>console][CBD][i][window][/i] scaling factor set to [scaling factor of the window]. To allow for a higher scaling factor, set the window's oversize scaling property to true.[<]";
-				end only if;
+				#end if;
 	now the scaled width of panel is the scaling factor of the window real times the canvas-width of panel as an integer;
 	now the scaled height of panel is the scaling factor of the window real times the canvas-height of panel as an integer;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][CBD]Scaled size for canvas [i][panel][/i] is [scaled width of panel] by [scaled height of panel].[<]";
-	end only if;
+	#end if;
 
 
 Chapter - Offset calculation
@@ -284,9 +293,9 @@ Last for offset calculation of a graphics g-window (called the window) (this is 
 	let panel be the associated canvas of the window;
 	now the x-offset of the window is (the width of the window minus the scaled width of panel) divided by 2;
 	now the y-offset of the window is (the height of the window minus the scaled height of panel) divided by 2;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][CBD][i][window][/i] x offset set at [x-offset of the window]; y offset set at [y-offset of the window].[<]";
-	end only if;
+	#end if;
 
 
 Chapter - Window-framing adjustment
@@ -298,9 +307,9 @@ Last for window-framing adjustment of a graphics g-window (called the window) wh
 		let yy be entry 2 of the origin of the window real times the scaling factor of the window as an integer;
 		now the x-offset of the window is (0 - xx) + x-offset of the window;
 		now the y-offset of the window is (0 - yy) + y-offset of the window;
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "[>console][CBD]Offsets of [i][window][/i] adjusted using non-zero origin ([xx], [yy]): x offset set at [x-offset of the window]; y offset set at [y-offset of the window].[<]";
-		end only if.
+		#end if.
 
 
 Section - Command for resizing the canvas to the window
@@ -325,9 +334,9 @@ To center the/-- frame/framing/-- of/-- (win - a g-window) on canvas/-- coordina
 	let y be entry 2 of coord;
 	now entry 1 of the origin of win is x - (canvas-width of the associated canvas of win / 2);
 	now entry 2 of the origin of win is y - (canvas-height of the associated canvas of win / 2);
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][CBD]Window [i][win][/i] recentered on canvas coordinates [coord in brace notation]; origin changed to ([entry 1 of origin of win], [entry 2 of origin of win]).[<]";
-	end only if;
+	#end if;
 
 To decide what list of numbers is the center-point of (panel - a g-canvas):
 	let x be the canvas-width of panel divided by 2;
@@ -342,9 +351,9 @@ To center the/-- frame/framing/-- of/-- (win - a g-window) on its g-canvas/canva
 	center win on the center-point of panel.
 
 To center the/-- frame/framing/-- of/-- (win - a g-window) on (item - a g-element):
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][CBD]Centering the window frame of [i][win][/i] on [i][item][/i].[<]";
-	end only if;
+	#end if;
 	center win on the center-point of item.
 
 
@@ -357,14 +366,14 @@ Last for drawing the canvas background of a graphics g-window (called the window
 	if panel is not nothing:
 		if the background image of panel is not Figure of Null:
 			draw the background-image of panel in the window;
-			only if utilizing Glimmr debugging;
+			#if utilizing Glimmr debugging;
 			say "[>console][CBD]Drawing canvas background [i][background image of panel][/i] in [i][window][/i].[<]";
-			end only if;
+			#end if;
 		otherwise:
 			do nothing;
-			only if utilizing Glimmr debugging;
+			#if utilizing Glimmr debugging;
 			say "[>console][CBD]Canvas [i][panel][/i] has no background image.[<]";
-			end only if;
+			#end if;
 	otherwise:
 		say "*** Glimmr Error: No canvas defined for [i][window][/i]."
 
@@ -446,12 +455,12 @@ To decide which real number is (N - a real number) scaled by (R - a real number)
 Chapter - Coordinate Manipulation
 
 To decide which list of numbers is the (warp - a list of numbers) offset by (weft - a list of numbers):
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	if the number of entries of warp is not 2:
 		say "[>console][CBD] ***Warning: Offsetting coordinates: [warp] is not a coordinate pair.[<]";
 	if the number of entries of weft is not 2:
 		say "[>console][CBD] ***Warning: Offsetting coordinates: [weft] is not a coordinate pair.[<]"; 
-	end only if;
+	#end if;
 	let result1 be entry 1 of warp + entry 1 of weft;
 	let result2 be entry	2 of warp + entry 2 of weft;
 	let L be a list of numbers;
@@ -561,14 +570,14 @@ An element display rule for a sprite (called the current-sprite) (this is the sp
 		display sprite current-sprite in the current window at coordinates win-x of current-sprite and win-y of current-sprite with dimensions sprite-x of current-sprite and sprite-y of current-sprite;
 		if graphlink status of current-sprite is g-active:
 			set a graphlink in the current window identified as current-sprite from win-x of current-sprite by win-y of current-sprite to (win-x of current-sprite + sprite-x of current-sprite) by (win-y of current-sprite + sprite-y of current-sprite) as the linked replacement-command of current-sprite;
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "[>console][CBD]Drawing sprite element [i][current-sprite][/i] ([image-ID of current-sprite]) in [i][current window][/i] at origin ([win-x of current-sprite], [win-y of current-sprite]), dimensions [sprite-x of current-sprite] x [sprite-y of current-sprite] pixels.[line break][if current-sprite is graphlinked][CBD]Graphlink corresponding to [i][current-sprite][/i] set from ([win-x of current-sprite], [win-y of current-sprite]) to ([win-x of current-sprite + sprite-x of current-sprite], [win-y of current-sprite + sprite-y of current-sprite]): [quotation mark][linked replacement-command of current-sprite][quotation mark].[end if][<]"; 
-		end only if;
+		#end if;
 	if the image-ID of current-sprite is Figure of Null:
 		do nothing;
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "[>console][CBD]Sprite element [i][current-sprite][/i] is undefined (the image-ID property is not set or is set to [quotation mark]Figure of Null[quotation mark]).[<]";
-		end only if;
+		#end if;
 
 
 Section - Centering algorithm for sprites
@@ -677,9 +686,9 @@ An element display rule for a rectangle primitive (called the rectangle):
 	if the rectangle is right-aligned:
 		change the win-x of the rectangle to win-x - end-x;
 		change the win-y of the rectangle to win-y - end-y;]
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][CBD]Drawing rectangle primitive [i][rectangle][/i], color [color tint of rectangle], in [i][current window][/i] with upper left ([win-x], [win-y]) and lower right ([end-x], [end-y])[if the rectangle is graphlinked]. [line break][CBD]Graphlink corresponding to [i][rectangle][/i] set from ([win-x of rectangle], [win-y of rectangle]) to ([end-x], [end-y]): [quotation mark][linked replacement-command][quotation mark][end if].[<]";
-	end only if;
+	#end if;
 	rectdraw (color tint of the rectangle) in (current window) from (win-x) by (win-y) to (end-x) by (end-y);
 	if the rectangle is graphlinked:
 		set a graphlink in the current window identified as the rectangle from win-x by win-y to end-x by end-y as the linked replacement-command of the rectangle.
@@ -699,9 +708,9 @@ A box primitive has a number called the line-weight. The line-weight of a box pr
 A box primitive has a number called the stroke. The stroke of a box primitive is 1.
 
 An element display rule for a box primitive (called the box):
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][CBD]Drawing box primitive [i][box][/i], color [color tint of the box], in [i][current window][/i] with upper left ([win-x], [win-y]) and lower right ([end-x], [end-y]), scaled line-weight [stroke] px[if the box is graphlinked]. [line break][CBD]Graphlink corresponding to [i][box][/i] set from ([win-x of box], [win-y of box]) to ([end-x], [end-y]): [quotation mark][linked replacement-command][quotation mark][end if].[<]";
-	end only if;
+	#end if;
 	boxdraw (color tint of the box) in (current window) from (win-x) by (win-y) to (end-x) by (end-y) with (stroke);
 	if the box is graphlinked:
 		set a graphlink in the current window identified as the box from win-x by win-y to end-x by end-y as the linked replacement-command of the box.
@@ -722,9 +731,9 @@ A stroked rectangle primitive has a number called the line-weight. The line-weig
 A stroked rectangle primitive has a number called the stroke. The stroke of a stroked rectangle primitive is 1.
 
 An element display rule for a stroked rectangle primitive (called the stroked rectangle):
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][CBD]Drawing stroked rectangle primitive [i][stroked rectangle][/i], color [color tint of the stroked rectangle], in [i][current window][/i] with upper left ([win-x], [win-y]) and lower right ([end-x], [end-y]), scaled line-weight [stroke] px[if the stroked rectangle is graphlinked]. [line break][CBD]Graphlink corresponding to [i][stroked rectangle][/i] set from ([win-x of stroked rectangle], [win-y of stroked rectangle]) to ([end-x], [end-y]): [quotation mark][linked replacement-command][quotation mark][end if].[<]";
-	end only if;
+	#end if;
 	strectdraw (color tint of the stroked rectangle) in (current window) from (win-x) by (win-y) to (end-x) by (end-y) with (stroke) stroke of (color background tint);
 	if the stroked rectangle is graphlinked:
 		set a graphlink in the current window identified as the stroked rectangle from win-x by win-y to end-x by end-y as the linked replacement-command of the stroked rectangle.
@@ -746,9 +755,9 @@ A line primitive has a number called the stroke. The stroke of a line primitive 
 
 
 An element display rule for a line primitive (called the line):
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][CBD]Drawing line primitive [i][line][/i], color [color tint of the line], in [i][current window][/i] from ([win-x], [win-y]) to ([end-x], [end-y]), scaled line-weight [stroke] pixels[if the line is graphlinked]. [line break][CBD]Graphlink corresponding to [i][line][/i] set from ([min win-x or end-x], [min win-y or end-y]) to ([max win-x or end-x], [max win-y or end-y]): [quotation mark][linked replacement-command][quotation mark][end if].[<]";
-	end only if;
+	#end if;
 	linedraw (color tint of the line) in (current window) from (win-x) by (win-y) to (end-x) by (end-y) with (stroke);
 	if the line is graphlinked:
 		set a graphlink in the current window identified as the line from (min win-x or end-x)  by (min win-y or end-y) to (max win-x or end-x) by (max win-y or end-y) as the linked replacement-command of the line;
@@ -773,9 +782,9 @@ An element display rule for a point primitive (called the point):
 		change win-y of the point to win-y of the point minus (stroke / 2);
 	change end-x of the point to win-x plus stroke;
 	change end-y of the point to win-y plus stroke;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][CBD]Drawing point primitive [i][point][/i], color [color tint of point] in [i][current window][/i] with upper left ([win-x], [win-y]) and lower right ([end-x], [end-y]), scaled line-weight [stroke] pixels[if the point is graphlinked]. [line break][CBD]Graphlink corresponding to [i][point][/i] set from ([win-x of point], [win-y of point]) to ([end-x], [end-y]): [quotation mark][linked replacement-command][quotation mark][end if].[<]";
-	end only if;
+	#end if;
 	rectdraw (color tint of the point) in (current window) from (win-x) by (win-y) to (end-x) by (end-y);
 	if the point is graphlinked:
 		set a graphlink in the current window identified as the point from win-x by win-y to end-x by end-y as the linked replacement-command of the point.
@@ -829,9 +838,9 @@ An element scaling rule for a bitmap (called the grid) (this is the bitmap scali
 		change the win-y of the grid to win-y - (bitmap-height * dot-size);
 	if the remainder after dividing the number of entries of the bitmap-array of the grid by the bitmap-width of the grid is greater than 0:
 		do nothing;
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "[>console][CBD] ***Warning: Bitmap array of [grid] is improperly defined. Output is unlikely to be as expected.[<]";
-		end only if;
+		#end if;
 	continue.
 
 
@@ -868,9 +877,9 @@ An element display rule for a monochrome bitmap (called the grid):
 		drmonobitmap (color tint of the grid) in (current window) at (win-x of the grid) by (win-y of the grid) using (bitmap-width) wide data from (bitmap-array) with dot size (dot-size) pixels and background (color background tint of the grid);
 	if the grid is graphlinked:
 		set a graphlink in the current window identified as grid from win-x by win-y to win-x + (bitmap-height * dot-size) by win-y + (bitmap-height * dot-size) as the linked replacement-command of the grid;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][CBD]Drawing monochrome bitmap [i][grid][/i], foreground color [color tint of the grid], in [i][current window][/i] with upper left ([win-x of grid], [win-y]) and lower right ([win-x + (bitmap-width * dot-size)], [win-y + (bitmap-height * dot-size)])[unless background tint of grid is g-PlaceNullCol]; background color [color background tint of grid][end if][if grid is graphlinked]. [line break][CBD]Graphlink corresponding to [i][grid][/i] set from ([win-x of grid], [win-y of grid]) to ([win-x + (bitmap-width * dot-size)], [win-y + (bitmap-height * dot-size)]): [quotation mark][linked replacement-command of grid][quotation mark][end if].[<]";
-	end only if.
+	#end if.
 
 
 Section - Polychrome bitmap
@@ -888,9 +897,9 @@ An element display rule for a polychrome bitmap (called the grid):
 		draw a polychrome bitmap in (current window) at (win-x of the grid) by (win-y of the grid) using (bitmap-width) wide data from (bitmap-array) with dot size (dot-size) pixels and background (color background tint of the grid);
 	if the grid is graphlinked:
 		set a graphlink in the current window identified as grid from win-x by win-y to win-x + (bitmap-height * dot-size) by win-y + (bitmap-height * dot-size) as the linked replacement-command of the grid;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][CBD]Drawing polychrome bitmap [i][grid][/i] in [i][current window][/i] with upper left ([win-x of grid], [win-y]) and lower right ([win-x + (bitmap-width * dot-size)], [win-y + (bitmap-height * dot-size)])[unless background tint of grid is g-PlaceNullCol]; background color [color background tint of grid][end if][if grid is graphlinked]. [line break][CBD]Graphlink corresponding to [i][grid][/i] set from ([win-x of grid], [win-y of grid]) to ([win-x + (bitmap-width * dot-size)], [win-y + (bitmap-height * dot-size)]): [quotation mark][linked replacement-command of grid][quotation mark][end if].[<]";
-	end only if.
+	#end if.
 
 
 Chapter - Rendered strings
@@ -1002,9 +1011,9 @@ Section - Bitmap-rendered string drawing rule
 
 An element display rule for a bitmap-rendered string (called the stream):
 	if the text-string of the stream is "" and the cursor of the stream is not 0:
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "[>console][CBD]Rendered bitmap string [i][stream][/i] specifies no text and has not been rendered. To display only a cursor, change the cursor property of the bitmap-rendered string to 0.[<]";
-		end only if;
+		#end if;
 		exit;
 	let foreground-color be the tint of the stream;
 	let background-color be the background tint of the stream;
@@ -1021,9 +1030,9 @@ An element display rule for a bitmap-rendered string (called the stream):
 	if the cursor of the stream is 0:
 		dimrectdraw (color foreground-color) in (current window) at (column) by (row - dot-size) with size dot-size by (dot-size * font-height of the associated font of the stream);
 	if the text-string of the stream is "":
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "[>console][CBD]Rendered bitmap string [i][stream][/i] specifies no text. Displaying cursor at position 0.[<]";
-		end only if;
+		#end if;
 		exit;
 	repeat with N running from 1 to the number of characters in the text-string of the stream:
 		let V be the character code of position N of the text-string of the stream;
@@ -1049,9 +1058,9 @@ An element display rule for a bitmap-rendered string (called the stream):
 		increase column-index by (advance entry * dot-size of the stream);
 		change column to column-index;
 		let row be the win-y of the stream;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][CBD]Displaying rendered bitmap string [i][stream][/i], foreground color [color foreground-color], in [i][current window][/i] with upper left ([win-x of stream], [win-y]) and lower right ([column], [row + (font-height of the associated font of the stream * dot-size)])[unless background-color is g-PlaceNullCol]; background color [color background-color][end if][if stream is graphlinked]. [line break][CBD]Graphlink corresponding to [i][stream][/i] set from ([win-x of stream], [win-y of stream]) to ([column], [row + (font-height of the associated font of the stream * dot-size)]): [quotation mark][linked replacement-command of stream][quotation mark][end if].[<]";
-	end only if;
+	#end if;
 	if the stream is graphlinked:
 		set a graphlink in the current window identified as the stream from (win-x - dot-size) by (win-y - dot-size) to column by row + (font-height of the associated font of the stream * dot-size) as the linked replacement-command of the stream;
 
@@ -1107,9 +1116,9 @@ Section - Image-rendered string drawing rule
 
 An element display rule for an image-rendered string (called the stream):
 	if the text-string of the stream is "" and the cursor of the stream is not 0:
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "[>console][CBD]Rendered image string [i][stream][/i] specifies no text and has not been rendered. To display only a cursor, change the cursor property of the image-rendered string to 0.[<]";
-		end only if;
+		#end if;
 		exit;
 	let foreground-color be the tint of the stream;
 	let background-color be the background tint of the stream;
@@ -1130,9 +1139,9 @@ An element display rule for an image-rendered string (called the stream):
 	if the cursor of the stream is 0:
 		dimrectdraw (color foreground-color) in (current window) at (column) by (win-y of the stream) with size cursor-weight by vertical-size;
 	if the text-string of the stream is "":
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "[>console][CBD]Rendered image-based string [i][stream][/i] specifies no text. Displaying cursor at position 0.[<]";
-		end only if;
+		#end if;
 		exit;
 	repeat with N running from 1 to the number of characters in the text-string of the stream:
 		let V be the character code of position N of the text-string of the stream;
@@ -1152,9 +1161,9 @@ An element display rule for an image-rendered string (called the stream):
 		[if the text-animation delay of the stream is greater than 0 and glulx timekeeping is supported:
 			follow the text-painting animation rules for the stream;]
 		increase column by the advance entry real times the calculated scaling factor of the stream as an integer;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][CBD]Displaying rendered image string [i][stream][/i], foreground color [color foreground-color], in [i][current window][/i] with upper left ([win-x of stream], [win-y]) and lower right ([column + margin], [row + vertical-size + margin])[unless background-color is g-PlaceNullCol]; background color [color background-color][end if][if stream is graphlinked]. [line break][CBD]Graphlink corresponding to [i][stream][/i] set from ([win-x of stream], [win-y of stream]) to ([column + margin], [row + vertical-size + margin]): [quotation mark][linked replacement-command of stream][quotation mark][end if].[<]";
-	end only if;
+	#end if;
 	if the stream is graphlinked:
 		set a graphlink in the current window identified as the stream from (win-x - margin) by (win-y - margin) to (column + margin) by (row + vertical-size + margin) as the linked replacement-command of the stream.
 
@@ -1250,9 +1259,9 @@ To fit (grid - an image-map) to/into a/-- total/-- width of (X -  a number) canv
 		let width-token be the tile-width of the grid;
 	otherwise:
 		rule fails;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	    say "[>console][CBD]Trying to fit [grid] to a width of [X] canvas units. Changed tile-width to [width-token]. [if width-token * image-map-width of the grid is not X]The width could not be set precisely to [X]. [end if]The overall width before scaling will be [width-token * image-map-width of the grid].[<]";
-	end only if.
+	#end if.
 	
 
 To fit (grid - an image-map) to/into a/-- total/-- height of (Y - a number) canvas/-- pixel/pixels/px/units/-- high/--:
@@ -1266,9 +1275,9 @@ To fit (grid - an image-map) to/into a/-- total/-- height of (Y - a number) canv
 		let height-token be the tile-height of the grid;
 	otherwise:
 		rule fails;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	    say "[>console][CBD]Trying to fit [grid] to a height of [Y] canvas units. Changed tile-height override to [height-token]. [if height-token * calc-height is not Y]The height could not be set to [Y]. [end if]The overall height before scaling will be [height-token * calc-height].[<]";
-	end only if.
+	#end if.
 		
 
 Section - Scaling rule for image-maps
@@ -1341,18 +1350,18 @@ Section - Tileset image-map display rule
 An element display rule for a tileset image-map (called the grid):
 	unless the background tint of the grid is g-PlaceNullCol:
 		rectdraw (color background tint of the grid) in (current window) from (win-x of the grid) by (win-y) to win-x + (image-map-width * scaled tile-width) by win-y + (image-map-height * scaled tile-height);
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		    say "[>console][CBD]Drawing background rectangle (glulx color-value [background tint of grid]) from ([win-x], [win-y]) to ([win-x + (image-map-width * scaled tile-width)], [win-y + (image-map-height * scaled tile-height)]) for tileset image-map [i][grid][/i] in [i][current window][/i].[<]";
-		end only if;
+		#end if;
 	display an image-map in (current window) at (win-x of the grid) by (win-y of the grid) using (image-map-width) wide data from (tile-array) rendered with (associated tileset of the grid) with tile-size (scaled tile-width) by (scaled tile-height) px;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	    say "[>console][CBD]Drawing tileset image-map [i][grid][/i] in [i][current window][/i] at origin ([win-x of grid], [win-y of grid]). Map ([image-map-width] x [image-map-height] = [number of entries in tile-array] tiles) rendered using tileset [associated tileset]; tiles measure [scaled tile-width] x [scaled tile-height] pixels after scaling.[<]";
-	end only if;
+	#end if;
 	if the grid is graphlinked:
 		set a graphlink in the current window identified as (the grid) from win-x by win-y to win-x + (scaled tile-width * image-map-width) by win-y + (scaled tile-height * image-map-height) as the linked replacement-command of the grid;
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		    say "[>console][CBD]Graphlink corresponding to [i][grid][/i] set in [i][current window][/i] from ([win-x], [win-y]) to ([win-x + (scaled tile-width * image-map-width)], [win-y + (scaled tile-height * image-map-height)]): [quotation mark][linked replacement-command][quotation mark].[<]";
-		end only if;
+		#end if;
 	if the grid is tile-graphlinked:
 		follow the tiled graphlink setting rules for the grid.
 				
@@ -1362,18 +1371,18 @@ Section - Direct image-map display rule
 An element display rule for a direct image-map (called the grid):
 	unless the background tint of the grid is g-PlaceNullCol:
 		rectdraw (color background tint of the grid) in (current window) from (win-x of the grid) by (win-y) to win-x + (image-map-width * scaled tile-width) by win-y + (image-map-height * scaled tile-height);
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		    say "[>console][CBD]Drawing background rectangle (glulx color-value [background tint of grid]) from ([win-x], [win-y]) to ([win-x + (image-map-width * scaled tile-width)], [win-y + (image-map-height * scaled tile-height)]) for direct image-map [i][grid][/i] in [i][current window][/i][<].";
-		end only if;
+		#end if;
 	display an image-map in (current window) at (win-x of the grid) by (win-y of the grid) using (image-map-width) wide data from (figure-array) with tile-size (scaled tile-width) by (scaled tile-height) px;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	    say "[>console][CBD]Drawing direct image-map [i][grid][/i] in [i][current window][/i] at origin ([win-x of grid], [win-y of grid]). Map ([image-map-width] x [image-map-height] = [number of entries in figure-array] tiles); tiles measure [scaled tile-width] x [scaled tile-height] pixels after scaling.[<]";
-	end only if;
+	#end if;
 	if the grid is graphlinked:
 		set a graphlink in the current window identified as (the grid) from win-x by win-y to win-x + (scaled tile-width * image-map-width) by win-y + (scaled tile-height * image-map-height) as the linked replacement-command of the grid;
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		    say "[>console][CBD]Graphlink corresponding to [i][grid][/i] set in [i][current window][/i] from ([win-x], [win-y]) to ([win-x + (scaled tile-width * image-map-width)], [win-y + (scaled tile-height * image-map-height)]): [quotation mark][linked replacement-command][quotation mark].[<]";
-		end only if;
+		#end if;
 	if the grid is tile-graphlinked:
 		follow the tiled graphlink setting rules for the grid.
 		
@@ -1477,13 +1486,13 @@ A tiled graphlink setting rule for an image-map (called the grid):
 			let scan be 1;
 		unless index is "":
 			set a graphlink in current window identified as (the grid) from (column) by (row) to (column + scaled tile-width of grid) by (row + scaled tile-height) as (index), ignoring redundant links;
-			only if utilizing the image-map graphlink preview option;
+			#if utilizing the image-map graphlink preview option;
 			    boxdraw (color graphlink preview color) in (current window) from (column) by (row) to (column + scaled tile-width of grid) by (row + scaled tile-height) with 1;
-			end only if;
+			#end if;
 		increase column by scaled tile-width of grid;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	    say "[>console][CBD]Graphlinks set on [number of entries in the linked command array of the grid] individual tiles for tileset image-map [i][grid][/i] in [i][current window][/i].[<]";
-	end only if.
+	#end if.
 
 
 Part - Constructing graphic hyperlink sets for image maps
@@ -1500,9 +1509,9 @@ To construct/build graphic/-- hyperlinks/graphlinks array for (grid - a direct i
 				add "" to the linked command array of the grid;
 		otherwise:
 			add "" to the linked command array of the grid;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	    say "[>console][CBD]Constructed hyperlink command array for [grid] (a direct image-map) from the table [link-table].[<]";
-	end only if.
+	#end if.
 	
 [This table is required for the above routine to compile. It is best to make your own table rather than add to this one.]
 	
@@ -1524,18 +1533,16 @@ To construct/build graphic/-- hyperlinks/graphlinks array for (grid - a tileset 
 				add "" to the linked command array of the grid;
 		otherwise:
 			add "" to the linked command array of the grid;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	    say "[>console][CBD]Constructed hyperlink command array for [grid] (a tileset image-map) from the translation-table of the tileset [associated tileset of the grid].[<]";
-	end only if.
+	#end if.
 
 
 Part - Debugging commands for image-maps
 
-[This command requires you to refer to a g-element by name at the command line. Since g-elements are usually privately-named, this command will only work when the Glimmr Debugging Console is included, or if you specifically assign the items you wish to query the "publically-named" property.]
-
 Dumping imap is an action out of world applying to one visible thing. Understand "image-map [any image-map]" or "[any image-map]" or "image map [any image-map]" as dumping imap when the Glimmr debugging option is active.
 
-Understand "image-map [text]" or "image map [text]" as a mistake ("That image-map could not be found. If this is not a typo, you may need to assign it the 'publically-named' property. Alternatively, include the Glimmr Debugging Console extension, which will make graphic elements publically-named by default.") when the Glimmr debugging option is active.
+Understand "image-map [text]" or "image map [text]" as a mistake ("That image-map could not be found. If this is not a typo, you may need to assign it the 'publically-named' property.") when the Glimmr debugging option is active.
 	
 Carry out dumping imap:
 	say "[line break]";
@@ -1603,11 +1610,11 @@ To say appropriate spacing for (N - a number):
 
 Section - Graphlink preview
 
-[This would better be implemented as a  debugging command, perhaps, but is presented as a use option for performance reasons. With a use option, we can use an #ifdef block to define the debugging behavior;  the upshot is that, when the use option is not in use, there is no code at all related to it, and thus no need to waste time checking a conditional.]
+[This would better be implemented as a  debugging command, perhaps, but is presented as a use option for performance reasons. With a use option, we can use an #ifdef block to define the debugging behavior;  in other words, when the use option is not in use, no code at all related to it is compiled into the game, and thus no need to waste time checking a conditional.]
 
 Use image-map graphlink preview translates as (- Constant Glimmr_IM_GRAPHLINK_PRE; -).
 	
-To only if utilizing the image-map graphlink preview option:
+To #if utilizing the image-map graphlink preview option:
 	(- #ifdef Glimmr_IM_GRAPHLINK_PRE; -)
 	
 The graphlink preview color is a glulx color value variable. The graphlink preview color is usually g-Light-Grey.
@@ -1984,13 +1991,15 @@ Now any image-map tile that has an individual hyperlink (see above) will be outl
 
 	The graphlink preview color is g-Blue.
 
-We can "dump" the data in an image-map to the screen by typing "image-map <the name of the image-map to dump>" in-game. When the "Glimmr debugging" use option is active, this will print the tile-array or figure-array of the image-map to the main window (or, if Glimmr Debugging Console is installed, to the debugging window). Important note: if you do not include Glimmr Debugging Console, you will need to declare your image-maps to be "publically-named". Otherwise, they will be declared as privately-named and thus unable to be referred to in commands. Example:
+We can "dump" the data in an image-map to the screen by typing "image-map <the name of the image-map to dump>" in-game. When the "Glimmr debugging" use option is active, this will print the tile-array or figure-array of the image-map to the main window (or, if Glimmr Debugging Console is installed, to the debugging window). Important note: if Glimmr debugging is active and the command indicates that there is no such thing as the image-map you're trying to dump, you will need to declare your image-map to be "publically-named". (GCD automatically tries to mark all g-elements as publically-named when the Glimmr debugging option is active, but it is possible to evade this control.) Example:
 
 	My image-map is a tileset image-map. The origin is {10, 10}. The tile-array is {1, 2, 1, 2}.
 
 	Section - Debugging (not for release)
 
 	My image-map is publically-named.
+
+
 
 
 Section: Rendered strings 

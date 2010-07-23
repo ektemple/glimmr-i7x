@@ -149,9 +149,9 @@ To cancel special character input for (S - an input field):
 	follow the window-drawing rules for the assigned window of S;
 	if we are reading a command:
 		request line input in the main-window;
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "[>console][CTIF]Requesting line input in the main-window after termination of char input for input field [i][current field][/i].[<]";
-		end only if.
+		#end if.
 
 
 Chapter - Phrase to cancel single-character input (for use with Text Window Input-Output Control by Erik Temple)
@@ -160,9 +160,9 @@ To cancel special character input for (S - an input field):
 	follow the window-drawing rules for the assigned window of S;
 	if we are reading a command:
 		request line input in the current text input window;
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "[>console][CTIF]Requesting line input in the [current text input window] after termination of char input for input field [i][current field][/i].[<]";
-		end only if.
+		#end if.
 
 
 Chapter - The text field input rule (for use without Text Window Input-Output Control by Erik Temple)
@@ -171,15 +171,15 @@ Chapter - The text field input rule (for use without Text Window Input-Output Co
 This is the text field input rule:
 	if char-input mode is true:
 		if we are reading a command, cancel line input in the main-window;
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "[>console][CTIF]Input canceled in the main-window in anticipation of receiving keypress input for input field [i][current field][/i].[<]";
-		end only if;
+		#end if;
 		now the cursor of the input-stream of the current field is the number of characters in the text-string of the input-stream of the current field;
 		follow the window-drawing rules for the assigned window of the current field;
 		while char-input mode is true:
-			only if utilizing Glimmr debugging;
+			#if utilizing Glimmr debugging;
 			say "[>console][CTIF]Accepting keypress input for input field [i][current field][/i] (displayed in [assigned window of the current field]). Cursor placed at position [cursor of the input-stream of the current field]. Character code of accepted input: [run paragraph on][<]";
-			end only if;
+			#end if;
 			carry out the keypress-to-string conversion activity with the current field.
 
 
@@ -188,15 +188,15 @@ Chapter - The text field input rule (for use with Text Window Input-Output Contr
 This is the text field input rule:
 	if char-input mode is true:
 		if we are reading a command, cancel line input in the current text input window;
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "[>console][CTIF]Input canceled in the main-window in anticipation of receiving keypress input for input field [i][current field][/i].[<]";
-		end only if;
+		#end if;
 		now the cursor of the input-stream of the current field is the number of characters in the text-string of the input-stream of the current field;
 		follow the window-drawing rules for the assigned window of the current field;
 		while char-input mode is true:
-			only if utilizing Glimmr debugging;
+			#if utilizing Glimmr debugging;
 			say "[>console][CTIF]Accepting keypress input for input field [i][current field][/i] (displayed in [assigned window of the current field]). Cursor placed at position [cursor of the input-stream of the current field]. Character code of accepted input: [run paragraph on][<]";
-			end only if;
+			#end if;
 			carry out the keypress-to-string conversion activity with the current field.
 
 
@@ -213,9 +213,9 @@ Section - Prepare keypress rule
 
 Before keypress-to-string conversion (this is the prepare keypress rule):
 	change key-press to the character code entered in the char-accepting window;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][key-press].[<]";
-	end only if;
+	#end if;
 	now len is the number of characters in the text-string of the input-stream of the current field;
 	unless key-press is a char listed in the font table of the associated font of the input-stream of the current field or key-press is listed in the accepted control input of the current field:
 		rule succeeds;
@@ -228,9 +228,9 @@ For keypress-to-string conversion when key-press terminates input (this is the k
 	remove focus from input fields;
 	cancel character input in the char-accepting window;
 	replace the regular expression "^\s+" in the text-string of the input-stream of the current field with "";[eliminate leading spaces]
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][CTIF]Received termination code [key-press] for input field element [i][current field][/i]. Canceling keypress input in the char-accepting window ([char-accepting window]).[<]";
-	end only if;
+	#end if;
 	cancel special character input for the current field.
 	[follow the window-drawing rules for the assigned window of the current field;
 	if we are reading a command:
