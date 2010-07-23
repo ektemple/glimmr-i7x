@@ -56,9 +56,9 @@ To dimrectdraw (hue - a number) in (win - a g-window) at (x1 - a number) by/x (y
 
 To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) at (x1 - a number) by/x (y1 - a number) with size/dimensions (width - a number) by/x (height - a number):
 	dimrectdraw (hue) in (win) at (x1) by (y1) with size (width) by (height);
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Drawing a rectangle of color [hue] in [i][win][/i] with upper left ([x1], [y1]) and dimensions [width] by [height].[<]";
-	end only if.
+	#end if.
 
 To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) at (coord1 - a list of numbers) with size/dimensions (width - a number) by/x (height - a number):
 	let x1 be entry 1 of coord1;
@@ -91,9 +91,9 @@ To rectdraw (hue - a number) in (win - a g-window) from (x1 - a number) by (y1 -
 
 To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number):
 	rectdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2);
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Drawing a rectangle of color [hue] in [i][win][/i] with upper left ([x1], [y1]) and lower right ([x2], [y2]).[<]";
-	end only if.
+	#end if.
 
 To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) from (coord1 - a list of numbers) to (coord2 - a list of numbers):
 	let x1 be entry 1 of coord1;
@@ -138,9 +138,9 @@ To draw/display a/-- box (hue - a number) in (win - a g-window) from (x1 - a num
 		boxdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt), inset;
 	otherwise:
 		boxdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt);
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Drawing a box of color [hue] in [i][win][/i] with upper left ([x1], [y1]) and lower right ([x2], [y2]), line-weight [wgt] px[if outlined]; line is drawn outside the bounds of the box[otherwise if inset]; line is drawn inside the bounds of the box[end if].[<]";
-	end only if;
+	#end if;
 
 To draw/display a/-- box (hue - a number) in (win - a g-window) from (coord1 - a list of numbers) to (coord2 - a list of numbers) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke, outlined or inset:
 	let x1 be entry 1 of coord1;
@@ -156,9 +156,9 @@ To draw/display a/-- box (hue - a number) in (win - a g-window) from (coord1 - a
 		
 To box (coord1 - a list of numbers) to (coord2 - a list of numbers) at (wgt - a number) px/pixels/pixel, outlined or inset: 
 	if the type of the current graphics window is not g-graphics:
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "*** Error: Short-form box-drawing directive ignored. The current graphics window global was not correctly specified.";
-		end only if;
+		#end if;
 		rule fails;
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
@@ -208,9 +208,9 @@ To strectdraw (hue - a number) in (win - a g-window) from (x1 - a number) by (y1
 
 To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke (color - a number):
 	strectdraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt) stroke of (color);
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Drawing a stroked rectangle of color [hue] in [i][win][/i] with upper left ([x1], [y1]) and lower right ([x2], [y2]); stroke of line-weight [wgt] pixels (color [color]) drawn inside the bounds of the box.[<]";
-	end only if;
+	#end if;
 
 To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) from (coord1 - a list of numbers) to (coord2 - a list of numbers) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke (color - a number):
 	let x1 be entry 1 of coord1;
@@ -221,9 +221,9 @@ To draw/display a/-- rectangle/rect (hue - a number) in (win - a g-window) from 
 
 To stroked/str/stroke rect/rectangle (coord1 - a list of numbers) to (coord2 - a list of numbers) at (wgt - a number) px/pixels/pixel:
 	if the type of the current graphics window is not g-graphics:
-		only if utilizing Glimmr debugging;
+		#if utilizing Glimmr debugging;
 		say "*** Error: Short-form rectangle-drawing directive ignored. The current graphics window global was not correctly specified.";
-		end only if;
+		#end if;
 		rule fails;
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
@@ -305,9 +305,9 @@ To linedraw (hue - a number) in (win - a g-window) from (x1 - a number) by/x (y1
 
 
 To draw a/-- line (hue - a number) in (win - a g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Drawing a line of color [hue] in [i][win][/i] from ([x1], [y1]) to ([x2], [y2]), line-weight [wgt] pixels.[<]";
-	end only if;
+	#end if;
 	linedraw (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt).
 		
 
@@ -336,9 +336,9 @@ To draw a line (hue - a number) in (win - a g-window) from (x1 - a number) by (y
 	let yy be (cosine of angle) * distance as an integer;
 	let x2 be x1 + xx;	
 	let y2 be y1 - yy;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Converting angle ([angle]°) and distance ([distance]) to coordinate pair ([x2], [y2]) in preparation for line-drawing.[<]";
-	end only if;
+	#end if;
 	Draw a line (hue) in (win) from (x1) by (y1) to (x2) by (y2) with (wgt) pixel line-weight.
 	
 To draw a line (hue - a number) in (win - a g-window) from (coord1 - a list of numbers) measuring (distance - a number) pixels/pixel/-- long/-- at (angle - a number) deg/degree/degrees/-- angle/-- with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:
@@ -367,9 +367,9 @@ To drimage (ID - a figure name) in (win - a g-window) at (x1 - a number) by (y1 
 	(- DrawImage({ID}, {win}, {x1}, {y1}); -)
 
 To display/draw the/-- image/-- (ID - a figure name) in (win - a g-window) at (x1 - a number) by/x (y1 - a number):
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Drawing image [ID] in [i][win][/i] at ([x1], [y1]).[<]";
-	end only if;
+	#end if;
 	drimage (ID) in (win) at (x1) by (y1).
 
 To display/draw the/an/-- image/-- (ID - a figure name) in (win - a g-window) at (coord1 - a list of numbers):
@@ -402,9 +402,9 @@ To drscimage (ID - a figure name) in (win - a g-window) at (x1 - a number) by/x 
 	(- DrawImageScaled({ID}, {win}, {x1}, {y1}, {width}, {height}); -)
 	
 To display/draw the/an/-- image/-- (ID - a figure name) in (win - a g-window) at (x1 - a number) by/x (y1 - a number) with size/dimensions (width - a number) by/x (height - a number):
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Drawing image [ID] in [i][win][/i] at ([x1], [y1]), scaled to dimensions [width] x [height].[<]";
-	end only if;
+	#end if;
 	drscimage (ID) in (win) at (x1) by (y1) with dimensions (width) by (height).
 
 To display/draw the/an/-- image/-- (ID - a figure name) in (win - a g-window) at (coord1 - a list of numbers) with size/dimensions (width - a number) by/x (height - a number):
@@ -456,9 +456,9 @@ To drmonobitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (
 		increase column by WGT.
 
 To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Drawing monochrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot-size [WGT] (bitmap is [number of entries of bit_map] long, with width [wdt]; foreground color [hue], background color [bkgd].[<]";
-	end only if;
+	#end if;
 	drmonobitmap (HUE) in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (BKGD).
 	
 
@@ -485,9 +485,9 @@ To drmonobitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (
 		increase column by WGT.
 
 To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Drawing monochrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot-size [WGT] (bitmap is [number of entries of bit_map] long, with width [wdt]; color [hue].[<]";
-	end only if;
+	#end if;
 	drmonobitmap (HUE) in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
 
 To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
@@ -534,9 +534,9 @@ To drpolybitmap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) us
 		increase column by WGT.
 
 To draw/display a/-- polychrome bitmap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Drawing polychrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot-size [WGT] (bitmap is [number of entries of bit_map] long, with width [wdt]); background color [bkgd].[<]";
-	end only if;
+	#end if;
 	drpolybitmap in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (BKGD).
 
 To draw/display a/-- polychrome bitmap in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
@@ -562,9 +562,9 @@ To drpolybitmap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) us
 		increase column by WGT.
 
 To draw/display a/-- polychrome bitmap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Drawing polychrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot-size [WGT] (bitmap is [number of entries of bit_map] long, with width [wdt]).[<]";
-	end only if;
+	#end if;
 	drpolybitmap in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
 
 To draw/display a/-- polychrome bitmap in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
@@ -692,9 +692,9 @@ To paintbittext (hue - a number) of (str - indexed text) in (win - a g-window) a
 			change current g-row to Y1;
 
 To paint/display a/-- bitmap text (hue - a number) of (str - indexed text) in (win - a g-window) at (X1 - a number) by/x (Y1 - a number) using font/-- (typf - a font) with dot/-- size (wgt - a number) pixel/pixels/px/-- and background (bkgd - a number), center-aligned or right-aligned:
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Painting bitmap text string [quotation mark][STR][quotation mark] in [i][WIN][/i] with origin ([X1], [Y1]) and dot-size [WGT][if center-aligned], center-aligned[end if][if right-aligned], right-aligned[end if]. Font: [TYPF], background color: [BKGD].[<]";
-	end only if;
+	#end if;
 	if center-aligned:
 		paintbittext (HUE) of (STR) in (WIN) at (X1) by (Y1) using (TYPF) with size (WGT) and background (BKGD), center-aligned;
 		rule succeeds;
@@ -749,9 +749,9 @@ To paintbittext (hue - a number) of (str - indexed text) in (win - a g-window) a
 			change current g-row to Y1;
 
 To paint/display a/-- bitmap text (hue - a number) of (str - indexed text) in (win - a g-window) at (X1 - a number) by/x (Y1 - a number) using font/-- (typf - a font) with/-- dot/-- size (wgt - a number) pixel/pixels/px/--, center-aligned or right-aligned:
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Painting bitmap text string [quotation mark][STR][quotation mark] in [i][WIN][/i] with origin ([X1], [Y1]) and dot-size [WGT][if center-aligned], center-aligned[end if][if right-aligned], right-aligned[end if]. Font: [TYPF].[<]";
-	end only if;
+	#end if;
 	if center-aligned:
 		paintbittext (HUE) of (STR) in (WIN) at (X1) by (Y1) using (TYPF) with size (WGT), center-aligned;
 		rule succeeds;
@@ -837,9 +837,9 @@ To paintimgtext of/-- (STR - indexed text) in (win - a g-window) at (X1 - a numb
 			increase current g-column by the advance entry real times SCF as an integer;
 
 To paint/display an/-- image-based text of/-- (STR - indexed text) in (win - a g-window) at (X1 - a number) by/x (Y1 - a number) using font/-- (TYPF - a font) scaled at (SCF - a real number) with background (BKGD - a number) and margin of/-- (MARGIN - a number) pixel/pixels/px/--, center-aligned or right-aligned:
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Painting bitmap text string [quotation mark][STR][quotation mark] in [i][WIN][/i] with origin ([X1], [Y1])[if center-aligned], center-aligned[end if][if right-aligned], right-aligned[end if]. Font: [TYPF], scaled at [SCF], with background [BKGD] and margin of [MARGIN].[<]";
-	end only if;
+	#end if;
 	if center-aligned:
 		paintimgtext of (STR) in (WIN) at (X1) by (Y1) using (TYPF) scaled at (SCF) with background (BKGD) and margin (MARGIN), center-aligned;
 	if right-aligned:
@@ -887,9 +887,9 @@ To paintimgtext of/-- (STR - indexed text) in (win - a g-window) at (X1 - a numb
 			increase current g-column by the advance entry real times SCF as an integer;
 
 To paint/display an/-- image-based text of/-- (STR - indexed text) in (win - a g-window) at (X1 - a number) by/x (Y1 - a number) using font/-- (TYPF - a font) scaled at (SCF - a real number), center-aligned or right-aligned:
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Painting bitmap text string [quotation mark][STR][quotation mark] in [i][WIN][/i] with origin ([X1], [Y1])[if center-aligned], center-aligned[end if][if right-aligned], right-aligned[end if]. Font: [TYPF], scaled at [SCF].[<]";
-	end only if;
+	#end if;
 	if center-aligned:
 		paintimgtext of (STR) in (WIN) at (X1) by (Y1) using (TYPF) scaled at (SCF), center-aligned;
 	if right-aligned:
@@ -991,10 +991,10 @@ To drimagemap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) usin
 		increase column by W.
 
 To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--:
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	let total-height be the number of entries of IMG_MAP / WDT;
 	say "[>console][DC]Image-map drawn at screen coordinates ([X1], [Y1]) of [WIN] using the list of figure names provided, interpreted as a grid [WDT] tiles wide and [total-height] tiles high. Tile size used: [W] by [H] pixels.[<]";
-	end only if;
+	#end if;
 	drimagemap in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) with tile-size (W) by (H).
 	
 To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--:
@@ -1007,9 +1007,9 @@ Section - Long forms of figure image-map (background color)
 
 To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/-- and background (BKGD - a number):
 	let total-height be the number of entries of IMG_MAP / WDT;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Image-map drawn at screen coordinates ([X1], [Y1]) of [WIN] using the list of figure names provided, interpreted as a grid [WDT] tiles wide and [total-height] tiles high. Tile size used: [W] by [H] pixels. Background color [BKGD].[<]";
-	end only if;
+	#end if;
 	rectdraw (BKGD) in (WIN) from (X1) by (Y1) to (WDT * W) by (total-height * H);
 	drimagemap in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) with tile-size (W) by (H).
 
@@ -1058,10 +1058,10 @@ To drimagemap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) usin
 		increase column by W.
 
 To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with/by (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) --/pixel/pixels/px:
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	let total-height be the number of entries of IMG_MAP / WDT;
 	say "[>console][DC]Image-map drawn at screen coordinates ([X1], [Y1]) of [WIN] using the list of numbers provided, interpreted as a grid [WDT] tiles wide and [total-height] tiles high. Tile size used: [W] by [H] pixels.[<]";
-	end only if;
+	#end if;
 	drimagemap in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered with (TSET) with tile-size (W) by (H).
 	
 To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with/by (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--:
@@ -1076,9 +1076,9 @@ To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y
 	let total-height be the number of entries of IMG_MAP / WDT;
 	let W be the tile-width of TSET;
 	let H be the tile-height of TSET;
-	only if utilizing Glimmr debugging;
+	#if utilizing Glimmr debugging;
 	say "[>console][DC]Image-map drawn at screen coordinates ([X1], [Y1]) of [WIN] using the list of numbers provided, interpreted as a grid [WDT] tiles wide and [total-height] tiles high. Tile size used: [W] by [H] pixels. Background color [BKGD].[<]";
-	end only if;
+	#end if;
 	rectdraw (BKGD) in (WIN) from (X1) by (Y1) to (WDT * W) by (total-height * H);
 	drimagemap in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered with (TSET) with tile-size (W) by (H).
 
@@ -1179,7 +1179,7 @@ Chapter - Color specified as a hexadecimal
 
 To decide which number is hex (hex - indexed text):
 	let hex be hex in upper case;
-	replace the regular expression "\$|\#" in hex with "";
+	replace the regular expression "\$|\#|0x" in hex with "";
 	let len be the number of characters in hex;
 	let total be 0;
 	let multiplier be 1;
@@ -1349,17 +1349,17 @@ Part - Debugging
 
 Use Glimmr debugging translates as (- Constant Glimmr_DEBUG; -).
 
-To only if utilizing Glimmr debugging:
+To #if utilizing Glimmr debugging:
 	(- #ifdef Glimmr_DEBUG; -)
 	
-To end only if:
+To #end if:
 	(- #endif; -)
 
 
 Chapter - Console command
 [We can add our own text to the console log stream by using this command.]
 
-Understand "> [text]" or ">[text]" as a mistake ("[>console][line break][player's command][paragraph break][<]") when the Glimmr debugging option is active.
+Understand "> [text]" or ">[text]" as a mistake ("[>console][line break]*[player's command][paragraph break][<]") when the Glimmr debugging option is active.
 
 
 Chapter - Debugging output window
@@ -1371,6 +1371,25 @@ The console output window is a g-window variable.
 Section - Assign the default debugging window (for use without Glimmr Debugging Console by Erik Temple)
 
 The console output window is usually the main-window.
+
+
+Section - Logging to the transcript
+
+Use Glimmr console transcript logging translates as (- Constant GLIMMR_CONSOLE_TRANSCRIPT_ON; -)
+
+Report switching the story transcript on when the Glimmr console transcript logging option is active:[we use "report" only because "after" doesn't exist for out-of-world actions.]
+	if the console output window is the main-window:
+		continue the action;
+	if we are writing to the transcript and the console output window is g-present:
+		echo the text stream of the console output window to the transcript;
+	continue the action.
+
+After constructing the console output window when the Glimmr console transcript logging option is active:
+	if the console output window is the main-window:
+		continue the action;
+	if we are writing to the transcript and the console output window is g-present:
+		echo the text stream of the console output window to the transcript;
+		continue the action.
 
 
 Chapter - Abbreviations
@@ -1417,7 +1436,9 @@ To show the/-- glk/glklist list/--:
 
 
 Chapter - Text substitutions for logging console messages
-[We preface console log messages with ">console" (the > is used to be sure that "console" doesn't conflict with any object named console. The [>console] *must* be balanced with [<] at the end: this transfers the focus back to the main window from the console.]
+[We preface console log messages with ">console" (the > is used to be sure that "console" doesn't conflict with any object named console. The [>console] *must* be balanced with [<] at the end: this transfers the focus back to the main window from the console.
+
+Note that, like all "to" phrases in Inform, these can be "overloaded". To do something different with them, ]
 
 To say >console:
 	(- if ( (+ console output window +) has g_present) { glk_set_window( (+ console output window +).ref_number); -).
@@ -1431,7 +1452,7 @@ Glimmr Drawing Commands ends here.
 
 ---- DOCUMENTATION ----
 
-Glimmr Drawing Commands (GDC) is the most basic of the Glimmr extensions, and is required by all others. It exposes the three basic Glulx drawing commands at the I7 level, enabling authors to write their own drawing rules without using any I6 code. Glimmr Drawing Commands also adds a number of "derived" commands--commands that use the basic commands to do new things. These include everything from drawing a line to connect any two points on the screen, to "painting" text to the screen, to drawing a grid of images.
+Glimmr Drawing Commands (GDC) is the most basic of the Glimmr extensions, and is required by (nearly) all others. It exposes the three basic Glulx drawing commands at the I7 level, enabling authors to write their own drawing rules without using any I6 code. Glimmr Drawing Commands also adds a number of "derived" commands--commands that use the basic commands to do new things. These include everything from drawing a line to connect any two points on the screen, to "painting" text to the screen, to drawing a grid of images.
 
 Glimmr Drawing Commands requires Jon Ingold's Flexible Windows as well as Michael Callaghan's Fixed Point Maths. For those familiar with I6, the three infglk functions that GDC implements are glk_image_draw, glk_image_draw_scaled, and glk_window_fill_rect. It does not implement the glk_window_erase_rect command, since this is easily imitated by drawing a rectangle in the background color of the window (Flexible Windows's "back-colour" property).
 
@@ -1487,10 +1508,11 @@ Colors in GDC are specified as numbers. However, we actually have a lot of freed
 
 GDC in fact allows us to provide color values in all of these forms, and more. (It does this by running an in-line calculation on our input to arrive at that decimal code.) Here are the color specifications we can use (all of these set the color to white):
 
-	Hexadecimal (the hex identifier is required):
+	Hexadecimal (the "hex" identifier is required):
 	hex FFFFFF
 	hex $FFFFFF
 	hex #FFFFFF
+	hex 0xFFFFFF
 
 	Color name (must be previously defined; see below):
 	color g-White
@@ -2375,7 +2397,7 @@ Now Glimmr functions will announce themselves, as well as the particular extensi
 
 		The console output window is my-text-window [a text-buffer g-window].
 
-	3) We can also send console log output to the transcript, while not printing it anywhere else. To do this, we include this code in our story file:
+	3) We can also send console log output to the transcript, while not printing it anywhere else. To do this, we include this code in our story file (it must be placed *after* the inclusion of GDC):
 
 		To say >console:
 			say echo stream of main-window.
@@ -2384,10 +2406,19 @@ Now Glimmr functions will announce themselves, as well as the particular extensi
 			say stream of main-window;
 			say run paragraph on.
 
-	This will only work when a transcript is actually being written. To ensure that we do not forget to initiate one, we can include this:
+	This will only work when a transcript is actually being written. To ensure that we do not forget to initiate one, we can include something like this:
 
 		When play begins:
 			try switching the story transcript on.
+
+
+Section: Echoing the debugging log to the transcript
+
+If we are directing output to a window other than the main-window, we may want to echo that window's output to the transcript. To do this, include this use option:
+
+	Use Glimmr console transcript logging
+
+Now, whichever window is designated as the console output window will have its output echoed to the transcript.
 
 
 Section: Console log comments

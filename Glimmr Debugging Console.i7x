@@ -1,6 +1,6 @@
 Version 1/100701 of Glimmr Debugging Console (for Glulx only) by Erik Temple begins here.
 
-[Allow the g-console output to be rerouted, including to the main window. Need to add two globals--one for the main window, one for the debugging output.]
+"Provides a dynamic console window for Glimmr debugging output."
 
 Use authorial modesty.
 
@@ -12,7 +12,7 @@ The console-window is a text-buffer g-window spawned by the main-window.
 
 Section - Window positioning
 
-The position of the console-window is g-placebelow.
+The position of the console-window is usually g-placebelow.
 
 
 [Section - Window background color
@@ -61,7 +61,7 @@ Carry out opening the g-console:
 		say "[>console][bracket]Glimmr Console[close bracket]: Console initiated by command-line input.[unless the Glimmr debugging option is active][bracket]Glimmr Console[close bracket]: Automated logging is disabled. To enable, activate the Glimmr debugging use option.[end if][<]";
 		say "";[This seemingly useless line lets Inform get its paragraphing back on track.]
 	otherwise:
-		say "*** An unknown error prevented the Glimmr console window from opening.";
+		say "*** An unknown error prevented the Glimmr console window from opening."
 
 
 Section - Command to close the console
@@ -78,25 +78,13 @@ Carry out closing the g-console:
 	if console-window is g-unpresent:
 		say "Glimmr console window closed.";
 	otherwise:
-		say "*** An unknown error prevented the Glimmr console window from closing.";
+		say "*** An unknown error prevented the Glimmr console window from closing."
 
 
-Section - Commands for logging messages
+Section - Direct output to the console-window
 
 The console output window is usually the console-window.
 
-
-Section - Make it possible to refer to graphic elements in commands (for use with Glimmr Canvas-Based Drawing by Erik Temple)
-
-A g-element is publically-named.
-
-
-Section - Drawing rule
-
-[This is not strictly necessary, but does make clear that the console is written to outside of Flexible Windows' window-drawing rulebook.]
-
-Window-drawing rule for the console-window:
-	do nothing.
 
 
 Glimmr Debugging Console ends here.
@@ -104,4 +92,40 @@ Glimmr Debugging Console ends here.
 
 ---- DOCUMENTATION ----
 
+Glimmr Debugging Console is a simple extension that provides a separate window for Glimmr's debugging output, along with commands for opening and closing the window. It requires Glimmr Drawing Commands.
+
+For the debugging console to be useful, the Glimmr debugging option must be set:
+
+	Use Glimmr debugging.
+
+If this option is not set, there will be no debugging output and thus nothing for the window to do!
+
+The "console-window," as the window is called, is a Flexible Windows text-buffer g-window. By default, it will open below the main window, because Glimmr debugging statements tend to be long and so are more readable in a wide window. If we want to open the window in another position, we can specify it as we would for any other Flexible Windows window, e.g:
+
+	The position of the console-window is g-placeright.
+
+
+Section: Opening and closing the console-window
+
+The console-window can be opened and closed either using commands in game, or by source code directive. To control the window from source code, use the following commands:
+
+	initiate Glimmr console (opens the console window)
+	cease logging to Glimmr console (closes the console window, safely)
+
+To control the window in-game, type:
+
+	OPEN G-CONSOLE
+	CLOSE G-CONSOLE
+
+
+Section: The console and the transcript
+
+By default, windows other than the main window do not output content to the transcript. However, we may want to have Glimmr output information in our transcript. To do this, include this use option:
+
+	Use Glimmr console transcript logging
+
+
+Section: Credits
+
+Glimmr Debugging Console is inspired by the console window in the GWindows system for Inform 6(http://gwindows.trenchcoatsoft.com/).
 
