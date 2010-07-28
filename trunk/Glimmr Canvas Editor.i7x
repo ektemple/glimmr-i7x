@@ -52,8 +52,6 @@ g-lightpear	15791827
 g-midlightgray	10921638
 g-librarygray	12566463
 
-Include HTML Color Names for Glulx Text Effects by Erik Temple.
-
 [A glulx arranging rule:
 	say "Window width: [width of main-window].";
 	say "Window height: [height of main-window].";]
@@ -1758,12 +1756,12 @@ A clicking graphlink rule when the current graphlink window is the control-windo
 		if the current graphlink is a pop-up button:
 			if the associated dialogue of the current graphlink is display-inactive:
 				open the associated dialogue of the current graphlink;
-				[follow the window-drawing rules for the control-window;]
+				follow the window-drawing rules for the control-window;
 				now glulx replacement command is "";
 				rule succeeds;
 			otherwise:
 				close the associated dialogue of the current graphlink;
-				[follow the window-drawing rules for the control-window;]
+				follow the window-drawing rules for the control-window;
 				now glulx replacement command is "";
 				rule succeeds;
 		if the current graphlink is the control_occluder:
@@ -2630,8 +2628,8 @@ A clicking graphlink rule when the current graphlink window is the working windo
 			otherwise:
 				add current graphlink at entry 1 in the element-selection set;
 			now glulx replacement command is "";
-			consider the window-drawing rules for the current graphlink window;
-			consider the window-drawing rules for the layers-window;
+			follow the window-drawing rules for the current graphlink window;
+			follow the window-drawing rules for the layers-window;
 			update the status line;
 			rule succeeds;
 	now glulx replacement command is "".
@@ -2837,7 +2835,7 @@ Sprite-nudging is an action applying to one value. Understand "nudge [nudge-dire
 Understand "nudge" as a mistake ("Please provide a direction (upward, rightward, downward, or leftward), e.g. NUDGE RIGHTWARD.").
 
 The nudge factor is a number that varies. The nudge factor is usually 1.
-The maximum nudge is a number that varies. The maximum nudge is usually 100.
+The maximum nudge is a number that varies. The maximum nudge is usually 500.
 
 Check sprite-nudging:
 	abide by the select at least one element rule.
@@ -4700,6 +4698,7 @@ Glimmr Canvas Editor depends on a rather large set of extensions. These include:
 	Questions
 	Fixed Point Maths
 	Undo Output Control
+	Glulx Text Effects
 	(and also some built-in extensions)
 
 Note that GCE also requires you to download and place in your Materials/Figures/ folder a rather large set of image assets. These assets provide the editor's graphical user interface, as well as the glyphs for the Glimmr Image Font extension. If you don't have these images in the proper place, the extension will not be usable.
@@ -5249,6 +5248,20 @@ Glimmr Canvas Editor functions much better in a release build, opened with an ex
 Note that, in the Mac IDE, there is a *significant* delay upon entering the editor. During this delay, commands can be entered, but clicks in the GUI will appear to do nothing. These clicks are in fact being registered, however, and will generate actions after the delay is complete. It is best to make a single click when the editor loads, then wait for that click's result to appear before continuing.
 
 
+Chapter: Debugging
+
+At present, no debugging features are associated with Glimmr Canvas Editor, and the extension makes no output to the Glimmr debugging log.
+
+
+Chapter: Contact info
+
+If you have comments about the extension, please feel free to contact me directly at ek.temple@gmail.com.
+
+Please report bugs on the Google Code project page, at http://code.google.com/p/glimmr-i7x/issues/list.
+
+For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the infiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
+
+
 Example: *** Basic Floorplan Toolkit - A toolkit including images for use in constructing basic floorplans for indoor maps, as well as illustrating most of the basic options available. Also illustrates user-specified source text and tags to create automatic mapping capabilities.
 
 Most of the available settings are included in the code, many just restating the defaults.
@@ -5337,22 +5350,6 @@ Most of the available settings are included in the code, many just restating the
 	The current element color is g-White.
 	The current element background color is g-placeNULLcol.
 
-	The Pac-Lady is a polychrome bitmap. The associated canvas is the graphics-canvas. The origin is {100, 100}. The bitmap-width is 13. The bitmap-array is {
-		-1,  -1,  -1, 16758465, 16758465,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-		-1,  -1,  -1, 16758465, 16758465, 16758465,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,
-		-1,  -1, 16758465, 16758465, 16738740, 16738740,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,
-		16758465, 16758465, 16738740, 16738740,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,
-		16738740, 16758465, 16758465,  268431360,  268431360,  268431360, 2, 2,  268431360,  268431360,  268431360, 16738740, 16738740,
-		-1, 16738740, 16738740,  268431360,  268431360, 2, 205,  268431360,  268431360,  -1,  -1,  -1,  -1,
-		-1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,  -1,  -1,
-		-1,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-		-1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,  -1,  -1,
-		-1,  268431360,  268431360,  268431360, 2,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,
-		-1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360, 16738740, 16738740,
-	 	-1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,
-		-1,  -1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,
-		-1,  -1,  -1,  -1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,  -1, -1   }.
-
 
 	Section - Custom text and source
 
@@ -5366,14 +5363,14 @@ Most of the available settings are included in the code, many just restating the
 
 If we are compiling this GCE project strictly for our own use, we may want to include the map geography itself in the project, as a reference for our drawing. To do that, we paste in the relevant code from our game:
 
-	Section - Map
+	*: Section - Map
 
 	Entrance Chamber is a room. The heavy door is an open door. It is south of Entrance Chamber and north of Hall. Guard Room is east of Hall. 	Up from Entrance Chamber is the Shaft. Watch Room is south of the Shaft. Up from Shaft is the Upper Chamber.	Flanking Chamber is south of Upper Chamber. North of Flanking Chamber is nowhere. West of Flanking Chamber is Upper Chamber. East of Upper Chamber is nowhere.
 
 
 ...and, some new commands to summarize the map for us:
 
-	Section - Map summary
+	*: Section - Map summary
 
 	Listing rooms is an action applying to nothing. Understand "rooms" or "list rooms" or "map" as listing rooms.
 

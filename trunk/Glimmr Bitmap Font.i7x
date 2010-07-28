@@ -10,7 +10,7 @@ Use authorial modesty.
 
 Section - The font object
 
-Glimmr C&C is a bitmap font. The associated font of a bitmap-rendered string is Glimmr C&C.
+Glimmr C&C is a bitmap font.
 
 The font-height of Glimmr C&C is 12.
 The font table of Glimmr C&C is the Table of Glimmr C&C Parameters.
@@ -822,3 +822,10 @@ This font will automatically be set as the preferred default font for bitmap-ren
 	The associated font of a bitmap-rendered string is My Cool Font.
 
 
+Section: Contact info
+
+If you have comments about the extension, please feel free to contact me directly at ek.temple@gmail.com.
+
+Please report bugs on the Google Code project page, at http://code.google.com/p/glimmr-i7x/issues/list.
+
+For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the infiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).

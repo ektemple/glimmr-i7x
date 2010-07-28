@@ -2,8 +2,6 @@ Version 1/100711 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple 
 
 "A framework for drawing graphics of various types--from sprite images to painted text--to a Glulx graphics window. Takes an object-oriented approach, with graphic elements represented as individual objects."
 
-[Add a simple button panel example, using bitmaps.]
-
 
 Part - Preliminaries
 
@@ -483,10 +481,6 @@ To decide which list of numbers is the canvas equivalent of the screen coordinat
 Part - Graphic Hyperlinks
 
 Chapter - Graphlink management (for use with Glimmr Graphic Hyperlinks by Erik Temple)
-
-To zero the/-- link-table:
-	repeat through the Table of Graphlink Glulx Replacement Commands:
-		blank out the whole row.
 		
 To prune the/-- link-table of the/-- (g - a g-window) links:
 	repeat through the Table of Graphlink Glulx Replacement Commands:
@@ -2483,9 +2477,192 @@ This section presents a list of the properties associated with image-rendered st
 
 	calculated scaling factor** - a real number (decimal with four-digit precision) that represents the scaling factor of both the window and the rendered string element. 
 
+
+Chapter: Contact info
+
+If you have comments about the extension, please feel free to contact me directly at ek.temple@gmail.com.
+
+Please report bugs on the Google Code project page, at http://code.google.com/p/glimmr-i7x/issues/list.
+
+For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the infiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
+
+
 Chapter: Examples
 
-A number of examples are included here, to showcase some of the capabilities of Glimmr. Many of these require external resources (image files), which can be downloaded from http://code.google.com/p/glimmr-i7x/downloads/list. 
+A number of examples are included here, showcasing just some of the capabilities of Glimmr. Many of these require external resources (image files), which can be downloaded from http://code.google.com/p/glimmr-i7x/downloads/list. Compiled versions of the examples can also be downloaded, if you prefer to see the final result without compiling yourself.
+ 
+
+Example: * Simple Buttons - In this example, we show how to create a simple set of buttons that the player can press to issue commands. (We use the most important meta-commands: undo, save, restore, and transcript.) The example requires the Glimmr Image Font extension, and you will need to copy the images associated with that extension to your project's Materials folder before building this example. The example also requires Glimmr Graphic Hyperlinks, which enables the buttons to accept mouse input.
+
+We make each button out of two g-elements: a stroked rectangle primitive creates the button's outline and color, while an image-rendered string provides the text of the button. This is convenient, since it doesn't require us to create our own images for each button. (Though using a single image for each button is in fact the most resource-efficient method.) 
+
+Before we get to the buttons, we need to set up the window and canvas. For an example like this, Glimmr Simple Graphics Window would be an even easier way to set things up, but it's better if we show everything here.
+
+	*: "Simple Buttons"
+
+	Include Glimmr Canvas-Based Drawing by Erik Temple.
+	Include Glimmr Graphic Hyperlinks by Erik Temple.
+	Include Glimmr Image Font by Erik Temple.
+
+	Hello is a room.
+
+	The graphics-window is a graphlink g-window spawned by the main-window. The position is g-placebelow. The scale method is g-fixed-size. The measurement is 35. The back-colour is g-White.
+
+	The back-colour of the main-window is g-White.
+
+	The graphics-canvas is a g-canvas. The canvas-width is 248. The canvas-height is 35.
+	The associated canvas of the graphics-window is the graphics-canvas.
+	The associated canvas of a g-element is the graphics-canvas.
+
+	When play begins:
+		open up the graphics-window.
+	
+	
+	Table of Common Color Values (continued)
+	glulx color value	assigned number
+	g-LightGray	15066597
+	g-MidGray	12829635
+
+
+Now we create the buttons. We begin by setting up most of properties using subclasses of the stroked rectangle primitive and image-based string kinds--these are the "button" and "label" kinds. The buttons are primed to accept mouse input by making them graphlink-active. The labels merely float over the button; it is the latter which does all the work.
+
+Note that the image-based font is rather large, and we need to scale it down to a quarter of its actual size. Also note that the labels are center-aligned. This isn't necessary, but it does mean that if we change the text of the label slightly, we may be able to avoid changing the origin coordinate, since it will still attempt to center itself over the button background. Finally, we use display-layers to keep the label text, on layer 2, above the button background, on layer 1 (the default layer).
+	
+	*: A button is a kind of stroked rectangle primitive. The associated canvas of a button is the graphics-canvas. The tint of a button is g-LightGray. The background tint of a button is g-MidGray. The graphlink status of a button is g-active.
+
+	A label is a kind of image-rendered string. The associated canvas of a label is the graphics-canvas. The scaling factor of a label is 0.2500. The display-layer of a label is 2. The alignment of a label is center-aligned.
+
+	A button has a label called the associated label.
+
+	Some labels are defined by the Table of Button Labels.
+
+	Table of Button Labels
+	label	origin	text-string
+	Label_1	{30, 10}	"Undo"
+	Label_2	{81, 10}	"Save"
+	Label_3	{138, 10}	"Restore"
+	Label_4	{204, 10}	"Transcript"
+
+
+	Some buttons are defined by the Table of Glimmr Buttons.
+
+	Table of Glimmr Buttons
+	button	origin	endpoint	associated label	linked replacement-command
+	Button_1	{10, 7}	{52, 28}	Label_1	"UNDO"
+	Button_2	{61, 7}	{103, 28}	Label_2	"SAVE"
+	Button_3	{111, 7}	{165, 28}	Label_3	"RESTORE"
+	Button_4	{173, 7}	{238, 28}	Label_4	"TRANSCRIPT"
+
+
+We can include a little optional code to change the color of the button momentarily when it is pressed, then reverting back to the original color. We do this using Glulx's real-time capability: when the button is pressed, we change the button's color, and start a short timer (85 milliseconds). When the timer runs out, we stop the timer and change the button back to the original color. Note that the window must be redrawn after each of these to show the state change to the player.
+	
+	*: To revert the/-- button/-- after (T - a number) millisecond/milliseconds:
+		(- glk_request_timer_events({T});  -)
+	
+	To stop the/-- timer:
+		(- glk_request_timer_events(0); -)
+
+	First graphlink processing rule for a button (called the depressed):
+		change the tint of the depressed to g-MidGray;
+		follow the window-drawing rules for the graphics-window;
+		revert the button after 85 milliseconds.
+
+	A glulx timed activity rule (this is the redraw button from timer rule):
+		stop the timer;
+		now the tint of the current graphlink is g-LightGray;
+		follow the window-drawing rules for the graphics-window.
+
+This last part is even more optional, but it will ensure that the button acts correctly after UNDO. We set the timer to revert immediately after undoing the state of the last turn, to be sure that the buttons end in their resting state. To act after undoing, we either have to directly hack the template layer, or use an extension such as Undo Output Control, which is how we handle it here.
+	
+	*: Include Undo Output Control by Erik Temple.
+
+	After undoing an action:
+		revert the button after 0 milliseconds.
+
+
+Example: * Simpler Buttons - This example is a simple refinement of the previous example (Simple Buttons). In Simple Buttons, we had to supply what really was redundant information: the text of the label was the same as the linked replacement-command of its button, while the origin coordinate of the label is easily deducible from the placement and size of the button outline (the label is centered on the button). This example lets us define the labels minimally and auto-generate their text-strings and origin coordinates from their associated buttons. (One could go even farther with this approach, really.)
+
+Simpler Buttons also uses a Bitmap Font for variety's sake. Note that if you make the window too narrow--unplayably narrow, really--the labels will not fit within the button outlines. This is because bitmaps can't be scaled below 1 pixel per bit, while the canvas itself is scaled to much less than this. This is something to be wary of whenever you are using bitmaps.
+
+The example starts out in essentially the same way as the previous: 
+
+	*: "Glimmr Examples II" by Erik Temple
+
+	Include Glimmr Canvas-Based Drawing by Erik Temple.
+	Include Glimmr Graphic Hyperlinks by Erik Temple.
+	Include Glimmr Bitmap Font by Erik Temple.
+
+	The graphics-window is a graphlink g-window spawned by the main-window. The position is g-placebelow. The scale method is g-fixed-size. The measurement is 35. The back-colour is g-White.
+
+	The graphics-canvas is a g-canvas. The canvas-width is 248. The canvas-height is 35.
+	The associated canvas of the graphics-window is the graphics-canvas.
+	The associated canvas of a g-element is the graphics-canvas.
+
+	The back-colour of the main-window is g-White.
+
+	Hello is a room.
+
+	
+	Table of Common Color Values (continued)
+	glulx color value	assigned number
+	g-LightGray	15066597
+	g-MidGray	12829635
+
+
+Now we get to the new stuff. The short loop code that occurs before we open the graphics window sets origin coordinates of the labels by finding the center point of each button, then using that coordinate for the label's origin. We manually change the vertical coordinate for better fit (because the origin of the label is the top line rather than the center, we need to move it up, otherwise it will flow in from the center of the button down, filling up only the lower half of the button background). 
+
+The text-string is replaced with the linked replacement-command of the button. Note that Inform is very picky about the conversion of text (the linked replacement-command of the button) into indexed text (the text-string of the label). We use a replacement routine to handle this task.
+
+Compare the Table of Button Labels here with the one for Simple Buttons--we've been able to reduce the work of label creation to simple naming. (We could avoid even this if we wanted to use Jesse McGrew's Dynamic Objects extension to actually create new label objects as needed to fit our buttons...)
+
+	*: When play begins:
+		repeat with item running through buttons:
+			let the current-label be the associated label of item;
+			now the origin of the current-label is the center-point of item;
+			now entry 2 of the origin of the current-label is 12;
+			replace the text "0" in text-string of the current-label with the linked replacement-command of item;
+		open up the graphics-window.
+	
+	A button is a kind of stroked rectangle primitive. The associated canvas of a button is the graphics-canvas. The tint of a button is g-LightGray. The background tint of a button is g-MidGray. The graphlink status of a button is g-active.
+
+	A label is a kind of bitmap-rendered string. The associated canvas of a label is the graphics-canvas. The scaling factor of a label is 0.2500. The display-layer of a label is 2. The alignment of a label is center-aligned. The tint is g-Dark-Grey. The text-string is "0".
+
+	A button has a label called the associated label.
+
+	Label_1, Label_2, Label_3, and Label_4 are labels.
+
+	Some buttons are defined by the Table of Glimmr Buttons.
+
+	Table of Glimmr Buttons
+	button	origin	endpoint	associated label	linked replacement-command
+	Button_1	{10, 7}	{52, 28}	Label_1	"Undo"
+	Button_2	{61, 7}	{103, 28}	Label_2	"Save"
+	Button_3	{111, 7}	{165, 28}	Label_3	"Restore"
+	Button_4	{173, 7}	{238, 28}	Label_4	"Transcript"
+
+
+And the (optional) button animations (see the previous example for explanation):
+
+	To revert the/-- button/-- after (T - a number) millisecond/milliseconds:
+		(- glk_request_timer_events({T});  -)
+	
+	To stop the/-- timer:
+		(- glk_request_timer_events(0); -)
+
+	A glulx timed activity rule (this is the redraw button from timer rule):
+		stop the timer;
+		now the tint of the current graphlink is g-LightGray;
+		follow the window-drawing rules for the graphics-window.
+	
+	First graphlink processing rule for a button (called the depressed):
+		change the tint of the depressed to g-MidGray;
+		follow the window-drawing rules for the graphics-window;
+		revert the button after 85 milliseconds.
+	
+	Include Undo Output Control by Erik Temple.
+
+	After undoing an action:
+		revert the button after 0 milliseconds.
 
 
 Example: *** Basic Floorplan - Given IF's overwhelming focus on movement through physical space, one of the most likely uses for graphics is maps. At the same time, it is not often that we want to include a static map in the game, since getting the complete map all at once will usually spoil things for the player.

@@ -698,6 +698,17 @@ Glimmr Automap ends here.
 
 ---- DOCUMENTATION ----
 
+
+Section: Contact info
+
+If you have comments about the extension, please feel free to contact me directly at ek.temple@gmail.com.
+
+Please report bugs on the Google Code project page, at http://code.google.com/p/glimmr-i7x/issues/list.
+
+For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the infiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
+
+
+
 Example: *** Localized compass rose. This example shows how we can add new graphlinking functionality to the map. We may want to take advantage of the fact that the map indicates exits from the player's location to use them as a kind of compass rose, allowing us to click on the paths out of the room to go in the indicated direction (thanks to Jon Ingold for suggesting this idea.)
 
 We do this by setting a special graphic hyperlink over the tiles that depict exits from the room occupied by the player. We use a table (the Table of Directional Correspondences) to match the appropriate direction to the tile number. We will set a graphic hyperlink using the name of the direction itself as the link identifier, and then convert this direction into a replacement command after the link has been clicked.
