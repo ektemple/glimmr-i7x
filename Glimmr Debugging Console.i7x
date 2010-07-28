@@ -129,3 +129,12 @@ Section: Credits
 
 Glimmr Debugging Console is inspired by the console window in the GWindows system for Inform 6(http://gwindows.trenchcoatsoft.com/).
 
+
+Section: Contact info
+
+If you have comments about the extension, please feel free to contact me directly at ek.temple@gmail.com.
+
+Please report bugs on the Google Code project page, at http://code.google.com/p/glimmr-i7x/issues/list.
+
+For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the infiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
+

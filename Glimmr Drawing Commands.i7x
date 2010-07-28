@@ -28,7 +28,7 @@ Chapter - The null figure
 
 Figure of Null is the file of cover art. [The file of cover art is used for the declaration because Inform will ensure that an image is provided. In practice, we simply don't print the image if its resource ID corresponds to Figure of Null]
 
-[[The following code allows us to use 0 as the actual resource number, compatible with the way early drafts of CBD and of the predecessor Graphical Window Sprites handled this.]
+[[The following code allows us to use 0 as the actual resource number, compatible with the way its predecessor Graphical Window Sprites handled this.]
 
 Rule for starting the virtual machine:
 	hack the null-figure into place.
@@ -457,7 +457,7 @@ To drmonobitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (
 
 To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
 	#if utilizing Glimmr debugging;
-	say "[>console][DC]Drawing monochrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot-size [WGT] (bitmap is [number of entries of bit_map] long, with width [wdt]; foreground color [hue], background color [bkgd].[<]";
+	say "[>console][DC]Drawing monochrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot size [WGT] (bitmap is [number of entries of bit_map] long, with width [wdt]; foreground color [hue], background color [bkgd].[<]";
 	#end if;
 	drmonobitmap (HUE) in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (BKGD).
 	
@@ -486,7 +486,7 @@ To drmonobitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (
 
 To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
 	#if utilizing Glimmr debugging;
-	say "[>console][DC]Drawing monochrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot-size [WGT] (bitmap is [number of entries of bit_map] long, with width [wdt]; color [hue].[<]";
+	say "[>console][DC]Drawing monochrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot size [WGT] (bitmap is [number of entries of bit_map] long, with width [wdt]; color [hue].[<]";
 	#end if;
 	drmonobitmap (HUE) in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
 
@@ -535,7 +535,7 @@ To drpolybitmap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) us
 
 To draw/display a/-- polychrome bitmap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
 	#if utilizing Glimmr debugging;
-	say "[>console][DC]Drawing polychrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot-size [WGT] (bitmap is [number of entries of bit_map] long, with width [wdt]); background color [bkgd].[<]";
+	say "[>console][DC]Drawing polychrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot size [WGT] (bitmap is [number of entries of bit_map] long, with width [wdt]); background color [bkgd].[<]";
 	#end if;
 	drpolybitmap in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (BKGD).
 
@@ -563,14 +563,11 @@ To drpolybitmap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) us
 
 To draw/display a/-- polychrome bitmap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
 	#if utilizing Glimmr debugging;
-	say "[>console][DC]Drawing polychrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot-size [WGT] (bitmap is [number of entries of bit_map] long, with width [wdt]).[<]";
+	say "[>console][DC]Drawing polychrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot size [WGT] (bitmap is [number of entries of bit_map] long, with width [wdt]).[<]";
 	#end if;
 	drpolybitmap in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
 
 To draw/display a/-- polychrome bitmap in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
-	if the type of the current graphics window is not g-graphics:
-		say "*** Error: Short-form polychrome bitmap directive ignored. The current graphics window global was not correctly specified.";
-		rule fails;
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
 	display a polychrome bitmap in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
@@ -693,7 +690,7 @@ To paintbittext (hue - a number) of (str - indexed text) in (win - a g-window) a
 
 To paint/display a/-- bitmap text (hue - a number) of (str - indexed text) in (win - a g-window) at (X1 - a number) by/x (Y1 - a number) using font/-- (typf - a font) with dot/-- size (wgt - a number) pixel/pixels/px/-- and background (bkgd - a number), center-aligned or right-aligned:
 	#if utilizing Glimmr debugging;
-	say "[>console][DC]Painting bitmap text string [quotation mark][STR][quotation mark] in [i][WIN][/i] with origin ([X1], [Y1]) and dot-size [WGT][if center-aligned], center-aligned[end if][if right-aligned], right-aligned[end if]. Font: [TYPF], background color: [BKGD].[<]";
+	say "[>console][DC]Painting bitmap text string [quotation mark][STR][quotation mark] in [i][WIN][/i] with origin ([X1], [Y1]) and dot size [WGT][if center-aligned], center-aligned[end if][if right-aligned], right-aligned[end if]. Font: [TYPF], background color: [BKGD].[<]";
 	#end if;
 	if center-aligned:
 		paintbittext (HUE) of (STR) in (WIN) at (X1) by (Y1) using (TYPF) with size (WGT) and background (BKGD), center-aligned;
@@ -750,7 +747,7 @@ To paintbittext (hue - a number) of (str - indexed text) in (win - a g-window) a
 
 To paint/display a/-- bitmap text (hue - a number) of (str - indexed text) in (win - a g-window) at (X1 - a number) by/x (Y1 - a number) using font/-- (typf - a font) with/-- dot/-- size (wgt - a number) pixel/pixels/px/--, center-aligned or right-aligned:
 	#if utilizing Glimmr debugging;
-	say "[>console][DC]Painting bitmap text string [quotation mark][STR][quotation mark] in [i][WIN][/i] with origin ([X1], [Y1]) and dot-size [WGT][if center-aligned], center-aligned[end if][if right-aligned], right-aligned[end if]. Font: [TYPF].[<]";
+	say "[>console][DC]Painting bitmap text string [quotation mark][STR][quotation mark] in [i][WIN][/i] with origin ([X1], [Y1]) and dot size [WGT][if center-aligned], center-aligned[end if][if right-aligned], right-aligned[end if]. Font: [TYPF].[<]";
 	#end if;
 	if center-aligned:
 		paintbittext (HUE) of (STR) in (WIN) at (X1) by (Y1) using (TYPF) with size (WGT), center-aligned;
@@ -1454,7 +1451,7 @@ Glimmr Drawing Commands ends here.
 
 Glimmr Drawing Commands (GDC) is the most basic of the Glimmr extensions, and is required by (nearly) all others. It exposes the three basic Glulx drawing commands at the I7 level, enabling authors to write their own drawing rules without using any I6 code. Glimmr Drawing Commands also adds a number of "derived" commands--commands that use the basic commands to do new things. These include everything from drawing a line to connect any two points on the screen, to "painting" text to the screen, to drawing a grid of images.
 
-Glimmr Drawing Commands requires Jon Ingold's Flexible Windows as well as Michael Callaghan's Fixed Point Maths. For those familiar with I6, the three infglk functions that GDC implements are glk_image_draw, glk_image_draw_scaled, and glk_window_fill_rect. It does not implement the glk_window_erase_rect command, since this is easily imitated by drawing a rectangle in the background color of the window (Flexible Windows's "back-colour" property).
+Glimmr Drawing Commands requires Jon Ingold's Flexible Windows as well as Michael Callaghan's Fixed Point Maths. For those familiar with I6, the three infglk functions that GDC implements are glk_image_draw, glk_image_draw_scaled, and glk_window_fill_rect. It does not implement the glk_window_erase_rect command, since this is easily imitated by drawing a rectangle in the background color of the window (Flexible Windows's "back-colour" g-window property).
 
 A note on what GDC will *not* do: It does not:
 
@@ -1683,7 +1680,7 @@ A stroked rectangle is a rectangular field of color surrounded by an outline in 
 Long forms:
 
 	draw a rectangle (color g-SkyBlue) in the graphics-window from {120, 12} to {340, 24} with 2 pixel stroke (color g-LightSkyBlue).
-	draw a rectangle (hex #87CEEB) in the graphics-window from 120 by 12 to 340 by 24 with 2 pixle line-weight (color g-LightSkyBlue).
+	draw a rectangle (hex #87CEEB) in the graphics-window from 120 by 12 to 340 by 24 with 2 pixel line-weight (color g-LightSkyBlue).
 
 Short form:
 
@@ -1840,15 +1837,15 @@ Here is an example of a bitmap list for a polychrome bitmap, defined as a global
 
 NOTE: In a polychrome bitmap, all positive numbers map directly to colors. To leave a bit "off," use any negative number. If a background color has been specified, the background color will appear in these empty zones.
 
-	display a polychrome bitmap <color> in <window> at <origin> using <width> wide data from <list of numbers> with dot size <pixel dimension> pixels
+	display a polychrome bitmap in <window> at <origin> using <width> wide data from <list of numbers> with dot size <pixel dimension> pixels
 
-	display a polychrome bitmap <color> in <window> at <origin> using <width> wide data from <list of numbers> with dot size <pixel dimension> pixels and background <color>
+	display a polychrome bitmap in <window> at <origin> using <width> wide data from <list of numbers> with dot size <pixel dimension> pixels and background <color>
 
 Long forms:
 
-	display a polychrome bitmap (color g-Yellow) in the graphics-window at 50 by 65 using 13 wide data from the (Pac-definition) with dot size 1 pixel.
+	display a polychrome bitmap in the graphics-window at 50 by 65 using 13 wide data from the (Pac-definition) with dot size 1 pixel.
 
-	display a polychrome bitmap (color g-Yellow) in the graphics-window at {50, 65} using 13 wide data from the (Pac-definition) with dot size 1 pixel and background (color g-DarkBlue).
+	display a polychrome bitmap in the graphics-window at {50, 65} using 13 wide data from the (Pac-definition) with dot size 1 pixel and background (color g-DarkBlue).
 
 Short forms:
 
@@ -2007,15 +2004,15 @@ Section: Bitmap-rendered strings
 
 Bitmap-rendered strings are painted from "glyph maps" that are constructed just like (monochrome) bitmaps, as described above. Just as with bitmaps, we must specify the number of pixels we want each "bit" of the characters in our string to correspond to by supplying the "dot size": a dot size of 2 will use 4 pixels (2 x 2) onscreen to render each bit in the bitmap. 
 
-	paint bitmap text <color> of <indexed text> in <window> at <origin> using <font> with dot-size <size> pixels
+	paint bitmap text <color> of <indexed text> in <window> at <origin> using <font> with dot size <size> pixels
 
-	paint bitmap text <color> of <indexed text> in <window> at <origin> using <font> with dot-size <size> pixels and background <color>
+	paint bitmap text <color> of <indexed text> in <window> at <origin> using <font> with dot size <size> pixels and background <color>
 
 With variable alignment:
 
-	paint bitmap text <color> of <indexed text> in <window> at <origin> using <font> with dot-size <size> pixels, <alignment>
+	paint bitmap text <color> of <indexed text> in <window> at <origin> using <font> with dot size <size> pixels, <alignment>
 
-	paint bitmap text <color> of <indexed text> in <window> at <origin> using <font> with dot-size <size> pixels and background <color>, <alignment>
+	paint bitmap text <color> of <indexed text> in <window> at <origin> using <font> with dot size <size> pixels and background <color>, <alignment>
 
 Long forms:
 
@@ -2451,11 +2448,64 @@ It can often be useful to control debugging commands from source text, rather th
 
 The Extended Debugging extension provides further phrases, as well as other useful features. (Note: Extended Debugging is not part of Glimmr, but works well with it.) See the template layer (Appendix B of Writing with Inform: http://inform7.com/sources/src/i6template/Woven/index.html ) for more on these debugging commands.
 
+
 Section: A note for expert users
 
 Each command in GDC also has a special phrasing that does not produce a console message. You may use this phrasing (see the source code) if you wish to supply your own console message. Glimmr Canvas-Based Drawing does this, for example, in order to provide its own messages that describe the state of the graphic element objects that encapsulate drawing commands in that extension.
 
 
+Chapter: Contact info
 
+If you have comments about the extension, please feel free to contact me directly at ek.temple@gmail.com.
+
+Please report bugs on the Google Code project page, at http://code.google.com/p/glimmr-i7x/issues/list.
+
+For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the infiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
+
+
+Example: * Retro Drawing - This example presents a good cross-section of the graphics commands provided by GDC. Note that none of the drawing here uses image files--everything is done with "primitives", painted text, and bitmaps.
+
+Note the window-drawing rule provided does not scale, center, or otherwise vary how and where the entities are drawn. This is likely to be awkward in a real game, since players may play with a variety of window sizes, etc. The solution is to use Glimmr Canvas-Based Drawing, or to write our own window-drawing rules to ensure flexible display.
+
+
+	*: "Retro Drawing"
+
+	Include Glimmr Drawing Commands by Erik Temple.
+	Include Glimmr Bitmap Font by Erik Temple.
+
+	Arcade is a room.
+
+	The graphics-window is a graphics g-window spawned by the main-window. 	The position is g-placeabove.
+
+	When play begins:
+		open up the graphics-window.
+	
+	Window-drawing rule for the graphics-window:
+		clear the graphics-window;
+		display a polychrome bitmap in the graphics-window at {30, 30} using 13 wide data from the Pac-Lady with dot size 1 pixel;
+		draw a line (r 13 g 47 b 232) in the graphics-window from {20, 23} to {120, 23} with 3 pixel line-weight;
+		draw a line (r 13 g 47 b 232) in the graphics-window from {20, 49} to {120, 49} with 3 pixel line-weight;
+		draw a rectangle (color g-White) in the graphics-window from {45, 36} to {48, 39};
+		draw a rectangle (color g-White) in the graphics-window from {65, 36} to {68, 39};
+		draw a rectangle (color g-White) in the graphics-window from {85, 36} to {88, 39};
+		draw a rectangle (color g-White) in the graphics-window from {105, 36} to {108, 39};
+		draw a rectangle (r 13 g 47 b 232 ) in the graphics-window from {20, 60} to {120, 100} with 2 pixel stroke (color g-Yellow);
+		paint a bitmap text (color g-Yellow) of "EAT IT" in the graphics-window at {28, 64} using Glimmr C&C with dot size 3 px.
+	
+	The Pac-Lady is a list of numbers variable. The Pac-Lady is {
+		-1,  -1,  -1, 16758465, 16758465,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+		-1,  -1,  -1, 16758465, 16758465, 16758465,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,
+		-1,  -1, 16758465, 16758465, 16738740, 16738740,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,
+		16758465, 16758465, 16738740, 16738740,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,
+		16738740, 16758465, 16758465,  268431360,  268431360,  268431360, 2, 2,  268431360,  268431360,  268431360, 16738740, 16738740,
+		-1, 16738740, 16738740,  268431360,  268431360, 2, 205,  268431360,  268431360,  -1,  -1,  -1,  -1,
+		-1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,  -1,  -1,
+		-1,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
+		-1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,  -1,  -1,
+		-1,  268431360,  268431360,  268431360, 2,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,
+		-1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360, 16738740, 16738740,
+		-1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,
+		-1,  -1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,
+		-1,  -1,  -1,  -1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,  -1, -1 }.
 
 
