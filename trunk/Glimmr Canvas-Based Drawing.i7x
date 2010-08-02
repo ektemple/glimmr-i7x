@@ -2,6 +2,8 @@ Version 1/100711 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple 
 
 "A framework for drawing graphics of various types--from sprite images to painted text--to a Glulx graphics window. Takes an object-oriented approach, with graphic elements represented as individual objects."
 
+[Add intro texts for compiled versions of examples.]
+
 
 Part - Preliminaries
 
@@ -55,8 +57,8 @@ A g-canvas has a number called the scaled height. The scaled height property tra
 Chapter - Concealing canvas objects
 [Replace this section if the player needs to be able to see and refer to canvases in-game.]
 
-A g-canvas is privately-named.
-A g-canvas is scenery.
+A g-canvas is usually privately-named.
+A g-canvas is usually scenery.
 
 
 Part - Element Definition
@@ -93,15 +95,14 @@ To deactivate (element - a g-element):
 Chapter - Concealing elements
 [Replace this section if the player needs to be able to refer to elements in-game.]
 
-A g-element is privately-named.
+A g-element is usually privately-named.
+A g-element is usually scenery.
+
+
+Section - Revealing elements for debugging (not for release)
+
+A g-element is publically-named.
 A g-element is scenery.
-
-
-Chapter - Make elements accessible to commands when debugging
-
-After starting the virtual machine when the Glimmr debugging option is active:
-	repeat with item running through g-elements:
-		now item is publically-named.
 
 
 Chapter - Null element
@@ -189,8 +190,8 @@ A g-window has a truth state called oversize scaling. The oversize scaling of a 
 Chapter - Private naming
 [Replace this section if the player needs to be able to see and refer to g-windows in-game.]
 
-A g-window is privately-named.
-A g-window is scenery.
+A g-window is usually privately-named.
+A g-window is usually scenery.
 
 
 Chapter - Relating elements directly to windows
@@ -473,8 +474,8 @@ To decide which list of numbers is the canvas equivalent of the screen coordinat
 	let y-fixe be (y-fixe real minus y-offset of win) real divided by the scaling factor of win;
 	let L be a list of numbers;
 	let L be {0, 0};
-	change entry 1 of L to x-fixe as an integer;
-	change entry 2 of L to y-fixe as an integer;
+	now entry 1 of L is x-fixe as an integer;
+	now entry 2 of L is y-fixe as an integer;
 	decide on L;
 
 
@@ -788,31 +789,29 @@ Chapter - Bitmap base class
 
 A bitmap is a kind of g-element. 
 
-The specification of bitmap is "A bitmap element draws a rectangular image composed of individual 'bits' that are specified by the author in the form of a list (the 'bitmap-array') defining the status of each bit. For example, a cross might be specified like so: 
+The specification of bitmap is "A bitmap element draws a rectangular image composed of individual 'bits' that are specified by the author in the form of a list of lists of numbers (the 'bitmap-array') defining the status of each bit. For example, a cross might be specified like so: 
 
 	{
-	0, 0, 1, 0, 0,
- 	0, 0, 1, 0, 0,
- 	1, 1, 1, 1, 1,
- 	0, 0, 1, 0, 0,
- 	0, 0, 1, 0, 0  }. 
+	{ 0, 0, 1, 0, 0 },
+ 	{ 0, 0, 1, 0, 0 },
+ 	{ 1, 1, 1, 1, 1 },
+ 	{ 0, 0, 1, 0, 0 },
+ 	{ 0, 0, 1, 0, 0 }  }. 
 
-The ones represent bits that are turned on, while the zeros represent bits that are off. The author must additionally specify the 'bitmap-width' of the bitmap, which represents the number of bits that make a up a single horizontal line of the bitmap; this number tells Glimmr how to interpret the bitmap-array (if a bitmap-width is not provided, the bitmap will be interpreted as single line of bits). 
+The ones represent bits that are turned on, while the zeros represent bits that are off. Note that each row is represented by its own list of numbers, and that we need to have the same number of entries in each row or errors will result. 
 
 When image files such as PNGs or JPEGs are scaled, pixels can be interpolated so that the image file can be presented at virtually any scaling factor. However, the pixels of a bitmap element are set directly, and so the individual pixel is the primary unit of measurement. Thus, a bitmap displayed with a bit-size of 2 will be twice as wide and twice as high as the same bitmap displayed with a bit-size of 1. Glimmr will attempt to scale bitmaps to the canvas, but they cannot be scaled with the accuracy that sprites can be. 
 
 There are two types of bitmaps: monochrome and polychrome bitmaps. In a monochrome bitmap, a maximum of two colors are allowed--all bits are either on or off. In a polychrome bitmap, the author can specify a full RGB color for each pixel. For both types, bits are rendered using the properties 'tint' (foreground color) and 'background tint' (background color)."
 
-A bitmap has a number called the bitmap-width. The bitmap-width of a bitmap is 1.
-A bitmap has a list of numbers called the bitmap-array. The bitmap-array of a bitmap is {0}.
+A bitmap has a list of lists of numbers called the bitmap-array. The bitmap-array of a bitmap is {}.
 A bitmap has a glulx color value called the tint. The tint of a bitmap is g-White.
 A bitmap has a glulx color value called the background tint. The background tint of a bitmap is g-PlaceNullCol.
 A bitmap has a number called the bit-size. The bit-size of a bitmap is 1.
 [A bitmap has a number called the vertical ratio. The vertical ratio of a bitmap is 1.]
 
-[The dot-size and the bitmap-height are set automatically by the extension. Authors need not use them.]
+[The dot-size is set automatically by the extension. Authors need not use it.]
 A bitmap has a number called the dot-size. The dot-size of a bitmap is 1.
-A bitmap has a number called the bitmap-height. The bitmap-height of a bitmap is 1.
 
 Section - Scaling rule for bitmaps
 
@@ -823,18 +822,14 @@ An element scaling rule for a bitmap (called the grid) (this is the bitmap scali
 	otherwise:
 		change the dot-size of the grid to the bitsize-temp real times the scaling factor of the current window real times the x-scaling factor of the grid as an integer;
 	if the dot-size of the grid < 1, now the dot-size of the grid is 1;
-	change the bitmap-height of the grid to the number of entries of the bitmap-array of the grid divided by the bitmap-width of the grid;
+	let the bitmap-width be the number of entries in entry 1 of the bitmap-array of the grid;
+	let the bitmap-height be the number of entries of the bitmap-array of the grid;
 	if the grid is center-aligned:
 		change the win-x of the grid to win-x - (bitmap-width * dot-size) / 2;
 		change the win-y of the grid to win-y - (bitmap-height * dot-size) / 2;
 	if the grid is right-aligned:
 		change the win-x of the grid to win-x - (bitmap-width * dot-size);
 		change the win-y of the grid to win-y - (bitmap-height * dot-size);
-	if the remainder after dividing the number of entries of the bitmap-array of the grid by the bitmap-width of the grid is greater than 0:
-		do nothing;
-		#if utilizing Glimmr debugging;
-		say "[>console][CBD] ***Warning: Bitmap array of [grid] is improperly defined. Output is unlikely to be as expected.[<]";
-		#end if;
 	continue.
 
 
@@ -843,7 +838,8 @@ Section - Centering algorithm for bitmaps
 To decide what list of numbers is the center-point of (item - a bitmap):
 	let x be entry 1 of the origin of item;
 	let y be entry 2 of the origin of item;
-	let dot-scale be (bit-size of the item * bitmap-width of the item) as a fixed point number;
+	let the bitmap-width be the number of entries in entry 1 of the bitmap-array of the item;
+	let dot-scale be (bit-size of the item * bitmap-width) as a fixed point number;
 	unless using the asymmetrical scaling option:
 		let dx be the dot-scale real times the scaling factor of the item as an integer;
 		let dy be the dot-scale real times the scaling factor of the item as an integer;
@@ -865,14 +861,15 @@ A monochrome bitmap is a kind of bitmap.
 The specification of monochrome bitmap is "A monochrome bitmap has two possible colors. Where the bitmap-array provides a 1, the value of the 'tint' property (a glulx color value) will be used. Where a 0 is provided, the 'background tint' color (also a glulx color value) will be presented. If the background tint is specified as g-PlaceNullCol, the null value defined by Flexible Windows, there will be no background color."
 
 An element display rule for a monochrome bitmap (called the grid):
+	let bitmap-height be the number of entries in bitmap-array of the grid;
 	if the background tint of the grid is g-PlaceNullCol:
-		draw a monochrome bitmap (color tint of the grid) in (current window) at (win-x of the grid) by (win-y of the grid) using (bitmap-width) wide data from (bitmap-array) with dot size (dot-size) pixels;
+		draw a monochrome bitmap (color tint of the grid) in (current window) at (win-x of the grid) by (win-y of the grid) using (bitmap-array) with dot size (dot-size) pixels;
 	otherwise:
-		drmonobitmap (color tint of the grid) in (current window) at (win-x of the grid) by (win-y of the grid) using (bitmap-width) wide data from (bitmap-array) with dot size (dot-size) pixels and background (color background tint of the grid);
+		drmonobitmap (color tint of the grid) in (current window) at (win-x of the grid) by (win-y of the grid) using (bitmap-array) with dot size (dot-size) pixels and background (color background tint of the grid);
 	if the grid is graphlinked:
 		set a graphlink in the current window identified as grid from win-x by win-y to win-x + (bitmap-height * dot-size) by win-y + (bitmap-height * dot-size) as the linked replacement-command of the grid;
 	#if utilizing Glimmr debugging;
-	say "[>console][CBD]Drawing monochrome bitmap [i][grid][/i], foreground color [color tint of the grid], in [i][current window][/i] with upper left ([win-x of grid], [win-y]) and lower right ([win-x + (bitmap-width * dot-size)], [win-y + (bitmap-height * dot-size)])[unless background tint of grid is g-PlaceNullCol]; background color [color background tint of grid][end if][if grid is graphlinked]. [line break][CBD]Graphlink corresponding to [i][grid][/i] set from ([win-x of grid], [win-y of grid]) to ([win-x + (bitmap-width * dot-size)], [win-y + (bitmap-height * dot-size)]): [quotation mark][linked replacement-command of grid][quotation mark][end if].[<]";
+	say "[>console][CBD]Drawing monochrome bitmap [i][grid][/i], foreground color [color tint of the grid], in [i][current window][/i] with upper left ([win-x of grid], [win-y]) and lower right ([win-x + (number of entries in entry 1 of the bitmap-array of the grid * dot-size)], [win-y + (bitmap-height * dot-size)])[unless background tint of grid is g-PlaceNullCol]; background color [color background tint of grid][end if][if grid is graphlinked]. [line break][CBD]Graphlink corresponding to [i][grid][/i] set from ([win-x of grid], [win-y of grid]) to ([win-x + (number of entries in entry 1 of the bitmap-array of the grid * dot-size)], [win-y + (bitmap-height * dot-size)]): [quotation mark][linked replacement-command of grid][quotation mark][end if].[<]";
 	#end if.
 
 
@@ -885,14 +882,15 @@ A polychrome bitmap is a kind of bitmap.
 The specification of polychrome bitmap is "With a polychrome bitmap, we can specify any color using a decimal version of the hexadecimal RGB specification (see Glulx Text Effects for more info). Where a polychrome's bitmap-array provides a negative number (e.g, -1), the background tint will be drawn. If the background tint is specified as g-PlaceNullCol (the null value defined by Flexible Windows) there will be no background color. The tint property has no effect when used with a polychrome bitmap."
 
 An element display rule for a polychrome bitmap (called the grid):
+	let bitmap-height be the number of entries in bitmap-array of the grid;
 	if the background tint of the grid is g-PlaceNullCol:
-		draw a polychrome bitmap in (current window) at (win-x of the grid) by (win-y of the grid) using (bitmap-width) wide data from (bitmap-array) with dot size (dot-size) pixels;
+		draw a polychrome bitmap in (current window) at (win-x of the grid) by (win-y of the grid) using (bitmap-array) with dot size (dot-size) pixels;
 	otherwise:
-		draw a polychrome bitmap in (current window) at (win-x of the grid) by (win-y of the grid) using (bitmap-width) wide data from (bitmap-array) with dot size (dot-size) pixels and background (color background tint of the grid);
+		draw a polychrome bitmap in (current window) at (win-x of the grid) by (win-y of the grid) using (bitmap-array) with dot size (dot-size) pixels and background (color background tint of the grid);
 	if the grid is graphlinked:
 		set a graphlink in the current window identified as grid from win-x by win-y to win-x + (bitmap-height * dot-size) by win-y + (bitmap-height * dot-size) as the linked replacement-command of the grid;
 	#if utilizing Glimmr debugging;
-	say "[>console][CBD]Drawing polychrome bitmap [i][grid][/i] in [i][current window][/i] with upper left ([win-x of grid], [win-y]) and lower right ([win-x + (bitmap-width * dot-size)], [win-y + (bitmap-height * dot-size)])[unless background tint of grid is g-PlaceNullCol]; background color [color background tint of grid][end if][if grid is graphlinked]. [line break][CBD]Graphlink corresponding to [i][grid][/i] set from ([win-x of grid], [win-y of grid]) to ([win-x + (bitmap-width * dot-size)], [win-y + (bitmap-height * dot-size)]): [quotation mark][linked replacement-command of grid][quotation mark][end if].[<]";
+	say "[>console][CBD]Drawing polychrome bitmap [i][grid][/i] in [i][current window][/i] with upper left ([win-x of grid], [win-y]) and lower right ([win-x + (number of entries in entry 1 of the bitmap-array of the grid * dot-size)], [win-y + (bitmap-height * dot-size)])[unless background tint of grid is g-PlaceNullCol]; background color [color background tint of grid][end if][if grid is graphlinked]. [line break][CBD]Graphlink corresponding to [i][grid][/i] set from ([win-x of grid], [win-y of grid]) to ([win-x + (number of entries in entry 1 of the bitmap-array of the grid * dot-size)], [win-y + (bitmap-height * dot-size)]): [quotation mark][linked replacement-command of grid][quotation mark][end if].[<]";
 	#end if.
 
 
@@ -934,7 +932,7 @@ A rendered string has a glulx color value called the background tint. The backgr
 Section - Private naming of rendered strings
 [Replace this section if you need the player to be able to refer to rendered strings.]
 
-A rendered string is privately-named.
+A rendered string is usually privately-named.
 
 
 Section - Calculate the length of a rendered string
@@ -1164,25 +1162,21 @@ An element display rule for an image-rendered string (called the stream):
 
 Chapter - Image-map base class
 
-[An image-map can use one of two modes. Either it can utilize a tileset in which figures are keyed to numbers in a table, or it can use a list of figure names to define the map. The latter is more direct, but not very readable. The former, the tileset format, can more easily be read and typed by a human.]
-
 An image-map is a kind of g-element.
 
-The specification of an image-map is "An image-map element draws a rectangular image composed of individual images arranged in a strict grid. The author specifies the grid of images in the form of a list (array). In order for the extension to know how to divide up the list, we must specify an 'image-map-width' for each image-map; this is simply a number that indicates how many images make up a single row of the grid.
+The specification of an image-map is "An image-map element draws a rectangular image composed of individual images arranged in a strict grid. The author specifies the grid of images in the form of a list of lists (multi-dimensional array).
 
 An image-map can be specified with 'background tint', a glulx color value (see Basic Screen Effects) that will appear wherever the array of the image-map has a null value, and/or it will show through transparent PNG images.
 
-Like other g-elements, an image-map can have a graphic hyperlink specified using the 'linked replacement command'. However, the tiles of an image-map grid can also be individually hyperlinked. To do this, we must specify the 'tiled graphlink status' of an image-map to be 'g-active'. More critically, we must also specify a separate array (the 'linked command array'), the same size as the array of images defining the image-map, that provides the command for each figure. The creation of these lists can be largely automated using conversion tables and special phrases--it is almost never necessary to specify them by hand.
+Like other g-elements, an image-map can have a graphic hyperlink specified using the 'linked replacement command'. However, the tiles of an image-map grid can also be individually hyperlinked. To do this, we must specify the 'tiled graphlink status' of an image-map to be 'g-active'. More critically, we must also specify a separate array (the 'linked command array,' a list of lists of texts), the same size as the array of images defining the image-map, that provides the command for each figure. The creation of these lists can be largely automated using conversion tables and special phrases--it is almost never necessary to specify them by hand.
 
 There are two types of image-map, distinguished by the kind of data used to define the list array. In a 'tileset image-map', the array is called the 'tile-array' and consists of a list of numbers that are keyed to a tileset. The tileset is simply a translation table that specifies which numbers in the array correspond to which figure names. The arrays of tileset image-maps are concise and generally human-readable; that is, they can be arranged in a grid in source code and graphically resemble the final map.
 
-In a direct image-map, the figure names of the images are specified directly; there is no tileset. They are more verbose and generally more difficult to create and read by hand; for anything larger than a few grid squares, most users will want to specify them using an automated process rather than type them in by hand."
-
-An image-map has a number called the image-map-width. The image-map-width of an image-map is 1.
+In a direct image-map, the figure names of the images are specified directly; there is no tileset. Direct image-maps are more verbose and generally more difficult to create and read by hand; for anything larger than a few grid squares, most users will want to specify direct image-maps using an automated process rather than type them in by hand."
 
 An image-map has a glulx color value called the background tint. The background tint of an image-map is g-PlaceNullCol.
 
-An image-map has a list of texts called the linked command array. The linked command array of an image-map is {}.
+An image-map has a list of lists of texts called the linked command array. The linked command array of an image-map is {}.
 
 An image-map has a g-activity called tiled graphlink status. The tiled graphlink status of an image-map is g-inactive.
 
@@ -1194,36 +1188,34 @@ To activate tiled graphlink/graphlinks to/for/of (element - an image-map):
 To remove/deactivate tiled graphlink/graphlinks of/from/for (element - an image-map):
 	now the tiled graphlink status of the element is g-inactive.
 
-[The image-map-height, grid-tile-width, and grid-tile-height are set automatically by the extension. Authors should not need to refer to them.]
+[The grid-tile-width and grid-tile-height are set automatically by the extension. Authors should not need to refer to them.]
 
 An image-map has a number called the scaled tile-width. The scaled tile-width of an image-map is 0.
 
 An image-map has a number called the scaled tile-height. The scaled tile-height of an image-map is 0.
-
-An image-map has a number called the image-map-height. The image-map-height of an image-map is 1.
 
 
 Section - Direct image-maps
 
 A direct image-map is a kind of image-map.
 
-The specification of a direct image-map is "A direct image-map is specified using a list of figure names called the 'figure-array'. Authors may use the entry 'Figure of Null' to draw nothing for a given tile of a direct image-map.
+The specification of a direct image-map is "A direct image-map is specified using a list of lists of figure names called the 'figure-array'. Each row in the list is a list of figures within the list of lists. Authors may use the entry 'Figure of Null' to draw nothing for a given tile of a direct image-map.
 
 An author must specify the dimensions in canvas units of each cell of the grid; if necessary, all images will be resized to fit into the provided dimensions. This is done by setting the 'tile-width' and 'tile-height' of the image-map.
 
 In order to take advantage of automated construction of 'linked command arrays' using the provided phrase, authors must provide a translation table, with a 'figure' column containing a figure name, and a 'linked command' column specifying the text of the replacement command to be associated with the hyperlinked image."
 
-A direct image-map has a list of figure names called the figure-array. The figure-array is {Figure of Null}.
+A direct image-map has a list of lists of figure names called the figure-array. The figure-array is {}.
 
-A direct image-map has a number called the tile-width. The tile-width is usually 0.
-A direct image-map has a number called the tile-height. The tile-height is usually 0.
+A direct image-map has a number called the tile-width. The tile-width is usually 1.
+A direct image-map has a number called the tile-height. The tile-height is usually 1.
 
 
 Section - Tileset image-maps
 
 A tileset image-map is a kind of image-map.
 
-The specification of a tileset image-map is "A tileset image-map is specified using a list of numbers called the 'tile-array'. The numbers used in the tile-array are keyed to figures via a 'tileset' (basically a translation table). A tileset image-map must be explicitly associated with a given tileset using the 'associated tileset' property.
+The specification of a tileset image-map is "A tileset image-map is specified using a list of lists of numbers called the 'tile-array'. Each row in the list is a list of numbers within the larger list of lists. The numbers used in the tile-array are keyed to figures via a 'tileset' (basically a translation table). A tileset image-map must be explicitly associated with a given tileset using the 'associated tileset' property.
 
 Authors should enter 0 in the tile-array to draw nothing in a given tile of the image map.
 
@@ -1233,7 +1225,7 @@ In order to take advantage of automated construction of 'linked command arrays' 
 
 A tileset image-map has a tileset called the associated tileset. The associated tileset of a tileset image-map is the null tileset.
 
-A tileset image-map has a list of numbers called the tile-array. The tile-array of a tileset image-map is {0}.
+A tileset image-map has a list of lists of numbers called the tile-array. The tile-array of a tileset image-map is {}.
 
 A tileset image-map has a number called the tile-width override. The tile-width override is 0.
 
@@ -1246,25 +1238,27 @@ Section - Fitting functions
 
 To fit (grid - an image-map) to/into a/-- total/-- width of (X -  a number) canvas/-- pixel/pixels/px/units wide/--:
 	if the grid is a tileset image-map:
-		change the tile-width override of the grid to X divided by the image-map-width of the grid;
+		let image-map-width be the number of entries in entry 1 of the tile-array of the grid;
+		change the tile-width override of the grid to X divided by image-map-width;
 		let width-token be the tile-width override of the grid;
 	otherwise if the grid is a direct image-map:
-		change the tile-width of the grid to X divided by the image-map-width of the grid;
+		let image-map-width be the number of entries in entry 1 of the tile-array of the grid;
+		change the tile-width of the grid to X divided by image-map-width;
 		let width-token be the tile-width of the grid;
 	otherwise:
 		rule fails;
 	#if utilizing Glimmr debugging;
-	    say "[>console][CBD]Trying to fit [grid] to a width of [X] canvas units. Changed tile-width to [width-token]. [if width-token * image-map-width of the grid is not X]The width could not be set precisely to [X]. [end if]The overall width before scaling will be [width-token * image-map-width of the grid].[<]";
+	    say "[>console][CBD]Trying to fit [grid] to a width of [X] canvas units. Changed tile-width to [width-token]. [if width-token * image-map-width is not X]The width could not be set precisely to [X]. [end if]The overall width before scaling will be [width-token * image-map-width].[<]";
 	#end if.
 	
 
 To fit (grid - an image-map) to/into a/-- total/-- height of (Y - a number) canvas/-- pixel/pixels/px/units/-- high/--:
 	if the grid is a tileset image-map:
-		let the calc-height be the number of entries of the tile-array of the grid divided by the image-map-width of the grid;
+		let the calc-height be the number of entries of the tile-array of the grid;
 		change the tile-height override of the grid to Y divided by the calc-height;
 		let height-token be the tile-height override of the grid;
 	otherwise if the grid is a direct image-map:
-		let the calc-height be the number of entries of the figure-array of the grid divided by the image-map-width of the grid;
+		let the calc-height be the number of entries of the figure-array of the grid;
 		change the tile-height of the grid to Y divided by the calc-height;
 		let height-token be the tile-height of the grid;
 	otherwise:
@@ -1285,7 +1279,6 @@ An element scaling rule for an image-map (called the grid) (this is the image-ma
 	otherwise:
 		change the scaled tile-width of the grid to imap-x real times the scaling factor of current window real times the x-scaling factor of the grid as an integer;
 		change the scaled tile-height of the grid to imap-y real times the scaling factor of current window real times the y-scaling factor of the grid as an integer;
-	change the image-map-height of the grid to the number of entries of the tile-array of the grid divided by the image-map-width;
 	if grid is center-aligned:
 		change the win-x of the grid to win-x - (imap-x * scaled tile-width) / 2;
 		change the win-y of the grid to win-y - (imap-y * scaled tile-height) / 2;
@@ -1326,8 +1319,9 @@ To decide what list of numbers is the center-point of (grid - an image-map):
 	otherwise:
 		let dx be imap-x real times the x-scaling factor of the grid as an integer;
 		let dy be imap-y real times the y-scaling factor of the grid as an integer;
-	let the calc-height be the number of entries of the tile-array of the grid divided by the image-map-width;
-	let dx be dx * image-map-width of the grid;
+	let the calc-height be the number of entries of the tile-array of the grid;
+	let the calc-width be the number of entries in entry 1 of the tile-array of the grid;
+	let dx be dx * calc-width;
 	let dy be dy * calc-height;
 	let x be x + (dx / 2);
 	let y be y + (dy / 2);
@@ -1342,14 +1336,16 @@ Section - Tileset image-map display rule
 [NOTE: The user must set the tiled graphlink status to active in order to use individually tiled graphlinks. One can set both a graphlink for the map and tiled graphlinks for individual tiles--the former will always underlie the latter.]
 
 An element display rule for a tileset image-map (called the grid):
+	let image-map-width be the number of entries of entry 1 of the tile-array of the grid;
+	let image-map-height be the number of entries in the tile-array of the grid;
 	unless the background tint of the grid is g-PlaceNullCol:
 		rectdraw (color background tint of the grid) in (current window) from (win-x of the grid) by (win-y) to win-x + (image-map-width * scaled tile-width) by win-y + (image-map-height * scaled tile-height);
 		#if utilizing Glimmr debugging;
 		    say "[>console][CBD]Drawing background rectangle (glulx color-value [background tint of grid]) from ([win-x], [win-y]) to ([win-x + (image-map-width * scaled tile-width)], [win-y + (image-map-height * scaled tile-height)]) for tileset image-map [i][grid][/i] in [i][current window][/i].[<]";
 		#end if;
-	display an image-map in (current window) at (win-x of the grid) by (win-y of the grid) using (image-map-width) wide data from (tile-array) rendered with (associated tileset of the grid) with tile-size (scaled tile-width) by (scaled tile-height) px;
+	drimagemap in (current window) at (win-x of the grid) by (win-y of the grid) using (tile-array) rendered with (associated tileset of the grid) with tile-size (scaled tile-width) by (scaled tile-height) px;
 	#if utilizing Glimmr debugging;
-	    say "[>console][CBD]Drawing tileset image-map [i][grid][/i] in [i][current window][/i] at origin ([win-x of grid], [win-y of grid]). Map ([image-map-width] x [image-map-height] = [number of entries in tile-array] tiles) rendered using tileset [associated tileset]; tiles measure [scaled tile-width] x [scaled tile-height] pixels after scaling.[<]";
+	    say "[>console][CBD]Drawing tileset image-map [i][grid][/i] in [i][current window][/i] at origin ([win-x of grid], [win-y of grid]). Map ([image-map-width] x [image-map-height] = [image-map-width * image-map-height] tiles) rendered using tileset [associated tileset]; tiles measure [scaled tile-width] x [scaled tile-height] pixels after scaling.[<]";
 	#end if;
 	if the grid is graphlinked:
 		set a graphlink in the current window identified as (the grid) from win-x by win-y to win-x + (scaled tile-width * image-map-width) by win-y + (scaled tile-height * image-map-height) as the linked replacement-command of the grid;
@@ -1363,14 +1359,16 @@ An element display rule for a tileset image-map (called the grid):
 Section - Direct image-map display rule
 
 An element display rule for a direct image-map (called the grid):
+	let image-map-width be the number of entries of entry 1 of the figure-array of the grid;
+	let image-map-height be the number of entries in the figure-array of the grid;
 	unless the background tint of the grid is g-PlaceNullCol:
 		rectdraw (color background tint of the grid) in (current window) from (win-x of the grid) by (win-y) to win-x + (image-map-width * scaled tile-width) by win-y + (image-map-height * scaled tile-height);
 		#if utilizing Glimmr debugging;
 		    say "[>console][CBD]Drawing background rectangle (glulx color-value [background tint of grid]) from ([win-x], [win-y]) to ([win-x + (image-map-width * scaled tile-width)], [win-y + (image-map-height * scaled tile-height)]) for direct image-map [i][grid][/i] in [i][current window][/i][<].";
 		#end if;
-	display an image-map in (current window) at (win-x of the grid) by (win-y of the grid) using (image-map-width) wide data from (figure-array) with tile-size (scaled tile-width) by (scaled tile-height) px;
+	drimagemap in (current window) at (win-x of the grid) by (win-y of the grid) using (figure-array) with tile-size (scaled tile-width) by (scaled tile-height) px;
 	#if utilizing Glimmr debugging;
-	    say "[>console][CBD]Drawing direct image-map [i][grid][/i] in [i][current window][/i] at origin ([win-x of grid], [win-y of grid]). Map ([image-map-width] x [image-map-height] = [number of entries in figure-array] tiles); tiles measure [scaled tile-width] x [scaled tile-height] pixels after scaling.[<]";
+	    say "[>console][CBD]Drawing direct image-map [i][grid][/i] in [i][current window][/i] at origin ([win-x of grid], [win-y of grid]). Map ([image-map-width] x [image-map-height] = [image-map-width * image-map-height] tiles); tiles measure [scaled tile-width] x [scaled tile-height] pixels after scaling.[<]";
 	#end if;
 	if the grid is graphlinked:
 		set a graphlink in the current window identified as (the grid) from win-x by win-y to win-x + (scaled tile-width * image-map-width) by win-y + (scaled tile-height * image-map-height) as the linked replacement-command of the grid;
@@ -1402,7 +1400,7 @@ Chapter - Converting image-map to screen coordinates
 
 [This phrase can only be used after the element scaling rules for the image-map have been followed.]
 
-To decide what list of numbers is the screen coordinate/coordinates/-- equivalent of (coord1 - a list of numbers) in the/-- coordinates/-- of/-- (grid - an image-map) image-map/--:
+To decide what list of numbers is the screen coordinate/coordinates/-- equivalent of (coord1 - a list of numbers) in the/-- internal/-- coordinates/-- of/-- (grid - an image-map) image-map/--:
 	let dx be (entry 1 of coord1 - 1) * scaled tile-width of grid;
 	let dy be (entry 2 of coord1 - 1) * scaled tile-height of grid;
 	let x1 be (win-x of grid) + dx;
@@ -1415,7 +1413,7 @@ To decide what list of numbers is the screen coordinate/coordinates/-- equivalen
 
 Chapter - Converting canvas to image-map coordinates
 
-To decide what list of numbers is the equivalent of canvas coordinate/coordinates/-- (coord1 - a list of numbers) in the/-- coordinates of (grid - an image-map) image-map/--:
+To decide what list of numbers is the equivalent of canvas coordinate/coordinates/-- (coord1 - a list of numbers) in the/-- internal/-- coordinates of (grid - an image-map) image-map/--:
 	let imap-x be the desired tile-width of the grid;
 	let imap-y be the desired tile-height of the grid;
 	let x1 be entry 1 of the origin of the grid;
@@ -1435,7 +1433,7 @@ Chapter - Converting screen to image-map coordinates
 
 [This phrase can only be used after the element scaling rules for the image-map have been followed.]
 
-To decide what list of numbers is the equivalent of screen coordinate/coordinates/-- (coord1 - a list of numbers) in the/-- coordinates of (grid - an image-map) image-map/--:
+To decide what list of numbers is the equivalent of screen coordinate/coordinates/-- (coord1 - a list of numbers) in the/-- internal/-- coordinates of (grid - an image-map) image-map/--:
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
 	let dx be x1 - win-x of grid;
@@ -1450,17 +1448,15 @@ To decide what list of numbers is the equivalent of screen coordinate/coordinate
 
 Part - Adding figures to an image-map array using internal coordinates
 
-To place/add tile/-- (tile - a number) at coordinate/coordinates/-- (internal-coordinates - a list of numbers) of/in (grid - a tileset image-map):
-	let pos be image-map-width of grid * (entry 2 of internal-coordinates - 1);
-	let pos be pos + (entry 1 of internal-coordinates);
-	if pos <= number of entries of the tile-array of grid:
-		change entry (pos) of the tile-array of grid to the tile.
+To place/add tile/-- (tile - a number) at internal/-- coordinate/coordinates/-- (internal-coordinates - a list of numbers) of/in (grid - a tileset image-map):
+	let x be entry 1 of the internal-coordinates;
+	let y be entry 2 of the internal-coordinates;
+	now entry x of entry y of the tile-array of the grid is the tile.
 		
-To place/add figure/-- (tile - a figure name) at coordinate/coordinates/-- (internal-coordinates - a list of numbers) of/in (grid - a direct image-map):
-	let pos be image-map-width of grid * (entry 2 of internal-coordinates - 1);
-	let pos be pos + (entry 1 of internal-coordinates);
-	if pos <= number of entries of the figure-array of grid:
-		change entry (pos) of the figure-array of grid to the tile.
+To place/add figure/-- (tile - a figure name) at internal/-- coordinate/coordinates/-- (internal-coordinates - a list of numbers) of/in (grid - a direct image-map):
+	let x be entry 1 of the internal-coordinates;
+	let y be entry 2 of the internal-coordinates;
+	now entry x of entry y of the figure-array of the grid is the tile.
 		
 
 Part - Graphic hyperlinking using tiled linked command arrays
@@ -1471,21 +1467,18 @@ The tiled graphlink setting rules have outcomes exit (success - the default) and
 A tiled graphlink setting rule for an image-map (called the grid):
 	let row be win-y of the grid;
 	let column be win-x of the grid;
-	let scan be 0;
-	repeat with index running through the linked command array of the grid:
-		increase scan by 1;
-		if scan > image-map-width of the grid:
-			increase row by scaled tile-height of the grid;
-			change column to win-x of the grid;
-			let scan be 1;
-		unless index is "":
-			set a graphlink in current window identified as (the grid) from (column) by (row) to (column + scaled tile-width of grid) by (row + scaled tile-height) as (index), ignoring redundant links;
-			#if utilizing the image-map graphlink preview option;
-			    boxdraw (color graphlink preview color) in (current window) from (column) by (row) to (column + scaled tile-width of grid) by (row + scaled tile-height) with 1;
-			#end if;
-		increase column by scaled tile-width of grid;
+	repeat with current-row running through the linked command array of the grid:
+		repeat with index running through current-row:
+			unless index is "":
+				set a graphlink in current window identified as (the grid) from (column) by (row) to (column + scaled tile-width of grid) by (row + scaled tile-height) as (index), ignoring redundant links;
+				#if utilizing the image-map graphlink preview option;
+				boxdraw (color graphlink preview color) in (current window) from (column) by (row) to (column + scaled tile-width of grid) by (row + scaled tile-height) with 1;
+				#end if;
+			increase column by scaled tile-width of grid;
+		increase row by scaled tile-height of the grid;
+		change column to win-x of the grid;
 	#if utilizing Glimmr debugging;
-	    say "[>console][CBD]Graphlinks set on [number of entries in the linked command array of the grid] individual tiles for tileset image-map [i][grid][/i] in [i][current window][/i].[<]";
+	    say "[>console][CBD]Graphlinks set on [number of entries in the linked command array of the grid * number of entries in entry 1 of the linked command array of the grid] individual tiles for tileset image-map [i][grid][/i] in [i][current window][/i].[<]";
 	#end if.
 
 
@@ -1495,18 +1488,22 @@ Chapter - Constructing a hyperlink set for a direct image-map
 
 To construct/build graphic/-- hyperlinks/graphlinks array for (grid - a direct image-map) using (link-table - a table name):
 	now the linked command array of the grid is {};
-	repeat with index running through the figure-array of the grid:
-		if index is a figure listed in the link-table:
-			if there is a linked command entry:
-				add the linked command entry to the linked command array of the grid;
+	let L be a list of texts;
+	repeat with current-row running through the figure-array of the grid:
+		let L be {};
+		repeat with index running through current-row:
+			if index is a figure listed in the link-table:
+				if there is a linked command entry:
+					add the linked command entry to L;
+				otherwise:
+					add "" to L;
 			otherwise:
-				add "" to the linked command array of the grid;
-		otherwise:
-			add "" to the linked command array of the grid;
+				add "" to L;
+		add L to the linked command array of the grid; 
 	#if utilizing Glimmr debugging;
 	    say "[>console][CBD]Constructed hyperlink command array for [grid] (a direct image-map) from the table [link-table].[<]";
 	#end if.
-	
+
 [This table is required for the above routine to compile. It is best to make your own table rather than add to this one.]
 	
 Table of Figure Commands
@@ -1519,14 +1516,18 @@ Chapter - Constructing a hyperlink set for a tileset image-map
 
 To construct/build graphic/-- hyperlinks/graphlinks array for (grid - a tileset image-map):
 	now the linked command array of the grid is {};
-	repeat with index running through the tile-array of the grid:
-		if index is a char listed in the translation-table of the associated tileset of the grid:
-			if there is a linked command entry:
-				add the linked command entry to the linked command array of the grid;
+	let L be a list of texts;
+	repeat with current-row running through the tile-array of the grid:
+		let L be {};
+		repeat with index running through current-row:
+			if index is a char listed in the translation-table of the associated tileset of the grid:
+				if there is a linked command entry:
+					add the linked command entry to L;
+				otherwise:
+					add "" to L;
 			otherwise:
-				add "" to the linked command array of the grid;
-		otherwise:
-			add "" to the linked command array of the grid;
+				add "" to L;
+		add L to the linked command array of the grid;
 	#if utilizing Glimmr debugging;
 	    say "[>console][CBD]Constructed hyperlink command array for [grid] (a tileset image-map) from the translation-table of the tileset [associated tileset of the grid].[<]";
 	#end if.
@@ -1534,9 +1535,11 @@ To construct/build graphic/-- hyperlinks/graphlinks array for (grid - a tileset 
 
 Part - Debugging commands for image-maps
 
-Dumping imap is an action out of world applying to one visible thing. Understand "image-map [any image-map]" or "[any image-map]" or "image map [any image-map]" as dumping imap when the Glimmr debugging option is active.
+Chapter - Dumping image-map data (not for release)
 
-Understand "image-map [text]" or "image map [text]" as a mistake ("That image-map could not be found. If this is not a typo, you may need to assign it the 'publically-named' property.") when the Glimmr debugging option is active.
+Dumping imap is an action out of world applying to one visible thing. Understand "image-map [any image-map]" or "[any image-map]" or "image map [any image-map]" as dumping imap.
+
+Understand "image-map [text]" or "image map [text]" as a mistake ("That image-map could not be found. If this is not a typo, you may need to assign it the 'publically-named' property.").
 	
 Carry out dumping imap:
 	say "[line break]";
@@ -1544,52 +1547,52 @@ Carry out dumping imap:
 		let rules-altered be true;
 		suspend rules tracing;
 	if the noun is a tileset image-map:
-		say "[>console][CBD]Showing data for [i][the noun][/i], a tileset image-map assigned to [the associated canvas of the noun]. Map ([image-map-width] x [number of entries in tile-array of noun / image-map-width] = [number of entries in tile-array of noun] tiles) rendered using tileset [associated tileset]; tiles measure [desired tile-width of noun] x [desired tile-height of noun] canvas units. [if the noun is graphlinked] Graphlink [quotation mark][linked replacement-command of noun][quotation mark] applies to entire map.[end if] Tile-array data:[paragraph break][<]";
+		let image-map-width be the number of entries of entry 1 of the tile-array of the noun;
+		let image-map-height be the number of entries in the tile-array of the noun;
+		let total-length be image-map-width * image-map-height;
+		say "Showing data for [i][noun][/i], a tileset image-map assigned to [the associated canvas of the noun]. Map ([image-map-width] x [image-map-height] = [total-length] tiles) rendered using tileset [associated tileset]; tiles measure [desired tile-width of noun] x [desired tile-height of noun] canvas units. [if the noun is graphlinked] Graphlink [quotation mark][linked replacement-command of noun][quotation mark] applies to entire map.[end if][line break]Tile-array data:[paragraph break]";
 	if the noun is a direct image-map:
-		say "[>console][CBD]Showing data for [noun], a direct image-map assigned to [associated canvas of the noun]. Map ([image-map-width] x [number of entries in figure-array of noun / image-map-width] = [number of entries in figure-array of noun] tiles) rendered using tileset [associated tileset]; tiles measure [desired tile-width of noun] x [desired tile-height of noun] canvas units.[if the noun is graphlinked] Graphlink [quotation mark][linked replacement-command of noun][quotation mark] applies to entire map.[end if] Figure-array data:[paragraph break][<]";
+		let image-map-height be the number of entries in the figure-array of the noun;
+		let image-map-width be the number of entries in entry 1 of the figure-array of the noun;
+		let total-length be image-map-width * image-map-height;
+		say "[>console][CBD]Showing data for [i][noun][/i], a direct image-map assigned to [associated canvas of the noun]. Map ([image-map-width] x [image-map-height] = [total-length] tiles) rendered using tileset [associated tileset]; tiles measure [desired tile-width of noun] x [desired tile-height of noun] canvas units.[if the noun is graphlinked] Graphlink [quotation mark][linked replacement-command of noun][quotation mark] applies to entire map.[end if] Figure-array data:[paragraph break][<]";
 	let scan be 0;
-	let row be 1;
-	say "[>console]";
+	let row-count be 1;
 	say "[fixed letter spacing][run paragraph on]";
 	if the noun is a tileset image-map:
 		say "     ";
-		repeat with count running from 1 to the image-map-width of noun:
+		repeat with count running from 1 to the image-map-width:
 			say "[if count < 100] [end if][count][if count < 100] [end if][if count < 10] [end if]";
-		say "[line break][row][appropriate spacing for row]";
-		repeat with count running from 1 to number of entries of tile-array of noun:
-			increase scan by 1;
-			if scan > image-map-width of noun:
-				increase row by 1;
-				say "[line break][row][appropriate spacing for row]";
-				let scan be 1;
-			if entry (count) of the tile-array of noun is 0:
-				say "... ";
-			otherwise if entry (count) of the tile-array of noun < 10:
-				say " [entry (count) of the tile-array of noun]  ";
-			otherwise if entry (count) of the tile-array of noun < 100:
-				say " [entry (count) of the tile-array of noun] ";
-			otherwise:
-				say "[entry (count) of the tile-array of noun] ";
+		repeat with current-row running through the tile-array of the noun:
+			say "[line break][row-count][appropriate spacing for row-count]";
+			repeat with item running through current-row:
+				if item is 0:
+					say "... ";
+				otherwise if item < 10:
+					say " [item]  ";
+				otherwise if item < 100:
+					say " [item] ";
+				otherwise:
+					say "[item] ";
+			increment row-count;
 	if the noun is a direct image-map:
-		repeat with count running from 1 to number of entries of figure-array of noun:
-			increase scan by 1;
-			if scan > image-map-width of noun:
-				say "[line break]";
-				let scan be 1;
-			say "[entry (count) of the figure-array of noun], ";
+		let row-count be 1;
+		repeat with current-row running through the figure-array of the noun:
+			say "[row-count]: ";
+			repeat with item running through current-row:
+				say "[item], ";
+			say "[line break]";
+			increment row-count;
 	say "[variable letter spacing]";
 	say line break;
-	say "[<]";
 	if the noun is tile-graphlinked:
-		say "[>console]";
-		let scan be 0;
-		repeat with count running from 1 to the number of entries of the linked command array of the noun:
-			increase scan by 1;
-			if scan > image-map-width of noun:
-				let scan be 1;
-			unless entry (count) of the linked command array of the noun is "":
-				say "[one of][line break][The noun] has individual graphlinks defined for the following tiles (given in the image-map's internal tile coordinates):[line break][or][stopping]([scan], [(count / image-map-width of noun) + 1]) [quotation mark][entry count of the linked command array of the noun][quotation mark][line break]";
-		say "[line break][<]";
+		let row-count be 1;
+		repeat with current-row running through the linked command array of the noun:
+			repeat with column-count running from 1 to the number of entries in current-row:
+				unless entry (column-count) of current-row is "":
+					say "[one of][line break][The noun] has individual graphlinks defined for the following tiles (given in the image-map's internal tile coordinates):[line break][or][stopping]([column-count], [row-count]) [quotation mark][entry column-count of current-row][quotation mark][line break]";
+			increment row-count;
+		say "[line break]";
 	if rules-altered is true:
 		activate intensive rules tracing.
 		
@@ -1602,79 +1605,15 @@ To say appropriate spacing for (N - a number):
 		say "  ".
 
 
-Section - Graphlink preview
+Chapter - Graphlink preview
+[This would be better implemented as a  debugging command, perhaps, but is presented as a use option for performance reasons. With a use option, we can use an #ifdef block to define the debugging behavior;  in other words, when the use option is not in use, no code at all related to it is compiled into the game, and thus no need to waste time checking a conditional.]
 
-[This would better be implemented as a  debugging command, perhaps, but is presented as a use option for performance reasons. With a use option, we can use an #ifdef block to define the debugging behavior;  in other words, when the use option is not in use, no code at all related to it is compiled into the game, and thus no need to waste time checking a conditional.]
-
-Use image-map graphlink preview translates as (- Constant Glimmr_IM_GRAPHLINK_PRE; -).
+Use image-map graphlink preview translates as (- Constant Glimmr_GRAPHLINK_PREVIEW; -).
 	
 To #if utilizing the image-map graphlink preview option:
-	(- #ifdef Glimmr_IM_GRAPHLINK_PRE; -)
+	(- #ifdef Glimmr_GRAPHLINK_PREVIEW; -)
 	
 The graphlink preview color is a glulx color value variable. The graphlink preview color is usually g-Light-Grey.
-
-
-[Chapter - Animation
-
-The text-painting animation rules are an object-based rulebook. The text-painting animation rules have outcomes exit (success - the default) and continue.
-
-The anim-delay is a truth state variable. The anim-delay variable translates into I6 as "anim_delay".
-
-Include (-
-
-Global anim_delay = 0;
-
--) before "Glulx.i6t".
-
-
-Section - Basic animation phrases
-
-[This is a modified version of the timed delay code from the Real-Time Delays extension. The namespace is different, however, and that extension is compatible with this one. Of course, simultaneous real-time events invoked using the two extension is a bad idea and almost certain to fail.
-
-Note: If you invoke any of these phrases directly from your code, you should test to see "if glulx timekeeping is supported" to prevent error messages on interpreters that don't support real-time.]
-
-To pace animation at/-- (T - a number) millisecond/milliseconds/ms:
-	now anim-delay is true;
-	start a T millisecond anim-timer;
-	wait for the anim-timer flag.
-
-A glulx timed activity rule (this is the redirect from timer rule):
-	now the anim-delay is false;
-	stop the timer.
-	
-To start a/-- (T - a number) millisecond anim-timer:
-	(- glk_request_timer_events({T});  -)
-	
-To stop the/-- timer:
-	(- glk_request_timer_events(0); -)
-	
-To wait for the anim-timer flag:
-	(- EscAnimDelay(); -)
-
-Include (-
-
-[ EscAnimDelay key ix;
-	glk_request_char_event(gg_mainwin);
-	while (anim_delay) {
-		glk_select(gg_event); 
-		ix = HandleGlkEvent(gg_event, 1, gg_arguments); 
-		if (ix >= 0 && gg_event-->0 == 2) { 
-			key = gg_event-->2;
-			if (key == $fffffff8) {
-				anim_delay = 0;
-			}
-		} 
-	}
-	glk_cancel_char_event(gg_mainwin);  
-];
-
--)
-
-
-Section - Animated text painting rules
-
-Last text-painting animation rule for a rendered string (called the stream) (this is the default text-painting animation rule):
-	pace animation at (text-animation delay of the stream) milliseconds.]
 
 
 Glimmr Canvas-Based Drawing ends here.
@@ -1736,9 +1675,9 @@ We also need to be sure that we open the window at some point, using the "open u
 
 Section: Define the canvas
 
-Defining the canvas is also quite easy. Basically, we simply declare the canvas object and associate it with a g-window:
+Defining the canvas is also quite easy. We simply declare the canvas object and associate it with a g-window:
 
-	The graphics-canvas is a g-canvas. The associated canvas of a g-element is the graphics-canvas.
+	The graphics-canvas is a g-canvas. The associated canvas of the graphics-window is the graphics-canvas.
 	
 We should also specify the dimensions of the canvas. There are two ways to do this. We can set the width and height directly:
 
@@ -1861,15 +1800,23 @@ The color of a primitive is specified using the "tint" property. This is a glulx
 
 Section: Bitmaps
 
-A bitmap element draws a rectangular image composed of individual "bits" that are specified by the author in the form of a list (the "bitmap-array") that defines the status of each bit. For example, a cross might be specified like so: 
+A bitmap element draws a rectangular image composed of individual "bits" that are specified by the author in the form of a list of lists (the "bitmap-array") that defines the status of each bit. For example, a cross might be specified like so: 
 
-{ 0, 0, 1, 0, 0,
-  0, 0, 1, 0, 0,
-  1, 1, 1, 1, 1,
-  0, 0, 1, 0, 0,
-  0, 0, 1, 0, 0  }. 
+	{
+		{ 0, 0, 1, 0, 0 },
+  		{ 0, 0, 1, 0, 0 },
+ 		{ 1, 1, 1, 1, 1 },
+ 		{ 0, 0, 1, 0, 0 },
+ 		{ 0, 0, 1, 0, 0 }
+	}. 
 
-The ones represent bits that are turned on, while the zeros represent bits that are off. The author must additionally specify the "bitmap-width" of the bitmap, which represents the number of bits that make a up a single horizontal line of the bitmap; this number tells Glimmr how to interpret the bitmap-array (if a bitmap-width is not provided, the bitmap will be interpreted as single line of bits). 
+The ones represent bits that are turned on, while the zeros represent bits that are off. Each row is given as a list of numbers with its own set of braces.
+
+Remember that the bitmap-array is a list of lists of numbers. We supply the standard set of list braces, and then we supply one list for each row within those braces, each row's list also having its own braces, e.g. here's a simple map with 4 rows:
+
+	{ {1, 0, 1}, {0, 1, 0}, {1, 0, 1}, {0, 1, 0} }.
+
+It is very important that all rows have the same number of entries (i.e., columns).
 
 When image files such as PNGs or JPEGs are scaled, pixels can be interpolated so that the image file can be presented at virtually any scaling factor. However, the pixels of a bitmap element are set directly, and so the individual pixel is the primary unit of measurement (a bitmap displayed with a bit-size of 2 will be twice as wide and twice as high as the same bitmap displayed with a bit-size of 1). Fractional pixel measurements are not possible, and the bit-size is rounded to the nearest integer. So, if you define a bit-size of 2 pixels, the bit will be 2 pixels from 75% to 100% of full size, but will appear as 1 pixel when scaled to 74% or less. The screen size of the bitmap is determined by the bit-size and the dimensions of its grid: a 10 x 10 bitmap with a scaled bit-size of 2 will occupy 20 x 20 pixels on the screen.  
 
@@ -1890,49 +1837,55 @@ An image-map is similar to a bitmap in that the author defines a regular grid fo
 
 There are two types of image-maps:
 
-	Tileset image-map - Specified using a list of numbers called the "tile-array". These numbers are keyed to an "associated tileset", basically a translation-table that converts the digits to figure names. The tileset allows for one set of images to be changed out for another with a single line; for example, a map could change from day to night simply by changing the image-map's associated tileset. Tilesets also allow image-map lists to be relatively human-readable. For example, the following might represent a long hallway with a door on the left:
+	Tileset image-map - Specified using a list of lists of numbers called the "tile-array", where each row is given as a list of numbers. These numbers are keyed to an "associated tileset", basically a translation-table that converts the digits to figure names. The tileset allows for one set of images to be changed out for another with a single line; for example, a map could change from day to night simply by changing the image-map's associated tileset. Tilesets also allow image-map lists to be relatively human-readable. For example, the following might represent a long hallway with a door on the left:
 
-		{ 11, 11, 11, 11, 11, 11, 11,
-		  05, 00, 00, 00, 00, 00, 00,
-		  05, 00, 00, 00, 00, 00, 00,
-		  11, 11, 11, 11, 11, 11, 11 }
+		{ 
+			{ 11, 11, 11, 11, 11, 11, 11 },
+			{ 05, 00, 00, 00, 00, 00, 00 },
+			{ 05, 00, 00, 00, 00, 00, 00 },
+			{ 11, 11, 11, 11, 11, 11, 11 }
+		}
 
-	Direct image-map - Specified using a list of figure names called the "figure-array". When typed out, the figure-array will be more difficult to read than a tileset-array, at least when there are more than a few cells in the grid. The figure-array of a simple six-cell grid might read like this:
+	Direct image-map - Specified using a list of lists of figure names called the "figure-array", where each row is given as a list of numbers. When typed out, the figure-array will be more difficult to read than a tileset-array, at least when there are more than a few cells in the grid. The figure-array of a simple six-cell grid might read like this:
 
-		{ Figure of Red, Figure of Blue,
-		  Figure of Blue, Figure of Red 
-		  Figure of Red, Figure of Blue }
+		{ 
+			{ Figure of Red, Figure of Blue },
+			{ Figure of Blue, Figure of Red },
+			{ Figure of Red, Figure of Blue }
+		}
 
 	When adding graphic hyperlinks to individual cells, we will need to include a separate tile that keys commands to figure names (in a tileset image-map, this is handled by the tileset's translation-table).
 
 There are times when we may not want to include any graphic in a given cell. For a tileset image-map, we can simply provide 0 as the value for that cell, while for a direct image-map, we specify Figure of Null. If we specify a "background tint" (a glulx color value) for the image-map element, a rectangular zone of this color will be drawn behind the image-map, and will "show through" any empty cells, as well as through the transparent areas of PNG graphics included in the image-map.
 
-As with bitmaps, we must specify the width in cells or tiles of an image-map or Canvas-Based Drawing will not know how to render the image array. This done by providing a number for the "image-map-width" property of the image-map. The direct image-map example above would have an image-map-width of 2, since the map is 2 cells wide.
+Remember that the tile- or figure-array is a list of lists. We supply the standard set of list braces, and then we supply one list for each row within those braces, each row's list also having its own braces, e.g. here's a simple tile-array with 4 rows:
 
-We can also specify the width and height of the tiles in an image-map. For a direct image-map, we set the "tile-width" and "tile-height" properties to specify these dimensions. The associated tileset should define these for tileset image-maps, but we can also override the tileset settings by specifying the "tile-width-override" and "tile-height-override" properties of the image-map element.
+	{ {1, 0, 1}, {0, 1, 0}, {1, 0, 1}, {0, 1, 0} }.
+
+We must also specify the width and height of the tiles in an image-map. For a direct image-map, we set the "tile-width" and "tile-height" properties to specify these dimensions. The associated tileset should define these for tileset image-maps, but we can also override the tileset settings by specifying the "tile-width-override" and "tile-height-override" properties of the image-map element.
 
 If we know the total width or total height we want an image-map to fit into, we can also automate the specification of these properties using these phrases:
 
 	fit my image-map to a total width of 120 canvas units;
 	fit my image-map to a total height of 150 canvas units; 
 
-Be sure to invoke these before drawing the image-map for the first time. The extension will attempt to get as close as possible to these measurements, but may not be able to match exactly; for best results, make your final measurement evenly divisible by the number of tiles in the row or column (120 divided by 10 cells = 12 units each). Use Glimmr debugging (see below) to see the final dimension selected.
+Be sure to invoke these before drawing the image-map for the first time. The extension will attempt to get as close as possible to these measurements, but may not be able to match exactly; for best results, make your final measurement evenly divisible by the number of tiles in the row or column (120 canvas units divided by 10 cells = 12 units each). Use Glimmr debugging (see below) to see the final dimension selected.
 
-Like other graphic elements, image-maps can be "hyperlinked" to respond to mouse input. However, unlike other elements, there are two ways in which they can be so linked. The entire rectangular area of the image-map can be given a single link as with other elements, by assigning the "linked replacement-command" property and changing the "graphlink status" to g-active.
+Like other graphic elements, image-maps can be "hyperlinked" to respond to mouse input. However, unlike other elements, there are two ways in which they can be so linked. As with other elements, the entire rectangular area of the image-map can be given a single link, by assigning the "linked replacement-command" property and changing the "graphlink status" to g-active.
 
-But we can also link each tile individually. This is done by making the "tiled graphlink status" of the image-map g-active. We must also specify an array of commands the same size as our image array, the "linked command array". Luckily, this can be done automatically if we first assign a command to each tile or figure used in the image-map. With a tileset image-map, we can do this by adding a text column called "linked command" to the tileset's translation-table, e.g.:
+But we can also link each tile individually. This is done by making the "tiled graphlink status" of the image-map g-active. We must also specify an array of commands the same size and shape as our image array, the "linked command array" (again, this is a list of lists, this time a list of lists of texts). Luckily, this can be done automatically if we first assign a command to each tile or figure used in the image-map. With a tileset image-map, we can do this by adding a text column called "linked command" to the tileset's translation-table, e.g.:
 
 	Table of My Tileset
 	Char	Tile	Linked Command
 	number	figure-name	text
 
-For direct image-maps, we will need to supply our own table, with figure names in one column and commands in a second column. For example:
+For direct image-maps, which do not have a translation table, we will need to supply a new table, with figure names in one column and commands in a second column. For example:
 
 	Table of My Image Maps Commands
 	Figure	Linked Command
 	figure name	text
 
-After we have set up these correspondences between image tiles and commands, we can use one of the following phrases to 
+After we have set up these correspondences between image tiles and commands, we can use one of the following phrases to build the hyperlink list:
 
 	For tileset image-maps:
 		construct graphic hyperlinks array for my image-map.
@@ -1942,7 +1895,7 @@ After we have set up these correspondences between image tiles and commands, we 
 
 These phrases should be deployed immediately after changing the image array of an image-map, but before drawing it. This will guarantee that the hyperlink zones applied to the screen correspond to the figures shown in the image-map. (We can also write our own routines to populate the linked command array.)
 
-Individual links can work alongside the global hyperlink for the entire image-map: wherever an individual tile is not linked--that is, where no tile is drawn to the screen, or when the linked command specified is empty, that is as ""--the image-map's global hyperlink will be triggered. Otherwise, the individual links override the global link.
+Individual links can work alongside the global hyperlink for the entire image-map: wherever an individual tile is not linked--that is, where no tile is drawn to the screen, or when the linked command specified is empty ("")--the image-map's global hyperlink will be triggered. Otherwise, the individual links override the global link.
 
 We can refer to image-maps by their internal coordinates in limited ways. The internal coordinates are expressed using curly braces like canvas coordinates, but they refer to the column and row of a cell in the map. For example, refer back to our "hallway" map:
 
@@ -1951,30 +1904,30 @@ We can refer to image-maps by their internal coordinates in limited ways. The in
 	  05, 00, 00, 00, 00, 00, 00,
 	  11, 11, 11, 11, 11, 11, 11 }
 
-If we want to refer to the 05 on the left side of the second row, we would refer to internal coordinate {1, 2}. We can change the image array of an image-map using internal coordinates like so:
+If we want to refer to the 05 on the left side of the second row, we would point to {1, 2}. We can change the image array of an image-map using internal coordinates like so:
 
 	place tile 17 at coordinate {1, 2} of my image-map;
 	place Figure of Open Door at coordinate {1, 2} of my image-map;
 
-(The former is for tileset image-maps, the latter for direct image-maps.)
+(The former is for tileset image-maps, the latter for direct image-maps.) Changes, of course, are not visible until the next time we update the window.
 
-We can also convert between the internal coordinates of an image-map and the coordinates of the canvas. This allows us to find out where on the canvas a given cell of an image-map is located. To get the canvas coordinates of an internal coordinate pair, we refer to:
+We can also convert between the internal coordinates of an image-map and the coordinates of the canvas. This allows us to find out where on the canvas a given cell of an image-map is located (the coordinate returned represents the upper left corner of the tile). To get the canvas coordinates of an internal coordinate pair, we refer to:
 
-	canvas coordinate equivalent of {5, 5} in the coordinates of my image-map;
+	the canvas coordinate equivalent of {5, 5} in the internal coordinates of my image-map;
 
 To get the internal coordinates corresponding to a given canvas coordinate: 
 
-	equivalent of canvas coordinates {150, 200} in the coordinates of my image-map;
+	the equivalent of canvas coordinates {150, 200} in the internal coordinates of my image-map;
 
-So, for example, we can , place other graphic elements (e.g. sprites) as if they were part of the image-map:
+So, for example, we can place other graphic elements (e.g. sprites) as if they were part of the image-map:
 
-	Window-drawing rule for the graphics-window:
-		change the origin of Mario to the canvas coordinate equivalent of {5, 5} in the coordinates of my image-map;
-		refresh windows.
+	Element display rule for Mario:
+		now the origin of the Mario is the canvas coordinate equivalent of {5, 5} in the internal coordinates of my image-map;
+		continue.
 
 We can also convert between the internal coordinates of an image-map and screen coordinates. This can only be done after the element scaling rules for the image-map have been followed (otherwise the extension will not know what the conversion factor should be). We use the following phrases:
 
-	screen coordinate equivalent of {5, 5} in the coordinates of my image-map;
+	screen coordinate equivalent of {5, 5} in the internal coordinates of my image-map;
 	equivalent of screen coordinates {150, 200} in the coordinates of my image-map;
 
 There are a few special debugging capabilities available for image-maps. To see which tiles of an image-map have individual graphic hyperlinks, declare this use option:
@@ -1985,7 +1938,7 @@ Now any image-map tile that has an individual hyperlink (see above) will be outl
 
 	The graphlink preview color is g-Blue.
 
-We can "dump" the data in an image-map to the screen by typing "image-map <the name of the image-map to dump>" in-game. When the "Glimmr debugging" use option is active, this will print the tile-array or figure-array of the image-map to the main window (or, if Glimmr Debugging Console is installed, to the debugging window). Important note: if Glimmr debugging is active and the command indicates that there is no such thing as the image-map you're trying to dump, you will need to declare your image-map to be "publically-named". (GCD automatically tries to mark all g-elements as publically-named when the Glimmr debugging option is active, but it is possible to evade this control.) Example:
+We can "dump" the data in an image-map to the screen by typing "image-map <the name of the image-map to dump>" in-game. If we are running the game in the IDE, this will print the tile-array or figure-array of the image-map to the main window. Note that if the command indicates that there is no such thing as the image-map you're trying to dump, you will need to declare your image-map to be "publically-named". (GCD automatically tries to mark all g-elements as publically-named for a debugging build, but it is possible to evade this control.) Example:
 
 	My image-map is a tileset image-map. The origin is {10, 10}. The tile-array is {1, 2, 1, 2}.
 
@@ -1993,7 +1946,7 @@ We can "dump" the data in an image-map to the screen by typing "image-map <the n
 
 	My image-map is publically-named.
 
-
+Note that image-maps may run particularly slowly in the IDE. Test them in an outside interpreter to gauge true performance.
 
 
 Section: Rendered strings 
@@ -2276,7 +2229,7 @@ Chapter: Troubleshooting
 
 Runtime error "cannot divide by zero" (or similar):
 
-	The background has probably not been defined. Be sure you define the background such that it will have been defined before the window-drawing rules are run. 
+	The canvas dimensions have probably not been defined. Be sure you define the canvas before the window-drawing rules are run. 
 
 Inform doesn't recognize the "image-ID" property, or a table in which it is used:
 
@@ -2290,7 +2243,7 @@ Performance issues:
 
 	Be sure that your images are not too large. Images should be sized no larger than you want them to appear onscreen.
 
-	Note that games played within the Inform IDE will be slower than games played in an external interpreter. Try pressing the Release button to produce a blorb file, and play that file in the latest version of a fast, modern interpreter.
+	Note that games played within the Inform IDE will be slower than games played in an external interpreter. The Mac IDE may sometimes show minor scaling artifacts that are not seen with external interpreters. Try pressing the Release button to produce a blorb file, and play that file in the latest version of a fast, modern interpreter.
 
 	If you are using Glimmr debugging, the debugging statements in the routines will slow things down. Turn off Glimmr debugging whenever possible.
 
@@ -2385,9 +2338,7 @@ Section: Summary of the properties of bitmaps
 
 This section presents a list of the properties associated with both monochrome and polychrome bitmaps. Properties which the extension uses internally, and should not be referred to by the author, are marked with a double asterisk (**). All bitmap elements also inherit the properties common to the g-element kind (see above for those properties).
 
-	bitmap-array - a list of numbers, written in brace notation, that defines the on and off bits of a bitmap element. Monochrome bitmaps can include only 0 ("off") or 1 ("on"). Polychrome bitmaps may include any number from 0 to 16777215, defining a decimally packed 16-bit RGB number; in a polychrome bitmap, the "off" bit can be represented by any negative number. Default value: {0}
-
-	bitmap-width - a number defining the width, in bits, of a bitmap. Thus, if our bitmap is five columns wide, the bitmap-width will be 5. Default value: 1
+	bitmap-array - a list of lists of numbers, written in brace notation, that defines the on and off bits of a bitmap element. Monochrome bitmaps can include only 0 ("off") or 1 ("on"). Polychrome bitmaps may include any number from 0 to 16777215, defining a decimally packed 16-bit RGB number; in a polychrome bitmap, the "off" bit can be represented by any negative number. Default value: {}
 
 	tint - a glulx color value (see the Glulx Text Effects extension) that defines the color of the "on" bit of a bitmap. (The "on" bit is given by a 1 in the bitmap-array for monochrome bitmaps; it has no effect for polychrome bitmaps.) Default value: g-White
 
@@ -2397,33 +2348,27 @@ This section presents a list of the properties associated with both monochrome a
 
 	dot-size** - the final display size of each bit in the bitmap, measured in pixels as output on-screen. Default value: 1
 
-	bitmap-height** - counterpart to the bitmap-width measurement; calculated automatically by dividing the length of the bitmap-array by the author-provided bitmap-width. Default value: 1
-
 
 Section: Summary of the properties of image-maps
 
 This section presents a list of the properties associated with both tileset and direct image-maps. Properties which the extension uses internally, and should not be referred to by the author, are marked with a double asterisk (**). All bitmap elements also inherit the properties common to the g-element kind (see above for those properties).
 
-	image-map-width - a number defining the width, in cells or tiles, of an image-map. Thus, if our image-map is five columns wide, the image-map-width will be 5. Default value: 1
-
 	background tint - a glulx color value (see the Glulx Text Effects extension) that defines the color of the background of the image-map. This color will appear wherever a tile is absent, and will also "show through" transparent PNG images. Default value: g-PlaceNullCol (the null color value, meaning no background will be drawn)
 
 	tiled graphlink status - Whether or not some or all of an image-map's tiles have individual graphic hyperlinks (graphlinks). Can be g-active (accepting input) or g-inactive. Default value: g-inactive
 
-	linked command array - A list of texts describing the default commands associated with each of the cells in the image-map. Will not be consulted unless tiled graphlink status is g-active. The length of the list should be the same as the length of the image-map's tile-array or figure-array. Default value: {}
+	linked command array - A list of lists of texts describing the default commands associated with each of the cells in the image-map. Will not be consulted unless tiled graphlink status is g-active. The length and shape of the list should be the same as the length of the image-map's tile-array or figure-array. Default value: {}
 
 	scaled tile-width** - The width of each tile in screen coordinates, as determined after scaling the canvas and the image-map. Default value: 0
 
 	scaled tile-height** - The height of each tile in screen coordinates, as determined after scaling the canvas and the image-map. Default value: 0
-
-	image-map-height** - Counterpart to the image-map-width measurement; calculated automatically by dividing the length of the tile-array or figure-array by the author-provided image-map-width. Default value: 1
 
 
 Section: Summary of the properties of tileset image-maps
 
 This section lists the properties of the tileset image-map that are not shared by other image-map kinds. Tileset image-maps also inherit the properties common to the image-map and the g-element kinds (see above for those properties).
 
-	tile-array - A list of numbers, written in brace notation, that defines, in the form of a matrix, the individual images to be used in the image-map. The numbers refer to the translation-table of the associated tileset object. Default value: {0}
+	tile-array - A list of lists of numbers, written in brace notation, that defines, in the form of a matrix, the individual images to be used in the image-map. The numbers refer to the translation-table of the associated tileset object. Default value: {}
 
 	associated tileset - The name of a tileset object. This tileset will be used to render the tile-array. Default value: null tileset
 
@@ -2436,11 +2381,11 @@ Section: Summary of the properties of direct image-maps
 
 This section lists the properties of the direct image-map that are not shared by other image-map kinds. Direct image-maps also inherit the properties common to the image-map and the g-element kinds (see above for those properties).
 
-	figure-array - A list of figure names, written in brace notation, that defines, in the form of a matrix, the individual images to be used in the image-map. Default value: {Figure of Null}
+	figure-array - A list of lists of figure names, written in brace notation, that defines, in the form of a matrix, the individual images to be used in the image-map. Default value: {}
 
-	tile-width - A number defining the width (before scaling) of each tile in the image-map. Default value: 0
+	tile-width - A number defining the width (before scaling) of each tile in the image-map. Default value: 1
 
-	tile-height - A number defining the height (before scaling) of each tile in the image-map. Default value: 0
+	tile-height - A number defining the height (before scaling) of each tile in the image-map. Default value: 1
 
 
 Section: Summary of the properties of rendered strings
@@ -2495,6 +2440,14 @@ A number of examples are included here, showcasing just some of the capabilities
 Example: * Simple Buttons - In this example, we show how to create a simple set of buttons that the player can press to issue commands. (We use the most important meta-commands: undo, save, restore, and transcript.) The example requires the Glimmr Image Font extension, and you will need to copy the images associated with that extension to your project's Materials folder before building this example. The example also requires Glimmr Graphic Hyperlinks, which enables the buttons to accept mouse input.
 
 We make each button out of two g-elements: a stroked rectangle primitive creates the button's outline and color, while an image-rendered string provides the text of the button. This is convenient, since it doesn't require us to create our own images for each button. (Though using a single image for each button is in fact the most resource-efficient method.) 
+
+Note that this example includes I6 inclusions. These do not transfer properly when using the paste button. Such an inclusion might look like this after being pasted to your source code:
+
+	(--) glk_request_timer_events({T}); -)
+
+Delete the first -) for each inclusion and things should work fine. Corrected:
+
+	(- glk_request_timer_events({T});  -)
 
 Before we get to the buttons, we need to set up the window and canvas. For an example like this, Glimmr Simple Graphics Window would be an even easier way to set things up, but it's better if we show everything here.
 
@@ -2582,11 +2535,20 @@ This last part is even more optional, but it will ensure that the button acts co
 
 Example: * Simpler Buttons - This example is a simple refinement of the previous example (Simple Buttons). In Simple Buttons, we had to supply what really was redundant information: the text of the label was the same as the linked replacement-command of its button, while the origin coordinate of the label is easily deducible from the placement and size of the button outline (the label is centered on the button). This example lets us define the labels minimally and auto-generate their text-strings and origin coordinates from their associated buttons. (One could go even farther with this approach, really.)
 
-Simpler Buttons also uses a Bitmap Font for variety's sake. Note that if you make the window too narrow--unplayably narrow, really--the labels will not fit within the button outlines. This is because bitmaps can't be scaled below 1 pixel per bit, while the canvas itself is scaled to much less than this. This is something to be wary of whenever you are using bitmaps.
+Simpler Buttons also uses a bitmap font for variety's sake. Note that if you make the window too narrow--unplayably narrow, really--the labels will not fit within the button outlines. This is because bitmaps can't be scaled below 1 pixel per bit, while the canvas itself is scaled to much less than this. This is something to be wary of whenever you are using bitmaps.
+
+Note that, like the previous example, this one includes I6 inclusions. These do not transfer properly when using the paste button. Such an inclusion might look like this after being pasted to your source code:
+
+	(--) glk_request_timer_events({T}); -)
+
+Delete the first -) for each inclusion and things should work fine. Corrected:
+
+	(- glk_request_timer_events({T});  -)
+
 
 The example starts out in essentially the same way as the previous: 
 
-	*: "Glimmr Examples II" by Erik Temple
+	*: "Simpler Buttons" by Erik Temple
 
 	Include Glimmr Canvas-Based Drawing by Erik Temple.
 	Include Glimmr Graphic Hyperlinks by Erik Temple.
@@ -2643,7 +2605,7 @@ Compare the Table of Button Labels here with the one for Simple Buttons--we've b
 
 And the (optional) button animations (see the previous example for explanation):
 
-	To revert the/-- button/-- after (T - a number) millisecond/milliseconds:
+	*: To revert the/-- button/-- after (T - a number) millisecond/milliseconds:
 		(- glk_request_timer_events({T});  -)
 	
 	To stop the/-- timer:
@@ -2842,7 +2804,7 @@ We have a couple of types of objects that are not sprites. Rectangle primitives 
 
 	Section - Title-text bitmap-rendered strings
 
-	A title-text is a kind of image-rendered string. The graphlink status of a title-text is g-inactive. The associated canvas of a title-text is graphics-window canvas.
+	A title-text is a kind of bitmap-rendered string. The graphlink status of a title-text is g-inactive. The associated canvas of a title-text is graphics-window canvas.
 
 	Ground_level_1 is a title-text.  The origin is {39, 63}.   The text-string is "Ground level". The associated font is Glimmr C&C. Ground_level_1 is left-aligned. The tint is g-medium-grey. The background tint is g-placenullcol.  The display-layer is 2. The associated room of Ground_level_1 is Entrance Chamber. 
 
@@ -2852,7 +2814,7 @@ We have a couple of types of objects that are not sprites. Rectangle primitives 
 
 Finally, the table that converts the location to the coordinates that the player's avatar should have onscreen. (Using the Canvas Editor, these are easily mapped using the "instances" feature.)
 
-	Chapter - The Avatar's destinations
+	*: Chapter - The Avatar's destinations
 
 	Table of Avatar Coordinates
 	locale	coord
@@ -2865,7 +2827,317 @@ Finally, the table that converts the location to the coordinates that the player
 	Entrance Chamber	{71, 96}
 
 
+Example: ** One Canvas, Two Windows - We want to show the player's location on a map, but the full map is so large that it leaves us unable to see details. This example explores one solution to this problem, displaying the full map in one graphics window, and showing a detail view, an inset, in a second window.
 
+This example illustrates one way to do this, by displaying the same canvas in two different windows, with each window having different framing parameters. We have a larger graphics window on the left, displaying the full map, scaled to fit in the window. A smaller window on the right displays a close-up of the map, centered on the player's location.
+
+ Because this by itself is too easy, we also provide the ability to "TOGGLE" between two means of showing the player's location: a placemarker, a la Google Maps, and a box on the full map that marks the area shown in the inset view. The latter will also serve to illustrate how we can dynamically resize elements based on the size of our windows. 
+
+	*: "Wandering Rhodes"
+
+	Include Glimmr Canvas-Based Drawing by Erik Temple.
+
+	Figure of Rhodes is the file "Rhodes.jpg".
+	Figure of Placemark is the file "Placemark.png".
+
+	The graphics-window is a graphics g-window spawned by the main-window. The measurement of the graphics-window is 50. The position of the graphics-window is g-placeabove. The associated canvas of the graphics-window is the graphics-canvas.
+
+	The graphics-canvas is a g-canvas. The background image of the graphics-canvas is Figure of Rhodes.
+
+We use the graphics-window to display the full map view, and the dimensions of the graphics-canvas are determined by the map (Figure of Roads, used as the background image of the canvas). We also define the closeup-window, the g-window that will show the inset. Note that we assign the same canvas to the closeup-window as to the main graphics-window. We also set the closeup-window to a scaling factor of 1.0000 (i.e., 100%), so that the map will always be displayed without scaling.
+
+We then assign x,y coordinates to each room. These coordinates will determine where the placemarker will be placed, and will also serve as the center of the frame of the closeup-window; that is, we will display the graphics-canvas in the closeup-window such that the window is centered over this point. This is done using the window-framing adjustment activity and the "center the framing..." phrase.
+
+	*: The closeup-window is a graphics g-window spawned by the graphics-window. The position is g-placeright. The measurement is 25. The associated canvas is graphics-canvas.
+
+	The arbitrary scaling factor of the closeup-window is 1.0000.
+
+	When play begins:
+		open up graphics-window;
+		open up the closeup-window;
+	
+	[After printing the banner text:
+		say "[line break]This example for the Glimmr Canvas-Based Drawing extension demonstrates the display of a single canvas in two different windows. The inset window at right shows a detail view of the main map window at left. The main window scales the canvas to fit, while the inset window always displays it at 100% of actual size, zoomed to the specific location shown by the placemarker in the main window.[paragraph break]The placemarker can be toggled between a pointer and a box the same size as the inset: Type TOGGLE at the command line to change it."]
+
+	A room has a list of numbers called the origin. The origin is usually {0, 0}.
+	Some rooms are defined by the Table of Room Origins.
+
+	For window-framing adjustment of the closeup-window:
+		center the framing of closeup-window on the origin of the location;
+		continue the action.
+
+We offer the player the choice to display the current location on the map using either a placemarker (a pointer), or a rectangle that reflects the area of the larger map that is displayed in the closeup-window; the former is implemented as a sprite/image, while the latter is a box primitive. As with other maps, we update the status of these primarily in the carry out looking rules, since the looking rules are always consulted when the player moves between rooms. The currently chosen display option is put into a global variable called the placemarker, which we will use to determine how the properties of the element should be updated.
+
+	*: The associated canvas of a g-element is the graphics-canvas.
+
+	Pointer is a sprite. The image-ID is Figure of Placemark. The pointer is center-aligned.
+
+	Map Inset is a box primitive. The tint is g-White. The display status is g-inactive. The line-weight is 2.
+
+	Toggling view is an action applying to nothing. Understand "toggle" or "toggle map" or "toggle placemarker" as toggling view.
+
+	The placemarker is a g-element variable. The placemarker is the pointer.
+
+	Carry out toggling view:
+		if the placemarker is the pointer:
+			now the placemarker is the map inset;
+			activate the placemarker;
+			deactivate pointer;
+		otherwise:
+			now the placemarker is the pointer;
+			activate the placemarker;
+			deactivate map inset;
+		refresh windows;
+		say "The placemarker will now be displayed [if the placemarker is the pointer]as an image[otherwise]using a box to depict the area displayed in the closeup window[end if]."
+
+	Carry out looking:
+		follow the refresh windows rule;
+		continue the action.
+
+We don't want to display the marker in the closeup-window, so we simply skip it during the drawing sequence for that window (closeup-window placemarker rule). We then use the drawing active elements activity as a hook for calculating the origins (and endpoint) of the placemarker elements. This activity is a good place for this since it is the activity that controls the scaling and drawing of all elements.
+
+The calculation for the map inset element, which is the box primitive that outlines on the large map the area displayed in the closeup-window, is more interesting (see the map inset placement rule). This calculation (the map inset placement rule) uses the room coordinates, the dimensions of the canvas, and the dimensions of the closeup-window to calculate the placement and sizing of the map inset. Remember that the origin and endpoint are actually lists of numbers, hence the need to access each entry individually, as seen in the map inset placement rule.
+
+Note the use of "continue the action" at the end of each rule. Most of the rules and activities in Canvas-Based Drawing end automatically in success, so we need to provide explicit continuation in order to use the rest of the rulebook. In this case, the drawing the active elements activity needs to go on to actually draw the elements, not just calculate placement.
+
+	*: Element display rule for the placemarker when the current window is the closeup-window (this is the closeup-window placemarker rule):
+		do nothing.
+
+	For drawing the active elements when the placemarker is the pointer (this is the pointer placement rule):
+		change the origin of the placemarker to the origin of the location;
+		continue the action;
+
+	For drawing the active elements when the placemarker is the map inset (this is the map inset placement rule):
+		change entry 1 of the origin of the placemarker to (entry 1 of the origin of the location) - ((width of closeup-window) / 2);
+		change entry 2 of the origin of the placemarker to (entry 2 of the origin of the location) - ((height of the closeup-window) / 2);
+		change entry 1 of the endpoint of the placemarker to (entry 1 of the origin of placemarker) + (width of closeup-window);
+		change entry 2 of the endpoint of the placemarker to (entry 2 of the origin of placemarker) + (height of closeup-window);
+		continue the action;
+
+	Table of Room Origins
+	room	origin
+	West Tower	{108, 221}
+	East End of Tower Street	{356, 292}
+	West End of Tower Street	{211, 280}
+	Port Fortress	{412, 415}
+	Bell Tower	{585, 204}
+	North Tower	{667, 135}
+	Main Square	{447, 355}
+
+	West End of Tower Street is east of West Tower. East End of Tower Street is east of West End. Main Square is east of East End. Port Fortress is south of Main Square. Bell Tower is north of Main Square. North Tower is north of Bell Tower.
+
+	The description of a room is "[exits]".
+
+	To say exits:
+		say "Exits: ";
+		let L be a list of directions;
+		repeat with the way running through directions:
+			let place be the room way from location;
+			if place is a room:
+				add way to L;
+		say "[L]. "
+
+
+
+Example: ** Roguelike-like - This example uses image-maps and some sprites to create something that looks a lot like a roguelike dungeon-crawler. None of the actual game mechanics one would want in such a game are included, of course, but the basic techniques for display are provided.
+
+We use an image-map to display the outline of whatever room we are in. Some of the tiles are graphlinked, so that clicking on the floor of the room will move us one step in the direction clicked, and so that clicking on the exit to a room will take us out of the room. Only the latter takes any time: moving around within a room has no effect on actual gameplay in this example.
+
+We wouldn't have a roguelike, though, if all we had was a map. We also need characters that wander over the map. One way we could do this would be to layer multiple image-maps over one another--one map containing the characters, say, and another of the same size representing the base map. An easier method, the one this example employs, is to use sprites for the characters. 
+
+The tiles used in this example come from a set of tiles known as LoFi Roguelike, by TIGSource user oryx. These are very nice, low-resolution tiles. Each of the tiles is 8 x 8 pixels, but we display them here at 24 by 24. Link to LoFi Roguelike: http://forums.tigsource.com/index.php?topic=8970.0
+
+	*: "Roguelike-like"
+
+	Include Glimmr Canvas-Based Drawing by Erik Temple.
+	Include Glimmr Graphic Hyperlinks by Erik Temple.
+	Include Glimmr Simple Graphics Window by Erik Temple.
+
+First we define the tileset. It's often more convenient to put a tileset into its own extension, but we don't have that luxury here, and doing it inline works too.
+
+Note the linked command entries in the tileset's translation table. These allow us to specify commands for individual tiles; when we click on these tiles on screen, the associated command will fire. Note that we include 5 versions of the floor tile, one for each of the four directions, and one that is linked with a hyphen. The directional versions are placed at the edge of a room's map, so that clicking on them will move us to the next room. The hyphen link is not issued as a command. We will instead intercept the hyphen link with a special graphlink processing rule (see Glimmr Graphic Hyperlinks) so that we can supply our own behavior later on.
+
+	*: Section - The Tileset
+
+	LoFi Roguelike is a tileset. The translation-table is the Table of Roguelike Tiles. The tile-width is 24. The tile-height is 24.
+
+	Figure of Bowman is the file "Bowman.png".
+	Figure of Floor is the file "Floor.png".
+	Figure of Manticore is the file "Manticore.png".
+	Figure of Stairs Up is the file "Stairs Up.png".
+	Figure of Stairs Down is the file "Stairs Down.png".
+	Figure of Table is the file "Table.png".
+	Figure of Wall with Torch is the file "Wall with Torch.png". 
+	Figure of Wall is the file "Wall.png".
+	Figure of Vertical Wall is the file "Vertical Wall.png".
+
+
+	Table of Roguelike Tiles
+	Char	Tile	Linked Command
+	number	figure-name	text
+	1	Figure of Wall	""
+	2	Figure of Floor	"-"
+	3	Figure of Wall with Torch	""
+	4	Figure of Vertical Wall	""
+	5	Figure of Stairs Up	"up"
+	6	Figure of Stairs Down	"down"
+	7	Figure of Floor	"north"
+	8	Figure of Floor	"east"
+	9	Figure of Floor	"south"
+	10	Figure of Floor	"west"
+	
+
+	Section - The Graphics Window
+
+	The measurement of the graphics-window is 336.
+	The canvas-width of the graphics-canvas is 336. The canvas-height of the graphics-canvas is 336.
+
+	When play begins:
+		follow the update dungeon map rule;
+		open up the graphics-window.
+
+Sprites are displayed using the coordinate system of the canvas, but the characters we are using them to display will need to move according to the internal grid of our image-map. We handle this by giving the sprite a second set of coordinates that we will use for calculating the character's position on the map. We convert this coordinate to canvas coordinates (based on the current position of the image-map on the canvas) before scaling and drawing a sprite. This is the "convert origin coordinate" rule below, and it utilizes one of the phrases that GCBD provides for converting between canvas, screen, and image-map coordinate systems; see the section on image-maps in the documentation above for more.
+
+We want each room to have its own independent map, but there is no reason to create a different image-map element for each room. Instead, we have just one image-map object, the Dungeon Map. We assign each room a tile-array, and change the tile-array of the Dungeon Map to reflect the tile-array of the location. 
+
+At the same time, we also ensure that the appropriate characters are visible. Each character in the game (there are only two, the player and the beast at the end of his quest) has an associated sprite. Whenever we need to redraw the map--as usual, we do this in the looking rules--we activate the characters he can see and deactivate the ones he can't.
+
+	
+	*: Section - Element display and updating
+
+	Element scaling rule for a character-sprite (called the character) (this is the convert origin coordinate rule):
+		now the origin of the character is the canvas coordinate equivalent of the grid-coordinate of the character in the coordinates of the the dungeon map;
+		continue.
+
+	The convert origin coordinate rule is listed before the element origin scaling rule in the element scaling rules.
+
+	A room has a list of lists of numbers called the tile-array. A room has a list of numbers called the initial grid coordinate.
+
+	Carry out looking:
+		follow the update dungeon map rule;
+		follow the window-drawing rules for the graphics-window.
+	
+	This is the update dungeon map rule:
+		now the tile-array of the Dungeon Map is the tile-array of the location;
+		construct graphic hyperlinks array for the the dungeon map;
+		now the grid-coordinate of the character of the player is the initial grid coordinate of the location;
+		repeat with P running through people:
+			if P can be seen by the player:
+				mark the character of P for display;
+			otherwise:
+				deactivate the character of P.	
+	
+
+	Section - Image-map and Sprites
+
+	The dungeon map is a tileset image-map. The associated tileset is LoFi Roguelike. The origin is {24, 24}. The tiled graphlink status of the dungeon map is g-active.
+
+	A character-sprite is a kind of sprite. A character-sprite has a list of numbers called the grid-coordinate. The display-layer of a character-sprite is 3. The graphlink status of a character-sprite is g-active. The display status of a character-sprite is g-inactive.
+
+	A person has a character-sprite called the character. 
+
+	Some character-sprites are defined by the Table of Characters.
+
+	Table of Characters
+	character-sprite	image-ID	grid-coordinate	linked replacement-command
+	Bowman-sprite	Figure of Bowman	{4, 4}	"inventory"
+	Manticore-sprite	Figure of Manticore	{5, 7}	"attack manticore"
+	
+
+The next section contains the scenario and is fairly simple. We assign the character-sprites to our characters, and we also set the player's sprite to be active from the start.
+
+We then define the rooms and other behavior. Note that each room has an image-map, and that we can use line breaks within the list to make it more or less human-readable.
+
+	*: Section - Scenario
+
+	The player carries a bow and an arrow. The character of the player is the Bowman-sprite. The display status of the Bowman-sprite is g-active.
+
+	The Entrance is a room. "A dry and dusty room. A passage leads east, and crumbling stairs lead back to the cave above." The tile-array is {
+		{ 0, 4, 1, 3, 1, 1, 3, 1, 4, 0, 0, 0 },
+		{ 0, 4, 2, 2, 2, 2, 2, 2, 4, 0, 0, 0 },
+		{ 0, 4, 2, 2, 2, 2, 2, 2, 1, 1, 1, 0 },
+		{ 0, 4, 5, 2, 2, 2, 2, 2, 2, 2, 8, 0 },
+		{ 0, 4, 2, 2, 2, 2, 2, 2, 4, 1, 1, 0 },
+		{ 0, 4, 2, 2, 2, 2, 2, 2, 4, 0, 0, 0 },
+		{ 0, 4, 2, 2, 2, 2, 2, 2, 4, 0, 0, 0 },
+		{ 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0 }
+	}. The initial grid coordinate is {6, 4}.
+
+	Instead of going up in the Entrance:
+		say "But your adventure has only just begun, you rogue!".
+
+	The Passage is east of the Entrance. "A narrow passage that turns toward the south, where it widens." The tile-array is {
+		{ 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00 },
+		{ 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00 },
+		{ 00, 01, 01, 01, 01, 01, 01, 01, 01, 04, 00, 00 },
+		{ 00, 10, 02, 02, 02, 02, 02, 02, 02, 04, 00, 00 },
+		{ 00, 01, 01, 01, 01, 01, 01, 04, 02, 02, 04, 00 },
+		{ 00, 00, 00, 00, 00, 00, 00, 04, 02, 02, 04, 00 },
+		{ 00, 00, 00, 00, 00, 00, 00, 04, 02, 02, 04, 00 },
+		{ 00, 00, 00, 00, 00, 00, 00, 04, 02, 02, 04, 00 },
+		{ 00, 00, 00, 00, 00, 00, 00, 04, 09, 09, 04, 00 }
+	}. The initial grid coordinate is {9, 4}.
+
+	The Den of the Beast is south of the Passage. "A large room that nevertheless feels close and fetid. The great Manticore lurks here." The tile-array is {
+		{ 0, 0, 0, 0, 0, 0, 0, 4, 7, 7, 4, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 4, 2, 2, 4, 0 },
+		{ 4, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 4 },
+		{ 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4 },
+		{ 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
+		{ 0, 0, 4, 2, 2, 2, 2, 2, 2, 2, 4, 0 },
+		{ 0, 0, 4, 2, 2, 2, 2, 2, 2, 2, 4, 0 },
+		{ 0, 0, 4, 2, 2, 2, 2, 2, 2, 2, 4, 0 },
+		{ 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 }
+	}. The initial grid coordinate is {9, 3}.
+
+	Check going north from the Den:
+		say "If you flee now, you will never be able to face yourself again." instead.
+
+	Every turn while the player is in the Den:
+		say "[one of]The Manticore roars[or]A snort echoes through the chamber. The Manticor shakes its mane[or]The Manticore stares at you. You feel that your impudence is truly epic[or]The spiked pad at the end of the Manticore's tail sways lazily over the beast's back[purely at random]."
+	
+	The Manticore is an animal in the Den. "The Manticore stirs. His eyes lock on yours." The character is the Manticore-sprite. The description is "More fearsome than the villagers said. A massive catlike creature. Its tail is studded with large, deadly spikes."
+
+	Understand "shoot [something]" as attacking.
+	
+	Instead of attacking the Manticore:
+		say "As you nock one of your spindly arrows, you realize just how foolish you have been. Before you can draw back the bowstring, the Manticore's tail stiffens and a shower of deadly spikes arcs toward you.";
+		end the story finally.
+	
+	Every turn when the player is in the Den:
+		if the player has been in the Den for three turns and the current action is not the action of attacking the manticore:
+			say "The Manticore has evidently tired of your dithering. He crouches low and, before you can fit your arrow, he flings a barrage of spikes from his tail.";
+			end the story finally.
+
+
+Finally, we have a couple of things we want to do with mouse input. Since all of our mouse input is game-related--we move the player, take inventory, attack monsters, etc.--we don't want to continue issuing commands if the player is dead. To do this, we make the first graphlink processing rule a check of whether the story is still active. The odd phrasing of the condition reflects a weakness in the Standard Rules' phraseology.
+
+More interesting is the handle movement rule. This rule moves the player's avatar in response to mouse clicks on the map. If the player has clicked on the Dungeon Map, we check to see what command was triggered by the click. If that command was "-", we know that the player has clicked on a floor tile. We then convert the coordinates of the mouse input from screen coordinates to the coordinates of the image-map. We compare those coordinates with the coordinates of the player, and move the player one step horizontally and/or one step vertically toward the clicked coordinate.
+
+You will notice that this rule doesn't do any collision checking--what happens if the player moves over a wall, or on top of the Manticore? This example game is set up so that this is impossible. The player will die before he reaches the Manticore, and because the walls are always at the edge of the map and are not themselves graphlinked, the player can never reach them by clicking. In a real game, we'd need a full system of collision detection, but this slight of hand suffices for a short example.
+
+	*: Section - Mouse movement
+
+	First graphlink processing rule when not the story has not ended:
+		rule fails.
+	
+	A graphlink processing rule for the Dungeon Map when the candidate replacement command is "-" (this is the handle movement rule):
+		now the candidate replacement command is "";
+		let L be a list of numbers;
+		let L be {0, 0};
+		now entry 1 of L is current graphlink x;
+		now entry 2 of L is current graphlink y;
+		let L be the equivalent of screen coordinate L in the coordinates of the Dungeon Map;
+		if entry 1 of L is greater than entry 1 of the grid-coordinate of the Bowman-sprite:
+			increase entry 1 of the grid-coordinate of the Bowman-sprite by 1;
+		otherwise if entry 1 of L is less than entry 1 of the grid-coordinate of the Bowman-sprite:
+			decrease entry 1 of the grid-coordinate of the Bowman-sprite by 1;
+		if entry 2 of L is greater than entry 2 of the grid-coordinate of the Bowman-sprite:
+			increase entry 2 of the grid-coordinate of the Bowman-sprite by 1;
+		otherwise if entry 2 of L is less than entry 2 of the grid-coordinate of the Bowman-sprite:
+			decrease entry 2 of the grid-coordinate of the Bowman-sprite by 1;
+		follow the window-drawing rules for the graphics-window;
+		rule succeeds.
 
 
 Example: *** Two Canvases, One Window - This example illustrates a number of different techniques. We show how to change the contents of a graphics window at a stroke by changing canvases. We also construct a custom graphic element with rather complex behavior: rather than simply drawing a single entity, the element acts as a manager, interpreting and drawing game information using varied techniques, as needed.
@@ -2876,21 +3148,22 @@ The manager g-element also implements simple mouse input: clicking on a placehol
 
 We begin by defining the graphics window. We give it a fixed height dimension so that the look doesn't vary overmuch, and make it black so that--in most interpreters--it will blend visually with the status line. We also indicate that the window should be refreshed at the end of every turn. We also declare a canvas for card-display. Later, we will declare a second canvas.
 
-	*: "One Window Two Canvases" by Erik Temple
+	*: "Deal Me In" by Erik Temple
 
 	Include Glimmr Canvas-Based Drawing by Erik Temple.
 	Include Glimmr Graphic Hyperlinks by Erik Temple.
-	Include Glimmr Simple Graphics Window by Erik Temple. 
 	Include Glimmr Bitmap Font by Erik Temple.
 	Include Basic Screen Effects by Emily Short.
 
-	The position of the graphics-window is g-placeabove. The scale method of the graphics-window is g-fixed-size. The measurement of the graphics-window is 44.
+	The graphics-window is a graphlink g-window spawned by the main-window. The position of the graphics-window is g-placeabove. The scale method of the graphics-window is g-fixed-size. The measurement of the graphics-window is 44.
 
 	The card-display canvas is a g-canvas. The associated canvas of the graphics-window is the card-display canvas.
 
+	The graphics-canvas is a g-canvas.
+
 	When play begins:
 		open up the graphics-window.
-		
+
 	Every turn:
 		refresh windows.
 
@@ -2909,7 +3182,7 @@ We also define the dimensions for each card as global variables. We refer only t
 
 	*: Section 1 - The manager
 
-	The card-manager is a g-element. The associated canvas is the card-display canvas. The origin is {0, 4}. The graphlink status is g-active.
+	The card-manager is a g-element. The associated canvas is the card-display canvas. The origin is { 0, 4 }. The graphlink status is g-active.
 
 	The card-x is a number variable. The card-x is 28.
 	The card-y is a number variable. The card-y is 36.
@@ -2933,9 +3206,9 @@ If the player is holding fewer than 5 cards, we repeat through the number of pla
 		let y be entry 2 of the origin of the card-manager;
 		repeat with flat running through the cards carried by the player:
 			draw a rectangle (color g-white) in (current window) from (x + 1) by (y) to (x + card-x - 1) by (y + card-y);
-		 	draw a rectangle (color g-white) in (current window) from (x) by (y + 1) to (x + card-x) by (y + card-y - 1);
+			draw a rectangle (color g-white) in (current window) from (x) by (y + 1) to (x + card-x) by (y + card-y - 1);
 			paint bitmap text (color appropriate to the flat) of "[rank of flat as abbreviated value]" in (current window) at (x + 7) by (y + 2) using Glimmr C&C with dot size 1, center-aligned;
-			display monochrome bitmap (color appropriate to the flat) in (current window) at (x + card-x) - 12 by (y + card-y) - 12 using 8 bit wide data from (the bitmap-dataset of the flat) with dot size 1 px;
+			display monochrome bitmap (color appropriate to the flat) in (current window) at (x + card-x) - 12 by (y + card-y) - 12 using (the bitmap-dataset of the flat) with dot size 1 px;
 			if the card-manager is graphlinked:
 				set a graphlink in the current window identified as the flat from (x) by (y) to (x + card-x) by (y + card-y) as "DISCARD";
 			increase x by card-x + (card-x / 3);
@@ -2953,7 +3226,7 @@ In this rule, we change the replacement command to refer to the name of the card
 In the next section, we provide phrases to assign the color and bitmap shape appropriate to a given card's suit.
 
 	*: Section 2 - Graphic hyperlink rule for clicking on a card (for use with Glimmr Graphic Hyperlinks by Erik Temple)
-	
+
 	A graphlink processing rule for a card (called the flat):
 		if the flat is carried by the player:
 			let T be indexed text;
@@ -2962,58 +3235,56 @@ In the next section, we provide phrases to assign the color and bitmap shape app
 			change the glulx replacement command to "DISCARD THE [candidate replacement command]";
 			change the candidate replacement command to "";
 			rule succeeds.
-		
-	
+
 	Section 3 - Graphic representation of suits
 
 	To decide which glulx color value is appropriate to (flat - a card):
 		if the suit of the flat is hearts or the suit of the flat is diamonds:
 			decide on g-Red;
 		decide on g-Black;
-	
-	To decide which list of numbers is the bitmap-dataset of (flat - a card):
+
+	To decide which list of lists of numbers is the bitmap-dataset of (flat - a card):
 		if the suit of the flat is hearts:
 			decide on {
-	0, 0, 1, 0, 0, 0, 1, 0, 
-	0, 1, 1, 1, 0, 1, 1, 1, 
-	0, 1, 1, 1, 1, 1, 1, 1, 
-	0, 0, 1, 1, 1, 1, 1, 0, 
-	0, 0, 0, 1, 1, 1, 0, 0, 
-	0, 0, 0, 0, 1, 0, 0, 0
+	{ 0, 0, 1, 0, 0, 0, 1, 0 },
+	{ 0, 1, 1, 1, 0, 1, 1, 1 },
+	{ 0, 1, 1, 1, 1, 1, 1, 1 },
+	{ 0, 0, 1, 1, 1, 1, 1, 0 },
+	{ 0, 0, 0, 1, 1, 1, 0, 0 },
+	{ 0, 0, 0, 0, 1, 0, 0, 0 }
 	};
 		if the suit of the flat is diamonds:
 			decide on {
-	0, 0, 0, 0, 1, 0, 0, 0,
-	0, 0, 0, 1, 1, 1, 0, 0, 
-	0, 0, 1, 1, 1, 1, 1, 0,
-	0, 1, 1, 1, 1, 1, 1, 1,
-	0, 0, 1, 1, 1, 1, 1, 0,
-	0, 0, 0, 1, 1, 1, 0, 0,
-	0, 0, 0, 0, 1, 0, 0, 0
+	{ 0, 0, 0, 0, 1, 0, 0, 0 },
+	{ 0, 0, 0, 1, 1, 1, 0, 0 },
+	{ 0, 0, 1, 1, 1, 1, 1, 0 },
+	{ 0, 1, 1, 1, 1, 1, 1, 1 },
+	{ 0, 0, 1, 1, 1, 1, 1, 0 },
+	{ 0, 0, 0, 1, 1, 1, 0, 0 },
+	{ 0, 0, 0, 0, 1, 0, 0, 0 }
 	};
 		if the suit of the flat is clubs:
 			decide on {
-	0, 0, 0, 1, 1, 0, 0, 0,
-	0, 0, 1, 1, 1, 1, 0, 0, 
-	0, 0, 1, 1, 1, 1, 0, 0, 
-	1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 0, 0, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 
-	0, 0, 0, 1, 1, 0, 0, 0, 
-	0, 0, 1, 1, 1, 1, 0, 0
+	{ 0, 0, 0, 1, 1, 0, 0, 0 },
+	{ 0, 0, 1, 1, 1, 1, 0, 0 },
+	{ 0, 0, 1, 1, 1, 1, 0, 0 },
+	{ 1, 1, 1, 1, 1, 1, 1, 1 },
+	{ 1, 1, 1, 0, 0, 1, 1, 1 },
+	{ 1, 1, 1, 1, 1, 1, 1, 1 },
+	{ 0, 0, 0, 1, 1, 0, 0, 0 },
+	{ 0, 0, 1, 1, 1, 1, 0, 0 }
 	};
 		if the suit of the flat is spades:
 			decide on {
-	0, 0, 0, 1, 1, 0, 0, 0,
-	0, 0, 1, 1, 1, 1, 0, 0, 
-	0, 1, 1, 1, 1, 1, 1, 0, 
-	1, 1, 1, 1, 1, 1, 1, 1, 
-	1, 1, 1, 1, 1, 1, 1, 1, 
-	0, 1, 1, 1, 1, 1, 1, 0, 
-	0, 0, 0, 1, 1, 0, 0, 0, 
-	0, 0, 1, 1, 1, 1, 0, 0
+	{ 0, 0, 0, 1, 1, 0, 0, 0 },
+	{ 0, 0, 1, 1, 1, 1, 0, 0 },
+	{ 0, 1, 1, 1, 1, 1, 1, 0 },
+	{ 1, 1, 1, 1, 1, 1, 1, 1 },
+	{ 1, 1, 1, 1, 1, 1, 1, 1 },
+	{ 0, 1, 1, 1, 1, 1, 1, 0 },
+	{ 0, 0, 0, 1, 1, 0, 0, 0 },
+	{ 0, 0, 1, 1, 1, 1, 0, 0 }
 	};
-
 
 The player may not be sure what to do in this example, so we offer some help text. For kicks, we'll do this in the graphics window, using a bitmap-rendered string g-element. When the player types "HELP", we change the associated canvas of the graphics-window temporarily to the graphics-canvas (defined in Glimmr Simple Graphics Window); the graphics-canvas has only one element, the bitmap-rendered string that provides our instructions. While this is displayed, we pause the game using the "wait for any key" phrase. After the keypress, we switch the canvas back to the card-display canvas and refresh the window again.
 
@@ -3022,7 +3293,8 @@ The player may not be sure what to do in this example, so we offer some help tex
 
 	Asking for help is an action out of world. Understand "help" as asking for help.
 
-	When play begins:
+	After printing the banner text:
+		[say "[line break]This example for the Glimmr Canvas-Based Drawing extension illustrates a couple of different of techniques:[paragraph break](1) Changing the contents of a window at a stroke by swapping out the canvas (type HELP to see this).[paragraph break](2) The construction of a complex graphic element from a number of parts: the card graphics are composed of two rectangles, a bitmap-rendered text, and a bitmap graphic.[paragraph break]The example is built on top of the Tilt 3 example from the Inform Recipe Book, essentially unchanged but with the graphic display layered on top.[paragraph break]";]
 		say "Type HELP for instructions."
 
 	Carry out asking for help:
@@ -3032,8 +3304,8 @@ The player may not be sure what to do in this example, so we offer some help tex
 		wait for any key;
 		change the associated canvas of the graphics-window to the card-display canvas;
 		refresh windows.
-	
-	Help text is a bitmap-rendered string. The associated canvas is the graphics-canvas. The origin is {5, 10}. The text-string is "Click on a blank to draw a card. Click on a card to discard it." The tint is g-Lavender. The bit-size is 2.
+
+	Help text is a bitmap-rendered string. The associated canvas is the graphics-canvas. The origin is { 5, 10 }. The text-string is "Click on a blank to draw a card. Click on a card to discard it." The tint is g-CornflowerBlue. The bit-size is 2.
 
 	Test me with "help / draw / draw / draw / draw / draw"
 
@@ -3322,99 +3594,6 @@ From this point on, the code does not differ from the Inform documentation's "Ti
 	Sort-debugging is a truth state that varies.
 
 
-Example: ** One Canvas, Two Windows - We want to show the player's location on a map, but the full map is so large that it leaves us unable to see details. This example explores one solution to this problem, displaying the full map in one graphics window, and showing a detail view, an inset, in a second window.
-
-This example illustrates one way to do this, by displaying the same canvas in two different windows, with each window having different framing parameters. We have a larger graphics window on the left, displaying the full map, scaled to fit in the window. A smaller window on the right displays a close-up of the map, centered on the player's location.
-
- Because this by itself is too easy, we also provide the ability to "TOGGLE" between two means of showing the player's location: a placemarker, a la Google Maps, and a box marking on the full map the area shown in the inset view. The latter will serve to illustrate how we can dynamically resize elements based on the size of our windows. 
-
-	*: "Glimmr One Canvas Two Windows"
-
-	Include Glimmr Canvas-Based Drawing by Erik Temple.
-	Include Glimmr Simple Graphics Window by Erik Temple.
-
-	Figure of Rhodes is the file "Rhodes.jpg".
-	Figure of Placemark is the file "Placemark.png".
-
-	The background image of the graphics-canvas is Figure of Rhodes.
-
-	The measurement of the graphics-window is 50. The position of the graphics-window is g-placeabove.
-
-We use the graphics window provided by Glimmr Simple Graphics Window to display the full map view. Here we define the closeup-window, the g-window that will show the inset. Note that we assign the same canvas to the closeup-window as to the main graphics-window. We display the map by making it the background image of the graphics-canvas. We also set the closeup-window to a scaling factor of 1.0000 (i.e., 100%), so that the map will always be displayed without scaling.
-
-We then assign x,y coordinates to each room. These coordinates will determine where the placemarker will be placed, and will also serve as the center of the frame of the closeup-window; that is, we will display the graphics-canvas in the closeup-window such that the window is centered over this point. This is done using the window-framing adjustment activity and the "center the framing..." phrase.
-
-	*: The closeup-window is a graphics g-window spawned by the graphics-window. The position is g-placeright. The measurement is 25. The associated canvas is graphics-canvas.
-
-	The arbitrary scaling factor of the closeup-window is 1.0000.
-
-	A room has a list of numbers called the origin. The origin is usually {0, 0}.
-	Some rooms are defined by the Table of Room Origins.
-
-	For window-framing adjustment of the closeup-window:
-		center the framing of closeup-window on the origin of the location;
-		continue the action.
-
-We offer the player the choice to display the current location on the map using either a placemarker (a pointer), or a rectangle that reflects the area of the larger map that is displayed in the closeup-window; the former is implemented as a sprite/image, while the latter is a box primitive. As with other maps, we update the status of these primarily in the carry out looking rules, since the looking rules are always consulted when the player moves between rooms. The currently chosen option is put into a global variable called the placemarker, which we will use to determine how the properties of the element should be updated.
-
-	*: The associated canvas of a g-element is the graphics-canvas.
-
-	Pointer is a sprite. The image-ID is Figure of Placemark.
-
-	Map Inset is a box primitive. The tint is g-White. The display status is g-inactive. The line-weight is 2.
-
-	Toggling view is an action applying to nothing. Understand "toggle" or "toggle map" or "toggle placemarker" as toggling view.
-
-	The placemarker is a g-element variable. The placemarker is the pointer.
-
-	Carry out toggling view:
-		if the placemarker is the pointer:
-			now the placemarker is the map inset;
-			activate the placemarker;
-			deactivate pointer;
-		otherwise:
-			now the placemarker is the pointer;
-			activate the placemarker;
-			deactivate map inset;
-		refresh windows;
-		say "The placemarker will now be displayed [if the placemarker is the pointer]as an image[otherwise]using a box to depict the area displayed in the closeup window[end if]."
-
-	Carry out looking:
-		follow the refresh windows rule;
-		continue the action.
-
-We don't want to display the marker in the closeup-window, so we simply skip it during the drawing sequence for that window (closeup-window placemarker rule). We then use the drawing active elements activity as a hook for calculating the origins (and endpoint) of the placemarker elements. This activity is a good place for this since it is the activity that controls the scaling and drawing of all elements.
-
-The calculation for the map inset element, which is the box primitive that outlines on the large map the area displayed in the closeup-window, is more interesting. This calculation (the map inset placement rule) uses the room coordinates, the dimensions of the canvas, and the dimensions of the closeup-window to calculate the placement and sizing of the map inset.  
-
-Note the use of "continue the action" at the end of each rule. Most of the rules and activities in Canvas-Based Drawing end automatically in success, so we need to provide explicit continuation in order to use the rest of the rulebook. In this case, the drawing the active elements activity needs to go on to actually draw the elements, not just calculate placement.
-
-	*: Element display rule for the placemarker when the current window is the closeup-window (this is the closeup-window placemarker rule):
-		do nothing.
-	
-	For drawing the active elements when the placemarker is the pointer (this is the pointer placement rule):
-		change the origin of the placemarker to the origin of the location;
-		continue the action;
-	
-	For drawing the active elements when the placemarker is the map inset (this is the map inset placement rule):
-		change entry 1 of the origin of the placemarker to (entry 1 of the origin of the location) - ( (width of closeup-window) / 2);
-		change entry 2 of the origin of the placemarker to (entry 2 of the origin of the location) - ( (height of the closeup-window) / 2);
-		change entry 1 of the endpoint of the placemarker to (entry 1 of the origin of placemarker) + (width of closeup-window);
-		change entry 2 of the endpoint of the placemarker to (entry 2 of the origin of placemarker) + (height of closeup-window);
-		continue the action;
-
-	Table of Room Origins
-	room	origin
-	West Tower	{90, 197}
-	East End of Tower Street	{335, 268}
-	West End of Tower Street	{193, 256}
-
-
-	West End of Tower Street is east of West Tower.  East End of Tower Street is east of West End.
-
-	When play begins:
-		open up graphics-window;
-		open up the closeup-window.
 
 
 

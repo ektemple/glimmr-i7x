@@ -1208,7 +1208,7 @@ Chapter - The mother-sprite
 
 The mother-sprite is a dynamic-sprite. The image-ID is Figure of Error. The element-name is "Error_1". The origin is {10, 0}. The display status is g-inactive. The graphlink status is g-active. The linked replacement-command is "". The x-scaling factor is 1.0000. The y-scaling factor is 1.0000.[The mother-sprite is in Fake-room_x.]
 
-Current-row is a number that varies. Current-row is 0.
+Current_row is a number that varies. Current_row is 0.
 
 To initialize the/-- dynamic sprites:
 	let L be the list of figure names;
@@ -1230,9 +1230,9 @@ To create a new sprite from (S - a g-element) using (F - a figure name):
 	change the y-scaling factor of the new sprite to 1.0000;
 	unlink the origin of the new sprite;
 	unlink the tag of the new sprite;
-	change entry 2 of the origin of the new sprite to current-row plus 8;
+	change entry 2 of the origin of the new sprite to current_row plus 8;
 	let vertical-offset be the image-height of the image-ID of the new sprite;
-	increase the current-row by the vertical-offset;
+	increase the current_row by the vertical-offset;
 	if using the logged sprite creation option, say "New sprite [element-name of new sprite] created from [image-ID of new sprite].";
 
 To decide which indexed text is (T - indexed text) concatenated with (N - a number):

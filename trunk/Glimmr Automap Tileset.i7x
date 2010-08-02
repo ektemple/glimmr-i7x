@@ -1,5 +1,7 @@
 Version 1/100131 of Glimmr Automap Tileset (for Glulx only) by Erik Temple begins here.
 
+[Give automap files better filenames--i.e., starting with Glimmr Tileset or something.]
+
 Include Glimmr Automap by Erik Temple.
 
 The associated tileset of the map-renderer is usually the Glimmr Automap Tileset.
