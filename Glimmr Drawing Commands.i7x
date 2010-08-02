@@ -439,75 +439,70 @@ Chapter - Monochrome bitmaps
 
 Section - Monochrome bitmap with background color
 
-To drmonobitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
+To drmonobitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (BIT_MAP - a list of lists of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
 	let row be Y1;
 	let column be X1;
-	let the bit-height be the number of entries of BIT_MAP divided by WDT;
+	let the bit-height be the number of entries of BIT_MAP;
+	let WDT be the number of entries in entry 1 of BIT_MAP;
 	dimrectdraw (BKGD) in (WIN) at (column) by (row) with size (WDT * WGT) by (bit-height * WGT);
-	let scan be 0;
-	repeat with index running through BIT_MAP:
-		increase scan by 1;
-		if scan > WDT:
-			increase row by WGT;
-			now column is X1;
-			let scan be 1;
-		if index > 0:
-			dimrectdraw (HUE) in (WIN) at (column) by (row) with size (WGT) by (WGT);
-		increase column by WGT.
+	repeat with current-row running through BIT_MAP:
+		repeat with index running through current-row:
+			if index > 0:
+				dimrectdraw (HUE) in (WIN) at (column) by (row) with size (WGT) by (WGT);
+			increase column by WGT;
+		increase row by WGT;
+		now column is X1.
 
-To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
+To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (BIT_MAP - a list of lists of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
 	#if utilizing Glimmr debugging;
-	say "[>console][DC]Drawing monochrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot size [WGT] (bitmap is [number of entries of bit_map] long, with width [wdt]; foreground color [hue], background color [bkgd].[<]";
+	say "[>console][DC]Drawing monochrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot size [WGT] (bitmap is [number of entries of bit_map] long, with width [the number of entries in entry 1 of BIT_MAP]; foreground color [hue], background color [bkgd].[<]";
 	#end if;
-	drmonobitmap (HUE) in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (BKGD).
+	drmonobitmap (HUE) in (WIN) at (X1) by (Y1) using (BIT_MAP) with dot size (WGT) px and background (BKGD).
 	
-
-To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
+To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of lists of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
-	display a monochrome bitmap (HUE) in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (BKGD).
+	display a monochrome bitmap (HUE) in (WIN) at (X1) by (Y1) using (BIT_MAP) with dot size (WGT) px and background (BKGD).
 
 
 Section - Monochrome bitmap without background color
 
-To drmonobitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
+To drmonobitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (BIT_MAP - a list of lists of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
 	let row be Y1;
 	let column be X1;
-	let scan be 0;
-	repeat with index running through BIT_MAP:
-		increase scan by 1;
-		if scan > WDT:
-			increase row by WGT;
-			now column is X1;
-			let scan be 1;
-		if index > 0:
-			dimrectdraw (HUE) in (WIN) at (column) by (row) with size (WGT) by (WGT);
-		increase column by WGT.
-
-To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
+	let the bit-height be the number of entries of BIT_MAP;
+	repeat with current-row running through BIT_MAP:
+		repeat with index running through current-row:
+			if index > 0:
+				dimrectdraw (HUE) in (WIN) at (column) by (row) with size (WGT) by (WGT);
+			increase column by WGT;
+		increase row by WGT;
+		now column is X1.
+	
+To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (BIT_MAP - a list of lists of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
 	#if utilizing Glimmr debugging;
-	say "[>console][DC]Drawing monochrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot size [WGT] (bitmap is [number of entries of bit_map] long, with width [wdt]; color [hue].[<]";
+	say "[>console][DC]Drawing monochrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot size [WGT] (bitmap is [number of entries of bit_map] long, with width [the number of entries in entry 1 of BIT_MAP]; color [hue].[<]";
 	#end if;
-	drmonobitmap (HUE) in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
+	drmonobitmap (HUE) in (WIN) at (X1) by (Y1) using (BIT_MAP) with dot size (WGT) px.
 
-To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
+To draw/display a/-- monochrome bitmap (HUE - a number) in (WIN - a g-window) at (COORD1 - a list of numbers) using (BIT_MAP - a list of lists of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
-	display a monochrome bitmap (HUE) in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
+	display a monochrome bitmap (HUE) in (WIN) at (X1) by (Y1) using (BIT_MAP) with dot size (WGT) px.
 
 
 Section - Short form of monochrome bitmap
 
-To monochrome/mono bitmap/bmp (BIT_MAP - a list of numbers) at (COORD1 - a list of numbers) width (WDT - a number) dot/-- size (WGT - a number) pixel/pixels/px/--, backgrounded:
+To monochrome/mono bitmap/bmp (BIT_MAP - a list of lists of numbers) at (COORD1 - a list of numbers) dot/-- size (WGT - a number) pixel/pixels/px/--, backgrounded:
 	if the type of the current graphics window is not g-graphics:
 		say "*** Error: Short-form monochrome bitmap directive ignored. The current graphics window global was not correctly specified.";
 		rule fails;
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
 	if backgrounded:
-		display a monochrome bitmap (current foreground-color) in (current graphics window) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (current background-color);
+		display a monochrome bitmap (current foreground-color) in (current graphics window) at (X1) by (Y1) using (BIT_MAP) with dot size (WGT) px and background (current background-color);
 	otherwise:
-		display a monochrome bitmap (current foreground-color) in (current graphics window) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
+		display a monochrome bitmap (current foreground-color) in (current graphics window) at (X1) by (Y1) using (BIT_MAP) with dot size (WGT) px.
 
 
 Chapter - Polychrome bitmaps
@@ -517,74 +512,69 @@ Chapter - Polychrome bitmaps
 
 Section - Polychrome bitmap with background color
 
-To drpolybitmap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
+To drpolybitmap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (BIT_MAP - a list of lists of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
 	let row be Y1;
 	let column be X1;
-	let the bit-height be the number of entries of BIT_MAP divided by WDT;
+	let the bit-height be the number of entries of BIT_MAP;
+	let WDT be the number of entries in entry 1 of BIT_MAP;
 	dimrectdraw (BKGD) in (WIN) at (column) by (row) with size (WDT * WGT) by (bit-height * WGT);
-	let scan be 0;
-	repeat with index running through BIT_MAP:
-		increase scan by 1;
-		if scan > WDT:
-			increase row by WGT;
-			now column is X1;
-			let scan be 1;
-		if index is greater than -1:
-			dimrectdraw (index) in (WIN) at (column) by (row) with size (WGT) by (WGT);
-		increase column by WGT.
+	repeat with current-row running through BIT_MAP:
+		repeat with index running through current-row:
+			if index > -1:
+				dimrectdraw (index) in (WIN) at (column) by (row) with size (WGT) by (WGT);
+			increase column by WGT;
+		increase row by WGT;
+		now column is X1.
 
-To draw/display a/-- polychrome bitmap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
+To draw/display a/-- polychrome bitmap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (BIT_MAP - a list of lists of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
 	#if utilizing Glimmr debugging;
-	say "[>console][DC]Drawing polychrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot size [WGT] (bitmap is [number of entries of bit_map] long, with width [wdt]); background color [bkgd].[<]";
+	say "[>console][DC]Drawing polychrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot size [WGT] (bitmap is [number of entries of bit_map] long, with width [the number of entries in entry 1 of BIT_MAP]); background color [bkgd].[<]";
 	#end if;
-	drpolybitmap in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (BKGD).
+	drpolybitmap in (WIN) at (X1) by (Y1) using (BIT_MAP) with dot size (WGT) px and background (BKGD).
 
-To draw/display a/-- polychrome bitmap in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
+To draw/display a/-- polychrome bitmap in (WIN - a g-window) at (COORD1 - a list of numbers) using (BIT_MAP - a list of lists of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/-- and background (bkgd - a number):
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
-	display a polychrome bitmap in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (BKGD).
+	display a polychrome bitmap in (WIN) at (X1) by (Y1) using (BIT_MAP) with dot size (WGT) px and background (BKGD).
 
 
 Section - Polychrome bitmap without background color
 
-To drpolybitmap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
+To drpolybitmap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (BIT_MAP - a list of lists of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
 	let row be Y1;
 	let column be X1;
-	let scan be 0;
-	repeat with index running through BIT_MAP:
-		increase scan by 1;
-		if scan > WDT:
-			increase row by WGT;
-			now column is X1;
-			let scan be 1;
-		if index is greater than -1:
-			dimrectdraw (index) in (WIN) at (column) by (row) with size (WGT) by (WGT);
-		increase column by WGT.
+	repeat with current-row running through BIT_MAP:
+		repeat with index running through current-row:
+			if index > -1:
+				dimrectdraw (index) in (WIN) at (column) by (row) with size (WGT) by (WGT);
+			increase column by WGT;
+		increase row by WGT;
+		now column is X1.
 
-To draw/display a/-- polychrome bitmap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
+To draw/display a/-- polychrome bitmap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (BIT_MAP - a list of lists of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
 	#if utilizing Glimmr debugging;
-	say "[>console][DC]Drawing polychrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot size [WGT] (bitmap is [number of entries of bit_map] long, with width [wdt]).[<]";
+	say "[>console][DC]Drawing polychrome bitmap in [i][win][/i] with upper left ([X1], [Y1]) and dot size [WGT] (bitmap is [number of entries of bit_map] long, with width [the number of entries in entry 1 of BIT_MAP]).[<]";
 	#end if;
-	drpolybitmap in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
+	drpolybitmap in (WIN) at (X1) by (Y1) using (BIT_MAP) with dot size (WGT) px.
 
-To draw/display a/-- polychrome bitmap in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) bit/-- wide data of/from/-- (BIT_MAP - a list of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
+To draw/display a/-- polychrome bitmap in (WIN - a g-window) at (COORD1 - a list of numbers) using (BIT_MAP - a list of lists of numbers) with dot/-- size (WGT - a number) pixel/pixels/px/--:
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
-	display a polychrome bitmap in (WIN) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
+	display a polychrome bitmap in (WIN) at (X1) by (Y1) using (BIT_MAP) with dot size (WGT) px.
 
 
 Section - Short form of polychrome bitmap
 
-To polychrome/poly bitmap/bmp (BIT_MAP - a list of numbers) at (COORD1 - a list of numbers) width (WDT - a number) dot/-- size (WGT - a number) pixel/pixels/px/--, backgrounded:
+To polychrome/poly bitmap/bmp (BIT_MAP - a list of lists of numbers) at (COORD1 - a list of numbers) dot/-- size (WGT - a number) pixel/pixels/px/--, backgrounded:
 	if the type of the current graphics window is not g-graphics:
 		say "*** Error: Short-form polychrome bitmap directive ignored. The current graphics window global was not correctly specified.";
 		rule fails;
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
 	if backgrounded:
-		display a polychrome bitmap in (current graphics window) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px and background (current background-color);
+		display a polychrome bitmap in (current graphics window) at (X1) by (Y1) using (BIT_MAP) with dot size (WGT) px and background (current background-color);
 	otherwise:
-		display a polychrome bitmap in (current graphics window) at (X1) by (Y1) using (WDT) wide data of (BIT_MAP) with dot size (WGT) px.
+		display a polychrome bitmap in (current graphics window) at (X1) by (Y1) using (BIT_MAP) with dot size (WGT) px.
 
 
 Chapter - Fonts
@@ -601,7 +591,7 @@ A font has some text called the colophon. The colophon is usually "".
 Section - Private naming of fonts
 [Replace this section if you need the player to be able to refer to fonts.]
 
-A font is privately-named.
+A font is usually privately-named.
 
 
 Section - Bitmap fonts
@@ -972,60 +962,56 @@ Chapter - Image-map with figure array
 
 Section - Long forms of figure image-map (no background)
 
-To drimagemap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--:
+To drimagemap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (IMG_MAP - a list of lists of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--:
 	let row be Y1;
 	let column be X1;
-	let total-height be the number of entries of IMG_MAP / WDT;
-	let scan be 0;
-	repeat with index running from 1 to the number of entries in IMG_MAP:
-		increase scan by 1;
-		if scan > WDT:
-			increase row by H;
-			change column to X1;
-			let scan be 1;
-		unless entry index of IMG_MAP is Figure of Null:
-			drscimage (entry index of IMG_MAP) in (WIN) at (column) by (row) with dimensions (W) by (H);
-		increase column by W.
+	repeat with current-row running through IMG_MAP:
+		repeat with index running through current-row:
+			unless index is Figure of Null:
+				drscimage (index) in (WIN) at (column) by (row) with dimensions (W) by (H);
+			increase column by W;
+		increase row by H;
+		now column is X1.
 
-To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--:
+To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (IMG_MAP - a list of lists of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--:
 	#if utilizing Glimmr debugging;
-	let total-height be the number of entries of IMG_MAP / WDT;
-	say "[>console][DC]Image-map drawn at screen coordinates ([X1], [Y1]) of [WIN] using the list of figure names provided, interpreted as a grid [WDT] tiles wide and [total-height] tiles high. Tile size used: [W] by [H] pixels.[<]";
+	say "[>console][DC]Image-map drawn at screen coordinates ([X1], [Y1]) of [WIN] using the list of figure names provided, interpreted as a grid [the number of entries in entry 1 of IMG_MAP] tiles wide and [the number of entries in IMG_MAP] tiles high. Tile size used: [W] by [H] pixels.[<]";
 	#end if;
-	drimagemap in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) with tile-size (W) by (H).
+	drimagemap in (WIN) at (X1) by (Y1) using (IMG_MAP) with tile-size (W) by (H).
 	
-To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--:
+To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (IMG_MAP - a list of lists of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--:
 	let X1 be entry 1 of coord1;
 	let Y1 be entry 2 of coord1;
-	display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) with tile-size (W) by (H).
+	display an image-map in (current graphics window) at (X1) by (Y1) using (IMG_MAP) with tile-size (W) by (H).
 
 
 Section - Long forms of figure image-map (background color)
 
-To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/-- and background (BKGD - a number):
-	let total-height be the number of entries of IMG_MAP / WDT;
+To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (IMG_MAP - a list of lists of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/-- and background (BKGD - a number):
+	let total-height be the number of entries of IMG_MAP;
+	let WDT be the the number of entries in entry 1 of IMG_MAP;
 	#if utilizing Glimmr debugging;
 	say "[>console][DC]Image-map drawn at screen coordinates ([X1], [Y1]) of [WIN] using the list of figure names provided, interpreted as a grid [WDT] tiles wide and [total-height] tiles high. Tile size used: [W] by [H] pixels. Background color [BKGD].[<]";
 	#end if;
 	rectdraw (BKGD) in (WIN) from (X1) by (Y1) to (WDT * W) by (total-height * H);
-	drimagemap in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) with tile-size (W) by (H).
+	drimagemap in (WIN) at (X1) by (Y1) using (IMG_MAP) with tile-size (W) by (H).
 
-To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/-- and background (BKGD - a number):
+To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (IMG_MAP - a list of lists of figure names) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/-- and background (BKGD - a number):
 	let X1 be entry 1 of coord1;
 	let Y1 be entry 2 of coord1;
-	display an image-map in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) with tile-size (W) by (H).
+	display an image-map in (WIN) at (X1) by (Y1) using (IMG_MAP) with tile-size (W) by (H).
 		
 
 Section - Short form	of figure image-map
 
-To image-map (IMG_MAP - a list of figure names) at (COORD1 - a list of numbers) width/w (WDT - a number) tile-size/size (W - a number) by/x (H - a number) pixel/pixels/px/--, backgrounded:
+To image-map (IMG_MAP - a list of lists of figure names) at (COORD1 - a list of numbers) tile-size/size (W - a number) by/x (H - a number) pixel/pixels/px/--, backgrounded:
 	if the type of the current graphics window is g-graphics:
 		let x1 be entry 1 of coord1;
 		let y1 be entry 2 of coord1;
 		if backgrounded:
-			display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) with tile-size (W) by (H) and background (current background-color);
+			display an image-map in (current graphics window) at (X1) by (Y1) using (IMG_MAP) with tile-size (W) by (H) and background (current background-color);
 		otherwise:
-			display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) with tile-size (W) by (H) px;
+			display an image-map in (current graphics window) at (X1) by (Y1) using (IMG_MAP) with tile-size (W) by (H) px;
 	otherwise:
 		say "*** Error: Short-form image-map drawing directive ignored. The current graphics window global was not correctly specified."
 
@@ -1036,65 +1022,63 @@ Chapter - Image-map with tileset array
 
 Section - Long forms of tileset image map (no background)
 
-To drimagemap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with/by (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) --/pixel/pixels/px:
+To drimagemap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (IMG_MAP - a list of lists of numbers) rendered/-- using/with/by (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) --/pixel/pixels/px:
 	let row be Y1;
 	let column be X1;
-	let total-height be the number of entries of IMG_MAP / WDT;
-	let scan be 0;
-	repeat with index running through IMG_MAP:
-		increase scan by 1;
-		if scan > WDT:
-			increase row by H;
-			change column to X1;
-			let scan be 1;
-		if index > 0:
-			if there is a char of index in the translation-table of TSET:
-				choose row with a char of index in the translation-table of TSET;
-				let the current tile be tile entry;
-				drscimage (current tile) in (WIN) at (column) by (row) with dimensions (W) by (H);
-		increase column by W.
+	repeat with current-row running through IMG_MAP:
+		repeat with index running through current-row:
+			if index > 0:
+				if there is a char of index in the translation-table of TSET:
+					choose row with a char of index in the translation-table of TSET;
+					let the current tile be tile entry;
+					drscimage (current tile) in (WIN) at (column) by (row) with dimensions (W) by (H);
+			increase column by W;
+		increase row by H;
+		now column is X1.
 
-To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with/by (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) --/pixel/pixels/px:
+To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (IMG_MAP - a list of lists of numbers) rendered/-- using/with/by (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) --/pixel/pixels/px:
 	#if utilizing Glimmr debugging;
-	let total-height be the number of entries of IMG_MAP / WDT;
+	let total-height be the number of entries of IMG_MAP;
+	let WDT be the the number of entries in entry 1 of IMG_MAP;
 	say "[>console][DC]Image-map drawn at screen coordinates ([X1], [Y1]) of [WIN] using the list of numbers provided, interpreted as a grid [WDT] tiles wide and [total-height] tiles high. Tile size used: [W] by [H] pixels.[<]";
 	#end if;
-	drimagemap in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered with (TSET) with tile-size (W) by (H).
+	drimagemap in (WIN) at (X1) by (Y1) using (IMG_MAP) rendered with (TSET) with tile-size (W) by (H).
 	
-To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with/by (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--:
+To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (IMG_MAP - a list of lists of numbers) rendered/-- using/with/by (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/--:
 	let X1 be entry 1 of coord1;
 	let Y1 be entry 2 of coord1;
-	display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered using (TSET) with tile-size (W) by (H).
+	display an image-map in (current graphics window) at (X1) by (Y1) using (IMG_MAP) rendered using (TSET) with tile-size (W) by (H).
 
 
 Section - Long forms of tileset image map (background color)
 
-To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with/by (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/-- and background (BKGD - a number):
-	let total-height be the number of entries of IMG_MAP / WDT;
+To draw/display an/-- image-map in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) using (IMG_MAP - a list of lists of numbers) rendered/-- using/with/by (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/-- and background (BKGD - a number):
+	let total-height be the number of entries of IMG_MAP;
+	let WDT be the the number of entries in entry 1 of IMG_MAP;
 	let W be the tile-width of TSET;
 	let H be the tile-height of TSET;
 	#if utilizing Glimmr debugging;
 	say "[>console][DC]Image-map drawn at screen coordinates ([X1], [Y1]) of [WIN] using the list of numbers provided, interpreted as a grid [WDT] tiles wide and [total-height] tiles high. Tile size used: [W] by [H] pixels. Background color [BKGD].[<]";
 	#end if;
 	rectdraw (BKGD) in (WIN) from (X1) by (Y1) to (WDT * W) by (total-height * H);
-	drimagemap in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered with (TSET) with tile-size (W) by (H).
+	drimagemap in (WIN) at (X1) by (Y1) using (IMG_MAP) rendered with (TSET) with tile-size (W) by (H).
 
-To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (WDT - a number) wide data of/from/-- (IMG_MAP - a list of numbers) rendered/-- using/with/by (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/-- and background (BKGD - a number):
+To draw/display an/-- image-map in (WIN - a g-window) at (COORD1 - a list of numbers) using (IMG_MAP - a list of lists of numbers) rendered/-- using/with/by (TSET - a tileset) with tile-size (W - a number) by/x (H - a number) pixel/pixels/px/-- and background (BKGD - a number):
 	let X1 be entry 1 of coord1;
 	let Y1 be entry 2 of coord1;
-	display an image-map in (WIN) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered using (TSET) with tile-size (W) by (H).
+	display an image-map in (WIN) at (X1) by (Y1) using (IMG_MAP) rendered using (TSET) with tile-size (W) by (H).
 		
 
 Section - Short form	of tileset image map	
 
-To image-map (IMG_MAP - a list of numbers) at (COORD1 - a list of numbers) width/w (WDT - a number) tileset (TSET - a tileset) tile-size/size (W - a number) by/x (H - a number)  pixel/pixels/px/--, backgrounded:
+To image-map (IMG_MAP - a list of lists of numbers) at (COORD1 - a list of numbers) width/w (WDT - a number) tileset (TSET - a tileset) tile-size/size (W - a number) by/x (H - a number)  pixel/pixels/px/--, backgrounded:
 	if the type of the current graphics window is g-graphics:
 		let x1 be entry 1 of coord1;
 		let y1 be entry 2 of coord1;
 		if backgrounded:
-			display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered using (TSET) with tile-size (W) by (H) and background (current background-color);
+			display an image-map in (current graphics window) at (X1) by (Y1) using (IMG_MAP) rendered using (TSET) with tile-size (W) by (H) and background (current background-color);
 		otherwise:
-			display an image-map in (current graphics window) at (X1) by (Y1) using (WDT) wide data from (IMG_MAP) rendered using (TSET) with tile-size (W) by (H);
+			display an image-map in (current graphics window) at (X1) by (Y1) using (IMG_MAP) rendered using (TSET) with tile-size (W) by (H);
 	otherwise:
 		say "*** Error: Short-form image-map drawing directive ignored. The current graphics window global was not correctly specified."
 
@@ -1459,7 +1443,7 @@ A note on what GDC will *not* do: It does not:
 
 	2) Scale drawing instructions down (or up) to fit in the window.
 
-	3) Ensure that drawing instructions are properly ordered so as to "rebuild" the window whenever needed. (Because a Glulx window can be resized at any time by the player, the window-drawing rules for that window need to be structured so that all drawing commands needed to rebuild the state of the window are called together, and in the right order.)
+	3) Ensure that drawing instructions are properly ordered so as to "rebuild" the window whenever needed. (Because a Glulx window can be resized at any time by the player, the window-drawing rules for that window need to completely encapsulate the state of the window.)
 
 For these reasons, GDC should be considered a low-level extension, mostly to be used by experts. Users wanting a robust solution that *does* handle all of the above points should use Glimmr Canvas-Based Drawing.
 
@@ -1710,11 +1694,11 @@ Speed notes:
 
 	Lines are composed of many individual rectangles, and as such can be quite slow to draw. On the bleeding-edge versions (as of summer 2010) of Gargoyle, they render quite quickly, but you may want to avoid using more than a few on other interpreters. Some tips for faster rendering:
 
-		* If possible, it is better to draw a purely horizontal or vertical line using a rectangle, rather than a line. The rectangle requires less calculation. (In fact, the calculations are quite fast on modern computers, so in most cases this won't really make much difference.)
+		* If possible, it is better to draw a purely horizontal or vertical line using a rectangle, rather than a line. The rectangle requires less calculation.
 
-		* Shorter lines draw faster than longer ones
+		* Shorter lines draw faster than longer ones.
 
-		* "Flatter" lines draw faster; the closer a line comes to 45 degrees, the more individual rectangles need to be drawn to render it, and the slower the drawing becomes
+		* "Flatter" lines draw faster; the closer a line comes to 45 degrees, the more individual rectangles need to be drawn to render it, and the slower the drawing becomes.
 
 
 Section: Line using distance + angle
@@ -1752,22 +1736,29 @@ Speed notes:
 
 Chapter: Complex commands: Bitmaps
 
-A bitmap draws a rectangular image composed of individual "bits" that are specified in the form of a list (of numbers). For example, a simple cross might be specified like so:
+A bitmap draws a rectangular image composed of individual "bits" that are specified in the form of a list of lists of numbers. For example, a simple cross might be specified like so:
 
 	{
-	0, 0, 1, 0, 0, 
-	0, 0, 1, 0, 0,
-	1, 1, 1, 1, 1,
-	0, 0, 1, 0, 0,
-	0, 0, 1, 0, 0 }.
+		{ 0, 0, 1, 0, 0 },
+  		{ 0, 0, 1, 0, 0 },
+ 		{ 1, 1, 1, 1, 1 },
+ 		{ 0, 0, 1, 0, 0 },
+ 		{ 0, 0, 1, 0, 0 }
+	}. 
 
 The ones represent bits that are turned "on", while the zeros represent bits that are "off". The former will write to the screen using one color, and the latter will either not draw anything, or will draw using a second color (the background color).
 
+Again, the array supplied is a list of lists of numbers. We supply the standard set of list braces, and then we supply one list for each row within those braces, each row's list also having its own braces, e.g. here's a simple map with 4 rows:
+
+	{ {1, 0, 1}, {0, 1, 0}, {1, 0, 1}, {0, 1, 0} }.
+
+It is very important that all rows have the same number of entries (i.e., columns).
+
 At its most basic, a "bit" is the same as one pixel in the graphics window. However, we can set the "dot size" in our drawing command to change the scale of the final bitmap. Thus, a dot size of 2 will use 4 pixels (2 x 2) onscreen to render each bit in the bitmap. WIth a dot size of 6, each bit will occupy 36 pixels (6 x 6) onscreen.
 
-(Note that we can include carriage returns and spaces within lists of numbers, which allows us to format bitmap representations in a human-readable way. Inform does not present these ideally within documentation, and it has been necessary to adopt some odd formatting, such as the unnecessary line break between the opening brace and the first line of digits.)
+Note that we can include carriage returns and spaces within lists of numbers, which allows us to format bitmap representations in a human-readable way. (Inform does not present these ideally within extension documentation, and it has been necessary to adopt some odd formatting here, such as the unnecessary line break between the opening brace and the first line of digits in the first example above.)
 
-We provide an origin coordinate (corresponding to the upper left corner) for a bitmap, and we must also provide the width in bits, so that Inform knows how to interpret the list; the line breaks in the list above serve merely to make the list readable and are not meaningful to Inform; the list is actually read as {0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0}. If we specify the list as being 5 bits wide, GDC will know how to interpret it.
+We provide an origin coordinate (corresponding to the upper left corner) for a bitmap, as for all other elements. There is no endpoint--the width of the bitmap is determined by the number of columns multiplied by the dot size.
 
 There are two types of bitmap commands, "monochrome" and "polychrome"; these are laid out below.
 
@@ -1776,41 +1767,41 @@ Section: Monochrome bitmap
 
 The monochrome bitmap command allows only two bit values, 0 or 1. A background color can be specified, if desired.
 
-Note that, when using the short form, the "current foreground-color" global refers to the color of the 1 bits; the "current background-color" specifies the background color (if one is desired). 
+Note that, when using the short form, the "current foreground-color" global refers to the color of the "on" bits; the "current background-color" specifies the background color (if one is desired). 
 
-	display a monochrome bitmap <color> in <window> at <origin> using <width> wide data from <list of numbers> with dot size <pixel dimension> pixels
+	display a monochrome bitmap <color> in <window> at <origin> using <list of numbers> with dot size <pixel dimension> pixels
 
-	display a monochrome bitmap <color> in <window> at <origin> using <width> wide data from <list of numbers> with dot size <pixel dimension> pixels and background <color>
+	display a monochrome bitmap <color> in <window> at <origin> using <list of numbers> with dot size <pixel dimension> pixels and background <color>
 
 Long forms (the bitmap definition list is shown first as an inline list and thereafter as a global variable containing such a list):
 
-	display a monochrome bitmap (color g-Red) in the graphics-window at {10, 10} using 5 wide data from {
-					0, 0, 0, 0, 1,
-					0, 0, 0, 1, 0,
-					0, 0, 1, 0, 0,
-					0, 1, 0, 0, 0,
-					1, 0, 0, 0, 0 } with dot size 2 pixels.
+	display a monochrome bitmap (color g-Red) in the graphics-window at {10, 10} using {
+				{ 0, 0, 0, 0, 1 },
+				{ 0, 0, 0, 1, 0 },
+				{ 0, 0, 1, 0, 0 },
+				{ 0, 1, 0, 0, 0 },
+				{ 1, 0, 0, 0, 0 } } with dot size 2 pixels.
 
-	display a monochrome bitmap (color g-Red) in the graphics-window at 10 by 10 using 5 wide data from the (Slash-definition) with dot size 2 pixels.
+	display a monochrome bitmap (color g-Red) in the graphics-window at 10 by 10 using Slash-definition with dot size 2 pixels.
 
-	display a monochrome bitmap (color g-Red) in the graphics-window at {10, 10} using 5 wide data from the (Slash-definition) with dot size 2 pixels and background (color g-Black).
+	display a monochrome bitmap (color g-Red) in the graphics-window at {10, 10} using Slash-definition with dot size 2 pixels and background (color g-Black).
 
 Short forms (the bitmap definition list is shown first as an inline list and thereafter as a global variable containing such a list):
 	
 	mono bitmap {
-				0, 0, 0, 0, 1,
-				0, 0, 0, 1, 0,
-				0, 0, 1, 0, 0,
-				0, 1, 0, 0, 0,
-				1, 0, 0, 0, 0 } at {100, 100} width 5 size 2 px.
+				{ 0, 0, 0, 0, 1 },
+				{ 0, 0, 0, 1, 0 },
+				{ 0, 0, 1, 0, 0 },
+				{ 0, 1, 0, 0, 0 },
+				{ 1, 0, 0, 0, 0 } } at {100, 100} size 2 px.
 
-	mono bitmap (Slash-definition) at {100, 100} width 5 size 2px, backgrounded.
+	mono bitmap Slash-definition at {100, 100} size 2px, backgrounded.
 
 The former does not utilize the "current background-color" global variable, while the latter does. So, the former will display a red slash over whatever lies beneath it, while the latter will render black for the 0's and red for the 1's. 
 
 Speed notes:
 
-	Monochrome bitmaps and polychrome are comparably fast. Unfortunately, most interpreters are still relatively slow when it comes to drawing rectangles, and since rectangles are the basis of bitmaps, they will draw relatively slowly. If you want to use bitmap and don't like the performance on your interpreter, contact your friendly neighborhood terp maintainer and ask for improvement! (The exception is Gargoyle, which in the bleeding-edge versions available in 2010 is quite fast at rendering bitmaps.)
+	Monochrome and polychrome bitmaps are equally fast. Unfortunately, most interpreters are still relatively slow when it comes to drawing rectangles, and since rectangles are the basis of bitmaps, they will draw relatively slowly. If you want to use bitmaps and don't like the performance on your interpreter, contact your friendly neighborhood terp maintainer and ask for improvement! (The current leader is Gargoyle, which in the bleeding-edge versions available in 2010 is quite fast at rendering bitmaps.)
 
 
 Section: Polychrome bitmaps
@@ -1820,38 +1811,39 @@ A polychrome bitmap allows any RGB color to be provided in the bitmap-array. RGB
 Here is an example of a bitmap list for a polychrome bitmap, defined as a global list of numbers variable (this is an illustration of Ms. Pac-Man):
 
 	Pac-definition is a list of numbers variable. Pac-definition is {
-		-1,  -1,  -1, 16758465, 16758465,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-		-1,  -1,  -1, 16758465, 16758465, 16758465,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,
-		-1,  -1, 16758465, 16758465, 16738740, 16738740,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,
-		16758465, 16758465, 16738740, 16738740,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,
-		16738740, 16758465, 16758465,  268431360,  268431360,  268431360, 2, 2,  268431360,  268431360,  268431360, 16738740, 16738740,
-		-1, 16738740, 16738740,  268431360,  268431360, 2, 205,  268431360,  268431360,  -1,  -1,  -1,  -1,
-		-1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,  -1,  -1,
-		-1,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-		-1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,  -1,  -1,
-		-1,  268431360,  268431360,  268431360, 2,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,
-		-1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360, 16738740, 16738740,
-	 	-1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,
-		-1,  -1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,
-		-1,  -1,  -1,  -1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,  -1, -1   }.
+			{ 1,  -1,  -1, 16758465, 16758465,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 },
+			{ -1,  -1,  -1, 16758465, 16758465, 16758465,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1 },
+			{ -1,  -1, 16758465, 16758465, 16738740, 16738740,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1 },
+			{ 16758465, 16758465, 16738740, 16738740,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360 },
+			{ 16738740, 16758465, 16758465,  268431360,  268431360,  268431360, 2, 2,  268431360,  268431360,  268431360, 16738740, 16738740 },
+			{ -1, 16738740, 16738740,  268431360,  268431360, 2, 205,  268431360,  268431360,  -1,  -1,  -1,  -1 },
+			{ -1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,  -1,  -1 },
+			{ -1,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 },
+			{ -1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,  -1,  -1 },
+			{ -1,  268431360,  268431360,  268431360, 2,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1 },
+			{ -1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  	268431360,  268431360,  268431360,  268431360, 16738740, 16738740 },
+			{ -1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360, 268431360,  268431360,  268431360,  268431360,  268431360,  268431360 },
+			{ -1,  -1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1 },
+			{ -1,  -1,  -1,  -1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,  -1, -1 }
+		}.
 
 NOTE: In a polychrome bitmap, all positive numbers map directly to colors. To leave a bit "off," use any negative number. If a background color has been specified, the background color will appear in these empty zones.
 
-	display a polychrome bitmap in <window> at <origin> using <width> wide data from <list of numbers> with dot size <pixel dimension> pixels
+	display a polychrome bitmap in <window> at <origin> using <list of numbers> with dot size <pixel dimension> pixels
 
-	display a polychrome bitmap in <window> at <origin> using <width> wide data from <list of numbers> with dot size <pixel dimension> pixels and background <color>
+	display a polychrome bitmap in <window> at <origin> using <list of numbers> with dot size <pixel dimension> pixels and background <color>
 
 Long forms:
 
-	display a polychrome bitmap in the graphics-window at 50 by 65 using 13 wide data from the (Pac-definition) with dot size 1 pixel.
+	display a polychrome bitmap in the graphics-window at 50 by 65 using Pac-definition with dot size 1 pixel.
 
-	display a polychrome bitmap in the graphics-window at {50, 65} using 13 wide data from the (Pac-definition) with dot size 1 pixel and background (color g-DarkBlue).
+	display a polychrome bitmap in the graphics-window at {50, 65} using Pac-definition with dot size 1 pixel and background (color g-DarkBlue).
 
 Short forms:
 
-	poly bitmap (Pac-definition) at {50, 65} width 13 size 1.
+	poly bitmap (Pac-definition) at {50, 65} size 1.
 
-	poly bitmap (Pac-definition) at {50, 65} width 13 size 1, backgrounded.
+	poly bitmap (Pac-definition) at {50, 65} size 1, backgrounded.
 
 Speed notes:
 
@@ -1864,74 +1856,80 @@ An image-map is similar to a bitmap in that the author defines a regular grid fo
 
 Image-maps can be specified in one of two ways:
 
-	direct image-map: Takes a list of figure names
-	tileset image-map: Takes a list of numbers keyed to a separate tileset listing
+	direct image-map: Takes a list of lists of figure names
+	tileset image-map: Takes a list of lists of numbers keyed to a separate tileset listing
 
 The main advantage of the direct image-map is that it is at least notionally faster, since there is no need for an intervening lookup to a tileset. In practice, the lookup is very fast and (at least on most machines) there isn't much difference.
 
 One advantage of the tileset approach is human-readability. With short integers and some formatting, the list itself can be understand relatively easily as a kind of low-resolution "image." The following, for example, might represent a long hallway with a door on the left:
 
-	{
-	11, 11, 11, 11, 11, 11, 11,
-	05, 00, 00, 00, 00, 00, 00,
-	05, 00, 00, 00, 00, 00, 00,
-	11, 11, 11, 11, 11, 11, 11 }
+	{ 
+		{ 11, 11, 11, 11, 11, 11, 11 },
+		{ 05, 00, 00, 00, 00, 00, 00 },
+		{ 05, 00, 00, 00, 00, 00, 00 },
+		{ 11, 11, 11, 11, 11, 11, 11 }
+	}
 
 In contrast, the direct version might look like this--not nearly as readable:
 
 	{
-	Figure of Wall, Figure of Wall, Figure of Wall, Figure of Wall, Figure of Wall, Figure of Wall, Figure of Wall,
-	Figure of Door, Figure of Null, Figure of Null, Figure of Null, Figure of Null, Figure of Null, Figure of Null,
-	Figure of Door, Figure of Null, Figure of Null, Figure of Null, Figure of Null, Figure of Null, Figure of Null,
-	Figure of Wall, Figure of Wall, Figure of Wall, Figure of Wall, Figure of Wall, Figure of Wall, Figure of Wall }
+		{ Figure of Wall, Figure of Wall, Figure of Wall, Figure of Wall, Figure of Wall, Figure of Wall, Figure of Wall },
+		{ Figure of Door, Figure of Null, Figure of Null, Figure of Null, Figure of Null, Figure of Null, Figure of Null },
+		{ Figure of Door, Figure of Null, Figure of Null, Figure of Null, Figure of Null, Figure of Null, Figure of Null },
+		{ Figure of Wall, Figure of Wall, Figure of Wall, Figure of Wall, Figure of Wall, Figure of Wall, Figure of Wall},
+	 }
 
 Another advantage is that we can swap out the tileset to change the look of the image-map without actually changing the image-set data. For example, if we want have a map made up of separate tiles and we want to illustrate a change from day to night, we just change the tileset we're using from the day set to the night set. If the numbers used in the two tilesets are keyed to one another in the same way, the resulting image-set will display nicely.
+
+Remember that the tile- or figure-array is a list of lists. We supply the standard set of list braces, and then we supply one list for each row within those braces, each row's list also having its own braces, e.g. here's a simple tile-array with 4 rows:
+
+	{ {1, 0, 1}, {0, 1, 0}, {1, 0, 1}, {0, 1, 0} }.
 
 (The Glimmr Automap extension uses tilesets to render the automapping data produced by Mark Tilford's Automap extension.)
 
 
 Section: Direct image-maps
 
-As with bitmaps, we supply an origin point (upper left corner), and we must also tell GDC the width (in cells) of the list data we are providing so that it knows how to interpret the list. In addition, we must supply the dimensions of the tiles. (All tiles in the image-map must be of the same size, of course).
+As with bitmaps, we supply an origin point (upper left corner), and in addition, we must supply the dimensions of the tiles. All tiles in the image-map will be rendered at the same size, though the images themselves can be of different sizes. If an image has a different aspect ratio from the tile, the image will be stretched to fit.
 
 The list that specifies the image-map must use only figure names that have already been defined in the source code before the listing takes place, or compilation errors will occur (define figures at the beginning of the story file, not the end). To specify an empty cell, use Figure of Null; nothing will be drawn for that tile.
 
 If we like, we may supply a background color, which will draw a rectangle of the specified color before drawing the image-map tiles. For the short form, the "current background-color" global provides the color of the background rectangle ("current foreground-color" has no effect).
 
-	display an image-map in <window> at <origin> using <width> wide data from <list of figure names> with tile-size <width> by <height> pixels
+	display an image-map in <window> at <origin> using <list of figure names> with tile-size <width> by <height> pixels
 
-	display an image-map in <window> at <origin> using <width> wide data from <list of figure names> with tile-size <width> by <height> pixels and background <color>
+	display an image-map in <window> at <origin> using <list of figure names> with tile-size <width> by <height> pixels and background <color>
 
 Long forms:
 
-	display an image-map in the graphics-window at {25, 25} using 2 wide data from {
-		Figure of Red, Figure of Blue,
-		Figure of Blue, Figure of Red
-		Figure of Red, Figure of Blue } with tile-size 20 by 20 pixels.
+	display an image-map in the graphics-window at {25, 25} using {
+		{ Figure of Red, Figure of Blue },
+		{ Figure of Blue, Figure of Red },
+		{ Figure of Red, Figure of Blue } } with tile-size 20 by 20 pixels.
 
-	display an image-map in the graphics-window at 25 by 25 using 2 wide data from (Checkerboard-definition) with tile-size 20 by 20 pixels.
+	display an image-map in the graphics-window at 25 by 25 using Checkerboard-definition with tile-size 20 by 20 pixels.
 
-	display an image-map in the graphics-window at {20, 20} using 2 wide data from (Checkerboard-definition) with tile-size 20 by 20 pixels and background (color g-AntiqueWhite).
+	display an image-map in the graphics-window at {20, 20} using Checkerboard-definition with tile-size 20 by 20 pixels and background (color g-AntiqueWhite).
 
 Short forms:
 
 	image-map {
-				Figure of Red, Figure of Blue,
-				Figure of Blue, Figure of Red
-				Figure of Red, Figure of Blue } at {25, 25} size 20 x 20.
+		{ Figure of Red, Figure of Blue },
+		{ Figure of Blue, Figure of Red },
+		{ Figure of Red, Figure of Blue } } at {25, 25} size 20 x 20.
 
-	image-map (Checkerboard-definition) at {25, 25} size 20 x 20, backgrounded.
+	image-map Checkerboard-definition at {25, 25} size 20 x 20, backgrounded.
 
 Speed notes:
 
-	Image-maps must display a number of images every time they are redrawn. Their speed is probably roughly equivalent to the speed required to draw the images individually. They are likely to perform well in any interpreter that draws images quickly. Direct image-maps should theoretically draw slightly faster than tileset maps, but in practice the extra table-lookup required for tileset maps seems to make little noticeable difference.
+	Image-maps must display a number of images every time they are redrawn. Their speed is likely faster than drawin the images individually using the "draw image" command. They are likely to perform well in any interpreter that draws images quickly. Direct image-maps should theoretically draw slightly faster than tileset maps, but in practice the extra table-lookup required for tileset maps seems to make little noticeable difference.
 
 	The same speed optimization techniques described for images (see above) apply also to image-maps.
 
 
 Section: Tileset image-maps
 
-As with direct image-maps, we supply an origin point (upper left corner), and we must also tell GDC the width (in cells) of the list data we are providing so that it knows how to interpret the list. In addition, we must supply the dimensions of the tiles. (All tiles in the image-map must be of the same size, of course).
+As with direct image-maps, we supply an origin point (upper left corner), and in addition, we must supply the dimensions of the tiles. All tiles in the image-map will be rendered at the same size, though the images themselves can be of different sizes. If an image has a different aspect ratio from the tile, the image will be stretched to fit.
 
 Tileset image-maps also require us to specify a tileset which will be used to interpret the list of numbers we are providing. (A tileset is an object of the kind "tileset." It provides a table, the "translation-table" property of the tileset object, that keys a number to a figure name. The tileset object also specifies the dimensions (in pixels) of the tiles that will make it up. More about tilesets can be found below.)
 
@@ -1939,21 +1937,21 @@ The list that specifies the image-map should only include digits that are listed
 
 If we like, we may supply a background color for the image-map, which will draw a rectangle of the specified color before drawing the image-map tiles. For the short form, the "current background-color" global provides the color of the background rectangle ("current foreground-color" has no effect).
 
-	display an image-map in <window> at <origin> using <width> wide data from <list of numbers> using <tileset> with tile-size <width> by <height> pixels
+	display an image-map in <window> at <origin> using <list of numbers> using <tileset> with tile-size <width> by <height> pixels
 
-	display an image-map in <window> at <origin> using <width> wide data from <list of numbers> using <tileset> with tile-size <width> by <height> pixels and background <color>
+	display an image-map in <window> at <origin> using <list of numbers> using <tileset> with tile-size <width> by <height> pixels and background <color>
 
 Long forms:
 
-	display an image-map in the graphics-window at {5, 120} using 7 wide data from {
-		11, 11, 11, 11, 11, 11, 11,
-		05, 00, 00, 00, 00, 00, 00,
-		05, 00, 00, 00, 00, 00, 00,
-		11, 11, 11, 11, 11, 11, 11 } rendered by the Dungeon-tileset with tile-size 16 by 16 pixels.
+	display an image-map in the graphics-window at {5, 120} using {
+		{ 11, 11, 11, 11, 11, 11, 11 },
+		{ 05, 00, 00, 00, 00, 00, 00 },
+		{ 05, 00, 00, 00, 00, 00, 00 },
+		{ 11, 11, 11, 11, 11, 11, 11 }  } rendered by the Dungeon-tileset with tile-size 16 by 16 pixels.
 
-	display an image-map in the graphics-window at 5 by 120 using 7 wide data from (Hallway-definition) rendered by the Dungeon-tileset with tile-size 16 by 16 pixels.
+	display an image-map in the graphics-window at 5 by 120 using Hallway-definition rendered by the Dungeon-tileset with tile-size 16 by 16 pixels.
 
-	display an image-map in the graphics-window at {5, 120} using 7 wide data from (Hallway-definition) rendered by the Dungeon-tileset with tile-size 16 by 16 pixels and background (hex #A9A9A9).
+	display an image-map in the graphics-window at {5, 120} using Hallway-definition rendered by the Dungeon-tileset with tile-size 16 by 16 pixels and background (hex #A9A9A9).
 
 Tileset objects should provide default tile dimensions. To use these, we just access the "tile-width" and "tile-height" properties of the tileset object:
 
@@ -1964,16 +1962,16 @@ Tileset objects should provide default tile dimensions. To use these, we just ac
 Short forms:
 
 	image-map {
-				11, 11, 11, 11, 11, 11, 11,
-				05, 00, 00, 00, 00, 00, 00,
-				05, 00, 00, 00, 00, 00, 00,
-				11, 11, 11, 11, 11, 11, 11 } at {5, 120} tileset (Dungeon-tileset) size 16 x 16.
+				{ 11, 11, 11, 11, 11, 11, 11 },
+				{ 05, 00, 00, 00, 00, 00, 00 },
+				{ 05, 00, 00, 00, 00, 00, 00 },
+				{ 11, 11, 11, 11, 11, 11, 11 } } at {5, 120} tileset (Dungeon-tileset) size 16 x 16.
 
-	image-map (Hallway-definition) at {5, 120} tileset (Dungeon-tileset) size 16 x 16, backgrounded.
+	image-map Hallway-definition at {5, 120} tileset (Dungeon-tileset) size 16 x 16, backgrounded.
 
 Speed notes:
 
-	Image-maps must display a number of images every time they are redrawn. Their speed is probably roughly equivalent to the speed required to draw the images individually. They are likely to perform well in any interpreter that draws images quickly. Direct image-maps should theoretically draw slightly faster than tileset maps, but in practice the extra table-lookup required for tileset maps seems to make little noticeable difference.
+	Image-maps must display a number of images every time they are redrawn. Their speed is likely faster than drawin the images individually using the "draw image" command. They are likely to perform well in any interpreter that draws images quickly. Direct image-maps should theoretically draw slightly faster than tileset maps, but in practice the extra table-lookup required for tileset maps seems to make little noticeable difference.
 
 	The same speed optimization techniques described for images (see above) apply also to image-maps.
 
@@ -2002,7 +2000,7 @@ Note that rendered strings are limited to a single line, though we can set two s
 
 Section: Bitmap-rendered strings
 
-Bitmap-rendered strings are painted from "glyph maps" that are constructed just like (monochrome) bitmaps, as described above. Just as with bitmaps, we must specify the number of pixels we want each "bit" of the characters in our string to correspond to by supplying the "dot size": a dot size of 2 will use 4 pixels (2 x 2) onscreen to render each bit in the bitmap. 
+Bitmap-rendered strings are painted from "glyph maps" that are constructed very similarly to (monochrome) bitmaps, as described above (the main difference is that bitmap-rendered strings use flat arrays). Just as with bitmaps, we must specify the number of pixels we want each "bit" of the characters in our string to correspond to by supplying the "dot size": a dot size of 2 will use 4 pixels (2 x 2) onscreen to render each bit in the bitmap. 
 
 	paint bitmap text <color> of <indexed text> in <window> at <origin> using <font> with dot size <size> pixels
 
@@ -2061,7 +2059,7 @@ We can scale image-rendered strings to any size we wish, though obviously some s
 	0.1250 = 1/8 of original size
 	2.0000 = twice the original size (scaling up is not recommended)
 
-Note that Glulx cannot affect the color of image files, so it is not possible to change the color of the glyphs in an image font. For this reason, there is no foreground color specification in the iamge font drawing commands. If the font's image files are transparent PNGs, a background color can be supplied (similar to a highlight effect in Microsoft Word, or to the background-color CSS attribute for inline HTML text elements). For the short form commands, we can as usual specify the background color using the "current background-color" variable.
+Note that Glulx cannot affect the color of image files, so it is not possible to change the color of the glyphs in an image font. For this reason, there is no foreground color specification in the image text painting commands. If the font's image files are transparent PNGs, a background color can be supplied (similar to a highlight effect in Microsoft Word, or to the background-color CSS attribute for inline HTML text elements). For the short form commands, we can as usual specify the background color using the "current background-color" variable.
 
 If we provide a background color, we must also specify the width of a margin around the image files. This allows us to optimize the appearance of the background color rectangle. The number of pixels specified must be an integer and will be added to the size of the background color rectangle on each side. So, if the margin is 3, 3 pixels will be added at top, bottom, left, and right. The margin value is similar to the padding value in CSS. (The margin can be set to 0 if we like.)
 

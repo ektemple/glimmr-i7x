@@ -17,8 +17,10 @@ The graphics-canvas is a g-canvas.
 The associated canvas of the graphics-window is the graphics-canvas.
 The associated canvas of a g-element is usually the graphics-canvas.
 
-The canvas-width of the graphics-canvas is usually 600.
-The canvas-height of the graphics-canvas is usually 450.
+After starting the virtual machine (this is the assign simple graphics window canvas dimensions rule):
+	if the background image of the graphics-canvas is Figure of Null:
+		now the canvas-width of the graphics-canvas is 600;
+		now the canvas-height of the graphics-canvas is 450. 
 
 
 Section - Current window (for use with Glimmr Drawing Commands by Erik Temple)
