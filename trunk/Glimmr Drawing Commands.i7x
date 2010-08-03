@@ -2471,39 +2471,44 @@ Note the window-drawing rule provided does not scale, center, or otherwise vary 
 	Include Glimmr Drawing Commands by Erik Temple.
 	Include Glimmr Bitmap Font by Erik Temple.
 
-	Arcade is a room.
+	Arcade is a room. "Nothing much to do here."
 
-	The graphics-window is a graphics g-window spawned by the main-window. 	The position is g-placeabove.
+	The graphics-window is a graphics g-window spawned by the main-window.	The position is g-placeabove.
 
 	When play begins:
 		open up the graphics-window.
 	
+	[After printing the banner text:
+		say "[paragraph break]This example for the Glimmr Drawing Commands extension doesn't do much. It demonstrates a few of the drawing commands, and uses no external resources. Everything is drawn by directly coloring individual pixels. Key: [paragraph break]Ms. Pac-Man: polychrome bitmap.[line break]Maze outlines: line primitives.[line break]Lunch dots: rectangle primitives.[line break]Text box: stroked rectangle primitive.[line break]Text: Bitmap-rendered text.[paragraph break]".]
+
 	Window-drawing rule for the graphics-window:
 		clear the graphics-window;
-		display a polychrome bitmap in the graphics-window at {30, 30} using 13 wide data from the Pac-Lady with dot size 1 pixel;
-		draw a line (r 13 g 47 b 232) in the graphics-window from {20, 23} to {120, 23} with 3 pixel line-weight;
-		draw a line (r 13 g 47 b 232) in the graphics-window from {20, 49} to {120, 49} with 3 pixel line-weight;
-		draw a rectangle (color g-White) in the graphics-window from {45, 36} to {48, 39};
-		draw a rectangle (color g-White) in the graphics-window from {65, 36} to {68, 39};
-		draw a rectangle (color g-White) in the graphics-window from {85, 36} to {88, 39};
-		draw a rectangle (color g-White) in the graphics-window from {105, 36} to {108, 39};
-		draw a rectangle (r 13 g 47 b 232 ) in the graphics-window from {20, 60} to {120, 100} with 2 pixel stroke (color g-Yellow);
-		paint a bitmap text (color g-Yellow) of "EAT IT" in the graphics-window at {28, 64} using Glimmr C&C with dot size 3 px.
-	
-	The Pac-Lady is a list of numbers variable. The Pac-Lady is {
-		-1,  -1,  -1, 16758465, 16758465,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-		-1,  -1,  -1, 16758465, 16758465, 16758465,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,
-		-1,  -1, 16758465, 16758465, 16738740, 16738740,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,
-		16758465, 16758465, 16738740, 16738740,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,
-		16738740, 16758465, 16758465,  268431360,  268431360,  268431360, 2, 2,  268431360,  268431360,  268431360, 16738740, 16738740,
-		-1, 16738740, 16738740,  268431360,  268431360, 2, 205,  268431360,  268431360,  -1,  -1,  -1,  -1,
-		-1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,  -1,  -1,
-		-1,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,
-		-1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,  -1,  -1,
-		-1,  268431360,  268431360,  268431360, 2,  268431360,  268431360,  268431360,  268431360,  -1,  -1,  -1,  -1,
-		-1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360, 16738740, 16738740,
-		-1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,
-		-1,  -1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,
-		-1,  -1,  -1,  -1,  -1,  268431360,  268431360,  268431360,  268431360,  268431360,  -1,  -1, -1 }.
+		display a polychrome bitmap in the graphics-window at { 30, 30 } using the Pac-Lady with dot size 1 pixel;
+		draw a line (r 13 g 47 b 232) in the graphics-window from { 20, 23 } to { 120, 23 } with 3 pixel line-weight;
+		draw a line (r 13 g 47 b 232) in the graphics-window from { 20, 49 } to { 120, 49 } with 3 pixel line-weight;
+		draw a rectangle (color g-White) in the graphics-window from { 45, 36 } to { 48, 39 };
+		draw a rectangle (color g-White) in the graphics-window from { 65, 36 } to { 68, 39 };
+		draw a rectangle (color g-White) in the graphics-window from { 85, 36 } to { 88, 39 };
+		draw a rectangle (color g-White) in the graphics-window from { 105, 36 } to { 108, 39 };
+		draw a rectangle (r 13 g 47 b 232) in the graphics-window from { 20, 60 } to { 120, 100 } with 2 pixel stroke (color g-Yellow);
+		paint a bitmap text (color g-Yellow) of "EAT IT" in the graphics-window at { 28, 64 } using Glimmr C&C with dot size 3 px.
+
+	The Pac-Lady is a list of lists of numbers variable. The Pac-Lady is {
+	         { 1, -1, -1, 16758465, 16758465, -1, -1, -1, -1, -1, -1, -1, -1 },
+	         { -1, -1, -1, 16758465, 16758465, 16758465, 268431360, 268431360, 268431360, 268431360, -1, -1, -1 },
+	         { -1, -1, 16758465, 16758465, 16738740, 16738740, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, -1 },
+	         { 16758465, 16758465, 16738740, 16738740, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360 },
+	         { 16738740, 16758465, 16758465, 268431360, 268431360, 268431360, 2, 2, 268431360, 268431360, 268431360, 16738740, 16738740 },
+	         { -1, 16738740, 16738740, 268431360, 268431360, 2, 205, 268431360, 268431360, -1, -1, -1, -1 },
+	         { -1, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, -1, -1, -1, -1, -1, -1 },
+	         { -1, 268431360, 268431360, 268431360, 268431360, -1, -1, -1, -1, -1, -1, -1, -1 },
+	         { -1, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, -1, -1, -1, -1, -1, -1 },
+	         { -1, 268431360, 268431360, 268431360, 2, 268431360, 268431360, 268431360, 268431360, -1, -1, -1, -1 },
+	         { -1, -1, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, 16738740, 16738740 },
+	         { -1, -1, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360 },
+	         { -1, -1, -1, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, 268431360, -1 },
+	         { -1, -1, -1, -1, -1, 268431360, 268431360, 268431360, 268431360, 268431360, -1, -1, -1 }
+	     }.
+
 
 
