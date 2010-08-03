@@ -355,7 +355,7 @@ Automap graphlink rule for a room (called the target) when not using the no quer
 	if UI-query is display-active and the image-ID of UI-query is not the depressed state of UI-query:[if we're using the query button, we only want the action to proceed when the button is in its depressed state. Otherwise, we drop through to the author's rule.]
 		continue;
 	change the text-string of the current map label to the printed name of the target;
-	change the origin of the current map label to the grid equivalent of the screen coordinates (current graphlink x) by (current graphlink y) of (current graphlink window);
+	change the origin of the current map label to the canvas equivalent of the screen coordinates (current graphlink x) by (current graphlink y) of (current graphlink window);
 	activate the current map label;
 	deactivate the UI-query-explanation;
 	follow the refresh windows rule;
