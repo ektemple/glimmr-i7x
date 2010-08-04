@@ -15,15 +15,6 @@ Section - Window positioning
 The position of the console-window is usually g-placebelow.
 
 
-[Section - Window background color
-
-[It is not necessary to set a background color, but doing so helps ensure that we can easily distinguish the console window at a glance. To change the background color, just write
-
-	The back-colour of the console-window is g-White.]
-
-The back-colour of the console-window is usually g-Lavender.]
-
-
 Section - Open console
 
 To initiate the/-- Glimmr console:

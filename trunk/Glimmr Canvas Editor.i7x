@@ -990,7 +990,6 @@ Figure of Layer Terminator Occupied is the file "Layer2 terminator presence.png"
 Figure of Layer Terminator Selected is the file "Layer2 terminator selection.png".
 Figure of Layer Terminator is the file "Layer2 terminator.png".
 Figure of Layer 01 is the file "Layer 01.png".
-Figure of Layer 24 is the file "Layer 24.png".
 Figure of Layer 02 is the file "Layer 02.png".
 Figure of Layer 03 is the file "Layer 03.png".
 Figure of Layer 04 is the file "Layer 04.png".
@@ -1013,6 +1012,7 @@ Figure of Layer 20 is the file "Layer 20.png".
 Figure of Layer 21 is the file "Layer 21.png".
 Figure of Layer 22 is the file "Layer 22.png".
 Figure of Layer 23 is the file "Layer 23.png".
+Figure of Layer 24 is the file "Layer 24.png".
 
 The built-in resources index is a number that varies. The built-in resources index is usually 181. [This number is the resource number of the last of the internal figures, i.e. those in the first list, which we want to exclude from the library window.]
 
@@ -2120,6 +2120,7 @@ This is the string creation rule:
 
 A text question rule when drawing mode is true (this is the string element text input rule):
 	replace the text "[quotation mark]" in the current answer with "_";
+	[replace the regular expression "\pline break\p" in the current answer with "[left-bent-uni-arrow]";[***]]
 	create a new rendered string from the currently drawn element in the working window using the current answer;
 	follow the cancelling drawing rules;
 	follow the window-drawing rules for the working window;
@@ -3320,6 +3321,9 @@ To say kind descendant arrow:
 
 To decide whether Unicode is supported:
 	(- unicode_gestalt_ok -)
+
+To say left-bent-uni-arrow:
+	(- glk_put_char_uni(8629); -)
 
 To say right-uni-arrow:
 	(- glk_put_char_uni(8594); -)
@@ -5262,12 +5266,12 @@ Please report bugs on the Google Code project page, at http://code.google.com/p/
 For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the infiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
 
 
-Example: *** Basic Floorplan Toolkit - A toolkit including images for use in constructing basic floorplans for indoor maps, as well as illustrating most of the basic options available. Also illustrates user-specified source text and tags to create automatic mapping capabilities.
+Example: *** Basic Floorplan Toolkit Example - A toolkit including images for use in constructing basic floorplans for indoor maps, as well as illustrating most of the basic options available. Also illustrates user-specified source text and tags to create automatic mapping capabilities. This example is a bit different from the released Basic Floorplan Toolkit gblorb file, in that it contains a small map to be used as reference while you draw. Type MAP to see the geography.
 
 Most of the available settings are included in the code, many just restating the defaults.
 
 
-	*: 	"Basic Floorplan Toolkit"
+	*: "Basic Floorplan Toolkit Example"
 
 	Include Glimmr Canvas Editor by Erik Temple.
 
@@ -5314,7 +5318,6 @@ Most of the available settings are included in the code, many just restating the
 	Figure of Player Icon is the file "Player Icon.png".
 	Figure of Player Icon Alternate is the file "Player Icon2.png".
 
-
 	The targeted canvas is "graphics-canvas".
 
 	The canvas-width of the editor-canvas is 600.
@@ -5331,6 +5334,12 @@ Most of the available settings are included in the code, many just restating the
 	The upper scaling-limit is 2.0000.
 
 	The default scaling factor is 1.0000.
+
+	Table of Common Color Values (continued)
+	glulx color value	assigned number
+	g-Orange	16753920
+	g-Violet	15631086
+
 
 	The drawing colors are {
 	g-Black,
@@ -5365,7 +5374,7 @@ If we are compiling this GCE project strictly for our own use, we may want to in
 
 	*: Section - Map
 
-	Entrance Chamber is a room. The heavy door is an open door. It is south of Entrance Chamber and north of Hall. Guard Room is east of Hall. 	Up from Entrance Chamber is the Shaft. Watch Room is south of the Shaft. Up from Shaft is the Upper Chamber.	Flanking Chamber is south of Upper Chamber. North of Flanking Chamber is nowhere. West of Flanking Chamber is Upper Chamber. East of Upper Chamber is nowhere.
+	Entrance Chamber is a room. The heavy door is an open door. It is south of Entrance Chamber and north of Hall. Guard Room is east of Hall.	Up from Entrance Chamber is the Shaft. Watch Room is south of the Shaft. Up from Shaft is the Upper Chamber.	Flanking Chamber is south of Upper Chamber. North of Flanking Chamber is nowhere. West of Flanking Chamber is Upper Chamber. East of Upper Chamber is nowhere.
 
 
 ...and, some new commands to summarize the map for us:

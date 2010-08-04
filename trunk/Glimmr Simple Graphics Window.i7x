@@ -6,6 +6,13 @@ Version 1/100302 of Glimmr Simple Graphics Window (for Glulx only) by Erik Templ
 Use authorial modesty.
 
 
+Section - Console settings
+[This is a macro that allows the extension to identify itself in the Glimmr console window with fewer keystrokes on my part.]
+
+To say GSGW:
+	say "[bracket]Glimmr SGW[close bracket]: ".
+
+
 Section - Basic window definition
 
 The graphics-window is a graphics g-window spawned by the main-window. 
@@ -17,10 +24,13 @@ The graphics-canvas is a g-canvas.
 The associated canvas of the graphics-window is the graphics-canvas.
 The associated canvas of a g-element is usually the graphics-canvas.
 
-After starting the virtual machine (this is the assign simple graphics window canvas dimensions rule):
+First when play begins when the canvas-width of the graphics-canvas is 0 or the canvas-height of the graphics-canvas is 0 (this is the assign simple graphics window canvas dimensions rule):
 	if the background image of the graphics-canvas is Figure of Null:
 		now the canvas-width of the graphics-canvas is 600;
-		now the canvas-height of the graphics-canvas is 450. 
+		now the canvas-height of the graphics-canvas is 450;
+		#if utilizing Glimmr debugging;
+		say "[>console][GSGW]Dimensions were not specified for canvas [i]graphics-canvas[/i]. Width set to [canvas-width of the graphics-canvas], height set to [canvas-height].[<]";
+		#end if. 
 
 
 Section - Current window (for use with Glimmr Drawing Commands by Erik Temple)
@@ -39,6 +49,25 @@ First window-drawing rule for the graphics-window (this is the clear the graphic
 Section - Enable graphic hyperlinks (for use with Glimmr Graphic Hyperlinks by Erik Temple)
 
 The graphics-window is g-graphlinked.
+
+
+Chapter - Debugging niceties (for use without Glimmr Canvas-Based Drawing by Erik Temple)
+
+[We only define the phrases in the following section if *both* GCBD and GDC are not included.]
+
+Section - Debugging niceties (for use without Glimmr Drawing Commands by Erik Temple)
+
+To #if utilizing Glimmr debugging:
+	(- #ifdef Glimmr_DEBUG; -)
+	
+To #end if:
+	(- #endif; -)
+
+To say >console:
+	do nothing.
+ 
+To say <:
+	do nothing.
 
 
 Glimmr Simple Graphics Window ends here.
@@ -124,6 +153,18 @@ For questions about Glimmr, please consider posting to either the rec.arts.int-f
 
 Example: * Ramrod - This simple example illustrates the use of GSGW on its own, without any of the other Glimmr extensions. The example includes a drawing rule that centers an image (specified using the "current image" variable) in the graphics-window. If the image is too large to fit in the window, it will be scaled down.
 
+Note that this example requires an image to function. The image referred to in the example can be downloaded, along with all of the other images used in Glimmr examples, from http://code.google.com/p/glimmr-i7x/downloads/list.
+
+Also note that this example includes I6 inclusions. Due to a bug in Inform, these do not transfer properly when using the paste button. One-line inclusions might look like this after being pasted to your source code:
+
+	(--) glk_request_timer_events({T}); -)
+
+Delete the first -) for each inclusion and things should work fine. Corrected:
+
+	(- glk_request_timer_events({T});  -)
+
+Multi-line I6 inclusions should probably be copied directly from the source of the extension into your project.
+
 	*: "Ramrod"
 
 	Boston 1775 is a room.
@@ -142,7 +183,7 @@ Example: * Ramrod - This simple example illustrates the use of GSGW on its own, 
 		follow the window-drawing rules for the graphics-window.
 	
 
-You may insert only the code below to use the window-drawing rule in your own code. Just remember to delete the sentence "The current image is Figure of Gunnery". You will also need to remember to include an appropriate regime for updating the window. If you are using an image for each location, for example, it will probably be best to update the window in an "after looking" rule (as in this example). To update the window, "follow the window-drawing rules for the graphics-window".
+You may insert only the code below to use the window-drawing rule in your own code. Just remember to delete the sentence "The current image is Figure of Gunnery". You will also need to remember to include an appropriate regime for updating the window. If you are using an image for each location, for example, it will probably be best to update the window in an "after looking" rule (as in this example). To update the window, use the phrase "follow the window-drawing rules for the graphics-window".
 
 The code for image display and so on (everything after the window-drawing rule) is borrowed from Glimmr Drawing Commands.
 	
@@ -166,6 +207,8 @@ The code for image display and so on (everything after the window-drawing rule) 
 		let offset_height be the greater of 0 or (win_height - img_height) / 2;
 		display the current image in the graphics-window at (offset_width) by (offset_height) with dimensions (img_width) by (img_height).
 
+	[After printing the banner text:
+	say "[line break]This exceedingly dull example, for the Glimmr Simple Graphics Window extension, illustrates how to write a simple graphics window rule in I7. The rule that scales and centers the image is as follows:[paragraph break]    A window-drawing rule for the graphics-window (this is the scaled image display rule):[line break]                 let win_width be the width of the graphics-window;[line break]                 let win_height be the height of the graphics-window;[line break]                 let img_width be the image-width of the current image;[line break]                 let img_height be the image-height of the current image;[line break]                 let scale_factor be 100;[line break]                 let width_factor be (win_width * 100) / img_width;[line break]                 let height_factor be (win_height * 100) / img_height;[line break]                 if width_factor is greater than height_factor:[line break]                 	let scale_factor be height_factor;[line break]                 otherwise:[line break]                 	 let scale_factor be width_factor;[line break]                 let img_width be (img_width * scale_factor) / 100;[line break]                 let img_height be (img_height * scale_factor) / 100;[line break]                 let offset_width be the greater of 0 or (win_width - img_width) / 2;[line break]                 let offset_height be the greater of 0 or (win_height - img_height) / 2;[line break]                 display the current image in the graphics-window at (offset_width) by (offset_height) with dimensions (img_width) by (img_height).[paragraph break]"]
 	
 	To display (ID - a figure name) in (win - a g-window) at (x1 - a number) by/x (y1 - a number) with size/dimensions (width - a number) by/x (height - a number):
 		(- DrawImageScaled({ID}, {win}, {x1}, {y1}, {width}, {height}); -)
