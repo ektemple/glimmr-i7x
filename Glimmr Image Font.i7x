@@ -39,7 +39,26 @@ The associated font of an image-rendered string is usually Glimmr Lucidex.
 Glimmr Image Font ends here.
 
 
----- DOCUMENTATION ---- 
+---- DOCUMENTATION ----
+
+Glimmr fonts can be used in graphics windows, which otherwise don't allow text. This font requires a set of external images (PNG files) to function. You may download these from http://code.google.com/p/glimmr-i7x. It works by displaying an image for each character in your text string, and requires either Glimmr Drawing Commands or Glimmr Canvas-Based Drawing to work. 
+
+This font, called Glimmr Lucidex, is based on Lucida Grande, designed by Charles Bigelow and Kris Holmes. Please see the documentation of Glimmr Drawing Commands or Glimmr Canvas-Based Drawing for instructions on using this font. For instructions on creating your own fonts for use with Glimmr, see Glimmr Drawing Commands.
+
+This font will automatically be set as the preferred default font for image-rendered strings when it is included, so it will not be necessary to specify the associated font for a bitmap-rendered string unless you are intending to use a different font as your default. In that case, simply declare that font:
+
+	The associated font of a bitmap-rendered string is My Cool Font.
+
+
+Section: Including fonts
+
+Fonts must be included after the main Glimmr extensions. For example, if you are using Glimmr Canvas-Based Drawing:
+
+	Include Glimmr Canvas-Based Drawing by Erik Temple.
+	Include Glimmr Graphic Hyperlinks by Erik Temple.
+	Include Glimmr Bitmap Font by Erik Temple.
+
+
 
 Section: Contact info
 

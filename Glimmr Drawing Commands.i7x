@@ -28,19 +28,6 @@ Chapter - The null figure
 
 Figure of Null is the file of cover art. [The file of cover art is used for the declaration because Inform will ensure that an image is provided. In practice, we simply don't print the image if its resource ID corresponds to Figure of Null]
 
-[[The following code allows us to use 0 as the actual resource number, compatible with the way its predecessor Graphical Window Sprites handled this.]
-
-Rule for starting the virtual machine:
-	hack the null-figure into place.
-
-To hack the null-figure into place:
-	(- ResourceIDsOfFigures-->((+ figure of Null +)) = 0;  -)
-
-To decide which figure name is no-picture:
-	decide on Figure of Null.
-
-To decide which object is nothing: (- nothing -).]
-
 
 Part - Primitives
 
@@ -2471,7 +2458,7 @@ Note the window-drawing rule provided does not scale, center, or otherwise vary 
 	Include Glimmr Drawing Commands by Erik Temple.
 	Include Glimmr Bitmap Font by Erik Temple.
 
-	Arcade is a room. "Nothing much to do here."
+	Arcade is a room. "Nothing at all to do here."
 
 	The graphics-window is a graphics g-window spawned by the main-window.	The position is g-placeabove.
 
@@ -2479,7 +2466,7 @@ Note the window-drawing rule provided does not scale, center, or otherwise vary 
 		open up the graphics-window.
 	
 	[After printing the banner text:
-		say "[paragraph break]This example for the Glimmr Drawing Commands extension doesn't do much. It demonstrates a few of the drawing commands, and uses no external resources. Everything is drawn by directly coloring individual pixels. Key: [paragraph break]Ms. Pac-Man: polychrome bitmap.[line break]Maze outlines: line primitives.[line break]Lunch dots: rectangle primitives.[line break]Text box: stroked rectangle primitive.[line break]Text: Bitmap-rendered text.[paragraph break]".]
+		say "[line break]This example for the Glimmr Drawing Commands extension doesn't do much. It demonstrates a few of the drawing commands, and uses no external resources. Everything is drawn by directly coloring individual pixels. Key: [paragraph break]Ms. Pac-Man: polychrome bitmap.[line break]Maze outlines: line primitives.[line break]Lunch dots: rectangle primitives.[line break]Text box: stroked rectangle primitive.[line break]Text: Bitmap-rendered text.[paragraph break]".]
 
 	Window-drawing rule for the graphics-window:
 		clear the graphics-window;

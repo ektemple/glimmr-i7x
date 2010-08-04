@@ -1,4 +1,4 @@
-Version 1/100206 of Glimmr Automap (for Glulx only) by Erik Temple begins here.
+Version 1/100802 of Glimmr Automap (for Glulx only) by Erik Temple begins here.
 
 [Convert the procedural renderer into a subkind of image map?]
 [These two properties should only be present in Automap tilesets. Make a new subkind for them.

@@ -817,9 +817,22 @@ Glimmr Bitmap Font ends here.
 
 ---- DOCUMENTATION ----
 
+Glimmr fonts can be used in graphics windows, which otherwise don't allow text. This font, called Glimmr C&C, requires either Glimmr Drawing Commands or Glimmr Canvas-Based Drawing to work. It is based on the font "C&C Red Alert," a pixel font by N3tRunn3r.
+
+Please see the documentation of Glimmr Drawing Commands or Glimmr Canvas-Based Drawing for instructions on using this font. For instructions on creating your own fonts for use with Glimmr, see Glimmr Drawing Commands.
+
 This font will automatically be set as the preferred default font for bitmap-rendered strings when it is included, so it will not be necessary to specify the associated font for a bitmap-rendered string unless you are intending to use a different font as your default. In that case, simply declare that font:
 
 	The associated font of a bitmap-rendered string is My Cool Font.
+
+
+Section: Including fonts
+
+Fonts must be included after the main Glimmr extensions. For example, if you are using Glimmr Canvas-Based Drawing:
+
+	Include Glimmr Canvas-Based Drawing by Erik Temple.
+	Include Glimmr Graphic Hyperlinks by Erik Temple.
+	Include Glimmr Bitmap Font by Erik Temple.
 
 
 Section: Contact info

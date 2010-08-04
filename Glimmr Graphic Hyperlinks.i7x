@@ -551,7 +551,6 @@ Another debugging command available to us is the GRAPHLINKS command. This will p
 	Last window to be clicked: graphics-window
 
 
-
 Section: Contact info
 
 If you have comments about the extension, please feel free to contact me directly at ek.temple@gmail.com.

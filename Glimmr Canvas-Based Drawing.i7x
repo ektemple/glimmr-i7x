@@ -905,26 +905,16 @@ The specification of rendered string is "A rendered string is a graphic element 
 
 A rendered string has a font called the associated font.
 
-[The text-animation delay allows us to draw each character as it is read, with a specified delay between them. However, the use of it is problematic, and it has been commented out for now. There are two main issues: 
-
-(1) Because the animation is controlled from *within* the drawing rule, the timed drawing of one attempt to draw animated text can persist through a second iterations, particularly if the window is resized during animation, for example. This is bad, even if most users won't notice the problem.
-
-(2) Inform doesn't properly mark rulebook run-throughs as completed when the glulx timer is involved. Thus, we can easily trigger a fatal error running animations from within the depths of the drawing rules, where there are already a number of running rulebooks.
-
-A rendered string has a number called the text-animation delay. The text-animation delay is usually 0.]
-
 [A rendered string can also have a cursor, which allows us to use rendered strings with input. The cursor is initially set to -99; this or any other negative number will suppress display of the cursor. A cursor value of 0 or higher will place the cursor after that character in the string. In other words, a cursor value of 2 places the cursor after the second character in the string. A cursor value greater than the number of characters in the string will never be shown.]
 
 A rendered string has a number called the cursor. The cursor is usually -99.
-
-[A rendered string has a number called the vertical ratio. The vertical ratio is usually 1.]
 
 [Center and right alignment in rendered strings function differently from other g-elements; the vertical positioning does not change. This mimics the behavior of alignment in word processors, as is more appropriate for text.]
 A rendered string is usually left-aligned.
 
 [A rendered string is rendered either by providing a text string or a list of numbers, which represents a list of the characters of the string. The latter is faster, but more work for the author.]
 A rendered string has an indexed text called the text-string. The text-string of a rendered string is "".
-[A rendered string has a list of numbers called the parsed-string. The parsed-string of a rendered string is {0}.]
+
 A rendered string has a glulx color value called the tint. The tint of a rendered string is g-White.
 A rendered string has a glulx color value called the background tint. The background tint of a rendered string is g-PlaceNullCol.
 
@@ -1045,10 +1035,8 @@ An element display rule for a bitmap-rendered string (called the stream):
 			increase column by the dot-size of the stream;
 		if the cursor of the stream is N:
 			dimrectdraw (color foreground-color) in (current window) at (column) by (win-y of the stream - dot-size) with size dot-size by (dot-size * font-height of the associated font of the stream);
-		[if the text-animation delay of the stream is greater than 0 and glulx timekeeping is supported:
-			follow the text-painting animation rules for the stream;]
 		increase column-index by (advance entry * dot-size of the stream);
-		change column to column-index;
+		now column is column-index;
 		let row be the win-y of the stream;
 	#if utilizing Glimmr debugging;
 	say "[>console][CBD]Displaying rendered bitmap string [i][stream][/i], foreground color [color foreground-color], in [i][current window][/i] with upper left ([win-x of stream], [win-y]) and lower right ([column], [row + (font-height of the associated font of the stream * dot-size)])[unless background-color is g-PlaceNullCol]; background color [color background-color][end if][if stream is graphlinked]. [line break][CBD]Graphlink corresponding to [i][stream][/i] set from ([win-x of stream], [win-y of stream]) to ([column], [row + (font-height of the associated font of the stream * dot-size)]): [quotation mark][linked replacement-command of stream][quotation mark][end if].[<]";
@@ -2469,6 +2457,9 @@ Before we get to the buttons, we need to set up the window and canvas. For an ex
 
 	When play begins:
 		open up the graphics-window.
+		
+	[After printing the banner text:
+	say "[line break]This is one of two very similar examples for the Glimmr Canvas-Based Drawing extension. It demonstrates a simple set of UI buttons. The buttons are not sprites. In other words, they are created without the need to make external PNG or JPEG images. Instead, we use Glimmr's functions for easily drawing rectangles and more complex elements. An image-rendered string provides the button's text, and this is superimposed on a stroked rectangle primitive that creates the body of the button. A simple animation allows the button to change color briefly when pressed, to provide visual feedback.[paragraph break]".]
 	
 	
 	Table of Common Color Values (continued)
@@ -2548,7 +2539,7 @@ Delete the first -) for each inclusion and things should work fine. Corrected:
 
 The example starts out in essentially the same way as the previous: 
 
-	*: "Simpler Buttons" by Erik Temple
+	*: "Simpler Buttons"
 
 	Include Glimmr Canvas-Based Drawing by Erik Temple.
 	Include Glimmr Graphic Hyperlinks by Erik Temple.
@@ -2602,6 +2593,8 @@ Compare the Table of Button Labels here with the one for Simple Buttons--we've b
 	Button_3	{111, 7}	{165, 28}	Label_3	"Restore"
 	Button_4	{173, 7}	{238, 28}	Label_4	"Transcript"
 
+	[After printing the banner text:
+		say "[line break]This is one of two very similar examples for the Glimmr Canvas-Based Drawing extension. It demonstrates a simple set of UI buttons. The buttons are not sprites. In other words, they are created without the need to make an external PNG or JPEG image for each one. Instead, we use Glimmr's functions for easily drawing rectangles and more complex elements. A bit-rendered string provides the button's text, and this is superimposed on a stroked rectangle primitive that creates the body of the button. No image files at all are used. A simple animation allows the button to change color briefly when pressed, to provide visual feedback.[paragraph break]".]
 
 And the (optional) button animations (see the previous example for explanation):
 
@@ -2664,7 +2657,10 @@ The scenario definition is followed by the list of figures. The list of figures 
 	Flanking Chamber is south of Upper Chamber. "The passage leads back to the west."
 
 	North of Flanking Chamber is nowhere. West of Flanking Chamber is Upper Chamber. East of Upper Chamber is nowhere.
-
+	
+	[After printing the banner text:
+		say "[paragraph break]This is an example of a dynamic map built using Glimmr Canvas-Based Drawing. It provides a floorplan that reveals itself as the player moves through it. Each room is revealed as the player enters it, and each floor is pictured in a separate pane. A spare icon acts as an avatar for the player, showing the present location in the developing map.[paragraph break]This example was built using the "Basic Floorplan Toolkit" distributed with Glimmr. The Basic Floorplan Toolkit is an instance of the Glimmr Canvas Editor, a GUI graphics editor that allows you to build a composition graphically and output I7 source code describing it. Basic Floorplan Toolkit includes a set of images designed for use in creating simple floorplans in the style of those used by Emily Short in her pdf map for [i]Bronze[/i] (chosen as a model because of the manifest popularity of the style).[paragraph break]".]
+		
 
 	Chapter - Figure Definitions
 
@@ -2812,7 +2808,7 @@ We have a couple of types of objects that are not sprites. Rectangle primitives 
 
 	Upper_level_3 is a title-text.  The origin is {341, 63}.   The text-string is "Upper level". The associated font is Glimmr C&C. Upper_level_3 is left-aligned. The tint is g-medium-grey. The background tint is g-placenullcol.  The display-layer is 2. The display status of Upper_level_3 is g-inactive. The associated room of Upper_level_3 is Upper Chamber.
 
-Finally, the table that converts the location to the coordinates that the player's avatar should have onscreen. (Using the Canvas Editor, these are easily mapped using the "instances" feature.)
+Finally, the table that converts the location to the coordinates that the player's avatar should have onscreen. (These were mapped using Glimmr Canvas Editor's "instances" feature.)
 
 	*: Chapter - The Avatar's destinations
 
@@ -2827,7 +2823,7 @@ Finally, the table that converts the location to the coordinates that the player
 	Entrance Chamber	{71, 96}
 
 
-Example: ** One Canvas, Two Windows - We want to show the player's location on a map, but the full map is so large that it leaves us unable to see details. This example explores one solution to this problem, displaying the full map in one graphics window, and showing a detail view, an inset, in a second window.
+Example: ** Wandering Rhodes - We want to show the player's location on a map, but the full map is so large that it leaves us unable to see details. This example explores one solution to this problem, displaying the full map in one graphics window, and showing a detail view, an inset, in a second window.
 
 This example illustrates one way to do this, by displaying the same canvas in two different windows, with each window having different framing parameters. We have a larger graphics window on the left, displaying the full map, scaled to fit in the window. A smaller window on the right displays a close-up of the map, centered on the player's location.
 
@@ -2857,7 +2853,7 @@ We then assign x,y coordinates to each room. These coordinates will determine wh
 		open up the closeup-window;
 	
 	[After printing the banner text:
-		say "[line break]This example for the Glimmr Canvas-Based Drawing extension demonstrates the display of a single canvas in two different windows. The inset window at right shows a detail view of the main map window at left. The main window scales the canvas to fit, while the inset window always displays it at 100% of actual size, zoomed to the specific location shown by the placemarker in the main window.[paragraph break]The placemarker can be toggled between a pointer and a box the same size as the inset: Type TOGGLE at the command line to change it."]
+		say "[line break]This example for the Glimmr Canvas-Based Drawing extension demonstrates the display of a single canvas in two different windows. The inset window at right shows a detail view of the main map window at left. The main window scales the canvas to fit, while the inset window always displays it at 100% of actual size, zoomed to the specific location shown by the placemarker in the main window.[paragraph break]The placemarker can be toggled between a pointer and a box the same size as the inset: Type TOGGLE at the command line to change it.[paragraph break]"]
 
 	A room has a list of numbers called the origin. The origin is usually {0, 0}.
 	Some rooms are defined by the Table of Room Origins.
@@ -2995,6 +2991,9 @@ Note the linked command entries in the tileset's translation table. These allow 
 	When play begins:
 		follow the update dungeon map rule;
 		open up the graphics-window.
+		
+	[After printing the banner text:
+		say "[line break]This imitation of a roguelike game is an example for the Glimmr Canvas-Based Drawing extension. It features an image-map element that displays the map base for each room, using regular graphic tiles from a tileset known as LoFi Roguelike, by TIGSource user oryx (http://forums.tigsource.com/index.php?topic=8970.0). The character icons are borrowed from the the same tileset, and are implemented in Glimmr as sprite objects.[paragraph break]Click on the floor of the room to move toward the location clicked. Click on the furthest floor tile of a map exit to move to the next room. Click on the player's avatar (the archer) to take inventory, or click on an enemy to attack it.[paragraph break]"]
 
 Sprites are displayed using the coordinate system of the canvas, but the characters we are using them to display will need to move according to the internal grid of our image-map. We handle this by giving the sprite a second set of coordinates that we will use for calculating the character's position on the map. We convert this coordinate to canvas coordinates (based on the current position of the image-map on the canvas) before scaling and drawing a sprite. This is the "convert origin coordinate" rule below, and it utilizes one of the phrases that GCBD provides for converting between canvas, screen, and image-map coordinate systems; see the section on image-maps in the documentation above for more.
 
@@ -3140,7 +3139,7 @@ You will notice that this rule doesn't do any collision checking--what happens i
 		rule succeeds.
 
 
-Example: *** Two Canvases, One Window - This example illustrates a number of different techniques. We show how to change the contents of a graphics window at a stroke by changing canvases. We also construct a custom graphic element with rather complex behavior: rather than simply drawing a single entity, the element acts as a manager, interpreting and drawing game information using varied techniques, as needed.
+Example: *** Deal Me In - This example illustrates a number of different techniques. We show how to change the contents of a graphics window at a stroke by changing canvases. We also construct a custom graphic element with rather complex behavior: rather than simply drawing a single entity, the element acts as a manager, interpreting and drawing game information using varied techniques, as needed.
 
 Specifically, the manager renders the cards that the player has drawn in a sort of card game (we borrow the relevant code from the Tilt 3 example in the Inform documentation). The game is poker, so the player can hold up to five cards. The manager centers and spaces the card outlines as needed (based on the width of the graphics window). For each card the player holds, it provides a white background, paints text to the window to represent the card's value (e.g., 6, 7, 10, J, Q, K), and draws a bitmap graphic in the proper color to represent the suit. If the player holds fewer than five cards, the remaining cards will be depicted as empty placeholders.
 
@@ -3294,7 +3293,7 @@ The player may not be sure what to do in this example, so we offer some help tex
 	Asking for help is an action out of world. Understand "help" as asking for help.
 
 	After printing the banner text:
-		[say "[line break]This example for the Glimmr Canvas-Based Drawing extension illustrates a couple of different of techniques:[paragraph break](1) Changing the contents of a window at a stroke by swapping out the canvas (type HELP to see this).[paragraph break](2) The construction of a complex graphic element from a number of parts: the card graphics are composed of two rectangles, a bitmap-rendered text, and a bitmap graphic.[paragraph break]The example is built on top of the Tilt 3 example from the Inform Recipe Book, essentially unchanged but with the graphic display layered on top.[paragraph break]";]
+		[say "[line break]This example for the Glimmr Canvas-Based Drawing extension illustrates a couple of different of techniques:[paragraph break](1) Changing the contents of a window at a stroke by swapping out the canvas (type HELP to see this).[line break](2) The construction of a complex graphic element from a number of parts: the card graphics are composed of two rectangles, a bitmap-rendered text, and a bitmap graphic.[paragraph break]The example is built on top of the Tilt 3 example from the Inform Recipe Book, essentially unchanged but with the graphic display layered on top.[paragraph break]";]
 		say "Type HELP for instructions."
 
 	Carry out asking for help:
