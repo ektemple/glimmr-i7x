@@ -1,4 +1,4 @@
-Version 1/100804 of Glimmr Graphic Hyperlinks by Erik Temple begins here.
+Version 1/100805 of Glimmr Graphic Hyperlinks (for Glulx only) by Erik Temple begins here.
 
 "Allows us to identify any number of rectangular areas of a Glulx graphic window as 'hotlinked'. When the player clicks within one of these zones, a command will be entered on behalf of the player, or we can specify some appropriate response of our own."
 
@@ -558,5 +558,5 @@ If you have comments about the extension, please feel free to contact me directl
 
 Please report bugs on the Google Code project page, at http://code.google.com/p/glimmr-i7x/issues/list.
 
-For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the infiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
+For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the intfiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
 

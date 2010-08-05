@@ -1,4 +1,4 @@
-Version 1/100804 of Glimmr Simple Graphics Window (for Glulx only) by Erik Temple begins here.
+Version 1/100805 of Glimmr Simple Graphics Window (for Glulx only) by Erik Temple begins here.
 
 "Creates a graphics window that can be used with any Flexible Windows project. If used with Glimmr Canvas-Based Drawing, also creates a canvas to be displayed in the window. Includes code for drawing a single image centered in the window."
 
@@ -148,7 +148,7 @@ If you have comments about the extension, please feel free to contact me directl
 
 Please report bugs on the Google Code project page, at http://code.google.com/p/glimmr-i7x/issues/list.
 
-For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the infiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
+For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the intfiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
 
 
 Example: * Ramrod - This simple example illustrates the use of GSGW on its own, without any of the other Glimmr extensions. The example includes a drawing rule that centers an image (specified using the "current image" variable) in the graphics-window. If the image is too large to fit in the window, it will be scaled down.

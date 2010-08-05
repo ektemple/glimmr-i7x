@@ -1,4 +1,4 @@
-Version 1/100804 of Glimmr Canvas Editor (for Glulx only) by Erik Temple begins here.
+Version 1/100805 of Glimmr Canvas Editor (for Glulx only) by Erik Temple begins here.
 
 "A GUI editor that allows you to visually generate compositions for use with projects based on Glimmr Canvas-Based Drawing. Outputs valid Glimmr/I7 source code."
 
@@ -5263,7 +5263,7 @@ If you have comments about the extension, please feel free to contact me directl
 
 Please report bugs on the Google Code project page, at http://code.google.com/p/glimmr-i7x/issues/list.
 
-For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the infiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
+For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the intfiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
 
 
 Example: *** Basic Floorplan Toolkit Example - A toolkit including images for use in constructing basic floorplans for indoor maps, as well as illustrating most of the basic options available. Also illustrates user-specified source text and tags to create automatic mapping capabilities. This example is a bit different from the released Basic Floorplan Toolkit gblorb file, in that it contains a small map to be used as reference while you draw. Type MAP to see the geography.

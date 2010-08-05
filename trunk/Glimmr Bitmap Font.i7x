@@ -1,4 +1,4 @@
-Version 1/100804 of Glimmr Bitmap Font (for Glulx only) by Erik Temple begins here.
+Version 1/100805 of Glimmr Bitmap Font (for Glulx only) by Erik Temple begins here.
 
 "A bitmap font for use with the Glimmr system of extensions."
 
@@ -841,4 +841,4 @@ If you have comments about the extension, please feel free to contact me directl
 
 Please report bugs on the Google Code project page, at http://code.google.com/p/glimmr-i7x/issues/list.
 
-For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the infiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
+For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the intfiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
