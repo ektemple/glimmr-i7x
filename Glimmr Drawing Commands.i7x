@@ -1,4 +1,4 @@
-Version 1/100804 of Glimmr Drawing Commands (for Glulx only) by Erik Temple begins here.
+Version 1/100805 of Glimmr Drawing Commands (for Glulx only) by Erik Temple begins here.
 
 "Provides commands for displaying images, shape primitives (such as rectangles, boxes, and lines), user-specified bitmap drawings, image maps, and for text-painting using 'fonts' with glyphs composed of either bitmaps or image files."
 
@@ -1909,7 +1909,7 @@ Short forms:
 
 Speed notes:
 
-	Image-maps must display a number of images every time they are redrawn. Their speed is likely faster than drawin the images individually using the "draw image" command. They are likely to perform well in any interpreter that draws images quickly. Direct image-maps should theoretically draw slightly faster than tileset maps, but in practice the extra table-lookup required for tileset maps seems to make little noticeable difference.
+	Image-maps must display a number of images every time they are redrawn. Their speed is likely faster than drawing the images individually using the "draw image" command. They are likely to perform well in any interpreter that draws images quickly. Direct image-maps should theoretically draw slightly faster than tileset maps, but in practice the extra table-lookup required for tileset maps seems to make little noticeable difference.
 
 	The same speed optimization techniques described for images (see above) apply also to image-maps.
 
@@ -2273,7 +2273,7 @@ Section: Extending bitmap fonts
 
 There are also special facilities for extending a bitmap font if it is missing characters we need. This doesn't require us to edit the original font in any way, and the ease of creating bitmap characters makes it relatively painless. In fact, this is why the Glimmr Bitmap Font has fewer glyphs than Bitmap Image Font--because it is far easier to create new bitmap glyphs than new image ones. (It's also easy to edit a bitmap glyph by directly changing the bitmaps in the glyph map. If you do this to someone else's font, be sure to change the colophon to give yourself credit.)
 
-Extending bitmap fonts is a two-step process. First, we need to add our new glyphs to the font's glyph map. The "starting the virtual machine" activity is probably the best place to fo this. Here is a glyph for a happy face, which we will place at character code 1:
+Extending bitmap fonts is a two-step process. First, we need to add our new glyphs to the font's glyph map. The "starting the virtual machine" activity is probably the best place to do this. Here is a glyph for a happy face, which we will place at character code 1:
 
 	After starting the virtual machine:
 		Add {
@@ -2445,7 +2445,7 @@ If you have comments about the extension, please feel free to contact me directl
 
 Please report bugs on the Google Code project page, at http://code.google.com/p/glimmr-i7x/issues/list.
 
-For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the infiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
+For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the intfiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
 
 
 Example: * Retro Drawing - This example presents a good cross-section of the graphics commands provided by GDC. Note that none of the drawing here uses image files--everything is done with "primitives", painted text, and bitmaps.
