@@ -1,4 +1,4 @@
-Version 1/100711 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple begins here.
+Version 1/100804 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple begins here.
 
 "A framework for drawing graphics of various types--from sprite images to painted text--to a Glulx graphics window. Takes an object-oriented approach, with graphic elements represented as individual objects."
 

@@ -1,4 +1,4 @@
-Version 1/100701 of Glimmr Debugging Console (for Glulx only) by Erik Temple begins here.
+Version 1/100804 of Glimmr Debugging Console (for Glulx only) by Erik Temple begins here.
 
 "Provides a dynamic console window for Glimmr debugging output."
 

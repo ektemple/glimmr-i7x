@@ -1,4 +1,4 @@
-Glimmr Graphic Hyperlinks by Erik Temple begins here.
+Version 1/100804 of Glimmr Graphic Hyperlinks by Erik Temple begins here.
 
 "Allows us to identify any number of rectangular areas of a Glulx graphic window as 'hotlinked'. When the player clicks within one of these zones, a command will be entered on behalf of the player, or we can specify some appropriate response of our own."
 
@@ -207,8 +207,9 @@ The mouse-generated flag is a truth state that varies. The mouse-generated flag 
 A command-pasting rule (this is the flag generated commands rule): 
 	now the mouse-generated flag is true;
 	
-Every turn:
+Before reading a command (this is the mouse-generated flag reset rule):
 	now the mouse-generated flag is false;
+	continue the action.
 	
 To decide whether the command is mouse-generated:
 	decide on the mouse-generated flag.

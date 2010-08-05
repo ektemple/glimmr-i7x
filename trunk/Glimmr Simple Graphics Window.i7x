@@ -1,4 +1,4 @@
-Version 1/100302 of Glimmr Simple Graphics Window (for Glulx only) by Erik Temple begins here.
+Version 1/100804 of Glimmr Simple Graphics Window (for Glulx only) by Erik Temple begins here.
 
 "Creates a graphics window that can be used with any Flexible Windows project. If used with Glimmr Canvas-Based Drawing, also creates a canvas to be displayed in the window. Includes code for drawing a single image centered in the window."
 

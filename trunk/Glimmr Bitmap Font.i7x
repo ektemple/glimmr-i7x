@@ -1,4 +1,4 @@
-Version 1/091101 of Glimmr Bitmap Font (for Glulx only) by Erik Temple begins here.
+Version 1/100804 of Glimmr Bitmap Font (for Glulx only) by Erik Temple begins here.
 
 "A bitmap font for use with the Glimmr system of extensions."
 
