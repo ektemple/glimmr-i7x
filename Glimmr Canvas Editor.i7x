@@ -1,4 +1,4 @@
-Version 1/100722 of Glimmr Canvas Editor (for Glulx only) by Erik Temple begins here.
+Version 1/100804 of Glimmr Canvas Editor (for Glulx only) by Erik Temple begins here.
 
 "A GUI editor that allows you to visually generate compositions for use with projects based on Glimmr Canvas-Based Drawing. Outputs valid Glimmr/I7 source code."
 
@@ -1906,7 +1906,7 @@ Check spawning sprites:
 	if the command is mouse-generated:
 		continue the action;
 	otherwise:
-		say "[bracket]That command is reserved for the editor.[close bracket][paragraph break]You may clickse on an image in the library window to create a new sprite from the library image.";
+		say "[bracket]That command is reserved for the editor.[close bracket][paragraph break]You may click on an image in the library window to create a new sprite from the library image.";
 		rule fails;
 
 Carry out spawning sprites:
@@ -3459,7 +3459,7 @@ Check element-scaling:
 	if the command is mouse-generated:
 		continue the action;
 	otherwise:
-		say "[bracket]That command is reserved for the editor.[close bracket][paragraph break]You may:[paragraph break](1) Enter SCALE AT (a real number, such as 0.[run paragraph on][8 times (10 to the power precision minus 1)]) to scale symmetrically;[line break](2) Enter SCALE HORIZONTALLY/VERTICALLY AT (a real number, such as 0.[run paragraph on][8 times (10 to the power precision minus 1)]) to scale asymmetrically[if current tab is Select_tab][line break](3) Click in the main element window to scale the selected element[otherwise][line break](3) Select the [bold type]scale[roman type] tab and scale using the mouse[end if].[line break]";
+		say "[bracket]That command is reserved for the editor.[close bracket][paragraph break]You may:[line break](1) Enter SCALE AT (a real number, such as 0.[run paragraph on][8 times (10 to the power precision minus 1)]) to scale symmetrically;[line break](2) Enter SCALE HORIZONTALLY/VERTICALLY AT (a real number, such as 0.[run paragraph on][8 times (10 to the power precision minus 1)]) to scale asymmetrically[if current tab is Select_tab][line break](3) Click in the main element window to scale the selected element[otherwise][line break](3) Select the [bold type]scale[roman type] tab and scale using the mouse[end if].[line break]";
 		rule fails;
 
 Carry out element-scaling:

@@ -1,4 +1,4 @@
-Version 1/091101 of Glimmr Image Font (for Glulx only) by Erik Temple begins here.
+Version 1/100804 of Glimmr Image Font (for Glulx only) by Erik Temple begins here.
 
 "Provides a font made up of individual images for use with the Glimmr system of extensions."
 
