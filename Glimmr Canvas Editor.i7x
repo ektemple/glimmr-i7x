@@ -1,4 +1,4 @@
-Version 1/100805 of Glimmr Canvas Editor (for Glulx only) by Erik Temple begins here.
+Version 1/100806 of Glimmr Canvas Editor (for Glulx only) by Erik Temple begins here.
 
 "A GUI editor that allows you to visually generate compositions for use with projects based on Glimmr Canvas-Based Drawing. Outputs valid Glimmr/I7 source code."
 
@@ -1014,7 +1014,7 @@ Figure of Layer 22 is the file "Layer 22.png".
 Figure of Layer 23 is the file "Layer 23.png".
 Figure of Layer 24 is the file "Layer 24.png".
 
-The built-in resources index is a number that varies. The built-in resources index is usually 181. [This number is the resource number of the last of the internal figures, i.e. those in the first list, which we want to exclude from the library window.]
+The built-in resources index is a number that varies. The built-in resources index is usually 180. [This number is the resource number of the last of the internal figures, i.e. those in the first list, which we want to exclude from the library window.]
 
 
 Part - Highlighting
@@ -4416,7 +4416,7 @@ To write the/-- preamble:
 			if the back-colour of the working window is not a glulx color value listed in the Table of Default Color Values and the back-colour of the working window is not listed in the drawing colors:
 			 	append "[back-colour of working window][tab][assigned number of back-colour of working window]" to the file of Output;
 	if we have tags:
-		append "[paragraph break]Chapter - Special element properties[paragraph break][bracket]This property reflects the tag(s) assigned in the editor.[close bracket][paragraph break]A g-element has a [tag type] called the [tag-surround][tag alias][tag-surround]." to the file of Output;
+		append "[paragraph break]Chapter - Special element properties[paragraph break][bracket]This property reflects the tag(s) assigned in the editor.[close bracket][paragraph break]A g-element has a [tag type] called the [tag alias]." to the file of Output;
 	append "[paragraph break]" to the file of Output;
 
 To say font extensions:
