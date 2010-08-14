@@ -4399,8 +4399,9 @@ Section - Writing inclusions and graphics window code to the source
 To write the/-- preamble:
 	append "Include Glimmr Canvas-Based Drawing by Erik Temple.[if we have rendered strings][line break]Include Glimmr Text-Painting Elements by Erik Temple.[font extensions][end if][paragraph break]" to the file of Output;
 	append "Chapter - Scenario[paragraph break]" to the file of Output;
+	append "[bracket]Insert code here, particularly the definition of rooms and their connections." to the file of Output;
 	if we have a map:
-		append "[bracket]Insert code here, particularly the definition of rooms and their connections. The following rooms were present in the geography defined in the source for the Canvas Editor: " to the file of Output;
+		append "The following rooms were present in the geography defined in the source for the Canvas Editor: " to the file of Output;
 		let L be the list of rooms;
 		remove fake-room_x from L;
 		append "[L]" to the file of Output;
