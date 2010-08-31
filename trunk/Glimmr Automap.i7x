@@ -1,11 +1,7 @@
 Version 1/100802 of Glimmr Automap (for Glulx only) by Erik Temple begins here.
 
-[Convert the procedural renderer into a subkind of image map?]
-[These two properties should only be present in Automap tilesets. Make a new subkind for them.
+[Convert to using the Flexible Windows implementation of hyperlinks]
 
-A tileset has a list of real numbers called the zoom-level set. The zoom-level set of a tileset is usually {}.
-
-A tileset has a number called the initial zoom level. The initial zoom level of a tileset is usually 1.]
 [Documentation and perhaps code: For terps that don't support graphics, provide a global variable to use to specify the depth of the map in the status line.]
 [Documentation: If used, Glimmr Text-Painting Elements and Glimmr Bitmap Font must be included before Glimmr Automap and the Glimmr Automap Tileset.]
 [Documentation: Explain why we're using a new automap graphlinking rules, rather than use the graphlink processing rules. (It's because we want to be able to use rooms as graphlink targets as well.)]
@@ -33,7 +29,7 @@ Chapter - ASCII map
 
 [If the player's interpreter does not support graphics, the Automap text-based map (ASCII or Unicode) will be shown instead. This map is shown by expanding the number of lines in the status window. We can set the number of lines in the text map by using this variable. The default is 12 rows.]
 
-The text-map depth is a number variable.
+The text-map depth is a number variable. The text-map depth is usually 12.
 
 [To preview what the text-only map will look like to those using an interpreter without graphics support, paste the following into your story code:
 
@@ -51,11 +47,9 @@ When play begins:
 		now the current zoom is map zoomed in;[refers to Automap's zoom, which must always be set to zoomed in.]
 		if the current zoom level of the map-renderer is 0:
 			change the current zoom level of the map-renderer to the initial zoom level of the associated tileset of the map-renderer;
-		if the text-map depth is 0:
-			change the text-map depth to 12;
 		if the map viewport is the main-window:
 			now the map viewport is a random map-display window;
-		if using the automap hyperlinks option:
+		if the automap hyperlinks option is active:
 			now the the graphlink status of the map-renderer is g-active;
 		if the display-layer of the UI-frame is 0:
 			change the display-layer of the UI-frame to UI-layer minus 1;
@@ -72,9 +66,12 @@ When play begins:
 		if the horizontal margin of the UI-query-explanation is 999:
 			change the horizontal margin of the UI-query-explanation to 0;
 		if the number of entries of the list of display-active UI-buttons is 2:
-			change the image-ID of the UI-frame to Figure of UI-frame-short;
-		if the maximum display-count of the UI-query-explanation is 0:
-			change the maximum display-count of the UI-query-explanation to 1.
+			change the image-ID of the UI-frame to Figure of UI-frame-short.
+
+
+Section - Default tileset (for use with Glimmr Automap Tileset by Erik Temple)
+
+The associated tileset of the map-renderer is usually the Glimmr Automap Tileset.
 	
 
 Chapter - Hacking Automap
@@ -138,14 +135,8 @@ Last shutting down the map window:
 	shut down the map viewport.
 
 
-Chapter - Definition of the tileset kind
-
-A tileset is a kind of thing.
-
-A tileset has a number called the tile-width. The tile-width is usually 0.
-A tileset has a number called the tile-height. The tile-height is usually 0.
-
-A tileset has a table-name called the translation-table.
+Chapter - Extension of the tileset kind
+[The tileset kind is defined in Glimmr Drawing Commands. We extend the kind here to allow for zooming.]
 
 A tileset has a list of real numbers called the zoom-level set. The zoom-level set of a tileset is usually {}.
 
@@ -154,10 +145,7 @@ A tileset has a number called the initial zoom level. The initial zoom level of 
 
 Chapter - The map-renderer object
 
-[The sole reason for the existence of the renderer kind is to hang the background color property on.]
-A procedural renderer is a kind of g-element. A procedural renderer has a glulx color value called the background tint. The background tint of a procedural renderer is usually g-placenullcol.
-
-The map-renderer is a procedural renderer. 
+The map-renderer is a g-element. The map-renderer has a glulx color value called the background tint. The background tint of the map-renderer is usually g-placenullcol.
 
 The scaling factor of the map-renderer is 1.0000. The x-scaling factor is 1.0000. The y-scaling factor is 1.0000.
 
@@ -580,7 +568,7 @@ Section - The query explanatory text object
 The UI-query-explanation is an anchor UI-element.
 The image-ID is Figure of UI-query-explanation. The display status is g-inactive.
 
-The UI-query-explanation has a number called the maximum display-count.
+The UI-query-explanation has a number called the maximum display-count. The maximum display-count is usually 1.
 The UI-query-explanation has a number called the display-count. The display-count is 0.
 
 
@@ -706,6 +694,25 @@ If you have comments about the extension, please feel free to contact me directl
 Please report bugs on the Google Code project page, at http://code.google.com/p/glimmr-i7x/issues/list.
 
 For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the infiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
+
+
+.........................
+
+If you prefer that the MAP command toggle the ASCII version of the map rather than close the map window entirely, you can paste the following into your story file:
+
+
+	*: Chapter - Deciding (in place of Chapter - Hacking Automap in Glimmr Automap by Erik Temple)
+
+	First for constructing the status line (this is the bypass status line map rule):
+		if glulx graphics is supported and the map-window is g-present:
+			fill status bar with table of ordinary status;
+			rule succeeds;
+		otherwise:
+			now current zoom is map zoomed in;
+			reserve automap memory of 12 rows;
+			fill status bar with table of ordinary status and map.
+
+You will probaby want to change the message for the "map" command as well, since it refers to opening and closing the map window.
 
 
 
