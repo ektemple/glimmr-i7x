@@ -2,17 +2,12 @@ Version 1/100131 of Glimmr Automap Tileset (for Glulx only) by Erik Temple begin
 
 [Give automap files better filenames--i.e., starting with Glimmr Tileset or something.]
 
-Include Glimmr Automap by Erik Temple.
-
-The associated tileset of the map-renderer is usually the Glimmr Automap Tileset.
-
-
 Section - Basic tileset object definition
 
 The Glimmr Automap Tileset is a tileset. The translation-table is the Table of Automap Tiles. The tile-width is 25. The tile-height is 25.
 
 
-Section - Zoom levels
+Section - Zoom levels (for use with Glimmr Automap by Erik Temple)
 [Tilesets need to provide a list of the zoom levels at which they can be viewed. The author of the tileset may choose any number of these, but they need to be listed in order from smallest to largest. They are expressed as decimal ratios of the full size of the tile, using the format for real numbers required by Michael Callaghan's Fixed Point Maths extension.]
 
 The zoom-level set of the Glimmr Automap Tileset is {0.3600, 0.5600, 0.8000, 1.0000}.
