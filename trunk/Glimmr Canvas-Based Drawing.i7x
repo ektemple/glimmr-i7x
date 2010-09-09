@@ -1628,7 +1628,7 @@ Elements are assigned to a canvas, and they can also be set either active or ina
 
 Chapter: Including Glimmr Canvas-Based Drawing in a project
 
-Inform remains fairly unsophisticated in its mechanisms for organizing included extensions. When we are dealing with a complex system of modular extensions such as Glimmr, it is very easy to trip it up. The result is usually a list of unhelpful errors. For this reason, each Glimmr extension includes a section--such as this one--about how to include it, particularly in relation to other extensions.
+Inform remains fairly unsophisticated in its mechanisms for organizing included extensions. When we are dealing with a complex system of modular extensions such as Glimmr, it is very easy to trip it up, and the result is usually a list of unhelpful errors. For this reason, each Glimmr extension includes a section--such as this one--about how to include it, particularly in relation to other extensions.
 
 GCBD should be included before any font or tileset extensions, e.g.:
 

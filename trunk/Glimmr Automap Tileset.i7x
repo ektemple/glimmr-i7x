@@ -1,6 +1,7 @@
 Version 1/100131 of Glimmr Automap Tileset (for Glulx only) by Erik Temple begins here.
 
-[Give automap files better filenames--i.e., starting with Glimmr Tileset or something.]
+"A tileset intended primarily for use with Glimmr Automap."
+
 
 Section - Basic tileset object definition
 
@@ -8,88 +9,88 @@ The Glimmr Automap Tileset is a tileset. The translation-table is the Table of A
 
 
 Section - Zoom levels (for use with Glimmr Automap by Erik Temple)
-[Tilesets need to provide a list of the zoom levels at which they can be viewed. The author of the tileset may choose any number of these, but they need to be listed in order from smallest to largest. They are expressed as decimal ratios of the full size of the tile, using the format for real numbers required by Michael Callaghan's Fixed Point Maths extension.]
+[Tilesets used with Glimmr Automap need to provide a list of the zoom levels at which they can be viewed. The author of the tileset may choose any number of these, but they need to be listed in order from smallest to largest. They are expressed as decimal ratios of the full size of the tile, using the format for real numbers required by Michael Callaghan's Fixed Point Maths extension.]
 
-The zoom-level set of the Glimmr Automap Tileset is {0.3600, 0.5600, 0.8000, 1.0000}.
+The zoom-level set of the Glimmr Automap Tileset is usually {0.3600, 0.5600, 0.8000, 1.0000}.
 
-The initial zoom level of the Glimmr Automap Tileset is 2.
+The initial zoom level of the Glimmr Automap Tileset is usually 2.
 		
 
 Section - Figure List
 [Mark Tilford's Automap does not yet utilize the automap dark and automap present dark tiles, so these have been commented out.]
 
-Figure of automap in is the file "003.png".
-Figure of automap out is the file "004.png".
-Figure of automap inout is the file "005.png".
-Figure of automap present in is the file "006.png".
-Figure of automap present out is the file "007.png".
-Figure of automap present inout is the file "008.png".
-Figure of automap dark is the file "096.png".
-Figure of automap present dark is the file "126.png".
+Figure of automap in is the file "Automap_Tileset_003.png".
+Figure of automap out is the file "Automap_Tileset_004.png".
+Figure of automap inout is the file "Automap_Tileset_005.png".
+Figure of automap present in is the file "Automap_Tileset_006.png".
+Figure of automap present out is the file "Automap_Tileset_007.png".
+Figure of automap present inout is the file "Automap_Tileset_008.png".
+Figure of automap dark is the file "Automap_Tileset_096.png".
+Figure of automap present dark is the file "Automap_Tileset_126.png".
 
-Figure of north south path is the file "002.png".
-Figure of east west path is the file "001.png".
-Figure of ne sw path is the file "035.png".
-Figure of nw se path is the file "036.png".
-Figure of empty room center is the file "037.png".
-Figure of diagonal cross is the file "090.png".
-Figure of orthogonal cross is the file "091.png". 
-Figure of south wall is the file "038.png".
-Figure of north wall is the file "039.png".
-Figure of east wall is the file "040.png".
-Figure of west wall is the file "041.png".
-Figure of north exit is the file "042.png".
-Figure of south exit is the file "043.png".
-Figure of east exit is the file "044.png".
-Figure of west exit is the file "045.png".
-Figure of sw corner is the file "046.png".
-Figure of nw corner is the file "047.png".
-Figure of ne corner is the file "048.png".
-Figure of se corner is the file "049.png".
-Figure of sw exit is the file "050.png".
-Figure of nw exit is the file "051.png".
-Figure of ne exit is the file "052.png".
-Figure of se exit is the file "053.png".
+Figure of north south path is the file "Automap_Tileset_002.png".
+Figure of east west path is the file "Automap_Tileset_001.png".
+Figure of ne sw path is the file "Automap_Tileset_035.png".
+Figure of nw se path is the file "Automap_Tileset_036.png".
+Figure of empty room center is the file "Automap_Tileset_037.png".
+Figure of diagonal cross is the file "Automap_Tileset_090.png".
+Figure of orthogonal cross is the file "Automap_Tileset_091.png". 
+Figure of south wall is the file "Automap_Tileset_038.png".
+Figure of north wall is the file "Automap_Tileset_039.png".
+Figure of east wall is the file "Automap_Tileset_040.png".
+Figure of west wall is the file "Automap_Tileset_041.png".
+Figure of north exit is the file "Automap_Tileset_042.png".
+Figure of south exit is the file "Automap_Tileset_043.png".
+Figure of east exit is the file "Automap_Tileset_044.png".
+Figure of west exit is the file "Automap_Tileset_045.png".
+Figure of sw corner is the file "Automap_Tileset_046.png".
+Figure of nw corner is the file "Automap_Tileset_047.png".
+Figure of ne corner is the file "Automap_Tileset_048.png".
+Figure of se corner is the file "Automap_Tileset_049.png".
+Figure of sw exit is the file "Automap_Tileset_050.png".
+Figure of nw exit is the file "Automap_Tileset_051.png".
+Figure of ne exit is the file "Automap_Tileset_052.png".
+Figure of se exit is the file "Automap_Tileset_053.png".
 
-Figure of up arrow is the file "092.png".
-Figure of down arrow is the file "093.png".
-Figure of up down arrow is the file "094.png".
-Figure of question arrow is the file "096.png".
+Figure of up arrow is the file "Automap_Tileset_092.png".
+Figure of down arrow is the file "Automap_Tileset_093.png".
+Figure of up down arrow is the file "Automap_Tileset_094.png".
+Figure of question arrow is the file "Automap_Tileset_096.png".
 
-Figure of full room is the file "054.png".
-Figure of empty room is the file "095.png".
+Figure of full room is the file "Automap_Tileset_054.png".
+Figure of empty room is the file "Automap_Tileset_095.png".
 
-Figure of full south wall is the file "055.png".
-Figure of full north wall is the file "056.png".
-Figure of full east wall is the file "057.png".
-Figure of full west wall is the file "058.png".
-Figure of full north exit is the file "059.png".
-Figure of full south exit is the file "060.png".
-Figure of full east exit is the file "061.png".
-Figure of full west exit is the file "062.png".
-Figure of full sw corner is the file "063.png".
-Figure of full nw corner is the file "064.png".
-Figure of full ne corner is the file "065.png".
-Figure of full se corner is the file "066.png".
-Figure of full sw exit is the file "067.png".
-Figure of full nw exit is the file "068.png".
-Figure of full ne exit is the file "069.png".
-Figure of full se exit is the file "070.png".
+Figure of full south wall is the file "Automap_Tileset_055.png".
+Figure of full north wall is the file "Automap_Tileset_056.png".
+Figure of full east wall is the file "Automap_Tileset_057.png".
+Figure of full west wall is the file "Automap_Tileset_058.png".
+Figure of full north exit is the file "Automap_Tileset_059.png".
+Figure of full south exit is the file "Automap_Tileset_060.png".
+Figure of full east exit is the file "Automap_Tileset_061.png".
+Figure of full west exit is the file "Automap_Tileset_062.png".
+Figure of full sw corner is the file "Automap_Tileset_063.png".
+Figure of full nw corner is the file "Automap_Tileset_064.png".
+Figure of full ne corner is the file "Automap_Tileset_065.png".
+Figure of full se corner is the file "Automap_Tileset_066.png".
+Figure of full sw exit is the file "Automap_Tileset_067.png".
+Figure of full nw exit is the file "Automap_Tileset_068.png".
+Figure of full ne exit is the file "Automap_Tileset_069.png".
+Figure of full se exit is the file "Automap_Tileset_070.png".
 
 [The corner fill tiles are not implemented by Automap, but Glimmr Automap optionally provides them via a post-processing routine.]
-Figure of ne corner fill is the file "071.png".
-Figure of se corner fill is the file "072.png".
-Figure of sw corner fill is the file "073.png".
-Figure of nw corner fill is the file "074.png".
-Figure of n dual corner fill is the file "011.png".
-Figure of e dual corner fill is the file "012.png".
-Figure of s dual corner fill is the file "013.png".
-Figure of w dual corner fill is the file "014.png".
+Figure of ne corner fill is the file "Automap_Tileset_071.png".
+Figure of se corner fill is the file "Automap_Tileset_072.png".
+Figure of sw corner fill is the file "Automap_Tileset_073.png".
+Figure of nw corner fill is the file "Automap_Tileset_074.png".
+Figure of n dual corner fill is the file "Automap_Tileset_011.png".
+Figure of e dual corner fill is the file "Automap_Tileset_012.png".
+Figure of s dual corner fill is the file "Automap_Tileset_013.png".
+Figure of w dual corner fill is the file "Automap_Tileset_014.png".
 
-Figure of full up arrow is the file "123.png".
-Figure of full down arrow is the file "124.png".
-Figure of full up down arrow is the file "125.png".
-Figure of full question arrow is the file "126.png".
+Figure of full up arrow is the file "Automap_Tileset_123.png".
+Figure of full down arrow is the file "Automap_Tileset_124.png".
+Figure of full up down arrow is the file "Automap_Tileset_125.png".
+Figure of full question arrow is the file "Automap_Tileset_126.png".
 
 
 Section - Translation Table
