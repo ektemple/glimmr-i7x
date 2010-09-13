@@ -1,4 +1,4 @@
-Version 1/100131 of Glimmr Automap Tileset (for Glulx only) by Erik Temple begins here.
+Version 1/100912 of Glimmr Automap Tileset (for Glulx only) by Erik Temple begins here.
 
 "A tileset intended primarily for use with Glimmr Automap."
 
@@ -170,6 +170,26 @@ Glimmr Automap Tileset ends here.
 
 
 ---- DOCUMENTATION ---- 
+
+Section: About
+
+Glimmr Automap Tileset is a tileset extension intended for use with the Glimmr Automap extension. It requires a set of external images for use. This can be downloaded as part of the current Glimmr archive (http://code.google.com/p/glimmr-i7x/downloads/list).
+
+The extension can also be used as a tileset for any standard image-map element (see Glimmr Drawing Commands and Glimmr Canvas-Based Drawing).
+
+Section: Including tileset extensions
+
+Tileset extensions are "data" extensions--they don't add any new functionality--and they must be included after the main Glimmr extension(s) in a project. If we are using the extension with Glimmr Automap:
+
+	Include Glimmr Automap by Erik Temple.
+	Include Glimmr Automap Tileset by Erik Temple.
+
+If we are using the tileset with Canvas-Based Drawing:
+
+	Include Glimmr Canvas-Based Drawing by Erik Temple.
+	Include Glimmr Graphic Hyperlinks by Erik Temple.
+	Include Glimmr Automap Tileset by Erik Temple.
+
 
 Section: Contact info
 
