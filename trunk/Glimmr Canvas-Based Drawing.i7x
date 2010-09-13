@@ -1,4 +1,4 @@
-Version 1/100805 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple begins here.
+Version 1/100911 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple begins here.
 
 "A framework for drawing graphics of various types--from sprite images to painted text--to a Glulx graphics window. Takes an object-oriented approach, with graphic elements represented as individual objects."
 
@@ -1460,7 +1460,8 @@ A tiled graphlink setting rule for an image-map (called the grid):
 			unless index is "":
 				set a graphlink in current window identified as (the grid) from (column) by (row) to (column + scaled tile-width of grid) by (row + scaled tile-height) as (index), ignoring redundant links;
 				#if utilizing the image-map graphlink preview option;
-				boxdraw (color graphlink preview color) in (current window) from (column) by (row) to (column + scaled tile-width of grid) by (row + scaled tile-height) with 1;
+				if graphlink preview color is not g-PlaceNullCol:
+					boxdraw (color graphlink preview color) in (current window) from (column) by (row) to (column + scaled tile-width of grid) by (row + scaled tile-height) with 1;
 				#end if;
 			increase column by scaled tile-width of grid;
 		increase row by scaled tile-height of the grid;
@@ -1925,6 +1926,8 @@ There are a few special debugging capabilities available for image-maps. To see 
 Now any image-map tile that has an individual hyperlink (see above) will be outlined in gray. The preview color can be changed like so:
 
 	The graphlink preview color is g-Blue.
+
+If the graphlink preview color is set to null (that is, g-PlaceNullCol), no box will be visible.
 
 We can "dump" the data in an image-map to the screen by typing "image-map <the name of the image-map to dump>" in-game. If we are running the game in the IDE, this will print the tile-array or figure-array of the image-map to the main window. Note that if the command indicates that there is no such thing as the image-map you're trying to dump, you will need to declare your image-map to be "publically-named". (GCD automatically tries to mark all g-elements as publically-named for a debugging build, but it is possible to evade this control.) Example:
 

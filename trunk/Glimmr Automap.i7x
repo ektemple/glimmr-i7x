@@ -1,10 +1,9 @@
-Version 1/100904 of Glimmr Automap (for Glulx only) by Erik Temple begins here.
+Version 1/100912 of Glimmr Automap (for Glulx only) by Erik Temple begins here.
 
 "Provides a plug-and-play graphical automapping solution built on top of Mark Tilford's Automap extension. Can fall back to text-based map on interpreters that don't support graphics."
 
-[Documentation: For terps that don't support graphics, we provide a global variable to use to specify the depth of the map in the status line.]
-[Documentation: Explain why we're using a new automap graphlinking rules, rather than use the graphlink processing rules. (It's because we want to be able to use rooms as graphlink targets as well.)]
-[Documentation: If no font is included, must employ the no query use option or run-time errors will result.]
+
+Chapter - Inclusions
 
 Include version 3 of Automap by Mark Tilford.
 Include Glimmr Drawing Commands by Erik Temple.
@@ -20,7 +19,12 @@ Use no post-processing translates as (- Constant N_POST_PROCESS; -).
 Use MAX_ARRAYS of 3000.
 
 Use automap hyperlinks. [This use option is provided by the Automap extension. It must be invoked to avoid compiler errors.]
-Use automap static allocation. [Prevents Spatterlight from crashing when the window is resized.]
+Use automap static allocation. [Prevents crashes in Spatterlight and Zoom.]
+
+
+Section - Maximum map size use option
+
+Use automap reserved area of at least 3200.
 
 
 Chapter - Console settings
@@ -102,7 +106,7 @@ First for constructing the status line (this is the bypass status line map rule)
 	
 
 Chapter - The map-display window kind
-[We need to change Glimmr Canvas-Based Drawing's basic window-drawing behavior for the automap window. One of the most straightforward ways to do this is with a kind. A property would work as well, but we don't really want to be able to change this during play—map display would break entirely.]
+[We need to change Glimmr Canvas-Based Drawing's basic window-drawing behavior for the automap window. One of the most straightforward ways to do this is with a kind. A property would work as well, but we don't really want to be able to change this during play--map display would break entirely.]
 
 A map-display window is a kind of graphlink g-window.
 
@@ -657,26 +661,26 @@ UI-query	Figure of UI-query	Figure of UI-query	Figure of UI-query-depressed
 
 Section - UI anchor elements
 
-An anchor UI-element is a kind of UI-element.
+An anchor-element is a kind of UI-element.
 
-An anchor UI-element has a number called the horizontal margin. The horizontal margin is usually 999.
-An anchor UI-element has a number called the vertical margin. The vertical margin is usually 999.
+An anchor-element has a number called the horizontal margin. The horizontal margin is usually 999.
+An anchor-element has a number called the vertical margin. The vertical margin is usually 999.
 
-An anchor UI-element can be center-positioned, right-positioned, or left-positioned (this is its horizontal-positioning property).
-An anchor UI-element can be bottom-positioned, central-positioned, or top-positioned (this is its vertical-positioning property).
+An anchor-element can be center-positioned, right-positioned, or left-positioned (this is its horizontal-positioning property).
+An anchor-element can be bottom-positioned, central-positioned, or top-positioned (this is its vertical-positioning property).
 
 
 Section - The UI frame
 
 [The UI-frame is a framing element for the buttons that do the actual work. However, we use it as a hook on which to hang spacing and other information, and we also use it as a means to calculate the width and height of the UI elements taken together. It must be represented by a PNG file from which the width and height can be read.] 
 
-The UI-frame is an anchor UI-element.
+The UI-frame is an anchor-element.
 The image-ID is usually Figure of UI-frame.
 
 
 Section - The query explanatory text object
 
-The UI-query-explanation is an anchor UI-element.
+The UI-query-explanation is an anchor-element.
 The image-ID is usually Figure of UI-query-explanation. The display status is usually g-inactive.
 
 The UI-query-explanation has a number called the maximum display-count. The maximum display-count is usually 999.
@@ -729,7 +733,7 @@ Section - Element scaling for UI elements
 
 [The first rule bypasses the standard g-element scaling rule, which automatically scales the origin of an element to the window. Because we are calculating the origins of UI-elements based on the window itself, we have no need to scale. The second rule rule provides a handy place to do these calculations. The third rule arranges the buttons on the frame, based on the position of the frame as calculated by the second rule.]
 	
-An element scaling rule for an anchor UI-element (called the current-element) (this is the anchor placement rule):
+An element scaling rule for an anchor-element (called the current-element) (this is the anchor placement rule):
 	if the current-element is right-positioned:
 		change entry 1 of the origin of the current-element to the width of the current window - (image-width of image-ID of current-element + horizontal margin of current-element);
 		[say "Calculated: [entry 1 of the origin of the current-element].";]
@@ -764,10 +768,10 @@ Last element scaling rule for a UI-element (this is the UI element scaling rule)
 
 Section - Element drawing rules for UI elements
 
-An element display rule for an anchor UI-element (called the current-element):
+An element display rule for an anchor-element (called the current-element):
 	display (image-ID of current-element) in the current window at (origin of current-element);
 	#if utilizing Glimmr debugging;
-	say "[>console][GLAM]Drawing anchor UI-element [i][current-element][/i] ([image-ID of current-element]) at origin ([entry 1 of the origin of current-element],[entry 2 of the origin of the current-element]).[<]";
+	say "[>console][GLAM]Drawing anchor-element [i][current-element][/i] ([image-ID of current-element]) at origin ([entry 1 of the origin of current-element],[entry 2 of the origin of the current-element]).[<]";
 	#end if;
 	
 An element display rule for a UI-button (called the pressee):
@@ -794,7 +798,7 @@ To stop the/-- timer:
 
 [Section - Optional undo control (for use with Undo Output Control by Erik Temple)
 
-[This section can be uncommented should you wish to add buttons to your game that actually cause a turn to pass—none of the buttons as defined by default result in that.]
+[This section can be uncommented should you wish to add buttons to your game that actually cause a turn to pass--none of the buttons as defined by default result in that.]
 
 [The timer introduces a certain wild-card element. The upshot is that, when we undo, the events that happen after the timer fires are not "remembered"--so, the state of the button will still be active after we undo, and the timer event will not fire. The after undoing an action rule here requests the timer event immediately after undoing, so that the button will return to its initial state as needed. This has the added benefit of indicating to the player exactly what is being reconstructed after UNDO, the pressing of the button. This is rather primitive, in that the timer event is requested no matter the situation (i.e, regardless of whether the last turn involved a button press; however, things are structured so that this is harmless.]
 
@@ -808,9 +812,9 @@ Glimmr Automap ends here.
 
 Chapter: About Glimmr Automap
 
-Glimmr Automap is, unlike most other Glimmr extensions, a solution rather than a framework. It provides a graphical map that draws a flowchart-style map to a graphics window, adding rooms dynamically to the map as the player discovers the world. Glimmr Automap (GLAM) is a graphical frontend for Mark Tilford's Automap extension, displaying the map data generated by that extension using a graphical tileset, supplied as the Glimmr Automap Tileset extension. Users may also supply their own tilesets.
+Glimmr Automap is, unlike most other Glimmr extensions, a solution rather than a framework. It provides a graphical map that draws a flowchart-style map to a graphics window, adding rooms dynamically to the map as the player discovers the story world. Glimmr Automap (GLAM) is a graphical frontend for Mark Tilford's Automap extension, displaying the map data generated by that extension using a graphical tileset, supplied as the Glimmr Automap Tileset extension. Users may also supply their own tilesets.
 
-Glimmr Automap also provides easily configured user-interface elements for interacting with the map, including to zoom in and out using onscreen buttons, to click on rooms on the map to identify them onscreen, and more.
+Glimmr Automap also provides easily configured user-interface elements for interacting with the map, including zooming in and out using onscreen buttons, clicking on rooms in the map to identify them onscreen, and more.
 
 Glimmr Automap is primarily designed for use with Glulx interpreters that support graphics windows, but it will fall back to an ASCII (or Unicode) map on text-only interpreters, using the interface provided by Mark Tilford's Automap.
 
@@ -819,7 +823,7 @@ The extension requires most of the other Glimmr extensions in order to function,
 
 Section: A note on terminology
 
-Through the course of this documentation, Glimmr Automap will be referred to either using its full name, or the abbreviation "GLAM". Mark Tilford's Automap extension—the engine that actually supplies the map data—will be referred to as "Automap" or "Mark Tilford's Automap".
+Through the course of this documentation, Glimmr Automap will be referred to either using its full name, or the abbreviation "GLAM". Mark Tilford's Automap extension--the engine that actually supplies the map data--will be referred to as "Automap" or "Mark Tilford's Automap".
 
 
 Chapter: Including Glimmr Automap in a project
@@ -831,26 +835,27 @@ Glimmr Automap should be included before any font or tileset extensions, e.g.:
 	Include Glimmr Automap by Erik Temple.
 	Include Glimmr Automap Tileset by Erik Temple.
 
-You should not include Flexible Windows, Fixed Point Maths, Glimmr Drawing Commands, or Glimmr Canvas-Based Drawing in your project; these are included automatically, as is Mark Tilford's Automap.
+You should not include Flexible Windows, Fixed Point Maths, Glimmr Drawing Commands, Glimmr Canvas-Based Drawing, or Glimmr Graphic Hyperlinks in your project; these are included automatically, as is Mark Tilford's Automap. Fonts and tilesets *must* be included after the Glimmr Automap extension.
+
 
 
 Chapter: Basic usage
 
-Glimmr Automap renders the map data generated by Automap using a set of images defined by a "tileset." Tilesets are packaged as extensions, and Glimmr Automap Tileset is provided as part of Glimmr. Note that GLAM will not run without a tileset extension! 
+Glimmr Automap renders the map data generated by Automap using a set of images defined by a "tileset." Tilesets are packaged as extensions, and Glimmr Automap Tileset is provided as part of Glimmr. Note that GLAM will not run properly without a tileset! 
 
 At its most basic, adding Glimmr Automap to your story involves just two steps:
 
 	1. Include the extension and a tileset extension.
 	2. Create a "map-display window" and an accompanying canvas.
 
-The first step is simple. Unless we are using an alternate tileset, we can include this at the top of our story file:
+The first step is simple. Unless we are using an alternate tileset, all we need to do is include these two sentences at the top of our story file:
 
 	*: Include Glimmr Automap by Erik Temple.
 	Include Glimmr Automap Tileset by Erik Temple.
 
 We must copy the image files for the Glimmr Automap user interface into the Materials->Figures folder of our Inform project, as well as the images for our tileset. See Chapter 22 of Writing with Inform for more information on using images.
 
-We may easily incorporate the "querying" functionality—which allows the player to click on a room in the map to reveal the room name in a tooltip—by including Glimmr Bitmap Font:
+We may easily incorporate the "querying" functionality--which allows the player to click on a room in the map to reveal the room name in a tooltip--by including Glimmr Bitmap Font:
 
 	*: Include Glimmr Bitmap Font by Erik Temple.
 
@@ -871,7 +876,7 @@ This is all that is required to get a fully functioning graphical automap into o
 
 Chapter: The query functionality
 
-As mentioned above, GLAM can print the name of a room to the graphics window in the style of a tooltip when the player clicks said room on the map. This is known as the "query" function. 
+As mentioned above, GLAM can print the name of a room to the graphics window in the style of a tooltip when the player clicks on said room in the map. This is known as the "query" function. 
 
 
 Section: Querying the room name
@@ -884,6 +889,8 @@ As mentioned above, the easiest way to enable the room-querying functionality is
 
 	The image automap label is an image-rendered string. The background tint is g-Yellow. The display-layer is 2. The display status is usually g-inactive. The associated font is Glimmr Lucidex. The scaling factor is 0.4000.
 
+(See Glimmr Canvas-Based Drawing for more on the nature and properties of rendered strings, and of g-elements more generally.)
+
 It is also possible to change the look of the tooltip even when we are using Glimmr Bitmap Font. To change the text and tooltip colors, for example, we might set the tint and background tint properties of the "bitmap automap label" g-element:
 
 	The background tint of the bitmap automap label is g-Blue. The tint of the bitmap automap label is g-White.
@@ -895,11 +902,13 @@ The existence of the query functionality will not be obvious to players unless w
 
 	*: The display status of the UI-query-explanation is g-active.
 
-A text will appear above the UI frame that says "Click to identify a room". This text is completely hardcoded—to change the text or the color, we need to create a new PNG image for it. (The reason for this is speed—rendered strings may be slow on some machines/interpreters, and it is best to limit their use.)
+A text will appear above the UI frame that says "Click to identify a room". This text is completely hardcoded--to change the text or the color, we need to create a new PNG image for it. (The reason for this is speed--rendered strings may be slow on some machines/interpreters, and it is best to limit their use.)
 
 By default, the UI-query-explanation element will be shown only until the player clicks on a room. If we prefer to show the explanation through the entire course of the game, we can add the following to our source text:
 
 	*: The UI-query-explanation is g-persistent.
+
+(Note that if we are using the query button--see below--then "g-persistent" will have no effect.)
 
 We can move the query explanation text around the screen in the same way as we do the UI frame (see below).
 
@@ -910,6 +919,7 @@ Section: Disabling query functionality
 It may be that we don't want to offer the ability to query the map. To disable the feature completely, employ a use option:
 
 	*: Use no query functionality.
+
 
 
 Chapter: Customizing the user interface
@@ -936,33 +946,36 @@ We can specify which zoom level the game should start out at by setting the "ini
 	The initial zoom level of the Glimmr Automap Tileset is 1.
 
 
+Section: Anchor elements
 
-Section: Customizing the position of the UI frame and the query explanation
+Glimmr Automap handles window-canvas display differently from Canvas-Based Drawing. Rather than scale the canvas so that it fits the window, GLAM resizes the canvas. Each time the window is redrawn, GLAM calculates the number of tiles that will fit in the window--up to the maximum set by the "automap reserved area" use option (see above)--and changes the size of the canvas to match. The canvas is then centered in the window as per standard Canvas-Based Drawing behavior.
 
-The toolbar that surrounds the zoom buttons is called the "UI-frame." It is a special g-element (of the kind "anchor UI-element," which is also the kind of the UI-query-explanation; see above). The UI-frame is positioned by default in the bottom center of the map window, but there are nine possible positions, defined by the "horizontal-positioning" and "vertical-positioning" properties. We can move either the query explanation or the UI frame around the window by changing these positionings, as well as tweaking margins (see below).
+This means that there is no reliable way to set the positions of other elements (such as the zoom buttons). Canvas positions aren't reliable, since the canvas dimensions can change radically at different window sizes and zoom levels. So, Glimmr Automap introduces the "anchor-element." Anchor-elements g-elements that are placed (anchored) relative to the edges of the window, rather than to the canvas grid; these elements completely ignore the canvas, and instead are placed using textual "positionings" and numerical "margins".
 
-The positionings are:
+GLAM includes two anchor-elements: the "UI-frame", which is a box that holds the zoom and query buttons, and the query explanation text ("UI-query-explanation," actually an external image file). If we want to add other graphic elements to the map window, it will generally be easiest to make them anchor-elements.
+
+Anchor-elements are placed using adjectives for gross positioning, and a number for fine-tuning. By default, both the UI-frame and the UI-query-explanation have the same gross positioning: they appear in the bottom center of the window (see the section on the query functionality for more on the UI-query-explanation g-element). There are nine possible positions, three each for the "horizontal-positioning" and "vertical-positioning" properties. We can move an anchor element around the window by changing these positionings. The positionings are:
 
 	horizontally: left-positioned / center-positioned / right-positioned
 	vertically: top-positioned / central-positioned / bottom-positioned
 
-So, if we wanted to move the frame to the upper left of the map window, we'd type something like this:
+So, if we wanted to move the UI-frame to the upper left of the map window, we'd type something like this:
 
 	The UI-frame is top-positioned and left-positioned.
 
+We can further tweak this positioning by setting the margins. The margin is the horizontal or vertical distance (in pixels) between the nearest edge of the window and the UI frame. So, if we want to move the UI frame farther from the top of the screen, we might add to our declaration of the UI-frame's position:
 
-We can further tweak the positioning by setting the margins. The margin is the horizontal or vertical distance (in pixels) between the nearest edge of the window and the UI frame. So, if we want to move the UI frame farther from the bottom of the screen, we might type:
-
+	The UI-frame is top-positioned and left-positioned.
 	The vertical margin of the UI-frame is 50.
 
-This will place the UI-frame so that 50 pixels separate it from the bottom of the map window, rather than the default 5.
+This will place the UI-frame so that 50 pixels separate it from the top of the map window, rather than the default 5.
 
-Note that there will be no effect is we try to change the horizontal margin of a center-positioned anchor element, or the vertical margin of a central-positioned one: the element must be anchored to an edge of the window for the margin value to be meaningful.
+Note that there will be no effect if we try to set the horizontal margin of a center-positioned anchor element, or the vertical margin of a central-positioned one: the element must be anchored to an edge of the window for the margin value to be meaningful.
 
 
 Section: Removing the frame altogether
 
-Removing the frame altogether is simple. Declare the UI-frame object to be display-inactive, and neither it nor the buttons it contains will be shown:
+Removing the UI-frame (and its buttons) altogether is simple. Declare the UI-frame object to be display-inactive, and neither it nor the buttons it contains will be shown:
 
 	*: The display status of the UI-frame is g-inactive.
 
@@ -1009,7 +1022,7 @@ To add the query button to the toolbar, just activate the "UI-query" g-element:
 
 	*: The display status of the UI-query is g-active.
 
-By default, the query explanation text (see above) will be shown every time the query button is pressed, disappearing after the player clicks on a room but reappearing when the query button is pressed again. This is intended to serve as a reminder to the player of the button's function. If we prefer to show the explanation only once, we can change the "maximum display-count" of the query explanation element:
+Using the query button changes the behavior of the query explanation text (see above). When the query button is in use, the query explanation text-image will be shown every time the query button is pressed, disappearing after the player clicks on a room but reappearing when the query button is pressed again. This is intended to serve as a reminder to the player of the button's function. If we prefer to show the explanation only once, we can change the "maximum display-count" of the query explanation element:
 
 	The maximum display-count of the UI-query-explanation is 1.
 
@@ -1017,51 +1030,181 @@ The default is the special value 999, which indicates that the text will always 
 
 	*: The maximum display-count of the UI-query-explanation is 0.
 
+Note that the maximum display-count works only when the query button is in use; it will do nothing otherwise. Similarly, the "g-persistent" property used to control the UI-query-explanation in the absence of the query button has no effect when the button is active.
 
 
+Section: A note on the functioning of mouse input
+
+GLAM has special handling for mouse input to the map window. The general handling for mouse input to graphic windows is defined by Glimmr Graphic Hyperlinks: When a mouse click is received in a graphics window that is awaiting input, the "clicking graphlink rules" are consulted for that window; if a hot-linked zone of the window was clicked, we run the "graphlink processing rules" for the corresponding "graphlink". GLAM redirects mouse input to the map window (only) to the "automap graphlink rules". This segregates all input to both the map (clicking on rooms) and the provided UI elements (the zoom and query button) so that they can be handled by a separate rulebook. This is intended to make it easier to use GLAM alongside other graphics windows that might be displaying less specialized content. Be aware of this if you are adding your elements or behavior to the map-window. The best way to see how things operate is to study the source code.
 
 
-Chapter: Notes on the interface with Mark Tilford's Automap
+Chapter: The map and the interface with the Automap extension
+
+The map displayed by GLAM is actually generated by Mark Tilford's Automap extension. Automap provides data in the form of a gridded set of tile numbers. These tile numbers could be rendered in many ways; in fact, Automap provides translation tables to allow the same set of numbers to display a map with Infocom's Font3, with ASCII text, or with Unicode text. Glimmr Automap intercepts Automap's default behavior, which is to print the map to an expanded status line, and draws it using the "map-renderer" g-element. (The map-renderer is a specially made g-element that works similarly to an image-map.)
+
+See the documentation for Automap by Mark Tilford for commands that can be used to change the way the map is generated--mapping rooms in particular places, for example, or changing how mapping is handled for rooms with closed doors.
 
 
+Section: Memory allocation for the map
 
-INCORPORATE:
-All of the map size setting in Glimmr Automap is done   
-"manually" by the extension, for a couple of reasons. Not specifying the   
-"use static allocation" option can cause crashes in both Spatterlight and   
-Zoom, and because of this, Glimmr Automap sets "use static allocation" by   
-default--authors don't have a choice in whether or not they set this   
-option. Also, the screen model is a bit more complicated in Glimmr   
-Automap, since both tiles and window size can vary: Each time the map is   
-updated, Glimmr Automap uses your "reserve automap memory of X rows by Y   
-columns" command to resize the map to the available screen-space (up to   
-the maximum set by "use automap reserved area"), taking into account both   
-the zoomed size of the tiles and the window dimensions. When the zoom   
-level changes (changing the displayed size of the tile), or the window is   
-resized, the map dimensions are automatically recalculated before the map   
-is drawn again. 
+The Automap extension can dynamically change the maximum size of its map array, but this feature causes some interpreters to crash. Glimmr Automap does not allow dynamic allocation of memory to the map array. What this means for veteran Automap users is that the "use static allocation" option is always set, and the maximum size of the map must be set *at compile time* using the "use automap reserved area of at least X" use option. (Note that, due to a limitation in Inform, this number looks like a minimum, but is in fact a maximum.)
 
-INCORPORATE:
+It is therefore important that we set the automap reserved area to a number that is high enough for our map to display as we want it to. GLAM calculates the dimensions by determining the number of tiles that would in the graphics window at the current zoom level. If GLAM calculates that the window would hold 45 horizontally and 24 tiles vertically, then the total number of tiles would be 45 x 24 = 1080. The default value set by Glimmr Automap is rather arbitrary (3200), but probably adequate to most purposes. We can in any case set the value higher if we like:
 
-Setting the "use automap reserved area" to higher numbers will move the text map (only on text-only interpreters) toward the center of the window; the lower the number, the more toward the right side of the screen it will display.
+	*:  Use automap reserved area of at least 3400.
+
+If for some reason we need to make the automap reserved area less than 3200, we need to replace the section titled "Section - Maximum map size use option". If we want to make it less than 400, we need to edit the Automap extension directly. (We can make the *map*--as opposed to the memory reserved for it--smaller by setting maximum dimensions; see below.)
+
+Use the "map dump" debugging command to see the dimensions and total number of tiles of your map at any given zoom level and window size.
+
+Note that there is an odd circumstance that affects text-only interpreters, rooted in Automap's design: setting the "use automap reserved area" to higher numbers will move the text map toward the center of the window; the lower the number, the more toward the right side of the screen it will display. The 3200 default value ought to properly center the map on most screens, but try testing in the Quixe interpreter (which, as of fall 2010, does not support graphics windows) to preview the appearance of the text-only map.
 
 
-Section: Zoom levels
+Section: Map size
 
-Automap provides two zoom levels that actually change the way map data is reported. These are "map zoomed in" and "map zoomed out". Glimmr Automap always uses the "map zoomed in" zoom level. For displaying large maps on screen, however, "map zoomed out" may be faster: Map zoomed in requires 9 tiles to draw each room, whereas map zoomed out uses only 1 tile per room, a significant difference. 
+We can also specify the maximum dimensions of our map, in tiles. This can be used to restrict the size of the map for either performance or aesthetic reasons. For example, a fixed map size combined with a restricted number of available zoom levels can make it easier to predict the output size of the map. The maximal width and height values are attached to the map window object (as properties):
+
+	The maximum map width of the map-window is 80.
+	The maximum map height of the map-window is 40.
+
+Of course, if the window isn't large enough to accomodate a map of these dimensions at the present zoom level, then the largest possible size will be used. Also note that if the "automap reserved area" limit is lower than the product of the map width and height, then the map will only grow as large as the reserved area. Be sure that your automap reserved area is at least as large as the product of the maximum map width and height.
+
+
+Section: Post-processing of the Automap data
+
+The tileset data that Automap produces is designed for text-based maps, or for maps whose room connector lines are only a single pixel wide. This causes a problem for tilesets such as the Glimmr Automap Tileset, which has connectors that are a few pixels wide. The issue is that diagonal tiles touch only at their corners, which leaves a triangular gap on either side of a diagonal connector. To fix this problem, Glimmr Automap reads the map data from Automap and adds tiles that fill the empty spaces around diagonal joins. This occurs in the "automap post-processing" rulebook. 
+
+We can add our own rules to this rulebook if there are other things we'd like to customize, or we can disable them entirely by including this use option:
+
+	*: Use no post-processing.
+
+We might want to disable post-processing if we are using a tileset that has connector lines that are only a single pixel wide. There is no need for post-processing of such a tileset, and we can avoid wasted time by simply bypassing the rulebook.
+
+
+Section: Automap's zoom levels
+
+Veteran Automap users know that that extension provides two zoom levels that actually report map data in different ways. These are "map zoomed in" and "map zoomed out". Glimmr Automap always uses the "map zoomed in" zoom level. For displaying large maps on screen, however, "map zoomed out" may be faster: whereas map zoomed in requires 9 tiles to draw each room, map zoomed out uses only 1 tile per room, a significant difference. 
 
 You can use "map zoomed out" in Glimmr Automap with the addition of only a single line:
 
 	*: Last opening up the map window:
 		now current zoom is map zoomed out.
 
-However, Automap reuses tile numbers in ways that make the design of the Glimmr Automap Tileset look distinctly subpar when "map zoomed out" is the current zoom. The tile graphics could be modified relatively easily to work the map zoomed out view, if you want to go that route (or you can design your own tiles from scratch). The first step is to explore your map to reveal most of the tiles, then use the DUMP MAP debugging command (see below) to see what the tile numbers are.
+However, Automap reuses tile numbers in ways that make the design of the Glimmr Automap Tileset look distinctly subpar when "map zoomed out" is the current zoom. The tile graphics could be modified relatively easily to work the map zoomed out view, if you want to go that route (or you can design your own tiles from scratch). See below for a few notes on creating tilesets.
 
+
+Section: Toggling the ASCII version of the map
+
+Glimmr Automap has the MAP command open and close the graphical map window. If you prefer that the MAP command toggle the ASCII/Unicode/Font3 version of the map rather than remove the map window entirely, you can paste the following into your story file:
+
+	*: Chapter - Toggling text map view (in place of Chapter - Hacking Automap in Glimmr Automap by Erik Temple)
+
+	First for constructing the status line (this is the bypass status line map rule):
+		if glulx graphics is supported and the map-window is g-present:
+			fill status bar with table of ordinary status;
+			rule succeeds;
+		otherwise:
+			now current zoom is map zoomed in;
+			reserve automap memory of (text-map depth) rows;
+			fill status bar with table of ordinary status and map.
+
+This closes the map window and immediately expands the status line to as many rows as have been set in the "text-map depth" variable. Change the text-map depth as desired to resize the ASCII version of the map (the default is 12).
+
+If you do this, you will probaby want to change the default messages for the "map" command as well, since it refers to opening and closing the map window. See below.
+
+
+Chapter: Creating new tilesets
+
+Instructions for creating image files for a tileset are outside the scope of this documentation. It is highly recommended, though, that you use PNG files with transparency for all tiles. You can use the image files included with the Glimmr Automap Tileset extension as a reference in creating your own tiles.
+
+Section: Description of tilesets
+
+A tileset is an object (of kind thing, to be precise) that defines the essential information needed for translating the list of numbers provided by the Automap extension into a grid of images. Declaring a tileset is simple:
+
+	The Glimmr Automap Tileset is a tileset.
+
+A tileset has only a few parameters. The most important is the "translation table". The translation table relates an arbitrary number to a figure name: 
+
+	The Glimmr Automap Tileset is a tileset. The translation-table is the Table of Automap Tiles.
+
+	Table of Automap Tiles
+	Char	Tile
+	number	figure-name
+	2	Figure of north south path
+	1	Figure of east west path
+	35	Figure of ne sw path
+	36	Figure of nw se path
+	37	Figure of empty room center
+	90	Figure of diagonal cross
+	91	Figure of orthogonal cross 
+	38	Figure of south wall
+	39	Figure of north wall
+	40	Figure of east wall
+	41	Figure of west wall
+	42	Figure of north exit
+	43	Figure of south exit
+
+Another pair of properties describes the dimensions of the tiles. These should (but strictly need not) reflect the actual dimensions of the image files in the tileset. The dimension properties are "tile-width" and "tile-height":
+
+	The tile-width of the Glimmr Automap Tileset is 25.
+	The tile-height of the Glimmr Automap Tileset is 25.
+
+Automap tilesets are also required to have two additional parameters. The "zoom-level set" is a list of real numbers that describes the levels of zoom available; four entries in the list means that there are four zoom levels available. Zoom levels should increase from left to right in the listing. The "initial zoom level" tells us which zoom level to begin the game using, and is expressed as a number representing the appropriate entry of the zoom-level set.
+
+	The zoom-level set of the Glimmr Automap Tileset is {0.3600, 0.5600, 0.8000, 1.0000}.
+	The initial zoom level of the Glimmr Automap Tileset is 2.
+
+If we don't explicitly include these parameters, then we will have one zoom-level (1.0000, or 100%), with the initial zoom level set to 1. 
+
+It is not recommended that you use zoom levels greater than 1.0000, as image quality will degrade. Instead, create your tiles as large as the largest size you want them to appear on screen, and use 1.0000 as your highest zoom level, with fractional values for lower zoom levels.
 
 
 Chapter: Debugging
 
-The map-renderer g-element is not an image-map (it reads a different data structure, a flat I6 array rather than an I7 list), but it is very similar in the way it renders a grid of images. For that reason, we provide debugging commands and capabilities analogous to those that Glimmr Canvas-Based Drawing provides for image-maps... 
+Glimmr Automap, like all other Glimmr extensions, includes a debugging log. This chapter includes basic information about the debugging tools, as well as those specific to GLAM; for more information, see the documentation for Glimmr Drawing Commands.
+
+To use the debugging log, enable this use option:
+
+	Use Glimmr debugging.
+
+Now Glimmr functions will announce themselves, as well as the particular extension that generated them (e.g., Glimmr Canvas-Based Drawing, Glimmr Drawing Commands, etc.) as they fire. Be warned that, under normal usage, Glimmr generates a lot of debugging information, and can quite thoroughly gum up a game's output. There are a few things we can do to mitigate this:
+
+	1) The Glimmr Debugging Console extension can be included to segregate Glimmr logging output into its own window.
+
+	2) We can set up our own alternate text-buffer window and direct log output there by setting the "console output window" variable, e.g.:
+
+		The console output window is my-text-window [a text-buffer g-window].
+
+	3) We can also send console log output to the transcript, while not printing it anywhere else. To do this, we include this code in our story file (it must be placed *after* the inclusion of GLAM):
+
+		To say >console:
+			say echo stream of main-window.
+	
+		To say <:
+			say stream of main-window;
+			say run paragraph on.
+
+	This will only work when a transcript is actually being written. To ensure that we do not forget to initiate one, we can include something like this:
+
+		When play begins:
+			try switching the story transcript on.
+
+
+Section: Glimmr Automap debugging commands
+
+The map-renderer g-element is not an image-map (it reads a different data structure, a flat I6 array rather than an I7 list), but it is very similar in the way it renders a grid of images. For that reason, we provide debugging commands and capabilities analogous to those that Glimmr Canvas-Based Drawing provides for image-maps. To see which tiles have individual graphic hyperlinks, include this use option:
+
+	*: Use image-map graphlink preview.
+
+This will draw a thin gray box around each tile in the map that is graphlinked (that is, receptive to mouse input). We can change the color of the preview box by setting the "graphlink preview color" global variable to a glulx color value, e.g.
+
+	The graphlink preview color is g-Lavender.
+
+Note that if the graphlink preview color is set to null (that is, g-PlaceNullCol), no box will be visible.
+
+We can "dump" the automap data to the screen by typing "DUMP MAP" in-game, and if we are running the game in the IDE, this will print the grid, using tile numbers, to the main window. The data dump also includes information about the size of the map, the tiles, the window, and the canvas.
+
+In addition to dumping the map data, we can dump the contents of the automap links array, also provided by the Automap extension. The automap links array is the same size and shape as the map data array but it contains the room names of each tile that is linked to a room. (This is the array that powers the query function, and can also be used to go to rooms when the player clicks on them in the map.) The command to dump the links array is "DUMP AUTOMAP LINKS".
 
 
 Section: Contact info
@@ -1073,25 +1216,9 @@ Please report bugs on the Google Code project page, at http://code.google.com/p/
 For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the infiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, you may contact me directly via email (ek.temple@gmail.com).
 
 
-.........................
+Example: * Minimal Automap - This example shows the simplest possible setup for using Glimmr Automap. Basically, this means including the extension and a tileset extension, and then defining and opening up a map-window.
 
-If you prefer that the MAP command toggle the ASCII version of the map rather than close the map window entirely, you can paste the following into your story file:
-
-	*: Chapter - Deciding (in place of Chapter - Hacking Automap in Glimmr Automap by Erik Temple)
-
-	First for constructing the status line (this is the bypass status line map rule):
-		if glulx graphics is supported and the map-window is g-present:
-			fill status bar with table of ordinary status;
-			rule succeeds;
-		otherwise:
-			now current zoom is map zoomed in;
-			reserve automap memory of (text-map depth) rows;
-			fill status bar with table of ordinary status and map.
-
-You will probaby want to change the default messages for the "map" command as well, since it refers to opening and closing the map window.
-
-
-Example: * Minimal Automap. This example shows the simplest possible setup for using Glimmr Automap. Basically, this means including the extension and a tileset extension, and then defining and opening up a map-window.
+Add the line "Include Glimmr Bitmap Font by Erik Temple" after the Glimmr Automap inclusions to activate the query functionality.
 
 Be sure to use the "opening up the map window rules" or to otherwise protect the phrase for opening your graphics window; if you don't, your game will not open in text-only interpreters.
 
@@ -1106,14 +1233,19 @@ to the source code and press the "Browse" button in the results panel after comp
 	Include Glimmr Automap by Erik Temple.
 	Include Glimmr Automap Tileset by Erik Temple.
 
+	[Before looking for the first time:
+		say "This is a small example for Glimmr Automap, a graphical front-end to Mark Tilford's Automap extension. It generates a map as the player explores the world of the game, with very little effort needed on the part of the author.[paragraph break]This example provides a tiny map, illustrating the use of the extension without any configuration or custom code. To see the source for the example, type SOURCE CODE.[paragraph break][italic type]Instructions[roman type]:[line break]     Zoom the map by using the + and - buttons.[line break]     Click on a room in the map to identify it by name."
+
+	Getting source code is an action applying to nothing. Understand "source code" as getting source code.
+
+	Carry out getting source code:
+		say "Cavern is a room. North of Cavern is Cave. South of Cavern is Deep Tunnel. Down from Deep Tunnel is Pit. Southeast of Deep Tunnel is Underground Lake.[paragraph break]Outside from Cave is Cliffside. East of Cliffside is Foothills.[paragraph break]The player is in Foothills.[paragraph break]The map-window is a map-display window spawned by the main-window. The position is g-placeabove. The measurement of the map-window is 50. The associated canvas of the map-window is the map-canvas.[paragraph break]The map-canvas is a g-canvas.[paragraph break]When play begins:[line break]     follow the opening up the map window rules."]
+
 	Cavern is a room. North of Cavern is Cave. South of Cavern is Deep Tunnel. Down from Deep Tunnel is Pit. Southeast of Deep Tunnel is Underground Lake.
 
 	Outside from Cave is Cliffside. East of Cliffside is Foothills.
 
 	The player is in Foothills.
-
-
-	Chapter - Map window
 
 	The map-window is a map-display window spawned by the main-window. The position is g-placeabove. The measurement of the map-window is 50. The associated canvas of the map-window is the map-canvas.
 
@@ -1125,17 +1257,103 @@ to the source code and press the "Browse" button in the results panel after comp
 		if glulx graphics is supported, open up the map-window]
 
 
-Example: *** Automap with Localized Compass Rose. This example shows how we can add new graphlinking functionality to the map. We may want to take advantage of the fact that the map indicates exits from the player's location to use them as a kind of compass rose, allowing us to click on the paths out of the room to go in the indicated direction (thanks to Jon Ingold for suggesting this idea.)
+Example: ** Automapping the Manse - By default, Glimmr Automap responds to mouse input on a room in the map by displaying a "tooltip" that shows the printed name of the room clicked on. However, we may also want to do other things with mouse input to the map, such as moving to the room clicked, or displaying what the player knows about the room, or something different altogether. In this case, we can either deactivate the query functionality altogether, or activate the query button, which allows the player to move between query and custom modes. The latter is the approach taken in this example, which borrows the "going to a room" code from the Inform manual's "Misadventure" example (number 295). Clicking on a room will issue a command to go to that room.  
+
+We begin by setting up things more or less as in the previous example. Note, however, the first when play begins rule, which adds the query button (the UI-query g-element) to the toolbar. As explained above, when the query button is present, it must be activated in order for clicking on a room to act as a query. Otherwise, nothing will happen--or we can add our own behavior, as we will do here.
+
+
+	*: "Automapping the Manse"
+
+	Include Glimmr Automap by Erik Temple.
+	Include Glimmr Automap Tileset by Erik Temple.
+	Include Glimmr Bitmap Font by Erik Temple.
+
+	[Before looking for the first time:
+		say "This is a small example for Glimmr Automap, a graphical front-end to Mark Tilford's Automap extension. It generates a map as the player explores the world of the game, with very little effort needed on the part of the author.
+
+	This example for the Glimmr Automap extension adds new behavior to our procedurally generated map. Clicking on a room in the map will now produce the command GO TO <ROOM>. To query the map about the name of a room, press the ? button, then click on the room you wish to query. Zoom the map by using the + and - buttons."]
+	
+	Use automap hide paths through closed doors.
+
+	The map-window is a map-display window spawned by the main-window. The position is g-placeabove. The measurement of the map-window is 50. The associated canvas of the map-window is the map-canvas.
+
+	The map-canvas is a g-canvas. The associated canvas of a g-element is the map-canvas.
+
+	When play begins:
+		follow the opening up the map window rules.
+
+	The display status of UI-query is g-active.
+
+The primary map hyperlink mode is defined next, using the "go to any room" code from the Misadventure example in the Inform documentation. The only automap-specific code is the automap graphlink rule at the end of the block, which deals with mouse input to a room, issuing the command "GO TO <ROOM>" on behalf of the player.
+
+	*: Understand "[any room]" as going by name. Understand "go to [any room]" as going by name.
+
+	Going by name is an action applying to one thing.
+
+	Check going by name:
+		if the noun is the location, say "You're already in [the location]." instead;
+		if the noun is not adjacent and the noun is unvisited, say "That noun did not make sense in this context." instead.
+
+	Carry out going by name:
+		let aim be the best route from the location to the noun, using doors;
+		if aim is not a direction, say "You can't think how to get there from here." instead;
+		say "(heading [aim])[command clarification break]";
+		try going aim;
+		if the location is not the noun, say "You'll have to stop here."
+	
+	Automap graphlink rule for a room (called the target):
+		let target-text be the printed name of the target in upper case;
+		change glulx replacement command to "GO TO [target-text]";
+		exit.
+
+And now we provide a geography to move around in:
+	
+
+	*: The Front Lawn is south of the Porch.
+
+	The East Lawn is northeast of the Front Lawn. The West Lawn is northwest of the Front Lawn.
+
+	The Rear Lawn is northwest of the East Lawn. Southwest of the Rear Lawn is the West Lawn.
+
+	The front door is a closed door. It is inside from the porch and outside from the Foyer. "The front door is [if the front door is open]open[otherwise]closed[end if]."
+
+	The Dining Room is east of the Foyer. The Living Room is west of the Foyer. The Kitchen is north of the Dining Room. Bottom of the Stairs is north of the Living Room.
+
+	The Hallway is east of Bottom of the Stairs, north of the Foyer, and west of the Kitchen.
+
+	Top of the Stairs is up from Bottom of the Stairs. Master Bedroom is east of Top of the Stairs. Master Bath is east of the Master Bedroom. West Hall is south of Top of the Stairs. East Hall is east of West Hall and south of the Master Bedroom. East of East Hall is Front Bedroom.
+
+	A tree is scenery in Rear Lawn. "Looks climbable." Instead of climbing the tree: try going up.
+
+	Up from the Rear Lawn is Treetop. "A tall tree grows here. Large branches scrape against the house." The description of Treetop is "You could climb into the house through the window. Type IN."
+
+	A window is an open door. It is not openable. "The window is open." The window is inside from the Treetop and outside from the Master Bedroom.
+
+This final sentence may look like it is merely testing a condition, but in fact this is the Automap extension's means of mapping a room to a specific location. Effectively, the first half of the statement tells Inform to try to place the Master Bedroom 1 unit (1 room, basically) south of the Treetop. If the automapper is unable to do so, the error message will be printed.
+ 
+	*: Before constructing the status line:
+		unless Master Bedroom is placed 0 and 1 from Treetop, say "*** Error placing Treetop ***".
+
+
+
+Example: *** Automap with Localized Compass Rose - This example shows how we can add new graphlinking functionality to the map. We may want to take advantage of the fact that the map indicates exits from the player's location to use them as a kind of compass rose, allowing us to click on the paths out of the room to go in the indicated direction (thanks to Jon Ingold for suggesting this idea.)
 
 We do this by setting a special graphic hyperlink over the tiles that depict exits from the room occupied by the player. We use a table (the Table of Directional Correspondences) to match the appropriate direction to the tile number. We will set a graphic hyperlink using the name of the direction itself as the link identifier, and then convert this direction into a replacement command after the link has been clicked.
 
 We begin by altering the map-renderer element itself, substituting a new rule for the extension's map-renderer display rule. This rule is essentially a copy of the map-renderer display rule. We change only the last few lines, where the graphlink is set. If the current tile number is found in the Table of Directional Correspondences, we set a directional hyperlink. If the current tile number is not in the table, then we either set no link or, if the tile number corresponds to part of a room, we set a hyperlink to the room.
 
-The Table of Directional Correspondences includes only directional links from the player's current location, in other words, those referred to be the Automap extension as "full".
+The Table of Directional Correspondences includes only the tile numbers of directional connectors surrounding the player's current location; in other words, those referred to be the Automap extension as "full". It would probably be best to alter the image files for these tile numbers with arrows or some other graphic indication that clicking on the connector will move the player. I haven't bothered to do that here, but it would be simple enough to add using programs such as Photoshop, Illustrator, Inkscape, or GIMP.
 
 	*: "Automap with Localized Compass Rose"
 
-	The map-renderer plus internal compass rule is listed before the map-renderer display rule in the element display rules.
+	Include Glimmr Automap by Erik Temple.
+	Include Glimmr Automap Tileset by Erik Temple.
+	Include Glimmr Bitmap Font by Erik Temple.
+
+	[Before looking for the first time:
+		say "This is a small example for Glimmr Automap, a graphical front-end to Mark Tilford's Automap extension. It generates a map as the player explores the world of the game, with very little effort needed on the part of the author.[paragraph break]This example is the same as the Automapping the Manse example, but it adds the ability to click on the connectors leading out from the PC's location (the blue highlighted room) to go in that direction. This allows the player to navigate the map purely by clicking: Clicking on the exit of the location can take the player to an unvisited room, while clicking on an already visited room on the map issues the command GO TO <ROOM>.[paragraph break]Probably the best thing would be to modify the images for the exit tiles to add arrows that would make for a partial compass rose surrounding the current location, but I haven't bothered...[paragraph break][italic type]Instructions[roman type]:[line break]     Zoom the map by using the + and - buttons.[line break]     Click on the query button, then click on a room to identify it by name."]
+
+	The map-renderer plus internal compass rule is listed instead of the map-renderer display rule in the element display rules.
 
 	An element display rule for the map-renderer (this is the map-renderer plus internal compass rule):
 		let tilesetting be the associated tileset of map-renderer;
@@ -1144,9 +1362,11 @@ The Table of Directional Correspondences includes only directional links from th
 		let column be the win-x of the map-renderer;
 		let xx be the tile-width of the tilesetting * scaling factor of the current window as an integer;
 		let yy be the tile-height of the tilesetting * scaling factor of the current window as an integer;
-		[say "Scaling: [xx] by [yy].";]
 		unless the background tint of the map-renderer is g-placenullcol:
-			dimrectdraw (color background tint of the map-renderer) in (the current window) at (column) by (row) with dimensions (map-width of map-renderer * scaling factor of the current window as an integer) by (map-height of map-renderer * scaling factor of the current window as an integer);
+			draw a rectangle (color background tint of the map-renderer) in (the current window) at (column) by (row) with dimensions (map-width of map-renderer * scaling factor of the current window as an integer) by (map-height of map-renderer * scaling factor of the current window as an integer);
+			#if utilizing Glimmr debugging;
+			say "[>console][GLAM]Drawing background rectangle (glulx color-value [background tint of map-renderer]) from ([win-x], [win-y]) to ([win-x + (map-width of map-renderer * scaling factor of the current window as an integer)], [win-y + (map-height of map-renderer * scaling factor of the current window as an integer)]) for element [i][map-renderer][/i] in [i][current window][/i].[<]";
+			#end if;
 		unless using the no post-processing option:
 			follow the automap post-processing rules;
 		repeat with count running from 1 to (map height * map width):
@@ -1160,21 +1380,18 @@ The Table of Directional Correspondences includes only directional links from th
 				choose row with a char of V in the translation-table of the tilesetting;
 				let the current tile be tile entry;
 				drscimage (current tile) in (current window) at (column) by (row) with dimensions (xx) by (yy);
-				if the graphlink status of the map-renderer is g-active:
+				if using the automap hyperlinks option:
 					if there is a char of V in the Table of Directional Correspondences:
 						choose row with a char of V in the Table of Directional Correspondences;
 						set a graphlink in the current window identified as dir entry from column by row to (column + xx) by (row + yy) as "", ignoring redundant links;
-						#if utilizing the image-map graphlink preview option;
-						boxdraw (color graphlink preview color) in (current window) from (column) by (row) to (column + xx) by (row + yy) with 1;
-						#end if;
 					otherwise if linked room-ID of count > 0:
 						set a graphlink in the current window identified as map-renderer from column by row to (column + xx) by (row + yy) as linked room-ID of count, ignoring redundant links;
-						#if utilizing the image-map graphlink preview option;
-						boxdraw (color graphlink preview color) in (current window) from (column) by (row) to (column + xx) by (row + yy) with 1;
-						#end if;
 			increase column by xx;
+		#if utilizing Glimmr debugging;
+		say "[>console][GLAM]Drawing element [i]map-renderer[/i] in [i][current window][/i] at origin ([win-x of map-renderer], [win-y of map-renderer]), dimensions [map width * xx] x [map height * yy] pixels ([map width] x [map height] tiles).[line break][if the automap hyperlinks option is active][GLAM]Hyperlinks set for linked room-ID and directional movement, as provided.[end if][<]"; 
+		#end if.
 	
-	An automap graphlink rule for a direction (called the way):
+	An automap graphlink rule for a direction (called the way) (this is the direction-selecting graphlink rule):
 		let current-direction be indexed text;
 		let current-direction be "[way]";
 		let current-direction be "[current-direction in upper case]";
@@ -1192,3 +1409,63 @@ The Table of Directional Correspondences includes only directional links from th
 	68	northwest
 	69	northeast
 	70	southeast
+
+
+That's all that's required to add the compass rose functionality. The rest of the example is identical to the "Automapping the Manse" example above.
+
+	*: Use automap hide paths through closed doors.
+
+	The display status of UI-query is g-active.
+
+	The map-window is a map-display window spawned by the main-window. The position is g-placeabove. The measurement of the map-window is 50. The associated canvas of the map-window is the map-canvas.
+
+	The map-canvas is a g-canvas. The associated canvas of a g-element is the map-canvas.
+
+	When play begins:
+		follow the opening up the map window rules.
+
+
+	Understand "[any room]" as going by name. Understand "go to [any room]" as going by name.
+
+	Going by name is an action applying to one thing.
+
+	Check going by name:
+		if the noun is the location, say "You're already in [the location]." instead;
+		if the noun is not adjacent and the noun is unvisited, say "That noun did not make sense in this context." instead.
+
+	Carry out going by name:
+		let aim be the best route from the location to the noun, using doors;
+		if aim is not a direction, say "You can't think how to get there from here." instead;
+		say "(heading [aim])[command clarification break]";
+		try going aim;
+		if the location is not the noun, say "You'll have to stop here."
+	
+	Automap graphlink rule for a room (called the target):
+		let target-text be the printed name of the target in upper case;
+		change glulx replacement command to "GO TO [target-text]";
+		exit.
+	
+
+	The Front Lawn is south of the Porch.
+
+	The East Lawn is northeast of the Front Lawn. The West Lawn is northwest of the Front Lawn.
+
+	The Rear Lawn is northwest of the East Lawn. Southwest of the Rear Lawn is the West Lawn.
+
+	The front door is a closed door. It is inside from the porch and outside from the Foyer. "The front door is [if the front door is open]open[otherwise]closed[end if]."
+
+	The Dining Room is east of the Foyer. The Living Room is west of the Foyer. The Kitchen is north of the Dining Room. Bottom of the Stairs is north of the Living Room.
+
+	The Hallway is east of Bottom of the Stairs, north of the Foyer, and west of the Kitchen.
+
+	Top of the Stairs is up from Bottom of the Stairs. Master Bedroom is east of Top of the Stairs. Master Bath is east of the Master Bedroom. West Hall is south of Top of the Stairs. East Hall is east of West Hall and south of the Master Bedroom. East of East Hall is Front Bedroom.
+
+	A tree is scenery in Rear Lawn. "Looks climbable." Instead of climbing the tree: try going up.
+
+	Up from the Rear Lawn is Treetop. "A tall tree grows here. Large branches scrape against the house." The description of Treetop is "You could climb into the house through the window. Type IN."
+
+	A window is an open door. It is not openable. "The window is open." The window is inside from the Treetop and outside from the Master Bedroom.
+ 
+	Before constructing the status line:
+		unless Master Bedroom is placed 0 and 1 from Treetop, say "*** Error placing Treetop ***".
+

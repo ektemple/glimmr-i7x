@@ -828,7 +828,7 @@ This font will automatically be set as the preferred default font for bitmap-ren
 
 Section: Including fonts
 
-Fonts must be included after the main Glimmr extensions. For example, if you are using Glimmr Canvas-Based Drawing:
+Fonts must be included after the main Glimmr extensions. For example, if we are using Glimmr Canvas-Based Drawing:
 
 	Include Glimmr Canvas-Based Drawing by Erik Temple.
 	Include Glimmr Graphic Hyperlinks by Erik Temple.
