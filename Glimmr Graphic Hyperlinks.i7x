@@ -524,7 +524,7 @@ When used with Glimmr Canvas-Based Drawing, GGH becomes almost fully automatic. 
 
 	set a graphlink in the graphics-window identified as the jump-button from {10, 10} to {40, 25} as the action of jumping.
 
-The other major change is that, under Canvas-Based Drawing, the graphlink processing rules are an object-based rulebook are an object-based rulebook. This rule header, for example, will allow us to treat the undo-button g-element differently from the others:
+The other major change is that, under Canvas-Based Drawing, the graphlink processing rules are an object-based rulebook. This rule header, for example, will allow us to treat the undo-button g-element differently from the others:
 
 	A graphlink processing rule for the undo-button:
 		(etc.)

@@ -1,4 +1,4 @@
-Version 1/100911 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple begins here.
+Version 2/101030 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple begins here.
 
 "A framework for drawing graphics of various types--from sprite images to painted text--to a Glulx graphics window. Takes an object-oriented approach, with graphic elements represented as individual objects."
 
@@ -52,6 +52,12 @@ Chapter - Canvas properties related to the window
 
 A g-canvas has a number called the scaled width. The scaled width property translates into I6 as "scaled_width". The scaled width of a g-canvas is usually 0.
 A g-canvas has a number called the scaled height. The scaled height property translates into I6 as "scaled_height". The scaled height of a g-canvas is usually 0.
+
+
+Chapter - The null canvas
+[The null canvas has no purpose except to prevent a compiler error that results when there is no canvas in the world.]
+
+g-null-canvas is a g-canvas.
 
 
 Chapter - Concealing canvas objects
@@ -543,12 +549,12 @@ An element scaling rule for a sprite (called the current-sprite) (this is the sp
 		let sprite-ID be image-ID of current-sprite;
 		let x-temp be the image-width of sprite-ID as a fixed point number;
 		let y-temp be the image-height of sprite-ID as a fixed point number;
-		unless using the asymmetrical scaling option:
-			change sprite-x to x-temp real times the scaling factor of current window real times the scaling factor of the current-sprite as an integer;
-			change sprite-y to y-temp real times the scaling factor of current window real times the scaling factor of the current-sprite as an integer;
+		unless the asymmetrical scaling option is active:
+			now sprite-x is x-temp real times the scaling factor of current window real times the scaling factor of the current-sprite as an integer;
+			now sprite-y is y-temp real times the scaling factor of current window real times the scaling factor of the current-sprite as an integer;
 		otherwise:
-			change sprite-x to x-temp real times the scaling factor of current window real times the x-scaling factor of the current-sprite as an integer;
-			change sprite-y to y-temp real times the scaling factor of current window real times the y-scaling factor of the current-sprite as an integer;
+			now sprite-x is x-temp real times the scaling factor of current window real times the x-scaling factor of the current-sprite as an integer;
+			now sprite-y is y-temp real times the scaling factor of current window real times the y-scaling factor of the current-sprite as an integer;
 		if current-sprite is center-aligned:
 			now the win-x of current-sprite is win-x - (sprite-x) / 2;
 			now the win-y of current-sprite is win-y - (sprite-y) / 2;
@@ -580,11 +586,13 @@ Section - Centering algorithm for sprites
 [When you create a new class of g-element, it is good practice to define a centering phrase that will be able to find the center point, in canvas coordinates, of any object of that class. This should not use the win-x/win-y properties, or any other property that is set by the element scaling rules. For this reason, the algorithm should assume that the origin is the upper-left hand corner (center and right alignment are calculated by the element scaling rules).]
 
 To decide what list of numbers is the center-point of (current-sprite - a sprite):
+	let dx be a number;
+	let dy be a number;
 	let x be entry 1 of the origin of current-sprite;
 	let y be entry 2 of the origin of current-sprite;
 	let x-temp be the image-width of the image-ID of current-sprite as a fixed point number;
 	let y-temp be the image-height of the image-ID of current-sprite as a fixed point number;
-	unless using the asymmetrical scaling option:
+	unless the asymmetrical scaling option is active:
 		let dx be x-temp real times the scaling factor of the current-sprite as an integer;
 		let dy be y-temp real times the scaling factor of the current-sprite as an integer;
 	otherwise:
@@ -615,7 +623,7 @@ A primitive has a number called the end-x. The end-x of a primitive is 0. A prim
 
 Section - Scaling rule for primitives
 
-[The line-weight of the lines used in primitives are scaled according to the scaling factor (or, if we are using asymmetrical scaling, the x scaling factor). If we need to prevent line-weight from changing with the window scaling, we need to place a rule applying to the appropriate primitive or class before the primitive scaling rule. This rule should change the scaling factor to the inverse of the scaling factor; i.e. if the scaling factor were 0.2500, our rule would set the scaling factor to 4.0000, thereby canceling the effect of the window-scaling on the line line-weight.]
+[The line-weight of the lines used in primitives are scaled according to the scaling factor (or, if we are using asymmetrical scaling, the x scaling factor). If we need to prevent line-weight from changing with the window scaling, we need to place a rule applying to the appropriate primitive or class before the primitive scaling rule. This rule should now the scaling factor is the inverse of the scaling factor; i.e. if the scaling factor were 0.2500, our rule would set the scaling factor to 4.0000, thereby canceling the effect of the window-scaling on the line line-weight.]
 
 An element scaling rule for a primitive (called the subject) (this is the primitive scaling rule):
 	let x-temp be entry 1 of the endpoint of the subject scaled by the scaling factor of the current window;
@@ -624,7 +632,7 @@ An element scaling rule for a primitive (called the subject) (this is the primit
 	now the end-y of the subject is y-temp real plus the y-offset of the current window as an integer;
 	if the subject provides the property line-weight:
 		let weight-temp be the line-weight of the subject as a fixed point number;
-		unless using the asymmetrical scaling option:
+		unless the asymmetrical scaling option is active:
 			now the stroke of the subject is the weight-temp real times the scaling factor of the current window real times the scaling factor of the subject as an integer;
 		otherwise:
 			now the stroke of the subject is the weight-temp real times the scaling factor of the current window real times the x-scaling factor of the subject as an integer;
@@ -632,17 +640,17 @@ An element scaling rule for a primitive (called the subject) (this is the primit
 	if the subject is center-aligned:
 		let dx be (end-x of the subject - win-x) / 2;
 		let dy be (end-y of the subject - win-y) / 2;
-		change the win-x to win-x - dx;
-		change the win-y to win-y - dy;
-		change the end-x to end-x - dx;
-		change the end-y to end-y - dy;
+		now the win-x is win-x - dx;
+		now the win-y is win-y - dy;
+		now the end-x is end-x - dx;
+		now the end-y is end-y - dy;
 	if the subject is right-aligned:
 		let dx be (end-x of the subject - win-x);
 		let dy be (end-y of the subject - win-y);
-		change the win-x to win-x - dx;
-		change the win-y to win-y - dy;
-		change the end-x to end-x - dx;
-		change the end-y to end-y - dy;
+		now the win-x is win-x - dx;
+		now the win-y is win-y - dy;
+		now the end-x is end-x - dx;
+		now the end-y is end-y - dy;
 	continue.
 
 
@@ -650,6 +658,8 @@ Section - Centering algorithm for primitives
 [This could be done much more concisely using the win-x/win-y and end-x/end-y properties, but these are not set until the element scaling rulebook is followed, which doesn't grant as much flexiblity. This phrase may be used anytime after the determining offsets activity.]
 
 To decide what list of numbers is the center-point of (item - a primitive):
+	let xx be a number;
+	let yy be a number;
 	let x be entry 1 of the origin of item;
 	let y be entry 2 of the origin of item;
 	unless the item is a point primitive:
@@ -676,11 +686,11 @@ The specification of rectangle primitive is "A rectangle primitive is a type of 
 
 An element display rule for a rectangle primitive (called the rectangle):
 	[if the rectangle is center-aligned:
-		change the win-x of the rectangle to win-x - (end-x) / 2;
-		change the win-y of the rectangle to win-y - (end-y) / 2;
+		now the win-x of the rectangle is win-x - (end-x) / 2;
+		now the win-y of the rectangle is win-y - (end-y) / 2;
 	if the rectangle is right-aligned:
-		change the win-x of the rectangle to win-x - end-x;
-		change the win-y of the rectangle to win-y - end-y;]
+		now the win-x of the rectangle is win-x - end-x;
+		now the win-y of the rectangle is win-y - end-y;]
 	#if utilizing Glimmr debugging;
 	say "[>console][CBD]Drawing rectangle primitive [i][rectangle][/i], color [color tint of rectangle], in [i][current window][/i] with upper left ([win-x], [win-y]) and lower right ([end-x], [end-y])[if the rectangle is graphlinked]. [line break][CBD]Graphlink corresponding to [i][rectangle][/i] set from ([win-x of rectangle], [win-y of rectangle]) to ([end-x], [end-y]): [quotation mark][linked replacement-command][quotation mark][end if].[<]";
 	#end if;
@@ -773,10 +783,10 @@ A point primitive has a number called the stroke. The stroke of a point primitiv
 
 An element display rule for a point primitive (called the point):
 	unless the stroke of the point is 1:
-		change win-x of the point to win-x of the point minus (stroke / 2);
-		change win-y of the point to win-y of the point minus (stroke / 2);
-	change end-x of the point to win-x plus stroke;
-	change end-y of the point to win-y plus stroke;
+		now win-x of the point is win-x of the point minus (stroke / 2);
+		now win-y of the point is win-y of the point minus (stroke / 2);
+	now end-x of the point is win-x plus stroke;
+	now end-y of the point is win-y plus stroke;
 	#if utilizing Glimmr debugging;
 	say "[>console][CBD]Drawing point primitive [i][point][/i], color [color tint of point] in [i][current window][/i] with upper left ([win-x], [win-y]) and lower right ([end-x], [end-y]), scaled line-weight [stroke] pixels[if the point is graphlinked]. [line break][CBD]Graphlink corresponding to [i][point][/i] set from ([win-x of point], [win-y of point]) to ([end-x], [end-y]): [quotation mark][linked replacement-command][quotation mark][end if].[<]";
 	#end if;
@@ -817,30 +827,32 @@ Section - Scaling rule for bitmaps
 
 An element scaling rule for a bitmap (called the grid) (this is the bitmap scaling rule):
 	let the bitsize-temp be the bit-size of the grid as a fixed point number;
-	unless using the asymmetrical scaling option:
-		change the dot-size of the grid to the bitsize-temp real times the scaling factor of the current window real times the scaling factor of the grid as an integer;
+	unless the asymmetrical scaling option is active:
+		now the dot-size of the grid is the bitsize-temp real times the scaling factor of the current window real times the scaling factor of the grid as an integer;
 	otherwise:
-		change the dot-size of the grid to the bitsize-temp real times the scaling factor of the current window real times the x-scaling factor of the grid as an integer;
+		now the dot-size of the grid is the bitsize-temp real times the scaling factor of the current window real times the x-scaling factor of the grid as an integer;
 	if the dot-size of the grid < 1, now the dot-size of the grid is 1;
 	let the bitmap-width be the number of entries in entry 1 of the bitmap-array of the grid;
 	let the bitmap-height be the number of entries of the bitmap-array of the grid;
 	if the grid is center-aligned:
-		change the win-x of the grid to win-x - (bitmap-width * dot-size) / 2;
-		change the win-y of the grid to win-y - (bitmap-height * dot-size) / 2;
+		now the win-x of the grid is win-x - (bitmap-width * dot-size) / 2;
+		now the win-y of the grid is win-y - (bitmap-height * dot-size) / 2;
 	if the grid is right-aligned:
-		change the win-x of the grid to win-x - (bitmap-width * dot-size);
-		change the win-y of the grid to win-y - (bitmap-height * dot-size);
+		now the win-x of the grid is win-x - (bitmap-width * dot-size);
+		now the win-y of the grid is win-y - (bitmap-height * dot-size);
 	continue.
 
 
 Section - Centering algorithm for bitmaps
 
 To decide what list of numbers is the center-point of (item - a bitmap):
+	let dx be a number;
+	let dy be a number;
 	let x be entry 1 of the origin of item;
 	let y be entry 2 of the origin of item;
 	let the bitmap-width be the number of entries in entry 1 of the bitmap-array of the item;
 	let dot-scale be (bit-size of the item * bitmap-width) as a fixed point number;
-	unless using the asymmetrical scaling option:
+	unless the asymmetrical scaling option is active:
 		let dx be the dot-scale real times the scaling factor of the item as an integer;
 		let dy be the dot-scale real times the scaling factor of the item as an integer;
 	otherwise:
@@ -960,10 +972,12 @@ The associated font of a bitmap-rendered string is Null-bitmap-typeface.
 Section - Centering algorithm for bitmap-rendered strings
 
 To decide what list of numbers is the center-point of (item - a bitmap-rendered string):
+	let dx be a number;
+	let dy be a number;
 	let x be entry 1 of the origin of item;
 	let y be entry 2 of the origin of item;
 	let dot-width be (bit-size of the item * length of the item) as a fixed point number;
-	unless using the asymmetrical scaling option:
+	unless the asymmetrical scaling option is active:
 		let dx be the dot-width real times the scaling factor of the item as an integer;
 		let dy be the font-height of the associated font of the item real times the scaling factor of the item as an integer;
 	otherwise:
@@ -981,10 +995,10 @@ Section - Scaling rule for bitmap-rendered strings
 
 An element scaling rule for a bitmap-rendered string (called the stream) (this is the bitmap-rendered string scaling rule):
 	let the bitsize-temp be the bit-size of the stream as a fixed point number;
-	unless using the asymmetrical scaling option:
-		change the dot-size of the stream to the bitsize-temp real times the scaling factor of the current window real times the scaling factor of the stream as an integer;
+	unless the asymmetrical scaling option is active:
+		now the dot-size of the stream is the bitsize-temp real times the scaling factor of the current window real times the scaling factor of the stream as an integer;
 	otherwise:
-		change the dot-size of the stream to the bitsize-temp real times the scaling factor of the current window real times the x-scaling factor of the stream as an integer;
+		now the dot-size of the stream is the bitsize-temp real times the scaling factor of the current window real times the x-scaling factor of the stream as an integer;
 	if the dot-size of the stream < 1, now the dot-size of the stream is 1;
 	continue.
 
@@ -994,16 +1008,16 @@ Section - Bitmap-rendered string drawing rule
 An element display rule for a bitmap-rendered string (called the stream):
 	if the text-string of the stream is "" and the cursor of the stream is not 0:
 		#if utilizing Glimmr debugging;
-		say "[>console][CBD]Rendered bitmap string [i][stream][/i] specifies no text and has not been rendered. To display only a cursor, change the cursor property of the bitmap-rendered string to 0.[<]";
+		say "[>console][CBD]Rendered bitmap string [i][stream][/i] specifies no text and has not been rendered. To display only a cursor, now the cursor property of the bitmap-rendered string is 0.[<]";
 		#end if;
 		exit;
 	let foreground-color be the tint of the stream;
 	let background-color be the background tint of the stream;
 	let len be the length of the stream;
 	if the stream is right-aligned:
-		change the win-x of the stream to the win-x of the stream - (len * dot-size);
+		now the win-x of the stream is the win-x of the stream - (len * dot-size);
 	if the stream is center-aligned:
-		change  the win-x of the stream to the win-x of the stream - (len * dot-size) / 2;
+		now  the win-x of the stream is the win-x of the stream - (len * dot-size) / 2;
 	let row be the win-y of the stream;
 	let column be the win-x of the stream;
 	let column-index be column;
@@ -1028,7 +1042,7 @@ An element display rule for a bitmap-rendered string (called the stream):
 			increase scan by 1;
 			if scan > width entry:
 				increase row by dot-size of the stream;
-				change column to column-index;
+				now column is column-index;
 				let scan be 1;
 			if entry pointer of the glyph map of the associated font of the stream is 1:
 				dimrectdraw (color foreground-color) in (current window) at (column) by row + (yoffset entry * dot-size) with size dot-size of the stream by dot-size;
@@ -1058,11 +1072,13 @@ An image-rendered string has a real number called the calculated scaling factor.
 Section - Centering algorithm for image-rendered strings
 
 To decide what list of numbers is the center-point of (item - a image-rendered string):
+	let dx be a number;
+	let dy be a number;
 	let x be entry 1 of the origin of item;
 	let y be entry 2 of the origin of item;
 	let string-width be length of the item plus (2 * background-margin of the associated font of the item) as a fixed point number;
 	let string-height be font-height of the associated font of the item plus (2 * background-margin of the associated font of the item) as a fixed point number;
-	unless using the asymmetrical scaling option:
+	unless the asymmetrical scaling option is active:
 		let dx be the string-width real times the scaling factor of the item as an integer;
 		let dy be the string-height real times the scaling factor of the item as an integer;
 	otherwise:
@@ -1085,10 +1101,10 @@ The associated font of an image-rendered string is Null-image-typeface.
 Section - Image-rendered string scaling rule
 
 An element scaling rule for an image-rendered string (called the stream) (this is the image-rendered string scaling rule):
-	unless using the asymmetrical scaling option: 	
-		change the calculated scaling factor of the stream to the the scaling factor of the current window real times the scaling factor of the stream;
+	unless the asymmetrical scaling option is active: 	
+		now the calculated scaling factor of the stream is the the scaling factor of the current window real times the scaling factor of the stream;
 	otherwise:
-		change the calculated scaling factor of the stream to the the scaling factor of the current window real times the x-scaling factor of the stream; 
+		now the calculated scaling factor of the stream is the the scaling factor of the current window real times the x-scaling factor of the stream; 
 	continue.
 
 
@@ -1097,27 +1113,26 @@ Section - Image-rendered string drawing rule
 An element display rule for an image-rendered string (called the stream):
 	if the text-string of the stream is "" and the cursor of the stream is not 0:
 		#if utilizing Glimmr debugging;
-		say "[>console][CBD]Rendered image string [i][stream][/i] specifies no text and has not been rendered. To display only a cursor, change the cursor property of the image-rendered string to 0.[<]";
+		say "[>console][CBD]Rendered image string [i][stream][/i] specifies no text and has not been rendered. To display only a cursor, now the cursor property of the image-rendered string is 0.[<]";
 		#end if;
 		exit;
-	let foreground-color be the tint of the stream;
-	let background-color be the background tint of the stream;
-	let len be the length of the stream;
-	let len be len real times the calculated scaling factor of the stream as an integer;
+	[let foreground-color be the tint of the stream;
+	let background-color be the background tint of the stream;]
+	let len be the length of the stream real times the calculated scaling factor of the stream as an integer;
 	if the stream is right-aligned:
-		change the win-x of the stream to the win-x of the stream - len;
+		now the win-x of the stream is the win-x of the stream - len;
 	if the stream is center-aligned:
-		change the win-x of the stream to the win-x of the stream - (len / 2);
-	let row be the win-y of the stream;
+		now the win-x of the stream is the win-x of the stream - (len / 2);
+	[let row be the win-y of the stream;]
 	let column be the win-x of the stream;
 	let cursor-weight be the cursor-width of the associated font of the stream real times the calculated scaling factor as an integer;
-	if cursor-weight < 1, let cursor-weight be 1;
+	if cursor-weight < 1, now cursor-weight is 1;
 	let margin be background-margin of the associated font of the stream real times the calculated scaling factor as an integer;
 	let vertical-size be font-height of the associated font of the stream real times the calculated scaling factor as an integer;
-	unless background-color is g-PlaceNullCol or the text-string of the stream is "":
-		dimrectdraw (color background-color) in (current window) at (column - margin) by (row - margin) with size (len + margin + margin) by (vertical-size + margin + margin);
+	unless background tint of the stream is g-PlaceNullCol or the text-string of the stream is "":
+		dimrectdraw (color background tint of the stream) in (current window) at (win-x of the stream - margin) by (win-y of the stream - margin) with size (len + margin + margin) by (vertical-size + margin + margin);
 	if the cursor of the stream is 0:
-		dimrectdraw (color foreground-color) in (current window) at (column) by (win-y of the stream) with size cursor-weight by vertical-size;
+		dimrectdraw (color tint of the stream) in (current window) at (column) by (win-y of the stream) with size cursor-weight by vertical-size;
 	if the text-string of the stream is "":
 		#if utilizing Glimmr debugging;
 		say "[>console][CBD]Rendered image-based string [i][stream][/i] specifies no text. Displaying cursor at position 0.[<]";
@@ -1133,19 +1148,19 @@ An element display rule for an image-rendered string (called the stream):
 		let the yoffset be yoffset entry real times the calculated scaling factor of the stream as an integer;
 		let xx be the image-width of chosen glyph;
 		let yy be the image-height of chosen glyph;
-		let xx be xx real times the calculated scaling factor of the stream as an integer;
-		let yy be yy real times the calculated scaling factor of the stream as an integer;
-		drscimage (chosen glyph) in (current window) at (column) by (row + yoffset) with dimensions (xx) by (yy);
+		now xx is xx real times the calculated scaling factor of the stream as an integer;
+		now yy is yy real times the calculated scaling factor of the stream as an integer;
+		drscimage (chosen glyph) in (current window) at (column) by (win-y of the stream + yoffset) with dimensions (xx) by (yy);
 		if the cursor of the stream is N:
-			dimrectdraw (color foreground-color) in (current window) at (column + xx) by (win-y of the stream) with size cursor-weight by vertical-size;
+			dimrectdraw (color tint of the stream) in (current window) at (column + xx) by (win-y of the stream) with size cursor-weight by vertical-size;
 		[if the text-animation delay of the stream is greater than 0 and glulx timekeeping is supported:
 			follow the text-painting animation rules for the stream;]
 		increase column by the advance entry real times the calculated scaling factor of the stream as an integer;
 	#if utilizing Glimmr debugging;
-	say "[>console][CBD]Displaying rendered image string [i][stream][/i], foreground color [color foreground-color], in [i][current window][/i] with upper left ([win-x of stream], [win-y]) and lower right ([column + margin], [row + vertical-size + margin])[unless background-color is g-PlaceNullCol]; background color [color background-color][end if][if stream is graphlinked]. [line break][CBD]Graphlink corresponding to [i][stream][/i] set from ([win-x of stream], [win-y of stream]) to ([column + margin], [row + vertical-size + margin]): [quotation mark][linked replacement-command of stream][quotation mark][end if].[<]";
+	say "[>console][CBD]Displaying rendered image string [i][stream][/i], foreground color [color tint of the stream], in [i][current window][/i] with upper left ([win-x of stream], [win-y]) and lower right ([column + margin], [win-y of the stream + vertical-size + margin])[unless background tint of the stream is g-PlaceNullCol]; background color [color background tint of the stream][end if][if stream is graphlinked]. [line break][CBD]Graphlink corresponding to [i][stream][/i] set from ([win-x of stream], [win-y of stream]) to ([column + margin], [win-y of the stream + vertical-size + margin]): [quotation mark][linked replacement-command of stream][quotation mark][end if].[<]";
 	#end if;
 	if the stream is graphlinked:
-		set a graphlink in the current window identified as the stream from (win-x - margin) by (win-y - margin) to (column + margin) by (row + vertical-size + margin) as the linked replacement-command of the stream.
+		set a graphlink in the current window identified as the stream from (win-x - margin) by (win-y - margin) to (column + margin) by (win-y of the stream + vertical-size + margin) as the linked replacement-command of the stream.
 
 
 Chapter - Image-map base class
@@ -1225,13 +1240,15 @@ Section - Fitting functions
 [These functions don't also scale the opposite axis; in other words, they scale asymmetrically. To change both height and width, use both phrases in succession.]
 
 To fit (grid - an image-map) to/into a/-- total/-- width of (X -  a number) canvas/-- pixel/pixels/px/units wide/--:
+	let image-map-width be a number;
+	let width-token be a number;
 	if the grid is a tileset image-map:
 		let image-map-width be the number of entries in entry 1 of the tile-array of the grid;
-		change the tile-width override of the grid to X divided by image-map-width;
+		now the tile-width override of the grid is X divided by image-map-width;
 		let width-token be the tile-width override of the grid;
 	otherwise if the grid is a direct image-map:
 		let image-map-width be the number of entries in entry 1 of the tile-array of the grid;
-		change the tile-width of the grid to X divided by image-map-width;
+		now the tile-width of the grid is X divided by image-map-width;
 		let width-token be the tile-width of the grid;
 	otherwise:
 		rule fails;
@@ -1241,13 +1258,15 @@ To fit (grid - an image-map) to/into a/-- total/-- width of (X -  a number) canv
 	
 
 To fit (grid - an image-map) to/into a/-- total/-- height of (Y - a number) canvas/-- pixel/pixels/px/units/-- high/--:
+	let height-token be a number;
+	let calc-height be a number;
 	if the grid is a tileset image-map:
 		let the calc-height be the number of entries of the tile-array of the grid;
-		change the tile-height override of the grid to Y divided by the calc-height;
+		now the tile-height override of the grid is Y divided by the calc-height;
 		let height-token be the tile-height override of the grid;
 	otherwise if the grid is a direct image-map:
 		let the calc-height be the number of entries of the figure-array of the grid;
-		change the tile-height of the grid to Y divided by the calc-height;
+		now the tile-height of the grid is Y divided by the calc-height;
 		let height-token be the tile-height of the grid;
 	otherwise:
 		rule fails;
@@ -1262,17 +1281,17 @@ An element scaling rule for an image-map (called the grid) (this is the image-ma
 	let imap-x be the desired tile-width of the grid;
 	let imap-y be the desired tile-height of the grid;
 	unless the asymmetrical scaling option is active:
-		change the scaled tile-width of the grid to imap-x real times the scaling factor of current window real times the scaling factor of the grid as an integer;
-		change the scaled tile-height of the grid to imap-y real times the scaling factor of current window real times the scaling factor of the grid as an integer;
+		now the scaled tile-width of the grid is imap-x real times the scaling factor of current window real times the scaling factor of the grid as an integer;
+		now the scaled tile-height of the grid is imap-y real times the scaling factor of current window real times the scaling factor of the grid as an integer;
 	otherwise:
-		change the scaled tile-width of the grid to imap-x real times the scaling factor of current window real times the x-scaling factor of the grid as an integer;
-		change the scaled tile-height of the grid to imap-y real times the scaling factor of current window real times the y-scaling factor of the grid as an integer;
+		now the scaled tile-width of the grid is imap-x real times the scaling factor of current window real times the x-scaling factor of the grid as an integer;
+		now the scaled tile-height of the grid is imap-y real times the scaling factor of current window real times the y-scaling factor of the grid as an integer;
 	if grid is center-aligned:
-		change the win-x of the grid to win-x - (imap-x * scaled tile-width) / 2;
-		change the win-y of the grid to win-y - (imap-y * scaled tile-height) / 2;
+		now the win-x of the grid is win-x - (imap-x * scaled tile-width) / 2;
+		now the win-y of the grid is win-y - (imap-y * scaled tile-height) / 2;
 	if grid is right-aligned:
-		change the win-x of grid to win-x - (imap-x * scaled tile-width);
-		change the win-y of grid to win-y - (imap-y * scaled tile-height);
+		now the win-x of grid is win-x - (imap-x * scaled tile-width);
+		now the win-y of grid is win-y - (imap-y * scaled tile-height);
 	continue.
 
 To decide which number is the desired tile-width of (grid - an image-map):
@@ -1297,6 +1316,8 @@ To decide which number is the desired tile-height of (grid - an image-map):
 Section - Centering algorithm for image-maps
 
 To decide what list of numbers is the center-point of (grid - an image-map):
+	let dx be a number;
+	let dy be a number;
 	let x be entry 1 of the origin of grid;
 	let y be entry 2 of the origin of grid;
 	let imap-x be the desired tile-width of the grid;
@@ -1465,7 +1486,7 @@ A tiled graphlink setting rule for an image-map (called the grid):
 				#end if;
 			increase column by scaled tile-width of grid;
 		increase row by scaled tile-height of the grid;
-		change column to win-x of the grid;
+		now column is win-x of the grid;
 	#if utilizing Glimmr debugging;
 	    say "[>console][CBD]Graphlinks set on [number of entries in the linked command array of the grid * number of entries in entry 1 of the linked command array of the grid] individual tiles for tileset image-map [i][grid][/i] in [i][current window][/i].[<]";
 	#end if.
@@ -1531,19 +1552,23 @@ Dumping imap is an action out of world applying to one visible thing. Understand
 Understand "image-map [text]" or "image map [text]" as a mistake ("That image-map could not be found. If this is not a typo, you may need to assign it the 'publically-named' property.").
 	
 Carry out dumping imap:
+	let rules-altered be false;
+	let image-map-width be a number;
+	let image-map-height be a number;
+	let total-length be a number;
 	say "[line break]";
 	if intensive rules tracing is active:[we disable RULES ALL temporarily to avoid the enumeration of each iteration through the loops that build the data dump.]
-		let rules-altered be true;
+		now rules-altered is true;
 		suspend rules tracing;
 	if the noun is a tileset image-map:
-		let image-map-width be the number of entries of entry 1 of the tile-array of the noun;
-		let image-map-height be the number of entries in the tile-array of the noun;
-		let total-length be image-map-width * image-map-height;
+		now image-map-width is the number of entries of entry 1 of the tile-array of the noun;
+		now image-map-height is the number of entries in the tile-array of the noun;
+		now total-length is image-map-width * image-map-height;
 		say "Showing data for [i][noun][/i], a tileset image-map assigned to [the associated canvas of the noun]. Map ([image-map-width] x [image-map-height] = [total-length] tiles) rendered using tileset [associated tileset]; tiles measure [desired tile-width of noun] x [desired tile-height of noun] canvas units. [if the noun is graphlinked] Graphlink [quotation mark][linked replacement-command of noun][quotation mark] applies to entire map.[end if][line break]Tile-array data:[paragraph break]";
 	if the noun is a direct image-map:
-		let image-map-height be the number of entries in the figure-array of the noun;
-		let image-map-width be the number of entries in entry 1 of the figure-array of the noun;
-		let total-length be image-map-width * image-map-height;
+		now image-map-height is the number of entries in the figure-array of the noun;
+		now image-map-width is the number of entries in entry 1 of the figure-array of the noun;
+		now total-length is image-map-width * image-map-height;
 		say "[>console][CBD]Showing data for [i][noun][/i], a direct image-map assigned to [associated canvas of the noun]. Map ([image-map-width] x [image-map-height] = [total-length] tiles) rendered using tileset [associated tileset]; tiles measure [desired tile-width of noun] x [desired tile-height of noun] canvas units.[if the noun is graphlinked] Graphlink [quotation mark][linked replacement-command of noun][quotation mark] applies to entire map.[end if] Figure-array data:[paragraph break][<]";
 	let scan be 0;
 	let row-count be 1;
@@ -2251,7 +2276,7 @@ Full instructions for producing images are well beyond the scope of this documen
 	http://en.wikipedia.org/wiki/Portable_Network_Graphics
 	http://www.libpng.org/pub/png/pngintro.html
 	http://www.axialis.com/tutorials/tutorial-misc001.html (Photoshop tutorial)
-	http://www.fabiovisentin.com/tutorial/GIMP_transparent_image/gimp_how_to_make_transparent_image.asp (GIMP tutorial)
+	http://www.libpng.org/pub/png/book/chapter04.html#png.ch04.div.5 (GIMP tutorial)
 
 Avoid making your images too large. Images should be sized no larger than you want them to appear onscreen.
 
@@ -2423,6 +2448,13 @@ Please report bugs on the Google Code project page, at http://code.google.com/p/
 For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the intfiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
 
 
+Chapter: Change Log
+
+Version 2: Updated for 6F95. Now uses no deprecated features.
+
+Version 1: Initial release.
+
+
 Chapter: Examples
 
 A number of examples are included here, showcasing just some of the capabilities of Glimmr. Many of these require external resources (image files), which can be downloaded from http://code.google.com/p/glimmr-i7x/downloads/list. Compiled versions of the examples can also be downloaded, if you prefer to see the final result without compiling yourself.
@@ -2431,14 +2463,6 @@ A number of examples are included here, showcasing just some of the capabilities
 Example: * Simple Buttons - In this example, we show how to create a simple set of buttons that the player can press to issue commands. (We use the most important meta-commands: undo, save, restore, and transcript.) The example requires the Glimmr Image Font extension, and you will need to copy the images associated with that extension to your project's Materials folder before building this example. The example also requires Glimmr Graphic Hyperlinks, which enables the buttons to accept mouse input.
 
 We make each button out of two g-elements: a stroked rectangle primitive creates the button's outline and color, while an image-rendered string provides the text of the button. This is convenient, since it doesn't require us to create our own images for each button. (Though using a single image for each button is in fact the most resource-efficient method.) 
-
-Note that this example includes I6 inclusions. These do not transfer properly when using the paste button. Such an inclusion might look like this after being pasted to your source code:
-
-	(--) glk_request_timer_events({T}); -)
-
-Delete the first -) for each inclusion and things should work fine. Corrected:
-
-	(- glk_request_timer_events({T});  -)
 
 Before we get to the buttons, we need to set up the window and canvas. For an example like this, Glimmr Simple Graphics Window would be an even easier way to set things up, but it's better if we show everything here.
 
@@ -2530,15 +2554,6 @@ This last part is even more optional, but it will ensure that the button acts co
 Example: * Simpler Buttons - This example is a simple refinement of the previous example (Simple Buttons). In Simple Buttons, we had to supply what really was redundant information: the text of the label was the same as the linked replacement-command of its button, while the origin coordinate of the label is easily deducible from the placement and size of the button outline (the label is centered on the button). This example lets us define the labels minimally and auto-generate their text-strings and origin coordinates from their associated buttons. (One could go even farther with this approach, really.)
 
 Simpler Buttons also uses a bitmap font for variety's sake. Note that if you make the window too narrow--unplayably narrow, really--the labels will not fit within the button outlines. This is because bitmaps can't be scaled below 1 pixel per bit, while the canvas itself is scaled to much less than this. This is something to be wary of whenever you are using bitmaps.
-
-Note that, like the previous example, this one includes I6 inclusions. These do not transfer properly when using the paste button. Such an inclusion might look like this after being pasted to your source code:
-
-	(--) glk_request_timer_events({T}); -)
-
-Delete the first -) for each inclusion and things should work fine. Corrected:
-
-	(- glk_request_timer_events({T});  -)
-
 
 The example starts out in essentially the same way as the previous: 
 
@@ -2966,7 +2981,7 @@ Note the linked command entries in the tileset's translation table. These allow 
 	Figure of Stairs Up is the file "Stairs Up.png".
 	Figure of Stairs Down is the file "Stairs Down.png".
 	Figure of Table is the file "Table.png".
-	Figure of Wall with Torch is the file "Wall with Torch.png". 
+	Figure of Torch Wall is the file "Wall with Torch.png". 
 	Figure of Wall is the file "Wall.png".
 	Figure of Vertical Wall is the file "Vertical Wall.png".
 
@@ -2976,7 +2991,7 @@ Note the linked command entries in the tileset's translation table. These allow 
 	number	figure-name	text
 	1	Figure of Wall	""
 	2	Figure of Floor	"-"
-	3	Figure of Wall with Torch	""
+	3	Figure of Torch Wall	""
 	4	Figure of Vertical Wall	""
 	5	Figure of Stairs Up	"up"
 	6	Figure of Stairs Down	"down"

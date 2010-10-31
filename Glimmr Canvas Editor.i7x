@@ -1,4 +1,4 @@
-Version 1/100806 of Glimmr Canvas Editor (for Glulx only) by Erik Temple begins here.
+Version 1/101030 of Glimmr Canvas Editor (for Glulx only) by Erik Temple begins here.
 
 "A GUI editor that allows you to visually generate compositions for use with projects based on Glimmr Canvas-Based Drawing. Outputs valid Glimmr/I7 source code."
 
@@ -1187,7 +1187,7 @@ A dynamic-sprite has an indexed text called the element-name. The element-name i
 
 A dynamic-sprite has a number called the instance-counter. The instance-counter is usually 0.
 
-A dynamic-sprite can be deleted, standard, instanced, or parental. A dynamic-sprite is usually parental.
+A dynamic-sprite can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-sprite is usually parental.
 
 A dynamic-sprite has some text called the kind-flag. The kind-flag of a dynamic-sprite is "sprite".
 A dynamic-sprite has some indexed text called the of-kind.
@@ -1293,7 +1293,7 @@ A dynamic-rectangle is a kind of rectangle primitive. The display status is g-in
 
 A dynamic-rectangle has an indexed text called the element-name. The element-name is usually "". 
 A dynamic-rectangle has a number called the instance-counter. The instance-counter is usually 0.
-A dynamic-rectangle can be deleted, standard, instanced, or parental. A dynamic-rectangle is usually parental.
+A dynamic-rectangle can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-rectangle is usually parental.
 A dynamic-rectangle has some indexed text called the of-kind. The of-kind is usually "".
 A dynamic-rectangle has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-rectangle has some indexed text called the replacement-command. The replacement-command is "".
@@ -1309,7 +1309,7 @@ A dynamic-box is a kind of box primitive. The display status is g-inactive. The 
 
 A dynamic-box has an indexed text called the element-name. The element-name is usually "". 
 A dynamic-box has a number called the instance-counter. The instance-counter is usually 0.
-A dynamic-box can be deleted, standard, instanced, or parental. A dynamic-box is usually parental.
+A dynamic-box can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-box is usually parental.
 A dynamic-box has some indexed text called the of-kind. The of-kind is usually "".
 A dynamic-box has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in build 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-box has some indexed text called the replacement-command. The replacement-command is "".
@@ -1325,7 +1325,7 @@ A dynamic-stroked-rectangle is a kind of stroked rectangle primitive. The displa
 
 A dynamic-stroked-rectangle has an indexed text called the element-name. The element-name is usually "". 
 A dynamic-stroked-rectangle has a number called the instance-counter. The instance-counter is usually 0.
-A dynamic-stroked-rectangle can be deleted, standard, instanced, or parental. A dynamic-stroked-rectangle is usually parental.
+A dynamic-stroked-rectangle can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-stroked-rectangle is usually parental.
 A dynamic-stroked-rectangle has some indexed text called the of-kind. The of-kind is usually "".
 A dynamic-stroked-rectangle has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-stroked-rectangle has some indexed text called the replacement-command. The replacement-command is "".
@@ -1341,7 +1341,7 @@ A dynamic-line is a kind of line primitive. The display status is g-inactive. Th
 
 A dynamic-line has an indexed text called the element-name. The element-name is usually "". 
 A dynamic-line has a number called the instance-counter. The instance-counter is usually 0.
-A dynamic-line can be deleted, standard, instanced, or parental. A dynamic-line is usually parental.
+A dynamic-line can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-line is usually parental.
 A dynamic-line has some indexed text called the of-kind. The of-kind is usually "".
 A dynamic-line has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-line has some indexed text called the replacement-command. The replacement-command is "".
@@ -1357,7 +1357,7 @@ A dynamic-bitmap-string is a kind of bitmap-rendered string. The display status 
 
 A dynamic-bitmap-string has an indexed text called the element-name. The element-name is usually "". 
 A dynamic-bitmap-string has a number called the instance-counter. The instance-counter is usually 0.
-A dynamic-bitmap-string can be deleted, standard, instanced, or parental. A dynamic-bitmap-string is usually parental.
+A dynamic-bitmap-string can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-bitmap-string is usually parental.
 A dynamic-bitmap-string has some indexed text called the of-kind. The of-kind is usually "".
 A dynamic-bitmap-string has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-bitmap-string has some indexed text called the replacement-command. The replacement-command is "".
@@ -1372,7 +1372,7 @@ A dynamic-image-string is a kind of image-rendered string. The display status is
 
 A dynamic-image-string has an indexed text called the element-name. The element-name is usually "". 
 A dynamic-image-string has a number called the instance-counter. The instance-counter is usually 0.
-A dynamic-image-string can be deleted, standard, instanced, or parental. A dynamic-image-string is usually parental.
+A dynamic-image-string can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-image-string is usually parental.
 A dynamic-image-string has some indexed text called the of-kind. The of-kind is usually "".
 A dynamic-image-string has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-image-string has some indexed text called the replacement-command. The replacement-command is "".
@@ -1981,7 +1981,7 @@ Global manual_cancel = 0;
 -) before "Glulx.i6t".
 
 
-The suspension flag is a truth state variable. The suspension flag variable translates into I6 as "suspend_flag". The suspension flag is false.
+The suspension flag is a truth state variable. The suspension flag variable translates into I6 as "suspend_flag".
 
 Include (-
 
@@ -3286,6 +3286,9 @@ To decide which number is the absolute value of (N - a number):
 	
 Carry out element-querying:
 	repeat with current-element running through the element-selection set:
+		let dim-x be a number;
+		let dim-y be a number;
+		let len be a number;
 		if current-element provides the property endpoint:
 			let dim-x be (entry 1 of the endpoint of current-element) - (entry 1 of the origin of current-element);
 			let dim-y be (entry 2 of the endpoint of current-element) - (entry 2 of the origin of current-element);
@@ -3463,6 +3466,8 @@ Check element-scaling:
 		rule fails;
 
 Carry out element-scaling:
+	let width-fixe be a real number;
+	let height-fixe be a real number;
 	let current-element be entry 1 of the element-selection set;
 	let orig-x be entry 1 of the origin of the current-element;
 	let orig-y be entry 2 of the origin of the current-element;
@@ -3474,13 +3479,13 @@ Carry out element-scaling:
 		say "Click to the right of and below the origin point (upper left-hand corner) of the element to resize it.";
 		rule succeeds;
 	if current-element is an image-rendered string:
-		let width be the length of the current-element plus (2 * background-margin of the associated font of the current-element);
-		let height be the font-height of the associated font of the current-element plus (2 * background-margin of the associated font of the current-element);
+		let width-fixe be (the length of the current-element plus (2 * background-margin of the associated font of the current-element) ) as a fixed point number;
+		let height-fixe be (the font-height of the associated font of the current-element plus (2 * background-margin of the associated font of the current-element) ) as a fixed point number;
 	otherwise:
-		let width be the image-width of the image-ID of the current-element;
-		let height be the image-height of the image-ID of the current-element;
-	let width-fixe be width as a fixed point number;
-	let height-fixe be height as a fixed point number;
+		let width-fixe be the image-width of the image-ID of the current-element as a fixed point number;
+		let height-fixe be the image-height of the image-ID of the current-element as a fixed point number;
+	[let width-fixe be width as a fixed point number;
+	let height-fixe be height as a fixed point number;]
 	let desired-width be desired-x minus orig-x as a fixed point number;
 	let desired-height be desired-y minus orig-y as a fixed point number;
 	let width-factor be desired-width real divided by width-fixe;
@@ -3652,6 +3657,8 @@ The current command section is a snippet that varies.
 Resizing the canvas is an action applying to one topic. Understand "resize canvas [text]" as resizing the canvas.
 
 Carry out resizing the canvas:
+	let x be a number;
+	let y be a number;
 	change the current command section to the topic understood;
 	if the current command section includes "to [a number]":
 		let x be the number understood;
@@ -4007,6 +4014,7 @@ This is the instance menu input validation rule:
 		retry;
 	
 A number question rule when the impelling action is deleting an element instance:
+	let instanced-element be false;
 	abide by the instance menu input validation rule;
 	now the current instance is the instance-name corresponding to an instance-number of the number understood in the Table of Current Element Instances;
 	now the instance-pointer of the current instance is the mother-sprite;
@@ -4101,21 +4109,32 @@ Carry out centering elements on:
 	
 To center (A - a g-element) on (B - a g-element):
 	[This phrase is called by the element select rule for clicking in the working window]
+	let x be a number;
+	let y be a number;
+	let L be a list of numbers;
+	[let AR be a number;
+	let AB be a number;]
+	let A-width be a number;
+	let A-height be a number;
+	[let BR be a number;
+	let BB be a number;]
+	let B-width be a number;
+	let B-height be a number;
 	if A is a linkid listed in the Table of Graphlink Glulx Replacement Commands:
 		let L be the canvas equivalent of the screen coordinates p-right entry by p-bottom entry of the working window;
-		let AR be entry 1 of L;
-		let AB be entry 2 of L;
-		let A-width be AR minus entry 1 of the origin of A;
-		let A-height be AB minus entry 2 of the origin of A;
+		[let AR be entry 1 of L;
+		let AB be entry 2 of L;]
+		let A-width be (entry 1 of L) minus (entry 1 of the origin of A);
+		let A-height be (entry 2 of L) minus (entry 2 of the origin of A);
 	otherwise:
 		say "***Error: Selected element not found.";
 		rule fails;
 	if B is a linkid listed in the Table of Graphlink Glulx Replacement Commands:
 		let L be the canvas equivalent of the screen coordinates p-right entry by p-bottom entry of the working window;
-		let BR be entry 1 of L;
-		let BB be entry 2 of L;
-		let B-width be BR minus entry 1 of the origin of B;
-		let B-height be BB minus entry 2 of the origin of B;
+		[let BR be entry 1 of L;
+		let BB be entry 2 of L;]
+		let B-width be (entry 1 of L) minus (entry 1 of the origin of B);
+		let B-height be (entry 2 of L) minus (entry 2 of the origin of B);
 	otherwise:
 		say "***Error: Target element not found.";
 	let x be (B-width minus A-width) divided by 2;
@@ -4158,12 +4177,17 @@ Carry out aligning elements:
 
 To align (A - a g-element) to the (B - a g-element) according to (target side - a border-name):
 	[This phrase is called by the element select rule for clicking in the working window]
+	let x be a number;
+	let y be a number;
+	let L be a list of numbers;
+	let A-width be a number;
+	let A-height be a number;
 	if A is a linkid listed in the Table of Graphlink Glulx Replacement Commands:
 		let L be the canvas equivalent of the screen coordinates p-right entry by p-bottom entry of the working window;
-		let AR be entry 1 of L;
-		let AB be entry 2 of L;
-		let A-width be AR minus entry 1 of the origin of A;
-		let A-height be AB minus entry 2 of the origin of A;
+		[let AR be entry 1 of L;
+		let AB be entry 2 of L;]
+		let A-width be (entry 1 of L) minus (entry 1 of the origin of A);
+		let A-height be (entry 2 of L) minus (entry 2 of the origin of A);
 	otherwise:
 		say "***Error: Selected element not found.";
 		rule fails;
@@ -4171,8 +4195,8 @@ To align (A - a g-element) to the (B - a g-element) according to (target side - 
 		let L be the canvas equivalent of the screen coordinates p-right entry by p-bottom entry of the working window;
 		let BR be entry 1 of L;
 		let BB be entry 2 of L;
-		let B-width be BR minus entry 1 of the origin of B;
-		let B-height be BB minus entry 2 of the origin of B;
+		let B-width be (entry 1 of L) minus (entry 1 of the origin of B);
+		let B-height be (entry 2 of L) minus (entry 2 of the origin of B);
 		if the target side is top:
 			let y be entry 2 of the origin of B minus A-height;
 			let x be (B-width minus A-width) divided by 2;
@@ -4542,6 +4566,8 @@ Section - Writing the body of the source code
 To write paragraphed source code:
 	repeat with current-list running through the kind-parsed omnibus:
 		let current-kind be indexed text;
+		let super-kind be false;
+		let kind-article be text;
 		if the remainder after dividing the kind-index of entry 2 of current-list by 1000 is less than 1:[the sublist is for first-level elements (i.e., not a subkind)]
 			let super-kind be true;
 			let current-kind be the kind-flag of entry 2 of current-list;
@@ -4578,7 +4604,9 @@ To write paragraphed source code:
 			
 To write tabulated source code:
 	repeat with current-list running through the kind-parsed omnibus:
+		let super-kind be false;
 		let current-kind be indexed text;
+		let kind-article be text;
 		if the remainder after dividing the kind-index of entry 2 of current-list by 1000 is less than 1:[the sublist is for first-level elements (i.e., not a subkind)]
 			let super-kind be true;
 			let current-kind be the kind-flag of entry 2 of current-list;

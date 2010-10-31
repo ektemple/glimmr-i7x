@@ -1,4 +1,4 @@
-Version 1/100805 of Glimmr Bitmap Font (for Glulx only) by Erik Temple begins here.
+Version 2/101030 of Glimmr Bitmap Font (for Glulx only) by Erik Temple begins here.
 
 "A bitmap font for use with the Glimmr system of extensions."
 
@@ -80,9 +80,9 @@ glyph	char	index	width	height	yoffset	advance
 "X"	88	1664	5	7	2	6
 "Y"	89	1700	5	7	2	6
 "Z"	90	1736	5	7	2	6
-"["	91	1772	3	7	2	4
+"[bracket]"	91	1772	3	7	2	4
 "\"	92	1794	6	6	3	7
-"]"	93	1831	3	7	2	4
+"[close bracket]"	93	1831	3	7	2	4
 "^"	94	1853	5	3	2	6
 "_"	95	1869	7	1	8	7
 "`"	96	1877	2	3	2	3
@@ -842,3 +842,10 @@ If you have comments about the extension, please feel free to contact me directl
 Please report bugs on the Google Code project page, at http://code.google.com/p/glimmr-i7x/issues/list.
 
 For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the intfiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
+
+
+Chapter: Change Log
+
+Version 2: Updated for 6F95. Now uses no deprecated features.
+
+Version 1: Initial release.
