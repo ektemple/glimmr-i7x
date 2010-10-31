@@ -1,4 +1,4 @@
-Version 1/100805 of Glimmr Drawing Commands (for Glulx only) by Erik Temple begins here.
+Version 2/101030 of Glimmr Drawing Commands (for Glulx only) by Erik Temple begins here.
 
 "Provides commands for displaying images, shape primitives (such as rectangles, boxes, and lines), user-specified bitmap drawings, image maps, and for text-painting using 'fonts' with glyphs composed of either bitmaps or image files."
 
@@ -238,6 +238,10 @@ Section - Basic line
 
 To linedraw (hue - a number) in (win - a g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number) with (wgt - a number):
 	let dd be x2 - x1;
+	let ax be a number;
+	let ay be a number;
+	let sx be a number;
+	let sy be a number;
 	if dd >= 0:
 		let ax be 2 times dd;
 		let sx be 1;
@@ -628,6 +632,14 @@ Report requesting the story file version (this is the announce colophon rule):
 			say "[one of]Typefaces used include:[line break][or][stopping][italic type][typeface]:[roman type] [colophon of the typeface][line break]"
 
 
+Section - Globals
+[These globals are needed to steer around Inform's aggressive cap on the number of temp variables.]
+
+g-LEN is a number variable.
+column-index is a number variable.
+char_code is a number variable.
+g-scan is a number variable.
+
 Chapter - Text-painting with bitmap fonts
 
 
@@ -635,35 +647,35 @@ Section - Bitmap strings with a background color
 
 To paintbittext (hue - a number) of (str - indexed text) in (win - a g-window) at (X1 - a number) by/x (Y1 - a number) using font/-- (typf - a font) with dot/-- size (wgt - a number) pixel/pixels/px/-- and background (bkgd - a number), center-aligned or right-aligned:
 	unless STR is "":
-		let LEN be the length of STR set in TYPF;
+		now g-LEN is the length of STR set in TYPF;
 		if right-aligned:
-			let X1 be X1 - (LEN * WGT);
+			now X1 is X1 - (g-LEN * WGT);
 		if center-aligned:
-			let X1 be X1 - (LEN * WGT) / 2;
-		change current g-row to Y1;
-		change current g-column to X1;
-		let column-index be current g-column;
-		dimrectdraw (BKGD) in (WIN) at (current g-column - WGT) by (current g-row - WGT) with size (WGT * LEN) + WGT by (WGT * font-height of TYPF) + WGT;
+			now X1 is X1 - (g-LEN * WGT) / 2;
+		now current g-row is Y1;
+		now current g-column is X1;
+		now column-index is current g-column;
+		dimrectdraw (BKGD) in (WIN) at (current g-column - WGT) by (current g-row - WGT) with size (WGT * g-LEN) + WGT by (WGT * font-height of TYPF) + WGT;
 		repeat with N running from 1 to the number of characters in STR:
-			let V be the character code of position N of STR;
-			if there is a char of V in the font table of TYPF:
-				choose row with a char of V in the font table of TYPF;
+			now char_code is the character code of position N of STR;
+			if there is a char of char_code in the font table of TYPF:
+				choose row with a char of char_code in the font table of TYPF;
 			otherwise:
 				choose row with a char of 32 in the font table of TYPF;
-			let scan be 0;
-			let bitmap-size be width entry * height entry;
-			repeat with pointer running from (index entry + 1) to (index entry + bitmap-size):
-				increase scan by 1;
-				if scan > width entry:
+			now g-scan is 0;
+			[let bitmap-size be width entry * height entry;]
+			repeat with pointer running from (index entry + 1) to (index entry + (width entry * height entry)):
+				increase g-scan by 1;
+				if g-scan > width entry:
 					increase current g-row by WGT;
-					change current g-column to column-index;
-					let scan be 1;
+					now current g-column is column-index;
+					let g-scan be 1;
 				if entry pointer of the glyph map of TYPF is 1:
 					dimrectdraw (HUE) in WIN at (current g-column) by current g-row + (yoffset entry * WGT) with size WGT by WGT;
 				increase current g-column by WGT;
 			increase column-index by (advance entry * WGT);
-			change current g-column to column-index;
-			change current g-row to Y1;
+			now current g-column is column-index;
+			now current g-row is Y1;
 
 To paint/display a/-- bitmap text (hue - a number) of (str - indexed text) in (win - a g-window) at (X1 - a number) by/x (Y1 - a number) using font/-- (typf - a font) with dot/-- size (wgt - a number) pixel/pixels/px/-- and background (bkgd - a number), center-aligned or right-aligned:
 	#if utilizing Glimmr debugging;
@@ -693,34 +705,34 @@ Section - Bitmap strings without a background color
 
 To paintbittext (hue - a number) of (str - indexed text) in (win - a g-window) at (X1 - a number) by/x (Y1 - a number) using font/-- (typf - a font) with/-- dot/-- size (wgt - a number) pixel/pixels/px/--, center-aligned or right-aligned:
 	unless STR is "":
-		let LEN be the length of STR set in TYPF;
+		now g-LEN is the length of STR set in TYPF;
 		if right-aligned:
-			let X1 be X1 - (LEN * WGT);
+			let X1 be X1 - (g-LEN * WGT);
 		if center-aligned:
-			let X1 be X1 - (LEN * WGT) / 2;
-		change current g-row to Y1;
-		change current g-column to X1;
+			let X1 be X1 - (g-LEN * WGT) / 2;
+		now current g-row is Y1;
+		now current g-column is X1;
 		let column-index be current g-column;
 		repeat with N running from 1 to the number of characters in STR:
-			let V be the character code of position N of STR;
-			if there is a char of V in the font table of TYPF:
-				choose row with a char of V in the font table of TYPF;
+			now char_code is the character code of position N of STR;
+			if there is a char of char_code in the font table of TYPF:
+				choose row with a char of char_code in the font table of TYPF;
 			otherwise:
 				choose row with a char of 32 in the font table of TYPF;
 			let scan be 0;
-			let bitmap-size be width entry * height entry;
-			repeat with pointer running from (index entry + 1) to (index entry + bitmap-size):
+			[let bitmap-size be width entry * height entry;]
+			repeat with pointer running from (index entry + 1) to (index entry + (width entry * height entry)):
 				increase scan by 1;
 				if scan > width entry:
 					increase current g-row by WGT;
-					change current g-column to column-index;
+					now current g-column is column-index;
 					let scan be 1;
 				if entry pointer of the glyph map of TYPF is 1:
 					dimrectdraw (HUE) in WIN at (current g-column) by current g-row + (yoffset entry * WGT) with size WGT by WGT;
 				increase current g-column by WGT;
 			increase column-index by (advance entry * WGT);
-			change current g-column to column-index;
-			change current g-row to Y1;
+			now current g-column is column-index;
+			now current g-row is Y1;
 
 To paint/display a/-- bitmap text (hue - a number) of (str - indexed text) in (win - a g-window) at (X1 - a number) by/x (Y1 - a number) using font/-- (typf - a font) with/-- dot/-- size (wgt - a number) pixel/pixels/px/--, center-aligned or right-aligned:
 	#if utilizing Glimmr debugging;
@@ -785,28 +797,27 @@ Section - Text-painting with a background color
 
 To paintimgtext of/-- (STR - indexed text) in (win - a g-window) at (X1 - a number) by/x (Y1 - a number) using font/-- (TYPF - a font) scaled at (SCF - a real number) with background (BKGD - a number) and margin of/-- (MARGIN - a number) pixel/pixels/px/--, center-aligned or right-aligned:
 	unless STR is "":
-		let LEN be the length of STR set in TYPF;
-		let LEN be LEN real times SCF as an integer;
+		now g-LEN is the length of STR set in TYPF;
+		now g-LEN is g-LEN real times SCF as an integer;
 		if right-aligned:
-			let X1 be X1 - LEN;
-		if center-aligned:
-			let X1 be X1 - (LEN / 2);
-		change current g-row to Y1;
-		change current g-column to X1;
-		let vertical-size be font-height of TYPF real times SCF as an integer;
-		dimrectdraw (BKGD) in (WIN) at (current g-column - MARGIN) by (current g-row - MARGIN) with size (LEN + MARGIN + MARGIN) by (vertical-size + MARGIN + MARGIN);
+			let X1 be X1 - g-LEN;
+			let X1 be X1 - (g-LEN / 2);
+		now current g-row is Y1;
+		now current g-column is X1;
+		[let vertical-size be font-height of TYPF real times SCF as an integer;]
+		dimrectdraw (BKGD) in (WIN) at (current g-column - MARGIN) by (current g-row - MARGIN) with size (the length of STR set in TYPF real times SCF as an integer + MARGIN + MARGIN) by (font-height of TYPF real times SCF as an integer + MARGIN + MARGIN);
 		repeat with N running from 1 to the number of characters in STR:
-			let V be the character code of position N of STR;
-			if there is a char of V in the font table of TYPF:
-				choose row with a char of V in the font table of TYPF;
+			now char_code is the character code of position N of STR;
+			if there is a char of char_code in the font table of TYPF:
+				choose row with a char of char_code in the font table of TYPF;
 			otherwise:
 				choose row with a char of 32 in the font table of TYPF;
 			let the chosen glyph be glyph-ref entry;
 			let the yoffset be yoffset entry real times SCF as an integer;
-			change g-imgwidth to the image-width of chosen glyph;
-			change g-imgheight to the image-height of chosen glyph;
-			change g-imgwidth to g-imgwidth real times SCF as an integer;
-			change g-imgheight to g-imgheight real times SCF as an integer;
+			now g-imgwidth is the image-width of chosen glyph;
+			now g-imgheight is the image-height of chosen glyph;
+			now g-imgwidth is g-imgwidth real times SCF as an integer;
+			now g-imgheight is g-imgheight real times SCF as an integer;
 			drscimage (chosen glyph) in (WIN) at (current g-column) by (current g-row + yoffset) with dimensions (g-imgwidth) by (g-imgheight);
 			increase current g-column by the advance entry real times SCF as an integer;
 
@@ -836,14 +847,14 @@ Section - Text-painting without a background color
 
 To paintimgtext of/-- (STR - indexed text) in (win - a g-window) at (X1 - a number) by/x (Y1 - a number) using font/-- (TYPF - a font) scaled at (SCF - a real number), center-aligned or right-aligned:
 	unless STR is "":
-		let LEN be the length of STR set in TYPF;
-		let LEN be LEN real times SCF as an integer;
+		now g-LEN is the length of STR set in TYPF;
+		now g-LEN is g-LEN real times SCF as an integer;
 		if right-aligned:
-			let X1 be X1 - LEN;
+			let X1 be X1 - g-LEN;
 		if center-aligned:
-			let X1 be X1 - (LEN / 2);
-		change current g-row to Y1;
-		change current g-column to X1;
+			let X1 be X1 - (g-LEN / 2);
+		now current g-row is Y1;
+		now current g-column is X1;
 		let vertical-size be font-height of TYPF real times SCF as an integer;
 		repeat with N running from 1 to the number of characters in STR:
 			let V be the character code of position N of STR;
@@ -853,10 +864,10 @@ To paintimgtext of/-- (STR - indexed text) in (win - a g-window) at (X1 - a numb
 				choose row with a char of 32 in the font table of TYPF;
 			let the chosen glyph be glyph-ref entry;
 			let the yoffset be yoffset entry real times SCF as an integer;
-			change g-imgwidth to the image-width of chosen glyph;
-			change g-imgheight to the image-height of chosen glyph;
-			change g-imgwidth to g-imgwidth real times SCF as an integer;
-			change g-imgheight to g-imgheight real times SCF as an integer;
+			now g-imgwidth is the image-width of chosen glyph;
+			now g-imgheight is the image-height of chosen glyph;
+			now g-imgwidth is g-imgwidth real times SCF as an integer;
+			now g-imgheight is g-imgheight real times SCF as an integer;
 			drscimage (chosen glyph) in (WIN) at (current g-column) by (current g-row + yoffset) with dimensions (g-imgwidth) by (g-imgheight);
 			increase current g-column by the advance entry real times SCF as an integer;
 
@@ -1017,8 +1028,8 @@ To drimagemap in (WIN - a g-window) at (X1 - a number) by/x (Y1 - a number) usin
 			if index > 0:
 				if there is a char of index in the translation-table of TSET:
 					choose row with a char of index in the translation-table of TSET;
-					let the current tile be tile entry;
-					drscimage (current tile) in (WIN) at (column) by (row) with dimensions (W) by (H);
+					[now current tile is the tile entry;]
+					drscimage (tile entry) in (WIN) at (column) by (row) with dimensions (W) by (H);
 			increase column by W;
 		increase row by H;
 		now column is X1.
@@ -1146,6 +1157,7 @@ To decide which number is r%/R% --/= (R - a real number) g%/G% --/= (G - a real 
 Chapter - Color specified as a hexadecimal
 
 To decide which number is hex (hex - indexed text):
+	let curval be a number;
 	let hex be hex in upper case;
 	replace the regular expression "\$|\#|0x" in hex with "";
 	let len be the number of characters in hex;
@@ -1275,7 +1287,7 @@ To add indices to (typeface - a bitmap font) starting from (N - a number), silen
 	repeat through the font table of typeface:
 		if there is an index entry:
 			next;
-		change index entry to calculated-index;
+		now index entry is calculated-index;
 		if calculated-index is greater than 0:
 			unless silently:
 				say "Changed index entry for glyph '[char-code char entry]' (char [char entry]) to [index entry].";
@@ -1406,7 +1418,7 @@ To show the/-- glk/glklist list/--:
 Chapter - Text substitutions for logging console messages
 [We preface console log messages with ">console" (the > is used to be sure that "console" doesn't conflict with any object named console. The [>console] *must* be balanced with [<] at the end: this transfers the focus back to the main window from the console.
 
-Note that, like all "to" phrases in Inform, these can be "overloaded". To do something different with them, ]
+Note that, like all "to" phrases in Inform, these can be "overloaded". To do something different with them, rewrite the phrase in your story file, beneath the include line for Glimmr Drawing Commands.]
 
 To say >console:
 	(- if ( (+ console output window +) has g_present) { glk_set_window( (+ console output window +).ref_number); -).
@@ -2446,6 +2458,13 @@ If you have comments about the extension, please feel free to contact me directl
 Please report bugs on the Google Code project page, at http://code.google.com/p/glimmr-i7x/issues/list.
 
 For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the intfiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
+
+
+Chapter: Change Log
+
+Version 2: Updated for 6F95. Now uses no deprecated features.
+
+Version 1: Initial release.
 
 
 Example: * Retro Drawing - This example presents a good cross-section of the graphics commands provided by GDC. Note that none of the drawing here uses image files--everything is done with "primitives", painted text, and bitmaps.

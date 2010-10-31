@@ -1,4 +1,4 @@
-Version 1/100805 of Glimmr Simple Graphics Window (for Glulx only) by Erik Temple begins here.
+Version 1/101030 of Glimmr Simple Graphics Window (for Glulx only) by Erik Temple begins here.
 
 "Creates a graphics window that can be used with any Flexible Windows project. If used with Glimmr Canvas-Based Drawing, also creates a canvas to be displayed in the window. Includes code for drawing a single image centered in the window."
 
@@ -155,15 +155,7 @@ Example: * Ramrod - This simple example illustrates the use of GSGW on its own, 
 
 Note that this example requires an image to function. The image referred to in the example can be downloaded, along with all of the other images used in Glimmr examples, from http://code.google.com/p/glimmr-i7x/downloads/list.
 
-Also note that this example includes I6 inclusions. Due to a bug in Inform, these do not transfer properly when using the paste button. One-line inclusions might look like this after being pasted to your source code:
-
-	(--) glk_request_timer_events({T}); -)
-
-Delete the first -) for each inclusion and things should work fine. Corrected:
-
-	(- glk_request_timer_events({T});  -)
-
-Multi-line I6 inclusions should probably be copied directly from the source of the extension into your project.
+Also note that this example includes I6 inclusions. Due to a bug in Inform, these do not transfer properly when using the paste button. You will need to manually add -) after the body of multi-line I6 inclusions. 
 
 	*: "Ramrod"
 

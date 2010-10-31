@@ -1,4 +1,4 @@
-Version 1/100912 of Glimmr Automap (for Glulx only) by Erik Temple begins here.
+Version 2/101030 of Glimmr Automap (for Glulx only) by Erik Temple begins here.
 
 "Provides a plug-and-play graphical automapping solution built on top of Mark Tilford's Automap extension. Can fall back to text-based map on interpreters that don't support graphics."
 
@@ -55,25 +55,25 @@ When play begins:
 	if glulx graphics is supported:
 		now the current zoom is map zoomed in;[refers to Automap's zoom, which must always be set to zoomed in.]
 		if the current zoom level of the map-renderer is 0:
-			change the current zoom level of the map-renderer to the initial zoom level of the associated tileset of the map-renderer;
+			now the current zoom level of the map-renderer is the initial zoom level of the associated tileset of the map-renderer;
 		if the map viewport is not a map-display window:
 			now the map viewport is a random map-display window;
 		if the display-layer of the UI-frame is 0:
-			change the display-layer of the UI-frame to UI-layer minus 1;
+			now the display-layer of the UI-frame is UI-layer minus 1;
 		if the display-layer of the UI-query-explanation is 0:
-			change the display-layer of the UI-query-explanation to UI-layer; 
+			now the display-layer of the UI-query-explanation is UI-layer; 
 		repeat with item running through the list of UI-buttons:
-			change the display-layer of item to UI-layer;
+			now the display-layer of item is UI-layer;
 		if the horizontal margin of the UI-frame is 999:
-			change the horizontal margin of the UI-frame to 5;
+			now the horizontal margin of the UI-frame is 5;
 		if the vertical margin of the UI-frame is 999:
-			change the vertical margin of the UI-frame to 5;
+			now the vertical margin of the UI-frame is 5;
 		if the vertical margin of the UI-query-explanation is 999:
-			change the vertical margin of the UI-query-explanation to 38;
+			now the vertical margin of the UI-query-explanation is 38;
 		if the horizontal margin of the UI-query-explanation is 999:
-			change the horizontal margin of the UI-query-explanation to 0;
+			now the horizontal margin of the UI-query-explanation is 0;
 		if the number of entries of the list of display-active UI-buttons is 2:
-			change the image-ID of the UI-frame to Figure of UI-frame-short.
+			now the image-ID of the UI-frame is Figure of UI-frame-short.
 
 
 Section - Default tileset (for use with Glimmr Automap Tileset by Erik Temple)
@@ -174,7 +174,7 @@ Chapter - New window scaling rule for the map window
 For scaling a map-display window (called the viewport) (this is the select appropriate zoom level rule):
 	[say "Applying zoom level...";
 	say "Background color: [background tint of map-renderer].";]
-	change the arbitrary scaling factor of the viewport to entry (current zoom level of the map-renderer) of the zoom-level set of the associated tileset of the map-renderer;
+	now the arbitrary scaling factor of the viewport is entry (current zoom level of the map-renderer) of the zoom-level set of the associated tileset of the map-renderer;
 	#if utilizing Glimmr debugging;
 	say "[>console][GLAM]Window [i][viewport][/i] is a map-display window. Arbitrary scaling factor set to [arbitrary scaling factor of the viewport], based on entry [current zoom level of the map-renderer] of the zoom-level set of the tileset [i][associated tileset of the map-renderer][/i].[<]";
 	#end if;
@@ -202,10 +202,10 @@ For scaling a map-display window (called the viewport) (this is the resize canva
 	reserve automap memory of y-win rows by x-win columns;
 	if the map is drawn and the current zoom is not map absent:
 		do nothing;[Automap's map is drawn by the phrase "if the map is drawn"; hence this odd instruction.]
-	change the map-width of the map-renderer to (map width * tile-width of associated tileset of the map-renderer);
-	change the map-height of the map-renderer to (map height * tile-height of associated tileset of the map-renderer);
-	change the canvas-width of the associated canvas of the viewport to map-width of the map-renderer;
-	change the canvas-height of the associated canvas of the viewport to map-height of the map-renderer;
+	now the map-width of the map-renderer is (map width * tile-width of associated tileset of the map-renderer);
+	now the map-height of the map-renderer is (map height * tile-height of associated tileset of the map-renderer);
+	now the canvas-width of the associated canvas of the viewport is map-width of the map-renderer;
+	now the canvas-height of the associated canvas of the viewport is map-height of the map-renderer;
 	#if utilizing Glimmr debugging;
 	say "[>console][GLAM]Automap data calculated ([y-win * x-win] total tiles).[<]";
 	#end if;
@@ -235,7 +235,7 @@ An element display rule for the map-renderer (this is the map-renderer display r
 		increase scan by 1;
 		if scan > map width:
 			increase row by yy;
-			change column to the win-x of the map-renderer;
+			now column is the win-x of the map-renderer;
 			let scan be 1;
 		let V be the map glyph of count;
 		if there is a char of V in the translation-table of the tilesetting:
@@ -315,7 +315,7 @@ A clicking graphlink rule when the current graphlink window is a map-display win
 		if the current graphlink window is g-win entry:
 			if the current graphlink x >= p-left entry and the current graphlink x <= p-right entry and the current graphlink y >= p-top entry and the current graphlink y <= p-bottom entry:
 				now glulx replacement command is "";
-				change the current graphlink to linkid entry;
+				now the current graphlink is linkid entry;
 				if there is an alt entry:
 					#if utilizing Glimmr debugging;
 					say "[>console][GLAM]Mouse input received on graphlink '[current graphlink]' in window [italic type][current graphlink window][roman type]: ([current graphlink x], [current graphlink y]). Automap graphlink rules triggered for room [i][glulx equivalent of alt entry][/i].[<]";
@@ -331,7 +331,7 @@ A clicking graphlink rule when the current graphlink window is a map-display win
 A clicking graphlink rule when the current graphlink window is a map-display window (this is the automap background graphlinking rule):
 	unless the no query functionality option is active:
 		deactivate the current map label;
-		change the image-ID of UI-query to the resting state of UI-query;
+		now the image-ID of UI-query is the resting state of UI-query;
 		deactivate UI-query-explanation;
 		follow the refresh windows rule;
 		#if utilizing Glimmr debugging;
@@ -366,10 +366,10 @@ Section - Clicking a button
 
 First automap graphlink rule for the UI-query (this is the query button management rule):
 	if the image-ID of the UI-query is the depressed state of UI-query:
-		change the image-ID of UI-query to the resting state;
+		now the image-ID of UI-query is the resting state;
 		deactivate the UI-query-explanation;
 	otherwise:
-		change the image-ID of UI-query to the depressed state;
+		now the image-ID of UI-query is the depressed state;
 		if the maximum display-count of UI-query-explanation > 0 and (display-count of UI-query-explanation < maximum display-count of UI-query-explanation) or maximum display-count of UI-query-explanation is 999:
 			activate the UI-query-explanation;
 			increase the display-count of UI-query-explanation by 1;
@@ -389,8 +389,8 @@ Automap graphlink rule for a room (called the target) when the no query function
 	if UI-query is display-active and the image-ID of UI-query is not the depressed state of UI-query:[if we're using the query button, we only want the action to proceed when the button is in its depressed state. Otherwise, we drop through to the author's rule.]
 		continue;
 	if the current map label is a rendered string:
-		change the text-string of the current map label to the printed name of the target;
-		change the origin of the current map label to the canvas equivalent of the screen coordinates (current graphlink x) by (current graphlink y) of (current graphlink window);
+		now the text-string of the current map label is the printed name of the target;
+		now the origin of the current map label is the canvas equivalent of the screen coordinates (current graphlink x) by (current graphlink y) of (current graphlink window);
 	activate the current map label;
 	if the UI-query-explanation is not g-persistent:
 		deactivate the UI-query-explanation;
@@ -709,22 +709,22 @@ The UI logic rules are an object-based rulebook.
 UI logic rule for UI-zoom-in:
 	if current zoom level of the map-renderer < the number of entries of the zoom-level set of the associated tileset of the map-renderer:
 		activate graphlink for UI-zoom-in;
-		change the image-ID of UI-zoom-in to the resting state of UI-zoom-in;
+		now the image-ID of UI-zoom-in is the resting state of UI-zoom-in;
 	otherwise:
 		deactivate graphlink for UI-zoom-in;
-		change the image-ID of UI-zoom-in to the inactive state of UI-zoom-in.
+		now the image-ID of UI-zoom-in is the inactive state of UI-zoom-in.
 	
 UI logic rule for UI-zoom-out:
 	if current zoom level of the map-renderer > 1:
 		activate graphlink for UI-zoom-out;
-		change the image-ID of UI-zoom-out to the resting state of UI-zoom-out;
+		now the image-ID of UI-zoom-out is the resting state of UI-zoom-out;
 	otherwise:
 		deactivate graphlink for UI-zoom-out;
-		change the image-ID of UI-zoom-out to the inactive state of UI-zoom-out.
+		now the image-ID of UI-zoom-out is the inactive state of UI-zoom-out.
 
 [UI logic rule for UI-query:
 	if the current map label is display-active:
-		change the image-ID of UI-query to the depressed state of UI-query;
+		now the image-ID of UI-query is the depressed state of UI-query;
 	otherwise:
 		change the image-ID of UI-query to the resting state of UI-query.]
 	
@@ -735,20 +735,20 @@ Section - Element scaling for UI elements
 	
 An element scaling rule for an anchor-element (called the current-element) (this is the anchor placement rule):
 	if the current-element is right-positioned:
-		change entry 1 of the origin of the current-element to the width of the current window - (image-width of image-ID of current-element + horizontal margin of current-element);
+		now entry 1 of the origin of the current-element is the width of the current window - (image-width of image-ID of current-element + horizontal margin of current-element);
 		[say "Calculated: [entry 1 of the origin of the current-element].";]
 	if the current-element is left-positioned:
-		change entry 1 of the origin of the current-element to horizontal margin of current-element;
+		now entry 1 of the origin of the current-element is horizontal margin of current-element;
 	if the current-element is center-positioned:
-		change entry 1 of the origin of the current-element to the (width of the current window - image-width of image-ID of current-element) / 2;
+		now entry 1 of the origin of the current-element is the (width of the current window - image-width of image-ID of current-element) / 2;
 		[say "[current-element]: Width of window: [width of current window]; image: [image-width of image-ID of current-element]; horizontal margin: [horizontal margin of current-element].";]
 	if the current-element is top-positioned:
-		change entry 2 of the origin of the current-element to vertical margin of current-element;
+		now entry 2 of the origin of the current-element is vertical margin of current-element;
 	if the current-element is bottom-positioned:
-		change entry 2 of the origin of the current-element to the height of the current window - (image-height of image-ID of current-element + vertical margin of current-element);
+		now entry 2 of the origin of the current-element is the height of the current window - (image-height of image-ID of current-element + vertical margin of current-element);
 		[say "[current-element]: Height of window: [height of current window]; image: [image-height of image-ID of current-element]; vertical margin: [vertical margin of current-element].";]
 	if the current-element is central-positioned:
-		change entry 2 of the origin of the current-element to the (height of the current window - image-height of image-ID of current-element) / 2;
+		now entry 2 of the origin of the current-element is the (height of the current window - image-height of image-ID of current-element) / 2;
 	[say "[current-element] is placed at [origin of current-element].";]
 	continue.
 
@@ -756,9 +756,9 @@ Last element scaling rule for the UI-frame (this is the UI-frame arranging rule)
 	let instance be 0;
 	repeat with current-element running through display-active UI-buttons:
 		increase instance by 1;
-		change entry 1 of the origin of current-element to (entry 1 of the origin of the UI-frame) + (entry instance of the UI-frame offsets of the UI-frame);
+		now entry 1 of the origin of current-element is (entry 1 of the origin of the UI-frame) + (entry instance of the UI-frame offsets of the UI-frame);
 		increase instance by 1;
-		change entry 2 of the origin of current-element to (entry 2 of the origin of the UI-frame) + (entry instance of the UI-frame offsets of the UI-frame);
+		now entry 2 of the origin of current-element is (entry 2 of the origin of the UI-frame) + (entry instance of the UI-frame offsets of the UI-frame);
 	exit.
 	
 Last element scaling rule for a UI-element (this is the UI element scaling rule):
@@ -1067,7 +1067,7 @@ We can also specify the maximum dimensions of our map, in tiles. This can be use
 	The maximum map width of the map-window is 80.
 	The maximum map height of the map-window is 40.
 
-Of course, if the window isn't large enough to accomodate a map of these dimensions at the present zoom level, then the largest possible size will be used. Also note that if the "automap reserved area" limit is lower than the product of the map width and height, then the map will only grow as large as the reserved area. Be sure that your automap reserved area is at least as large as the product of the maximum map width and height.
+Of course, if the window isn't large enough to accommodate a map of these dimensions at the present zoom level, then the largest possible size will be used. Also note that if the "automap reserved area" limit is lower than the product of the map width and height, then the map will only grow as large as the reserved area. Be sure that your automap reserved area is at least as large as the product of the maximum map width and height.
 
 
 Section: Post-processing of the Automap data
@@ -1214,6 +1214,12 @@ If you have comments about the extension, please feel free to contact me directl
 Please report bugs on the Google Code project page, at http://code.google.com/p/glimmr-i7x/issues/list.
 
 For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the infiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, you may contact me directly via email (ek.temple@gmail.com).
+
+Chapter: Change Log
+
+Version 2: Updated for 6F95. Now uses no deprecated features.
+
+Version 1: Initial release.
 
 
 Example: * Minimal Automap - This example shows the simplest possible setup for using Glimmr Automap. Basically, this means including the extension and a tileset extension, and then defining and opening up a map-window.
