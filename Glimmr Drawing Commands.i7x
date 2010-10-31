@@ -2462,7 +2462,7 @@ For questions about Glimmr, please consider posting to either the rec.arts.int-f
 
 Chapter: Change Log
 
-Version 2: Updated for 6F95. Now uses no deprecated features.
+Version 2: Updated for 6F95 (thanks to Harold Gates!). Now uses no deprecated features.
 
 Version 1: Initial release.
 
