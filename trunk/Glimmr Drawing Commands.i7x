@@ -1440,7 +1440,7 @@ A note on what GDC will *not* do: It does not:
 
 	1) Provide any window-drawing rule structure. Users will need to write their own window-drawing rules from scratch.
 
-	2) Scale drawing instructions down (or up) to fit in the window.
+	2) Scale drawing instructions down (or up) to fit in the window, though of course users can write their own code to do this.
 
 	3) Ensure that drawing instructions are properly ordered so as to "rebuild" the window whenever needed. (Because a Glulx window can be resized at any time by the player, the window-drawing rules for that window need to completely encapsulate the state of the window.)
 
