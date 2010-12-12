@@ -1255,7 +1255,7 @@ to the source code and press the "Browse" button in the results panel after comp
 
 	The map-window is a map-display window spawned by the main-window. The position is g-placeabove. The measurement of the map-window is 50. The associated canvas of the map-window is the map-canvas.
 
-	The map-canvas is a g-canvas. [The associated canvas of a g-element is the map-canvas.]
+	The map-canvas is a g-canvas. The associated canvas of a g-element is the map-canvas.
 
 	When play begins:
 		follow the opening up the map window rules.[ [or:]
