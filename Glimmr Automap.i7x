@@ -867,9 +867,13 @@ We also need to associate a canvas with our window (see the docs for Glimmr Canv
 
 	*: The map-canvas is a g-canvas. The associated canvas of the map-window is the map-canvas.
 
-If we have no other graphics windows or graphic elements, this will be enough. If we do have our own g-elements, however, we will need to specify which ones belong on our automap canvas:
+We also need to specify which elements belong on our automap canvas. If we are using Glimmr Canvas-Based Drawing to display other graphics in our game, we should do this like so:
 
 	*: The associated canvas of the map-renderer is the map-canvas. The associated canvas of a UI-element is the map-canvas.
+
+Otherwise, one line will suffice:
+
+	*: The associated canvas of a g-element is the map-canvas.
 
 This is all that is required to get a fully functioning graphical automap into our game, including a set of zoom buttons. The following sections will dive into options for customizing and configuring GLAM.
 
