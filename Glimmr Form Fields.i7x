@@ -1,4 +1,6 @@
-Version 1/101201 of Glimmr Form Fields (for Glulx only) by Erik Temple begins here.
+Version 1/101211 of Glimmr Form Fields (for Glulx only) by Erik Temple begins here.
+
+[Forgot to document the "tab order" feature. Add that at the next update.]
 
 "Allows the author to define multiple fields for entering text in a graphics window. The basics of mouse and keyboard input are provided, including conversion of typed digits into numbers."
 
@@ -18,7 +20,7 @@ To say FFs:
 
 
 Chapter - Defining the window for char input (for use without Text Window Input-Output Control by Erik Temple)
-[Char input (keypress input) is only accepted in text windows. While it will appear that we are receiving input in our graphics window, this is illusory. We need always to have at least one open text window that can receive the player's keypress input. We then process this input, outputting characters, via a rendered string element, to our graphics-window. The input-accepting window will almost always be the main-window, but if we are using Text Window Input-Output Control, it might be some other text window.]
+[Char input (keystroke input) is only accepted in text windows. While it will appear that we are receiving input in our graphics window, this is illusory. We need always to have at least one open text window that can receive the player's keystroke input. We then process this input, outputting characters, via a rendered string element, to our graphics-window. The input-accepting window will almost always be the main-window, but if we are using Text Window Input-Output Control, it might be some other text window.]
 
 The current text input window is a g-window variable. The current text input window is usually the main-window.
 
@@ -201,7 +203,7 @@ Carry out accepting field input:
 		follow the window-drawing rules for the assigned window of the current field;
 		while field-input mode is true:
 			#if utilizing Glimmr debugging;
-			say "[>console][FFs]Accepting keypress input for input field [i][current field][/i] (displayed in [assigned window of the current field]). Cursor placed at position [cursor of the input-stream of the current field].[<]";
+			say "[>console][FFs]Accepting keystroke input for input field [i][current field][/i] (displayed in [assigned window of the current field]). Cursor placed at position [cursor of the input-stream of the current field].[<]";
 			#end if;
 			process field char input loop;
 			[now keystroke is the character code returned;]
