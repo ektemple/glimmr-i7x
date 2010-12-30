@@ -2,8 +2,6 @@ Version 2/101030 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple 
 
 "A framework for drawing graphics of various types--from sprite images to painted text--to a Glulx graphics window. Takes an object-oriented approach, with graphic elements represented as individual objects."
 
-[Add intro texts for compiled versions of examples.]
-
 
 Part - Preliminaries
 
@@ -2642,7 +2640,7 @@ Example: *** Basic Floorplan - Given IF's overwhelming focus on movement through
 
 This example shows how to construct a floorplan for a multilevel space, in a dynamic way: The map only shows rooms that the player has visited. In other words, the map reveals itself as the player moves through the game.
 
-Glimmr includes a set of images that can be used freely for constructing maps of this sort, and this example uses that set. The image files are rather generic, by design, to be useful in the widest number of situations. The predominant colors are white and dark gray, but because each tile is essentially monochromatic, the coloring is relatively easy to change using programs like Photoshop or GIMP (the latter is free). 
+Glimmr includes a set of images that can be used freely for constructing maps of this sort, and this example uses that set. The image files are rather generic, by design, so as to be useful in the widest number of situations. The predominant colors are white and dark gray, but because each tile is essentially monochromatic, the coloring is relatively easy to change using programs like Photoshop or GIMP (the latter is free). 
 
 The easiest way to use this set of map images is with the Glimmr Canvas Editor extension, which allows you to create a Glulx game file that contains a graphics editor. Place and scale the images as you like them, and the editor will output I7 source code for you. The source code for this example was generated using Glimmr Canvas Editor. (It's been cleaned up slightly, and the Scenario and Associated Rooms with Images sections were added, but otherwise it is fairly representative of the code produced by that resource. The canvas editor is highly recommended for most complex compositions.)
 
@@ -3131,7 +3129,7 @@ Finally, we have a couple of things we want to do with mouse input. Since all of
 
 More interesting is the handle movement rule. This rule moves the player's avatar in response to mouse clicks on the map. If the player has clicked on the Dungeon Map, we check to see what command was triggered by the click. If that command was "-", we know that the player has clicked on a floor tile. We then convert the coordinates of the mouse input from screen coordinates to the coordinates of the image-map. We compare those coordinates with the coordinates of the player, and move the player one step horizontally and/or one step vertically toward the clicked coordinate.
 
-You will notice that this rule doesn't do any collision checking--what happens if the player moves over a wall, or on top of the Manticore? This example game is set up so that this is impossible. The player will die before he reaches the Manticore, and because the walls are always at the edge of the map and are not themselves graphlinked, the player can never reach them by clicking. In a real game, we'd need a full system of collision detection, but this slight of hand suffices for a short example.
+You will notice that this rule doesn't do any collision checking--what happens if the player moves over a wall, or on top of the Manticore? This example game is set up so that this is impossible. The player will die before he reaches the Manticore, and because the walls are always at the edge of the map and are not themselves graphlinked, the player can never reach them by clicking. In a real game, we'd need a full system of collision detection, but this sleight of hand suffices for a short example like this one.
 
 	*: Section - Mouse movement
 
