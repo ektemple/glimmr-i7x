@@ -8,7 +8,7 @@ Part - Extensions
 Include version 9 of Flexible Windows by Jon Ingold.
 Include Glimmr Canvas-Based Drawing by Erik Temple.
 Include Glimmr Graphic Hyperlinks by Erik Temple.
-Include version 5/100706 of Dynamic Objects by Jesse McGrew.
+Include version 6 of Dynamic Objects by Jesse McGrew.
 Include Basic Screen Effects by Emily Short.
 Include Undo Output Control by Erik Temple.
 Include Glulx Status Window Control by Erik Temple.
@@ -638,10 +638,6 @@ A window-drawing rule for the control-window (this is the control-window drawing
 	if the control-window is g-present:
 		if zoom is available:
 			now the display status of the zoom_button is g-active;
-			if we are zoomed out:
-				now the inactive-state of the zoom_button is Figure of Zoom Out Inactive;
-			if we are zoomed in:
-				now the inactive-state of the zoom_button is Figure of Zoom In;
 		otherwise:
 			deactivate zoom_button;
 		carry out the scaling activity with the control-window;
@@ -1187,7 +1183,7 @@ A dynamic-sprite has an indexed text called the element-name. The element-name i
 
 A dynamic-sprite has a number called the instance-counter. The instance-counter is usually 0.
 
-A dynamic-sprite can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-sprite is usually parental.
+A g-element can be deleted, standard, instanced, or parental (this is its element-status). A g-element is usually standard. A dynamic-sprite is usually parental.
 
 A dynamic-sprite has some text called the kind-flag. The kind-flag of a dynamic-sprite is "sprite".
 A dynamic-sprite has some indexed text called the of-kind.
@@ -1681,7 +1677,7 @@ To actuate (pressed - a sprite):
 		activate current-element;
 	let ID be the active-state of the underlayment of pressed;
 	change the image-ID of the underlayment of the current tab to ID;
-	change the display-layer of the underlayment of the current tab to the activated background layer;
+	change the display-layer of the underlayment of the current tab to the activated background layer.
 	
 
 Chapter - Pop-Ups
@@ -3334,7 +3330,7 @@ To say right-uni-arrow:
 
 Part - Zooming
 
-Zooming is an action applying to nothing. Understand "zoom" or "zoom in" or "zoom out" or "z" as zooming.
+Zooming is an action applying to nothing. Understand "zoom" or "zoom in" or "zoom out" or "+" or "-" as zooming.
 
 The zooming action has some text called the zoom-vector.
 
@@ -3367,6 +3363,12 @@ Report zooming:
 	replace the regular expression "0+$" in percentage with "";
 	replace the regular expression "\.+$" in percentage with "";
 	say "Zooming [zoom-vector] to [scaling factor of the working window] ([percentage]%).";
+	if we are zoomed out:
+		now the inactive-state of the zoom_button is Figure of Zoom In;
+	if we are zoomed in:
+		now the inactive-state of the zoom_button is Figure of Zoom Out Inactive;
+	unless the command is mouse-generated:
+		now the image-ID of zoom_button is the inactive-state of the zoom_button;
 	follow the window-drawing rules for the working window.
 		
 
@@ -4421,7 +4423,7 @@ g-pink
 Section - Writing inclusions and graphics window code to the source
 
 To write the/-- preamble:
-	append "Include Glimmr Canvas-Based Drawing by Erik Temple.[if we have rendered strings][line break]Include Glimmr Text-Painting Elements by Erik Temple.[font extensions][end if][paragraph break]" to the file of Output;
+	append "Include Glimmr Canvas-Based Drawing by Erik Temple.[font extensions][end if][paragraph break]" to the file of Output;
 	append "Chapter - Scenario[paragraph break]" to the file of Output;
 	append "[bracket]Insert code here, particularly the definition of rooms and their connections.[close bracket]" to the file of Output;
 	if we have a map:
@@ -4950,29 +4952,30 @@ These are discussed in various places through the course of this documentation.
 
 Some of the more common operations have radically shortened forms for quick entry into the text input window. Here is a list:
 
-	M - MOVE MODE
-	S - SELECT MODE
-	X - SCALE MODE
+	M : MOVE MODE
+	S : SELECT MODE
+	X : SCALE MODE
 
-	A - SELECT ALL
-	D - DESELECT ALL
+	A : SELECT ALL
+	D : DESELECT ALL
 
-	DEL - delete selected element
+	DEL : delete selected element
 
-	I - INFO
+	I : INFO
 
-	Z - ZOOM
+	+ : ZOOM (IN)
+	- : ZOOM (OUT)
 
-	L <number> (when an element is selected) - place element on the given display-layer
-	L <number> (when nothing is selected) - change current layer to number given
+	L <number> (when an element is selected) : place element on the given display:layer
+	L <number> (when nothing is selected) : change current layer to number given
 
-	C - duplicate selected element
+	C : duplicate selected element
 
-	R <reference name> - register an element instance with the reference name provided
+	R <reference name> : register an element instance with the reference name provided
 
-	T <reference name> - tag selected element with reference name provided
+	T <reference name> : tag selected element with reference name provided
 
-	G - repeat last command
+	G : repeat last command
 	
 
 Section: Status line
