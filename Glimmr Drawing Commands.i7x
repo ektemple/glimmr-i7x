@@ -1,4 +1,4 @@
-Version 2/101030 of Glimmr Drawing Commands (for Glulx only) by Erik Temple begins here.
+Version 2/101203 of Glimmr Drawing Commands (for Glulx only) by Erik Temple begins here.
 
 "Provides commands for displaying images, shape primitives (such as rectangles, boxes, and lines), user-specified bitmap drawings, image maps, and for text-painting using 'fonts' with glyphs composed of either bitmaps or image files."
 
