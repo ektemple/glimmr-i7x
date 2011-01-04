@@ -1,4 +1,4 @@
-Version 2/101030 of Glimmr Automap (for Glulx only) by Erik Temple begins here.
+Version 3/110102 of Glimmr Automap (for Glulx only) by Erik Temple begins here.
 
 "Provides a plug-and-play graphical automapping solution built on top of Mark Tilford's Automap extension. Can fall back to text-based map on interpreters that don't support graphics."
 
@@ -366,10 +366,10 @@ Section - Clicking a button
 
 First automap graphlink rule for the UI-query (this is the query button management rule):
 	if the image-ID of the UI-query is the depressed state of UI-query:
-		now the image-ID of UI-query is the resting state;
+		now the image-ID of UI-query is the resting state of UI-query;
 		deactivate the UI-query-explanation;
 	otherwise:
-		now the image-ID of UI-query is the depressed state;
+		now the image-ID of UI-query is the depressed state of UI-query;
 		if the maximum display-count of UI-query-explanation > 0 and (display-count of UI-query-explanation < maximum display-count of UI-query-explanation) or maximum display-count of UI-query-explanation is 999:
 			activate the UI-query-explanation;
 			increase the display-count of UI-query-explanation by 1;
@@ -1220,6 +1220,8 @@ Please report bugs on the Google Code project page, at http://code.google.com/p/
 For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the infiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, you may contact me directly via email (ek.temple@gmail.com).
 
 Chapter: Change Log
+
+Version 3: Compatibility with 6G60. Fixed bug with query button display introduced by Inform's newer, less intelligent inference of a property's owner.
 
 Version 2: Updated for 6F95. Now uses no deprecated features.
 

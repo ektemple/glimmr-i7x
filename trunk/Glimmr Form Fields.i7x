@@ -1,6 +1,4 @@
-Version 1/101211 of Glimmr Form Fields (for Glulx only) by Erik Temple begins here.
-
-[Forgot to document the "tab order" feature. Add that at the next update.]
+Version 1/110103 of Glimmr Form Fields (for Glulx only) by Erik Temple begins here.
 
 "Allows the author to define multiple fields for entering text in a graphics window. The basics of mouse and keyboard input are provided, including conversion of typed digits into numbers."
 
@@ -660,6 +658,17 @@ Section: Handling input errors
 When the player enters a disallowed control or standard input character, this is considered to be an error. The field input loop will restart and the player's input will not be further processed. Before the loop is restarted, however, the "field input error-handling rules" will be checked. This is initially an empty rulebook, to which the author can add as needed. Perhaps the least intrusive thing to do here would be to play a sound to signify the error (see the Color Picker example). We can specialize error behavior by testing which key the player pressed.
 
 
+Section: "Tab" order
+
+In standard HTML forms, there is the concept of "tab order"; when the user hits the tab key, the cursor moves to the next field. It is possible to set up a similar tab ordering in GFF; most Glulx interpreters will not recognize the tab key as input, though, so we use the keys used to complete input in a field (e.g., return, enter) to move between fields. To set up tab order, we use a field's  "next-field" property. For example, to set up an ordering for a three-field layout:
+
+	First Name is a field. The next-field is Last Name.
+	Last Name is a field. The next-field is Gender.
+	Gender is a field.
+
+Now, when the player presses return in from the First Name field, the cursor will automatically move to Last Name, and again to Gender. Pressing return in the Gender field will complete field input.
+
+
 Chapter: A note on performance and compatibility
 
 Any of the notes on performance that appear in other Glimmr extensions apply also to Glimmr Form Fields. The extension is computation-intensive, and having lots of rendered texts and multiple fields on screen at once will likely impact performance, particularly if you are using bitmap fonts. The Gargoyle interpreter ( http://code.google.com/p/garglk/downloads/list ) has the best all-around performance; on my system, it runs without any noticeable delays at all, even when using bitmap fonts. All Glimmr games will always run slowly, sometimes much more slowly, in the Inform IDE than they will in outside interpreters, so test your game's true performance using a standalone interpreter.
@@ -711,7 +720,7 @@ You may prefer to do a release build and run this in a standalone interpreter fo
 
 Example: ** Color Picker - Inform 6/Glulx requires colors to be specified in hex format (e.g., FEFE01). However, Inform 7 does not accept hex values as numbers, so it is necessary to provide such values as a decimal; for example FEFE01 must be given as 16711169 at the I7 level. This is inconvenient, especially when we're beginning with an RGB triad, since we must first convert the RGB to hex, and then convert the hex value to a decimal. This example ameliorates this problem by creating a tool that converts instantly between RGB, hex, and decimal.
 
-As an example of the extension's functionality, the color picker demonstrates the use of the field focusing and defocusing rules, one possible implementation of tab order, and shows how to signal errors using the field input error-handling rules. Much of the code is also taken up with code to convert between RGB, hex (presented as an indexed text), and packed decimal.
+As an example of the extension's functionality, the color picker demonstrates the use of the field focusing and defocusing rules, use of tab order, and shows how to signal errors using the field input error-handling rules. Much of the code is also taken up with code to convert between RGB, hex (presented as an indexed text), and packed decimal.
 
 You may prefer to do a release build and run this in a standalone interpreter for better performance. If you choose not to release to a standalone file, you may need to type slowly into the fields.
 

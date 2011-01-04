@@ -1,4 +1,4 @@
-Version 2/101030 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple begins here.
+Version 3/110102 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple begins here.
 
 "A framework for drawing graphics of various types--from sprite images to painted text--to a Glulx graphics window. Takes an object-oriented approach, with graphic elements represented as individual objects."
 
@@ -2448,7 +2448,9 @@ For questions about Glimmr, please consider posting to either the rec.arts.int-f
 
 Chapter: Change Log
 
-Version 2: Updated for 6F95 (thanks to Harold Gates!). Now uses no deprecated features.
+Version 3: Fixed minor bug in the buttons examples.
+
+Version 2: Updated for 6F95 (thanks to Harold Gates for his help!). Now uses no deprecated features.
 
 Version 1: Initial release.
 
@@ -2524,6 +2526,8 @@ Note that the image-based font is rather large, and we need to scale it down to 
 
 
 We can include a little optional code to change the color of the button momentarily when it is pressed, then reverting back to the original color. We do this using Glulx's real-time capability: when the button is pressed, we change the button's color, and start a short timer (85 milliseconds). When the timer runs out, we stop the timer and change the button back to the original color. Note that the window must be redrawn after each of these to show the state change to the player.
+
+The final line in the block intializes the current graphlink variable to Button_1 (the "undo" button). This is done so that, in the case where the first button pressed by the player is UNDO, the "current graphlink" value will hold a valid g-element (rather than null) after undoing; if the current graphlink doesn't store a button, the timer will go off after the action is undone and try to check the "tint" property of nothing (since the game state will have reverted to before the player pressed the button), resulting in an error.
 	
 	*: To revert the/-- button/-- after (T - a number) millisecond/milliseconds:
 		(- glk_request_timer_events({T});  -)
@@ -2541,6 +2545,8 @@ We can include a little optional code to change the color of the button momentar
 		now the tint of the current graphlink is g-LightGray;
 		follow the window-drawing rules for the graphics-window.
 
+	The current graphlink is Button_1.
+
 This last part is even more optional, but it will ensure that the button acts correctly after UNDO. We set the timer to revert immediately after undoing the state of the last turn, to be sure that the buttons end in their resting state. To act after undoing, we either have to directly hack the template layer, or use an extension such as Undo Output Control, which is how we handle it here.
 	
 	*: Include Undo Output Control by Erik Temple.
@@ -2549,7 +2555,7 @@ This last part is even more optional, but it will ensure that the button acts co
 		revert the button after 0 milliseconds.
 
 
-Example: * Simpler Buttons - This example is a simple refinement of the previous example (Simple Buttons). In Simple Buttons, we had to supply what really was redundant information: the text of the label was the same as the linked replacement-command of its button, while the origin coordinate of the label is easily deducible from the placement and size of the button outline (the label is centered on the button). This example lets us define the labels minimally and auto-generate their text-strings and origin coordinates from their associated buttons. (One could go even farther with this approach, really.)
+Example: * Simpler Buttons - This example is a simple refinement of the previous example (Simple Buttons). In Simple Buttons, we had to supply what really was redundant information: the text of the label was the same as the linked replacement-command of its button, while the origin coordinate of the label is easily deducible from the placement and size of the button outline (the label is centered on the button). This example lets us define the labels minimally and auto-generate their text-strings and origin coordinates from their associated buttons. (One could go even farther with this approach, really, but this should be enough to suggest possibilities.)
 
 Simpler Buttons also uses a bitmap font for variety's sake. Note that if you make the window too narrow--unplayably narrow, really--the labels will not fit within the button outlines. This is because bitmaps can't be scaled below 1 pixel per bit, while the canvas itself is scaled to much less than this. This is something to be wary of whenever you are using bitmaps.
 
@@ -2582,7 +2588,7 @@ Now we get to the new stuff. The short loop code that occurs before we open the 
 
 The text-string is replaced with the linked replacement-command of the button. Note that Inform is very picky about the conversion of text (the linked replacement-command of the button) into indexed text (the text-string of the label). We use a replacement routine to handle this task.
 
-Compare the Table of Button Labels here with the one for Simple Buttons--we've been able to reduce the work of label creation to simple naming. (We could avoid even this if we wanted to use Jesse McGrew's Dynamic Objects extension to actually create new label objects as needed to fit our buttons...)
+Compare the Table of Button Labels here with the one for Simple Buttons--we've been able to reduce the work of label creation to simple naming. (We could avoid even this if we wanted to use Jesse McGrew's Dynamic Objects extension, say, to actually create new label objects as needed to fit our buttons...)
 
 	*: When play begins:
 		repeat with item running through buttons:
@@ -2629,6 +2635,8 @@ And the (optional) button animations (see the previous example for explanation):
 		change the tint of the depressed to g-MidGray;
 		follow the window-drawing rules for the graphics-window;
 		revert the button after 85 milliseconds.
+
+	The current graphlink is Button_1.
 	
 	Include Undo Output Control by Erik Temple.
 

@@ -1,4 +1,4 @@
-Version 1/101030 of Glimmr Canvas Editor (for Glulx only) by Erik Temple begins here.
+Version 2/110103 of Glimmr Canvas Editor (for Glulx only) by Erik Temple begins here.
 
 "A GUI editor that allows you to visually generate compositions for use with projects based on Glimmr Canvas-Based Drawing. Outputs valid Glimmr/I7 source code."
 
@@ -76,6 +76,9 @@ Report undoing an action when we are asking a question:
 Before undoing an action when the turn count is the first editor turn:
 	say "[bracket]Undo disallowed.[close bracket][line break][introductory commands]";
 	rule fails.
+
+To decide which value is undo word #3:
+   (- 'z//' -)
 
 
 Part - Hacking game restore so that we can offer our own customized restore message
@@ -394,6 +397,8 @@ Understand "version" as requesting the story file version.
 Understand "script" or "script on" or "transcript" or "transcript on" as switching the story
 	transcript on.
 Understand "script off" or "transcript off" as switching the story transcript off.
+
+Understand the command "x" as something new.
 
 
 Section - Remove direction commands
@@ -1183,7 +1188,7 @@ A dynamic-sprite has an indexed text called the element-name. The element-name i
 
 A dynamic-sprite has a number called the instance-counter. The instance-counter is usually 0.
 
-A g-element can be deleted, standard, instanced, or parental (this is its element-status). A g-element is usually standard. A dynamic-sprite is usually parental.
+A g-element can be deleted, standard, instanced, or parental (this is its element-status). A g-element is usually parental. [A dynamic-sprite is usually parental.]
 
 A dynamic-sprite has some text called the kind-flag. The kind-flag of a dynamic-sprite is "sprite".
 A dynamic-sprite has some indexed text called the of-kind.
@@ -1289,7 +1294,7 @@ A dynamic-rectangle is a kind of rectangle primitive. The display status is g-in
 
 A dynamic-rectangle has an indexed text called the element-name. The element-name is usually "". 
 A dynamic-rectangle has a number called the instance-counter. The instance-counter is usually 0.
-A dynamic-rectangle can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-rectangle is usually parental.
+[A dynamic-rectangle can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-rectangle is usually parental.]
 A dynamic-rectangle has some indexed text called the of-kind. The of-kind is usually "".
 A dynamic-rectangle has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-rectangle has some indexed text called the replacement-command. The replacement-command is "".
@@ -1305,7 +1310,7 @@ A dynamic-box is a kind of box primitive. The display status is g-inactive. The 
 
 A dynamic-box has an indexed text called the element-name. The element-name is usually "". 
 A dynamic-box has a number called the instance-counter. The instance-counter is usually 0.
-A dynamic-box can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-box is usually parental.
+[A dynamic-box can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-box is usually parental.]
 A dynamic-box has some indexed text called the of-kind. The of-kind is usually "".
 A dynamic-box has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in build 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-box has some indexed text called the replacement-command. The replacement-command is "".
@@ -1321,7 +1326,7 @@ A dynamic-stroked-rectangle is a kind of stroked rectangle primitive. The displa
 
 A dynamic-stroked-rectangle has an indexed text called the element-name. The element-name is usually "". 
 A dynamic-stroked-rectangle has a number called the instance-counter. The instance-counter is usually 0.
-A dynamic-stroked-rectangle can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-stroked-rectangle is usually parental.
+[A dynamic-stroked-rectangle can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-stroked-rectangle is usually parental.]
 A dynamic-stroked-rectangle has some indexed text called the of-kind. The of-kind is usually "".
 A dynamic-stroked-rectangle has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-stroked-rectangle has some indexed text called the replacement-command. The replacement-command is "".
@@ -1337,7 +1342,7 @@ A dynamic-line is a kind of line primitive. The display status is g-inactive. Th
 
 A dynamic-line has an indexed text called the element-name. The element-name is usually "". 
 A dynamic-line has a number called the instance-counter. The instance-counter is usually 0.
-A dynamic-line can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-line is usually parental.
+[A dynamic-line can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-line is usually parental.]
 A dynamic-line has some indexed text called the of-kind. The of-kind is usually "".
 A dynamic-line has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-line has some indexed text called the replacement-command. The replacement-command is "".
@@ -1353,7 +1358,7 @@ A dynamic-bitmap-string is a kind of bitmap-rendered string. The display status 
 
 A dynamic-bitmap-string has an indexed text called the element-name. The element-name is usually "". 
 A dynamic-bitmap-string has a number called the instance-counter. The instance-counter is usually 0.
-A dynamic-bitmap-string can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-bitmap-string is usually parental.
+[A dynamic-bitmap-string can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-bitmap-string is usually parental.]
 A dynamic-bitmap-string has some indexed text called the of-kind. The of-kind is usually "".
 A dynamic-bitmap-string has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-bitmap-string has some indexed text called the replacement-command. The replacement-command is "".
@@ -1368,7 +1373,7 @@ A dynamic-image-string is a kind of image-rendered string. The display status is
 
 A dynamic-image-string has an indexed text called the element-name. The element-name is usually "". 
 A dynamic-image-string has a number called the instance-counter. The instance-counter is usually 0.
-A dynamic-image-string can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-image-string is usually parental.
+[A dynamic-image-string can be deleted, standard, instanced, or parental (this is its element-status). A dynamic-image-string is usually parental.]
 A dynamic-image-string has some indexed text called the of-kind. The of-kind is usually "".
 A dynamic-image-string has a number called the kind-index. The kind-index is 0. [This is part of an elaborate workaround for a bug with list-sorting in 5Z71, whereby lists could not be sorted on indexed text properties.]
 A dynamic-image-string has some indexed text called the replacement-command. The replacement-command is "".
@@ -1563,11 +1568,11 @@ Some tabs are defined by the Table of Tab-Sprites.
 Table of Tab-Sprites
 sprite	image-ID	linked replacement-command	origin	underlayment
 Select_tab	Figure of Select Tab	"SELECT MODE"	{251, 558}	Select_bkgd
-Scale_tab	Figure of Scale Tab	"SCALE MODE"	{411, 558}	Scale_bkgd
+Scale_tab	Figure of Scale Tab	"MODE SCALE"	{411, 558}	Scale_bkgd
 Move_tab	Figure of Move Tab	"MOVE MODE"	{332, 558}	Move_bkgd
+[**** The "mode scale" is necessary because a bug in Inform, post-5Z71, prevents "scale mode" from being interpreted correctly.]
 
-
-The display-layer of Move_tab is usually 4. [Sets the tab that will be activated on startup.]
+The display-layer of Move_tab is usually 4. [Sets the tab that will be activated on startup (must be equal to the "activated tab layer" variable.]
 
 
 Chapter - Buttons
@@ -1612,7 +1617,7 @@ Image_bkgd_button	Figure of Image Bkgd Inactive	{52, 266}	Figure of Image Bkgd A
 Grid_bkgd_button	Figure of Grid Bkgd Inactive	{52, 315}	Figure of Grid Bkgd Active	Figure of Grid Bkgd Inactive	"REMOVE BACKGROUND IMAGE"	g-inactive
 Generate_source_button	Figure of Generate Source Inactive	{52, 145}	Figure of Generate Source Active	Figure of Generate Source Inactive	"GENERATE SOURCE CODE"	g-inactive
 Preview_source_button	Figure of Preview Source Inactive	{52, 194}	Figure of Preview Source Active	Figure of Preview Source Inactive	"PREVIEW SOURCE CODE"	g-inactive
-Rename_sprite_button	Figure of Rename Sprite Inactive	{52, 110}	Figure of Rename Sprite Active	Figure of Rename Sprite Inactive	"RENAME SPRITE"	g-inactive
+Rename_sprite_button	Figure of Rename Sprite Inactive	{52, 110}	Figure of Rename Sprite Active	Figure of Rename Sprite Inactive	"RENAME ELEMENT"	g-inactive
 Change_kind_button	Figure of Change Kind Inactive	{221, 110}	Figure of Change Kind Active	Figure of Change Kind Inactive	"CHANGE KIND"	g-inactive
 Change_ID_button	Figure of Change ID Inactive	{52, 160}	Figure of Change ID Active	Figure of Change ID Inactive	"REASSIGN SPRITE IDENTITY"	g-inactive
 Register_button	Figure of Register Instance Inactive	{52, 388}	Figure of Register Instance Active	Figure of Register Instance Inactive	"REGISTER INSTANCE"	g-inactive
@@ -1913,10 +1918,9 @@ Carry out spawning sprites:
 To create a new sprite from (S - a sprite) in (win - a g-window):
 	increase the instance-counter of S by 1;
 	let the new sprite be a new object cloned from S;
-	now the new sprite is standard;
 	change the associated canvas of the new sprite to the associated canvas of win;
 	unlink the element-name of the new sprite;
-	replace the text "_\d+$" in the element-name of the new sprite with "_[instance-counter of S]";
+	replace the regular expression "_\d+$" in the element-name of the new sprite with "_[instance-counter of S]";
 	replace the text " " in the element-name of the new sprite with "_";
 	now the new sprite is standard;
 	unlink the of-kind of the new sprite;
@@ -3406,7 +3410,7 @@ Carry out asymmetrical scaling mode:
 	[follow the window-drawing rules for the control-window;]
 	say "Asymmetrical scaling mode active.";
 	
-Symmetrical scaling mode is an action applying to nothing. Understand "symmetrical" or "symmetrical scaling" or "equivalent scaling" or "scale asymmetrically" as symmetrical scaling mode.
+Symmetrical scaling mode is an action applying to nothing. Understand "symmetrical" or "symmetrical scaling" or "equivalent scaling" as symmetrical scaling mode.
 
 Carry out symmetrical scaling mode:
 	change asymmetric-scaling to false;
@@ -3547,7 +3551,7 @@ Chapter - Basic element scaling commands
 
 Section - Symmetrical scaling
 
-Scaling elements is an action applying to one real number. Understand "scale at [real number]" or  "scale element/elements at [real number]" or "scale to [real number]" or "scale element/elements to [real number]" as scaling elements.
+Scaling elements is an action applying to one real number. Understand "scale at [real number]" or  "scale element/elements at [real number]" or "scale to [real number]" or "scale element/elements to [real number]" or "scale [real number]" or "x [real number]" as scaling elements.
 
 Understand "scale [real number]" or "x [real number]" as scaling elements when the number of entries of the element-selection set > 0.
 
@@ -4277,7 +4281,7 @@ The numbered-kinds index is a list of numbers that varies. [This list exists as 
 
 The kinds-count is a number that varies.
 
-The graphlink_active is a thing. The graphlink_absent is a thing. [These are dummy objects that will occupy the first position in each of the parsed lists; graphlink_present indicates that *all* of the sprites of a given kind have graphlinks.]
+The graphlink_active is a g-element. The graphlink_absent is a g-element. [These are dummy objects that will occupy the first position in each of the parsed lists; graphlink_present indicates that *all* of the sprites of a given kind have graphlinks.]
 
 To say tab:
 	if the current action is generating source code:
@@ -4288,7 +4292,7 @@ To say tab:
 
 Section - The generating source code action
 
-Generating source code is an action applying to nothing. Understand "generate source" or "generate source code" or "source code" or "source" as generating source code.
+Generating source code is an action applying to nothing. Understand "generate source" or "generate source code" or "source code" or "source" or "generate" as generating source code.
 
 Check generating source code (this is the check for defined elements rule):
 	if the number of entries of the list of standard g-elements plus the number of entries of the list of instanced g-elements is less than 1:
@@ -4423,7 +4427,7 @@ g-pink
 Section - Writing inclusions and graphics window code to the source
 
 To write the/-- preamble:
-	append "Include Glimmr Canvas-Based Drawing by Erik Temple.[font extensions][end if][paragraph break]" to the file of Output;
+	append "Include Glimmr Canvas-Based Drawing by Erik Temple.[font extensions][paragraph break]" to the file of Output;
 	append "Chapter - Scenario[paragraph break]" to the file of Output;
 	append "[bracket]Insert code here, particularly the definition of rooms and their connections.[close bracket]" to the file of Output;
 	if we have a map:
@@ -4976,6 +4980,8 @@ Some of the more common operations have radically shortened forms for quick entr
 	T <reference name> : tag selected element with reference name provided
 
 	G : repeat last command
+
+	Z : undo last command
 	
 
 Section: Status line
@@ -5036,13 +5042,13 @@ Chapter: Advanced topics
 
 Section: Kinds and Sub-kinds
 
-All elements added to the canvas in GCE are members of one of the following hierarchy of kinds:
+All elements added to the canvas in GCE are members of one of the following hierarchies of kinds:
 
 	object -> thing -> g-element -> sprite
 	object -> thing -> g-element -> primitive -> (rectangle, box, line, stroked rectangle)
 	object -> thing -> g-element -> rendered string -> (image-rendered string, bitmap-rendered string)
 
-When an element is selected, the status line identifies the most specific kind in the hierarchy of the element, such as sprite, rectangle primitive, or bitmap-rendered string.
+When an element is selected, the status line identifies the most specific kind in the hierarchy, such as sprite, rectangle primitive, or bitmap-rendered string.
 
 GCE allows us to add one additional layer to the hierarchy for any element. For example, we may want to make subsets of the sprite class:
 
@@ -5277,11 +5283,11 @@ For information on how to create your own fonts for use with Glimmr, see the doc
 
 Chapter: Performance
 
-GCE should be run on relatively modern hardware, using the newest available interpreters; a number of interpreters have had bug fixes and preformance enhancements in recent months and will run this and other Glimmr game files much better.
+GCE should be run on relatively modern hardware, using the newest available interpreters; a number of interpreters have had bug fixes and preformance enhancements in recent months and will run this and other Glimmr game files much better than older versions.
 
 Glimmr Canvas Editor functions much better in a release build, opened with an external interpreter, than it does when run from within the Inform IDE. Running it in the IDE is not to be recommended in any case, since the window should be maximized to the fullest extent possible.
 
-Note that, in the Mac IDE, there is a *significant* delay upon entering the editor. During this delay, commands can be entered, but clicks in the GUI will appear to do nothing. These clicks are in fact being registered, however, and will generate actions after the delay is complete. It is best to make a single click when the editor loads, then wait for that click's result to appear before continuing.
+Note that, in the Mac Inform IDE, there is a *significant* delay upon entering the editor. During this delay, commands can be entered, but clicks in the GUI will appear to do nothing. These clicks are in fact being registered, however, and will generate actions after the delay is complete. It is best to make a single click when the editor loads, then wait for that click's result to appear before continuing.
 
 
 Chapter: Debugging
@@ -5298,9 +5304,16 @@ Please report bugs on the Google Code project page, at http://code.google.com/p/
 For questions about Glimmr, please consider posting to either the rec.arts.int-fiction newsgroup or at the intfiction forum (http://www.intfiction.org/forum/). This allows questions to be public, where the answers can also benefit others. If you prefer not to use either of these forums, please contact me directly via email (ek.temple@gmail.com).
 
 
+Chapter: Change Log
+
+Version 2: Updated for 6G60. Fixed a number of bugs. See Issues 7, 8, 11, 14, 15, 16, 17, 19, and 23 at http://code.google.com/p/glimmr-i7x/issues/list.
+
+Version 1: Initial release.
+
+
 Example: *** Basic Floorplan Toolkit Example - A toolkit including images for use in constructing basic floorplans for indoor maps, as well as illustrating most of the basic options available. Also illustrates user-specified source text and tags to create automatic mapping capabilities. This example is a bit different from the released Basic Floorplan Toolkit gblorb file, in that it contains a small map to be used as reference while you draw. Type MAP to see the geography.
 
-Most of the available settings are included in the code, many just restating the defaults.
+Most of the available settings are included in the code, most just restating the defaults.
 
 
 	*: "Basic Floorplan Toolkit Example"
