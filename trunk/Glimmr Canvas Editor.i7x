@@ -5316,10 +5316,10 @@ Example: *** Basic Floorplan Toolkit Example - A toolkit including images for us
 Most of the available settings are included in the code, most just restating the defaults.
 
 
-	*: "Basic Floorplan Toolkit Example"
-
+	*: "Basic Floorplan Toolkit"
+	
 	Include Glimmr Canvas Editor by Erik Temple.
-
+	
 	Figure of Orthogonal Room Square is the file "Orthogonal Room Square.png".
 	Figure of Orthogonal Room Horizontal is the file "Orthogonal Room Horizontal.png".
 	Figure of Orthogonal Room Vertical is the file "Orthogonal Room Vertical.png".
@@ -5362,30 +5362,14 @@ Most of the available settings are included in the code, most just restating the
 	Figure of Occluder Square is the file "Occluder Square.png".
 	Figure of Player Icon is the file "Player Icon.png".
 	Figure of Player Icon Alternate is the file "Player Icon2.png".
-
-	The targeted canvas is "graphics-canvas".
-
-	The canvas-width of the editor-canvas is 600.
-	The canvas-height of the editor-canvas is 450.
-
-	The back-colour of the editor-window is g-Black.
-
-	The highlight-color is g-CornflowerBlue.
-	The canvas outline-color is g-White.
-
-	The nudge factor is 1.
-
-	The lower scaling-limit is 0.1000.
-	The upper scaling-limit is 2.0000.
-
-	The default scaling factor is 1.0000.
-
+	
+	
 	Table of Common Color Values (continued)
 	glulx color value	assigned number
 	g-Orange	16753920
 	g-Violet	15631086
-
-
+	
+	
 	The drawing colors are {
 	g-Black,
 	g-White,
@@ -5400,23 +5384,35 @@ Most of the available settings are included in the code, most just restating the
 	g-Medium-Grey,
 	g-Light-Grey
 	}.
-
+	
 	The current element color is g-White.
 	The current element background color is g-placeNULLcol.
-
-
+	
+	
+	Section - Notices
+	
+	Definition: A figure name is room-related if it is not Figure of Player Icon and it is not Figure of Player Icon Alternate.
+	
+	After spawning sprites when the image-ID of the current graphlink is room-related:
+		say "(Sub-kind automatically set to [italic type]room-element[roman type] to enable proper functioning of the automated revelation of the map as the player moves through it. [bold type]TAG[roman type] the sprite with the name of the room that should reveal it. If the sprite is not intended to be part of the map, you may want to change the sub-kind, by typing [bold type]KIND <new sub-kind name>[roman type].)";
+		now the of-kind of entry 1 of element-selection set is "room-element".
+	
+	Report spawning sprites when the image-ID of the current graphlink is not room-related:
+		say "You have selected an image that can be used to represent the player's position on the map. To use the built-in Basic Floorplan Toolkit functionality for automatically moving the sprite around the map, you must rename the sprite as 'PC Avatar'. Type [bold type]RENAME PC Avatar[roman type] now to do this."
+	
+	
 	Section - Custom text and source
-
+	
 	The tag type is "room".
 	The tag alias is "associated room".
-
-	The user-specified startup text is "This is a special edition of Glimmr Canvas Editor optimized for the creation of a map for a specific scenario. You may type MAP at any time after this screen to see a list of the rooms and connections that have been defined for this scenario. TAG elements with a room name to indicate which elements should be revealed when that room is entered for the first time.[paragraph break]".
-
+	
+	The user-specified startup text is "Basic Floorplan Toolkit is a special edition of Glimmr Canvas Editor optimized for the creation of simple floorplans. It includes a set of images representing rooms, hallways, and other featuers. You are welcome to use these graphics in your own games.[paragraph break]Glimmr Canvas Editor can export nearly complete I7 source code that replicates whatever your create here for use in your game. There is a block of code included that lets you tag the elements you add to the editor with room names; when the player enters a room with the same name, the graphic(s) with that tag will be activated. This allows the map to reveal itself to the player as the PC moves through the world. To add a tag, select one or more elements and type TAG <room name> at the command line to 'tag' the selected elements with that name.[paragraph break]".
+	
 	The user-specified source text is "Chapter - Basic Floorplan Toolkit Figures[paragraph break][figure-list A][figure-list B][line break]Chapter - Associating rooms with elements[paragraph break][bracket]This code assumes that each sprite that forms the map has been given the kind [quotation mark]room-element[quotation mark] and that each has also been tagged with the name of the room that should trigger its display. It further assumes that there exists an element that represents the avatar of the player, given the name [quotation mark]PC avatar[quotation mark], and that there is a table called the Table of Avatar Coordinates that consists of a column of room names (the locale column) and a column of the coordinates for the avatar that correspond to the avatar. These columns can easily be extracted from the instances data, provided an instance of the avatar has been recorded in advance for each room.[close bracket][paragraph break]The update map sprites rule is listed in the carry out looking rules.[line break]This is the update map sprites rule:[line break][tab]repeat with current-element running through display-inactive room-elements:[line break][tab][tab]if the associated room of current-element is the location:[line break][tab][tab][tab]activate current-element;[line break][tab]if there is a locale of the location in the Table of Avatar Coordinates:[line break][tab][tab]choose row with a locale of the location in the Table of Avatar Coordinates;[line break][tab][tab]change the origin of the PC avatar to the coord entry;[line break][tab]follow the window-drawing rules for the graphics-window.[paragraph break]"
-
+	
 	To say figure-list A:
 		say "Figure of Orthogonal Room Square is the file 'Orthogonal Room Square.png'.[line break]Figure of Orthogonal Room Horizontal is the file 'Orthogonal Room Horizontal.png'.[line break]Figure of Orthogonal Room Vertical is the file 'Orthogonal Room Vertical.png'.[line break]Figure of Orthogonal Room Round is the file 'Orthogonal Room Round.png'.[line break]Figure of Orthogonal Room Hexagonal is the file 'Orthogonal Room Hexagonal.png'.[line break]Figure of Orthogonal Hall Horizontal is the file 'Orthogonal Hall Horizontal.png'.[line break]Figure of Orthogonal Hall Vertical is the file 'Orthogonal Hall Vertical.png'.[line break]Figure of Orthogonal Hall NW to SE is the file 'Orthogonal Hall NW to SE.png'.[line break]Figure of Orthogonal Hall SW to NE is the file 'Orthogonal Hall SW to NE.png'.[line break]Figure of Orthogonal Long Hall NW to SE is the file 'Orthogonal Long Hall NW to SE.png'.[line break]Figure of Orthogonal Long Hall SW to NE is the file 'Orthogonal Long Hall SW to NE.png'.[line break]Figure of Orthogonal Curve N to E is the file 'Orthogonal Curve N to E.png'.[line break]"
-	
+		
 	To say figure-list B:	
 		say "Figure of Orthogonal Curve S to E is the file 'Orthogonal Curve S to E.png'.[line break]Figure of Orthogonal Curve W to N is the file 'Orthogonal Curve W to N.png'.[line break]Figure of Orthogonal Curve W to S is the file 'Orthogonal Curve W to S.png'.[line break]Figure of Rough Room Square 01 is the file 'Rough Room Square 01.png'.[line break]Figure of Rough Room Square 02 is the file 'Rough Room Square 02.png'.[line break]Figure of Rough Room Horizontal is the file 'Rough Room Horizontal.png'.[line break]Figure of Rough Room Vertical is the file 'Rough Room Vertical.png'.[line break]Figure of Rough Room Circular is the file 'Rough Room Circular.png'.[line break]Figure of Rough Hall Horizontal is the file 'Rough Hall Horizontal.png'.[line break]Figure of Rough Hall Vertical is the file 'Rough Hall Vertical.png'.[line break]Figure of Rough Hall NW to SE is the file 'Rough Hall NW to SE.png'.[line break]Figure of Rough Hall SW to NE is the file 'Rough Hall SW to NE.png'.[line break]Figure of Rough Long Hall Horizontal is the file 'Rough Long Hall Horizontal.png'.[line break]Figure of Rough Long Hall Vertical is the file 'Rough Long Hall Vertical.png'.[line break]Figure of Rough Long Hall NW to SE is the file 'Rough Long Hall NW to SE.png'.[line break]Figure of Rough Long Hall SW to NE is the file 'Rough Long Hall SW to NE.png'.[line break]Figure of Rough Curve N to E is the file 'Rough Curve N to E.png'.[line break]Figure of Rough Curve S to E is the file 'Rough Curve S to E.png'.[line break]Figure of Rough Curve W to N is the file 'Rough Curve W to N.png'.[line break]Figure of Rough Curve W to S is the file 'Rough Curve W to S.png'.[line break]Figure of Door Horizontal is the file 'Door Horizontal.png'.[line break]Figure of Door NE to SW is the file 'Door NE to SW.png'.[line break]Figure of Door NW to SE is the file 'Door NW to SE.png'.[line break]Figure of Door Vertical is the file 'Door Vertical.png'.[line break]Figure of Stair Circular is the file 'Stair Circular.png'.[line break]Figure of Stair Horizontal is the file 'Stair Horizontal.png'.[line break]Figure of Stair Vertical is the file 'Stair Vertical.png'.[line break]Figure of Occluder Square is the file 'Occluder Square.png'.[line break]Figure of Player Icon is the file 'Player Icon.png'.[line break]Figure of Player Icon Alternate is the file 'Player Icon2.png'.[line break]"
 
