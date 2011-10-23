@@ -1,4 +1,4 @@
-Version 2/101203 of Glimmr Drawing Commands (for Glulx only) by Erik Temple begins here.
+Version 2/111022 of Glimmr Drawing Commands (for Glulx only) by Erik Temple begins here.
 
 "Provides commands for displaying images, shape primitives (such as rectangles, boxes, and lines), user-specified bitmap drawings, image maps, and for text-painting using 'fonts' with glyphs composed of either bitmaps or image files."
 
@@ -6,7 +6,7 @@ Version 2/101203 of Glimmr Drawing Commands (for Glulx only) by Erik Temple begi
 Part - Inclusions
 
 Include version 9 of Flexible Windows by Jon Ingold.
-Include version 3 of Fixed Point Maths by Michael Callaghan.
+Include version 5 of Fixed Point Maths by Michael Callaghan.
 
 
 Part - Use options
@@ -292,7 +292,7 @@ To linedraw (hue - a number) in (win - a g-window) from (x1 - a number) by/x (y1
 				let y1 be 1;
 				let x1 be x;
 			otherwise:
-				increase y1 by 1;
+				increase y1 by 1.
 
 
 To draw a/-- line (hue - a number) in (win - a g-window) from (x1 - a number) by/x (y1 - a number) to (x2 - a number) by/x (y2 - a number) with (wgt - a number) pixel/pixels/px/-- line-weight/stroke:
@@ -1217,6 +1217,10 @@ To decide which number is the lesser/min of/-- (X - a number) or (Y - a number):
 	if Y < X, decide on Y;
 	decide on X.
 
+To decide what number is ABS/absolute value/-- of/-- (N - a number):
+	if N < 0, decide on 0 - N;
+	decide on N.	
+
 
 Chapter - Look up the char number from a text-string
 
@@ -1424,7 +1428,7 @@ To say >console:
 	(- if ( (+ console output window +) has g_present) { glk_set_window( (+ console output window +).ref_number); -).
  
 To say <:
-	(-  glk_set_window( gg_mainwin ); } RunParagraphOn(); -).
+	(-   glk_set_window( gg_mainwin ); } RunParagraphOn(); -).
 
 
 Glimmr Drawing Commands ends here.
@@ -2484,8 +2488,8 @@ Note the window-drawing rule provided does not scale, center, or otherwise vary 
 	When play begins:
 		open up the graphics-window.
 	
-	[After printing the banner text:
-		say "[line break]This example for the Glimmr Drawing Commands extension doesn't do much. It demonstrates a few of the drawing commands, and uses no external resources. Everything is drawn by directly coloring individual pixels. Key: [paragraph break]Ms. Pac-Man: polychrome bitmap.[line break]Maze outlines: line primitives.[line break]Lunch dots: rectangle primitives.[line break]Text box: stroked rectangle primitive.[line break]Text: Bitmap-rendered text.[paragraph break]".]
+	After printing the banner text:
+		say "[line break]This example for the Glimmr Drawing Commands extension doesn't do much. It demonstrates a few of the drawing commands, and uses no external resources. Everything is drawn by directly coloring individual pixels. Key: [paragraph break]Ms. Pac-Man: polychrome bitmap.[line break]Maze outlines: line primitives.[line break]Lunch dots: rectangle primitives.[line break]Text box: stroked rectangle primitive.[line break]Text: bitmap-rendered text.[paragraph break]".
 
 	Window-drawing rule for the graphics-window:
 		clear the graphics-window;

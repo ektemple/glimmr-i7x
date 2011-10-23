@@ -1,4 +1,4 @@
-Version 3/110102 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple begins here.
+Version 3/111022 of Glimmr Canvas-Based Drawing (for Glulx only) by Erik Temple begins here.
 
 "A framework for drawing graphics of various types--from sprite images to painted text--to a Glulx graphics window. Takes an object-oriented approach, with graphic elements represented as individual objects."
 
@@ -2172,9 +2172,9 @@ If for some reason we actually want players to be able to see, pick up, and refe
 
 	Mario is publically-named.
 
-If we want to elements to be publically-named by default, we can replace the section of the extension's code that conceals them from the player, like this:
+If we want elements to be publically-named by default, we can replace the section of the extension's code that conceals them from the player, like this:
 
-	Section - Revealing elements (in place of Section - Concealing elements in Glimmr Canvas-Based Drawing by Erik Temple)
+	Chapter - Revealing elements (in place of Chapter - Concealing elements in Glimmr Canvas-Based Drawing by Erik Temple)
 
 With the body of this section left blank, the privately-named and scenery properties are not set for g-elements, and we can now treat g-elements like any other kind of object: the player will be now able to see and interact with them. Note that g-elements, just like other objects, will be created "off-stage" unless we actively place them in specific rooms.
 
@@ -2323,7 +2323,7 @@ Section: Summary of the primitive base class's properties
 
 This section presents a list of the properties associated with all primitive elements, including rectangle, box, stroked rectangle, line, and point primitives. Properties which the extension uses internally, and should not be referred to by the author, are marked with a double asterisk (**). All primitives also inherit the properties common to the g-element kind (see above for those properties).
 
-	origin - the x and y coordinates where the element's drawing will be completed. These coordinates refer to the coordinate system of the canvas and usually indicate where the lower right corner of the element will be drawn. In the case of line primitives, the origin and endpoint are more or less interchangeable, neither has priority. The endpoint coordinates are expressed as a list of exactly two numbers in brace notation. Default value: {0, 0}
+	endpoint - the x and y coordinates where the element's drawing will be completed. These coordinates refer to the coordinate system of the canvas and usually indicate where the lower right corner of the element will be drawn. In the case of line primitives, the origin and endpoint are more or less interchangeable, neither has priority. The endpoint coordinates are expressed as a list of exactly two numbers in brace notation. Default value: {0, 0}
 
 	tint - a glulx color value (see the Glulx Text Effects extension) that defines the color of the primitive; in the case of the stroked rectangle primitive, this represents the color of the fill fo the rectangle. Default value: g-White
 
@@ -2485,8 +2485,8 @@ Before we get to the buttons, we need to set up the window and canvas. For an ex
 	When play begins:
 		open up the graphics-window.
 		
-	[After printing the banner text:
-	say "[line break]This is one of two very similar examples for the Glimmr Canvas-Based Drawing extension. It demonstrates a simple set of UI buttons. The buttons are not sprites. In other words, they are created without the need to make external PNG or JPEG images. Instead, we use Glimmr's functions for easily drawing rectangles and more complex elements. An image-rendered string provides the button's text, and this is superimposed on a stroked rectangle primitive that creates the body of the button. A simple animation allows the button to change color briefly when pressed, to provide visual feedback.[paragraph break]".]
+	After printing the banner text:
+		say "[line break]This is one of two very similar examples for the Glimmr Canvas-Based Drawing extension. It demonstrates a simple set of UI buttons. The buttons are not sprites. In other words, they are created without the need to make external PNG or JPEG images. Instead, we use Glimmr's functions for easily drawing rectangles and more complex elements. An image-rendered string provides the button's text, and this is superimposed on a stroked rectangle primitive that creates the body of the button. A simple animation allows the button to change color briefly when pressed, to provide visual feedback.[paragraph break]".
 	
 	
 	Table of Common Color Values (continued)
@@ -2615,8 +2615,8 @@ Compare the Table of Button Labels here with the one for Simple Buttons--we've b
 	Button_3	{111, 7}	{165, 28}	Label_3	"Restore"
 	Button_4	{173, 7}	{238, 28}	Label_4	"Transcript"
 
-	[After printing the banner text:
-		say "[line break]This is one of two very similar examples for the Glimmr Canvas-Based Drawing extension. It demonstrates a simple set of UI buttons. The buttons are not sprites. In other words, they are created without the need to make an external PNG or JPEG image for each one. Instead, we use Glimmr's functions for easily drawing rectangles and more complex elements. A bit-rendered string provides the button's text, and this is superimposed on a stroked rectangle primitive that creates the body of the button. No image files at all are used. A simple animation allows the button to change color briefly when pressed, to provide visual feedback.[paragraph break]".]
+	After printing the banner text:
+		say "[line break]This is one of two very similar examples for the Glimmr Canvas-Based Drawing extension. It demonstrates a simple set of UI buttons. The buttons are not sprites. In other words, they are created without the need to make an external PNG or JPEG image for each one. Instead, we use Glimmr's functions for easily drawing rectangles and more complex elements. A bitmap-rendered string provides the button's text, and this is superimposed on a stroked rectangle primitive that creates the body of the button. No image files at all are used. A simple animation allows the button to change color briefly when pressed, to provide visual feedback.[paragraph break]".
 
 And the (optional) button animations (see the previous example for explanation):
 
@@ -2682,8 +2682,8 @@ The scenario definition is followed by the list of figures. The list of figures 
 
 	North of Flanking Chamber is nowhere. West of Flanking Chamber is Upper Chamber. East of Upper Chamber is nowhere.
 	
-	[After printing the banner text:
-		say "[paragraph break]This is an example of a dynamic map built using Glimmr Canvas-Based Drawing. It provides a floorplan that reveals itself as the player moves through it. Each room is revealed as the player enters it, and each floor is pictured in a separate pane. A spare icon acts as an avatar for the player, showing the present location in the developing map.[paragraph break]This example was built using the "Basic Floorplan Toolkit" distributed with Glimmr. The Basic Floorplan Toolkit is an instance of the Glimmr Canvas Editor, a GUI graphics editor that allows you to build a composition graphically and output I7 source code describing it. Basic Floorplan Toolkit includes a set of images designed for use in creating simple floorplans in the style of those used by Emily Short in her pdf map for [i]Bronze[/i] (chosen as a model because of the manifest popularity of the style).[paragraph break]".]
+	After printing the banner text:
+		say "[paragraph break]This is an example of a dynamic map built using Glimmr Canvas-Based Drawing. It provides a floorplan that reveals itself as the player moves through it. Each room is revealed as the player enters it, and each floor is pictured in a separate pane. A spare icon acts as an avatar for the player, showing the present location in the developing map.[paragraph break]This example was built using the 'Basic Floorplan Toolkit' distributed with Glimmr. The Basic Floorplan Toolkit is an instance of the Glimmr Canvas Editor, a GUI graphics editor that allows you to build a composition graphically and output I7 source code describing it. Basic Floorplan Toolkit includes a set of images designed for use in creating simple floorplans in the style of those used by Emily Short in her pdf map for [i]Bronze[/i] (chosen as a model because of the manifest popularity of the style).[paragraph break]".
 		
 
 	Chapter - Figure Definitions
@@ -2876,8 +2876,8 @@ We then assign x,y coordinates to each room. These coordinates will determine wh
 		open up graphics-window;
 		open up the closeup-window;
 	
-	[After printing the banner text:
-		say "[line break]This example for the Glimmr Canvas-Based Drawing extension demonstrates the display of a single canvas in two different windows. The inset window at right shows a detail view of the main map window at left. The main window scales the canvas to fit, while the inset window always displays it at 100% of actual size, zoomed to the specific location shown by the placemarker in the main window.[paragraph break]The placemarker can be toggled between a pointer and a box the same size as the inset: Type TOGGLE at the command line to change it.[paragraph break]"]
+	After printing the banner text:
+		say "[line break]This example for the Glimmr Canvas-Based Drawing extension demonstrates the display of a single canvas in two different windows. The inset window at right shows a detail view of the main map window at left. The main window scales the canvas to fit, while the inset window always displays it at 100% of actual size, zoomed to the specific location shown by the placemarker in the main window.[paragraph break]The placemarker can be toggled between a pointer and a box the same size as the inset: Type TOGGLE at the command line to change it.[paragraph break]"
 
 	A room has a list of numbers called the origin. The origin is usually {0, 0}.
 	Some rooms are defined by the Table of Room Origins.
@@ -3016,8 +3016,8 @@ Note the linked command entries in the tileset's translation table. These allow 
 		follow the update dungeon map rule;
 		open up the graphics-window.
 		
-	[After printing the banner text:
-		say "[line break]This imitation of a roguelike game is an example for the Glimmr Canvas-Based Drawing extension. It features an image-map element that displays the map base for each room, using regular graphic tiles from a tileset known as LoFi Roguelike, by TIGSource user oryx (http://forums.tigsource.com/index.php?topic=8970.0). The character icons are borrowed from the the same tileset, and are implemented in Glimmr as sprite objects.[paragraph break]Click on the floor of the room to move toward the location clicked. Click on the furthest floor tile of a map exit to move to the next room. Click on the player's avatar (the archer) to take inventory, or click on an enemy to attack it.[paragraph break]"]
+	After printing the banner text:
+		say "[line break]This imitation of a roguelike game is an example for the Glimmr Canvas-Based Drawing extension. It features an image-map element that displays the map base for each room, using regular graphic tiles from a tileset known as LoFi Roguelike, by TIGSource user oryx (http://forums.tigsource.com/index.php?topic=8970.0). The character icons are borrowed from the the same tileset, and are implemented in Glimmr as sprite objects.[paragraph break]Click on the floor of the room to move toward the location clicked. Click on the furthest floor tile of a map exit to move to the next room. Click on the player's avatar (the archer) to take inventory, or click on an enemy to attack it.[paragraph break]"
 
 Sprites are displayed using the coordinate system of the canvas, but the characters we are using them to display will need to move according to the internal grid of our image-map. We handle this by giving the sprite a second set of coordinates that we will use for calculating the character's position on the map. We convert this coordinate to canvas coordinates (based on the current position of the image-map on the canvas) before scaling and drawing a sprite. This is the "convert origin coordinate" rule below, and it utilizes one of the phrases that GCBD provides for converting between canvas, screen, and image-map coordinate systems; see the section on image-maps in the documentation above for more.
 
@@ -3317,7 +3317,7 @@ The player may not be sure what to do in this example, so we offer some help tex
 	Asking for help is an action out of world. Understand "help" as asking for help.
 
 	After printing the banner text:
-		[say "[line break]This example for the Glimmr Canvas-Based Drawing extension illustrates a couple of different of techniques:[paragraph break](1) Changing the contents of a window at a stroke by swapping out the canvas (type HELP to see this).[line break](2) The construction of a complex graphic element from a number of parts: the card graphics are composed of two rectangles, a bitmap-rendered text, and a bitmap graphic.[paragraph break]The example is built on top of the Tilt 3 example from the Inform Recipe Book, essentially unchanged but with the graphic display layered on top.[paragraph break]";]
+		say "[line break]This example for the Glimmr Canvas-Based Drawing extension illustrates a couple of different of techniques:[paragraph break](1) Changing the contents of a window at a stroke by swapping out the canvas (type HELP to see this).[line break](2) The construction of a complex graphic element from a number of parts: the card graphics are composed of two rectangles, a bitmap-rendered text, and a bitmap graphic.[paragraph break]The example is built on top of the Tilt 3 example from the Inform Recipe Book, essentially unchanged but with the graphic display layered on top.[paragraph break]";
 		say "Type HELP for instructions."
 
 	Carry out asking for help:
