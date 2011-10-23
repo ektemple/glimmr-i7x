@@ -1,4 +1,4 @@
-Version 3/110102 of Glimmr Automap (for Glulx only) by Erik Temple begins here.
+Version 3/111022 of Glimmr Automap (for Glulx only) by Erik Temple begins here.
 
 "Provides a plug-and-play graphical automapping solution built on top of Mark Tilford's Automap extension. Can fall back to text-based map on interpreters that don't support graphics."
 
@@ -928,7 +928,7 @@ It may be that we don't want to offer the ability to query the map. To disable t
 
 Chapter: Customizing the user interface
 
-By default, Glimmr Automap places a small toolbar at the bottom of the window, containing + and - buttons for zooming in and out. This toolbar can be easily moved or removed. (We can also add your own buttons or remove the + and - buttons, but this is beyond the scope of this documentation; you should be able to figure out how to make the changes you need by studying the source code. You may need to familiarize yourself with the workings of Glimmr Canvas-Based Drawing first, however.) 
+By default, Glimmr Automap places a small toolbar at the bottom of the window, containing + and - buttons for zooming in and out. This toolbar can be easily moved or removed. (We can also add our own buttons or remove the + and - buttons, but this is beyond the scope of this documentation; you should be able to figure out how to make the changes you need by studying the source code. You may need to familiarize yourself with the workings of Glimmr Canvas-Based Drawing first, however.) 
 
 GLAM also provides a few commands for the player, such as zooming and opening/closing the map window. The game's responses to these commands can also be customized.
 
@@ -954,7 +954,7 @@ Section: Anchor elements
 
 Glimmr Automap handles window-canvas display differently from Canvas-Based Drawing. Rather than scale the canvas so that it fits the window, GLAM resizes the canvas. Each time the window is redrawn, GLAM calculates the number of tiles that will fit in the window--up to the maximum set by the "automap reserved area" use option (see above)--and changes the size of the canvas to match. The canvas is then centered in the window as per standard Canvas-Based Drawing behavior.
 
-This means that there is no reliable way to set the positions of other elements (such as the zoom buttons). Canvas positions aren't reliable, since the canvas dimensions can change radically at different window sizes and zoom levels. So, Glimmr Automap introduces the "anchor-element." Anchor-elements g-elements that are placed (anchored) relative to the edges of the window, rather than to the canvas grid; these elements completely ignore the canvas, and instead are placed using textual "positionings" and numerical "margins".
+This means that there is no reliable way to set the positions of other elements (such as the zoom buttons). Canvas positions aren't reliable, since the canvas dimensions can change radically at different window sizes and zoom levels. So, Glimmr Automap introduces the "anchor-element." Anchor-elements are g-elements that are placed (anchored) relative to the edges of the window, rather than to the canvas grid; these elements completely ignore the canvas, and instead are placed using textual "positionings" and numerical "margins".
 
 GLAM includes two anchor-elements: the "UI-frame", which is a box that holds the zoom and query buttons, and the query explanation text ("UI-query-explanation," actually an external image file). If we want to add other graphic elements to the map window, it will generally be easiest to make them anchor-elements.
 
@@ -1245,13 +1245,13 @@ to the source code and press the "Browse" button in the results panel after comp
 	Include Glimmr Automap by Erik Temple.
 	Include Glimmr Automap Tileset by Erik Temple.
 
-	[Before looking for the first time:
-		say "This is a small example for Glimmr Automap, a graphical front-end to Mark Tilford's Automap extension. It generates a map as the player explores the world of the game, with very little effort needed on the part of the author.[paragraph break]This example provides a tiny map, illustrating the use of the extension without any configuration or custom code. To see the source for the example, type SOURCE CODE.[paragraph break][italic type]Instructions[roman type]:[line break]     Zoom the map by using the + and - buttons.[line break]     Click on a room in the map to identify it by name."
+	Before looking for the first time:
+		say "This is a small example for Glimmr Automap, a graphical front-end to Mark Tilford's Automap extension. It generates a map as the player explores the world of the game, with very little effort needed on the part of the author.[paragraph break]This example provides a tiny map, illustrating the use of the extension without any configuration or custom code. To see the source for the example, type SOURCE CODE.[paragraph break][italic type]Instructions[roman type]:[line break]     Zoom the map by using the + and - buttons."
 
 	Getting source code is an action applying to nothing. Understand "source code" as getting source code.
 
 	Carry out getting source code:
-		say "Cavern is a room. North of Cavern is Cave. South of Cavern is Deep Tunnel. Down from Deep Tunnel is Pit. Southeast of Deep Tunnel is Underground Lake.[paragraph break]Outside from Cave is Cliffside. East of Cliffside is Foothills.[paragraph break]The player is in Foothills.[paragraph break]The map-window is a map-display window spawned by the main-window. The position is g-placeabove. The measurement of the map-window is 50. The associated canvas of the map-window is the map-canvas.[paragraph break]The map-canvas is a g-canvas.[paragraph break]When play begins:[line break]     follow the opening up the map window rules."]
+		say "Cavern is a room. North of Cavern is Cave. South of Cavern is Deep Tunnel. Down from Deep Tunnel is Pit. Southeast of Deep Tunnel is Underground Lake.[paragraph break]Outside from Cave is Cliffside. East of Cliffside is Foothills.[paragraph break]The player is in Foothills.[paragraph break]The map-window is a map-display window spawned by the main-window. The position is g-placeabove. The measurement of the map-window is 50. The associated canvas of the map-window is the map-canvas.[paragraph break]The map-canvas is a g-canvas.[paragraph break]When play begins:[line break]     follow the opening up the map window rules."
 
 	Cavern is a room. North of Cavern is Cave. South of Cavern is Deep Tunnel. Down from Deep Tunnel is Pit. Southeast of Deep Tunnel is Underground Lake.
 
@@ -1280,10 +1280,10 @@ We begin by setting up things more or less as in the previous example. Note, how
 	Include Glimmr Automap Tileset by Erik Temple.
 	Include Glimmr Bitmap Font by Erik Temple.
 
-	[Before looking for the first time:
+	Before looking for the first time:
 		say "This is a small example for Glimmr Automap, a graphical front-end to Mark Tilford's Automap extension. It generates a map as the player explores the world of the game, with very little effort needed on the part of the author.
 
-	This example for the Glimmr Automap extension adds new behavior to our procedurally generated map. Clicking on a room in the map will now produce the command GO TO <ROOM>. To query the map about the name of a room, press the ? button, then click on the room you wish to query. Zoom the map by using the + and - buttons."]
+	This example for the Glimmr Automap extension adds new behavior to our procedurally generated map. Clicking on a room in the map will now produce the command GO TO <ROOM>. To query the map about the name of a room, press the ? button, then click on the room you wish to query. Zoom the map by using the + and - buttons."
 	
 	Use automap hide paths through closed doors.
 
@@ -1362,8 +1362,8 @@ The Table of Directional Correspondences includes only the tile numbers of direc
 	Include Glimmr Automap Tileset by Erik Temple.
 	Include Glimmr Bitmap Font by Erik Temple.
 
-	[Before looking for the first time:
-		say "This is a small example for Glimmr Automap, a graphical front-end to Mark Tilford's Automap extension. It generates a map as the player explores the world of the game, with very little effort needed on the part of the author.[paragraph break]This example is the same as the Automapping the Manse example, but it adds the ability to click on the connectors leading out from the PC's location (the blue highlighted room) to go in that direction. This allows the player to navigate the map purely by clicking: Clicking on the exit of the location can take the player to an unvisited room, while clicking on an already visited room on the map issues the command GO TO <ROOM>.[paragraph break]Probably the best thing would be to modify the images for the exit tiles to add arrows that would make for a partial compass rose surrounding the current location, but I haven't bothered...[paragraph break][italic type]Instructions[roman type]:[line break]     Zoom the map by using the + and - buttons.[line break]     Click on the query button, then click on a room to identify it by name."]
+	Before looking for the first time:
+		say "This is a small example for Glimmr Automap, a graphical front-end to Mark Tilford's Automap extension. It generates a map as the player explores the world of the game, with very little effort needed on the part of the author.[paragraph break]This example is the same as the Automapping the Manse example, but it adds the ability to click on the connectors leading out from the PC's location (the blue highlighted room) to go in that direction. This allows the player to navigate the map purely by clicking: Clicking on the exit of the location can take the player to an unvisited room, while clicking on an already visited room on the map issues the command GO TO <ROOM>.[paragraph break]Probably the best thing would be to modify the images for the exit tiles to add arrows that would make for a partial compass rose surrounding the current location, but I haven't bothered...[paragraph break][italic type]Instructions[roman type]:[line break]     Zoom the map by using the + and - buttons.[line break]     Click on the query button, then click on a room to identify it by name."
 
 	The map-renderer plus internal compass rule is listed instead of the map-renderer display rule in the element display rules.
 

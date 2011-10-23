@@ -1,4 +1,4 @@
-Version 1/100805 of Glimmr Debugging Console (for Glulx only) by Erik Temple begins here.
+Version 1/111022 of Glimmr Debugging Console (for Glulx only) by Erik Temple begins here.
 
 "Provides a dynamic console window for Glimmr debugging output."
 
@@ -24,7 +24,7 @@ After constructing the console-window:
 	If the current action is opening the g-console:
 		continue the action;[We don't want to follow this rule if we've already opened the console using an action.]
 	if console-window is g-present:
-		say "[>console][bracket]Glimmr Console[close bracket]: Console initiated by source code directive.[unless the Glimmr debugging option is active][bracket]Glimmr Console[close bracket]: Automated logging is disabled. To enable, activate the Glimmr debugging use option.[end if][<]";
+		say "[>console][bracket]Glimmr Console[close bracket]: Console initiated by source code directive.[unless the Glimmr debugging option is active][bracket]Glimmr Console[close bracket]: Automated logging may be disabled. If expected output does not appear, activate the Glimmr debugging use option.[end if][<]";
 	otherwise:
 		say "*** An unknown error prevented the Glimmr console window from opening.";
 	continue the action.
