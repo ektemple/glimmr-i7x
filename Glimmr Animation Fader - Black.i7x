@@ -1,6 +1,8 @@
-Version 1/111022 of Glimmr Animation Fader - Black (for Glulx only) by Erik Temple begins here.
+Version 1/111030 of Glimmr Animation Fader - Black (for Glulx only) by Erik Temple begins here.
 
 "Provides a fader object for fading to or from 100% black. For use with Glimmr Canvas Animation."
+
+Use authorial modesty.
 
 
 Section - Figure definitions
