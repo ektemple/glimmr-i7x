@@ -1,4 +1,4 @@
-Version 1/111022 of Glimmr Canvas Animation (for Glulx only) by Erik Temple begins here.
+Version 1/111030 of Glimmr Canvas Animation (for Glulx only) by Erik Temple begins here.
 
 "Provides a 'track'-based system for independent animation of graphic elements, canvases, and windows. Features animation presets, automated easing/tweening, and a detailed debugging log."
 
@@ -1865,7 +1865,7 @@ When targeting a graphics window, the property affected is the "arbitrary scalin
 
 If we attempt to target a canvas, we will instead affect *all* windows that currently display the canvas. This is only advisable if all of these windows are set to the same scaling factor/arbitrary scaling factor, because the scaling factor of the last window to be created will be used for all windows during the animation.
 
-Note that, to avoid aesthetic abomination, Glimmr normally does not allow an image to be scaled at larger than actual size. This can be changed, however, on a window-by-window basis, like so. For example:
+Note that, to avoid aesthetic abomination, Glimmr normally does not allow the canvas to be scaled at larger than actual size. This can be changed, however, on a window-by-window basis, like so. For example:
 
 	*: Oversize scaling of the graphics-window is true.
 
@@ -2318,9 +2318,9 @@ Here are the names of the built-in equations:
 	circular easing out
 	circular easing in-out
 	
-	back easing in
-	back easing out
-	back easing in-out
+	cubic back easing in
+	cubic back easing out
+	cubic back easing in-out
 	
 	bounce easing in
 	bounce easing out
@@ -2977,11 +2977,12 @@ Example: **** Scourge of the Vampyr - This example combines a number of differen
 		continue the action.
 
 	After going (this is the basic walking animation rule):
-		now the direction gone is the noun;
-		now the image-reel of the walking track is the direction-reel of the direction gone;
-		set up the movement animation for walking to the room gone to;
-		animate the walking track as a reel animation targeting the player-sprite at 8 fps, cycling;
-		delay input until all animations are complete;
+		unless the room gone from is the Burial Hall or the room gone to is the Burial Hall:
+			now the direction gone is the noun;
+			now the image-reel of the walking track is the direction-reel of the direction gone;
+			set up the movement animation for walking to the room gone to;
+			animate the walking track as a reel animation targeting the player-sprite at 8 fps, cycling;
+			delay input until all animations are complete;
 		continue the action.
 	
 	To set up the movement animation for walking to (R - a room):
@@ -3066,7 +3067,7 @@ Example: **** Scourge of the Vampyr - This example combines a number of differen
 			animate the dungeon entrance track as a motion animation targeting the player-sprite and ending at {26, -17} at 8 fps with a duration of 20 frames;
 			now the animation-callback of the default track is "[@ now the associated canvas of the graphics-window is the g-null-canvas]";
 			delay input until all animations are complete;
-			end the game saying "You have failed to slay the vampire!";
+			end the story saying "You have failed to slay the vampire!";
 		otherwise:
 			say "You're not leaving until you've impaled the fiend."
 		
