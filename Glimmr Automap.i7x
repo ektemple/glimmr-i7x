@@ -785,9 +785,11 @@ An element display rule for a UI-button (called the pressee):
 
 Section - Animations for button response
 
-A glulx timed activity rule (this is the redraw button from timer rule):
-	stop the timer;
-	follow the window-drawing rules for the assigned window of the current graphlink.
+A glulx timed activity rule when there is a g-present map-display window (this is the redraw button from timer rule):
+	if the current graphlink is a UI-button:
+		if the image-ID of the current graphlink is the depressed state of the current graphlink:
+			stop the timer;
+			follow the window-drawing rules for the assigned window of the current graphlink.
 	
 To revert the/-- button/-- after (T - a real number) second/seconds:
 	(- glk_request_timer_events({T}/10);  -)
