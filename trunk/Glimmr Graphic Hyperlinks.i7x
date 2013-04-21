@@ -1,4 +1,4 @@
-Version 1/100805 of Glimmr Graphic Hyperlinks (for Glulx only) by Erik Temple begins here.
+Version 1/130420 of Glimmr Graphic Hyperlinks (for Glulx only) by Erik Temple begins here.
 
 "Allows us to identify any number of rectangular areas of a Glulx graphic window as 'hotlinked'. When the player clicks within one of these zones, a command will be entered on behalf of the player, or we can specify some appropriate response of our own."
 
@@ -29,8 +29,8 @@ A g-window can be g-graphlinked. A g-window is usually not g-graphlinked.
 
 A graphlink g-window is a kind of graphics g-window. A graphlink g-window is g-graphlinked.
 
-After constructing a g-window (called the window-in-question):
-	if the window-in-question is g-graphlinked and the type of the window-in-question is g-graphics:
+After constructing a g-graphlinked g-window (called the window-in-question) (this is the start looking for graphlinks rule):
+	if the type of the window-in-question is g-graphics:
 		start looking for graphlinks in the window-in-question.
 
 To start looking for graphlinks in (g - a g-window):
