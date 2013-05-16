@@ -1,4 +1,4 @@
-Version 2/111022 of Glimmr Drawing Commands (for Glulx only) by Erik Temple begins here.
+Version 2/130516 of Glimmr Drawing Commands (for Glulx only) by Erik Temple begins here.
 
 "Provides commands for displaying images, shape primitives (such as rectangles, boxes, and lines), user-specified bitmap drawings, image maps, and for text-painting using 'fonts' with glyphs composed of either bitmaps or image files."
 
@@ -361,20 +361,23 @@ To display/draw the/-- image/-- (ID - a figure name) in (win - a g-window) at (x
 	#if utilizing Glimmr debugging;
 	say "[>console][DC]Drawing image [ID] in [i][win][/i] at ([x1], [y1]).[<]";
 	#end if;
-	drimage (ID) in (win) at (x1) by (y1).
+	unless ID is figure of null:
+		drimage (ID) in (win) at (x1) by (y1).
 
 To display/draw the/an/-- image/-- (ID - a figure name) in (win - a g-window) at (coord1 - a list of numbers):
-	let x1 be entry 1 of coord1;
-	let y1 be entry 2 of coord1;
-	drimage (ID) in (win) at (x1) by (y1).
+	unless ID is figure of null:
+		let x1 be entry 1 of coord1;
+		let y1 be entry 2 of coord1;
+		drimage (ID) in (win) at (x1) by (y1).
 
 To image (ID - a figure name) at (coord1 - a list of numbers):
-	if the type of the current graphics window is not g-graphics:
-		say "*** Error: Short-form image-drawing directive ignored. The current graphics window global was not correctly specified.";
-		rule fails;
-	let x1 be entry 1 of coord1;
-	let y1 be entry 2 of coord1;
-	drimage (ID) in (current graphics window) at (x1) by (y1).
+	unless ID is figure of null:
+		if the type of the current graphics window is not g-graphics:
+			say "*** Error: Short-form image-drawing directive ignored. The current graphics window global was not correctly specified.";
+			rule fails;
+		let x1 be entry 1 of coord1;
+		let y1 be entry 2 of coord1;
+		drimage (ID) in (current graphics window) at (x1) by (y1).
 
 Include (-
 
@@ -396,12 +399,14 @@ To display/draw the/an/-- image/-- (ID - a figure name) in (win - a g-window) at
 	#if utilizing Glimmr debugging;
 	say "[>console][DC]Drawing image [ID] in [i][win][/i] at ([x1], [y1]), scaled to dimensions [width] x [height].[<]";
 	#end if;
-	drscimage (ID) in (win) at (x1) by (y1) with dimensions (width) by (height).
+	unless ID is figure of null:
+		drscimage (ID) in (win) at (x1) by (y1) with dimensions (width) by (height).
 
 To display/draw the/an/-- image/-- (ID - a figure name) in (win - a g-window) at (coord1 - a list of numbers) with size/dimensions (width - a number) by/x (height - a number):
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
-	drscimage (ID) in (win) at (x1) by (y1) with dimensions (width) by (height).
+	unless ID is figure of null:
+		drscimage (ID) in (win) at (x1) by (y1) with dimensions (width) by (height).
 
 To image (ID - a figure name) at (coord1 - a list of numbers) size (width - a number) by/x (height - a number):
 	if the type of the current graphics window is not g-graphics:
@@ -409,7 +414,8 @@ To image (ID - a figure name) at (coord1 - a list of numbers) size (width - a nu
 		rule fails;
 	let x1 be entry 1 of coord1;
 	let y1 be entry 2 of coord1;
-	drscimage (ID) in (current graphics window) at (x1) by (y1) with dimensions (width) by (height).
+	unless ID is figure of null:
+		drscimage (ID) in (current graphics window) at (x1) by (y1) with dimensions (width) by (height).
 
 
 Include (-
